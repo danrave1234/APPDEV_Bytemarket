@@ -36,10 +36,11 @@ public class UserService {
         userEntity.setPassword(newUser.getPassword());
         userEntity.setEmail(newUser.getEmail());
         userEntity.setAddress(newUser.getAddress());
-        userEntity.setCity(newUser.getCity());
-        userEntity.setCountry(newUser.getCountry());
         userEntity.setPhonenumber(newUser.getPhonenumber());
         userEntity.setDateofbirth(newUser.getDateofbirth());
+        userEntity.setBalance(newUser.getBalance());
+        userEntity.setFullname(newUser.getFullname());
+        userEntity.setRegistration(newUser.getRegistration());
 
         return userRepository.save(userEntity);
     }

@@ -9,30 +9,31 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userid;
+
     private String username;
     private String password;
     private String email;
+    private String fullname;
+    private double balance;
     private String phonenumber;
+    private LocalDate registration;
     private String address; //Kuan rani kanang like street, barangay
-    private String city; //Para ma recommend based sa lugar and easy to extract if e usa sa address, lisod
-    private String state;
-    private String country;
     private LocalDate dateofbirth; //LocalDate datatype
 
     public UserEntity() {
         super();
     }
 
-    public UserEntity(String username, String password, String email, String phonenumber, String address, String city, String state, String country, LocalDate dateofbirth) {
+    public UserEntity(String username, String password, String email, String phonenumber, String address, String city, LocalDate dateofbirth, LocalDate registration, String fullname, double balance) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phonenumber = phonenumber;
         this.address = address;
-        this.city = city;
-        this.state = state;
-        this.country = country;
         this.dateofbirth = dateofbirth;
+        this.registration = registration;
+        this.fullname = fullname;
+        this.balance = balance;
     }
 
     public int getUserid() {
@@ -41,6 +42,22 @@ public class UserEntity {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public LocalDate getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(LocalDate registration) {
+        this.registration = registration;
     }
 
     public void setUsername(String username) {
@@ -53,6 +70,14 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public String getEmail() {
@@ -77,30 +102,6 @@ public class UserEntity {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public LocalDate getDateofbirth() {
