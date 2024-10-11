@@ -1,5 +1,6 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import java.time.LocalDate;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,87 +8,106 @@ import jakarta.persistence.*;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int UserId;
-    private String UserName;
-    private String Password;
-    private String Email;
-    private String PhoneNumber;
-    private String Address; //Kuan rani kanang like street, barangay
-    private String City; //Para ma recommend based sa lugar and easy to extract if e usa sa address, lisod
-    private String State;
-    private String Country;
+    private int userid;
+    private String username;
+    private String password;
+    private String email;
+    private String phonenumber;
+    private String address; //Kuan rani kanang like street, barangay
+    private String city; //Para ma recommend based sa lugar and easy to extract if e usa sa address, lisod
+    private String state;
+    private String country;
+    private LocalDate dateofbirth; //LocalDate datatype
 
     public UserEntity() {
         super();
     }
-    public UserEntity(String UserName, String Password) {
-        super();
-        this.UserName = UserName;
-        this.Password = Password;
+
+    public UserEntity(String username, String password, String email, String phonenumber, String address, String city, String state, String country, LocalDate dateofbirth) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phonenumber = phonenumber;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.dateofbirth = dateofbirth;
     }
 
-    public String getUserName() {
-        return UserName;
+    public int getUserid() {
+        return userid;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return PhoneNumber;
+    public String getPhonenumber() {
+        return phonenumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public String getState() {
-        return State;
+        return state;
     }
 
     public void setState(String state) {
-        State = state;
+        this.state = state;
     }
 
     public String getCountry() {
-        return Country;
+        return country;
     }
 
     public void setCountry(String country) {
-        Country = country;
+        this.country = country;
     }
 
+    public LocalDate getDateofbirth() {
+        return dateofbirth;
+    }
+
+    public void setDateofbirth(LocalDate dateofbirth) {
+        this.dateofbirth = dateofbirth;
+    }
 }
