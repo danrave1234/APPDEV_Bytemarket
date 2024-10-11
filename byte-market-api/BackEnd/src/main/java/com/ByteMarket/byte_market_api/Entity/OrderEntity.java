@@ -1,13 +1,63 @@
 package com.ByteMarket.byte_market_api.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
+@Table(name = "tblorder")
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderid;
+
+    private double totalprice;
+    private String orderstatus;
+
+    public OrderEntity() {
+        super();
+    }
+    public OrderEntity(double price, String status) {
+        super();
+        this.totalprice = price;
+        this.orderstatus = status;
+    }
+    @ManyToOne
+    @JoinColumn (name = "userid")
+    private UserEntity user;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItemEntity> orderItems;
+
+    public double getTotalprice() {
+        return totalprice;
+    }
+
+    public void setTotalprice(double totalprice) {
+        this.totalprice = totalprice;
+    }
+
+    public String getOrderstatus() {
+        return orderstatus;
+    }
+
+    public void setOrderstatus(String orderstatus) {
+        this.orderstatus = orderstatus;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public List<OrderItemEntity> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItemEntity> orderItems) {
+        this.orderItems = orderItems;
+    }
 }

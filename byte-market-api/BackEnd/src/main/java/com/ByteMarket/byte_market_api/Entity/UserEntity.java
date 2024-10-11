@@ -1,6 +1,9 @@
 package com.ByteMarket.byte_market_api.Entity;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,6 +23,7 @@ public class UserEntity {
     private String address; //Kuan rani kanang like street, barangay
     private LocalDate dateofbirth; //LocalDate datatype
 
+
     public UserEntity() {
         super();
     }
@@ -36,8 +40,52 @@ public class UserEntity {
         this.balance = balance;
     }
 
-    public int getUserid() {
-        return userid;
+    @OneToMany
+    @JoinColumn (name = "orderid")
+    private List<OrderEntity> orders;
+
+    @OneToMany
+    @JoinColumn(name = "ratingid")
+    private List<RatingEntity> ratings;
+
+    @OneToMany
+    @JoinColumn(name = "cartid")
+    private List<CartEntity> carts;
+
+    @OneToMany
+    @JoinColumn(name = "wishlistid")
+    private List<WishlistEntity> wishlists;
+
+    public List<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderEntity> orders) {
+        this.orders = orders;
+    }
+
+    public List<RatingEntity> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<RatingEntity> ratings) {
+        this.ratings = ratings;
+    }
+
+    public List<CartEntity> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<CartEntity> carts) {
+        this.carts = carts;
+    }
+
+    public List<WishlistEntity> getWishlists() {
+        return wishlists;
+    }
+
+    public void setWishlists(List<WishlistEntity> wishlists) {
+        this.wishlists = wishlists;
     }
 
     public String getUsername() {
@@ -111,4 +159,6 @@ public class UserEntity {
     public void setDateofbirth(LocalDate dateofbirth) {
         this.dateofbirth = dateofbirth;
     }
+
+
 }

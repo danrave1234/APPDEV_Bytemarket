@@ -2,30 +2,27 @@ package com.ByteMarket.byte_market_api.Entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
-@Table(name = "tblcart")
-public class CartEntity {
+@Table(name = "tblorderitem")
+public class OrderItemEntity { //Purpose of this entity, is to track how many products is being ordered better.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cartid;
+    private int orderitemid;
     private int quantity;
-    private LocalDateTime dateposted;
+    private double price;
 
-
-    public CartEntity() {
+    public OrderItemEntity() {
         super();
     }
-
-    public CartEntity(int quantity, LocalDateTime dateposted) {
+    public OrderItemEntity(int quantity, double price) {
         super();
         this.quantity = quantity;
-        this.dateposted = dateposted;
+        this.price = price;
     }
+
     @ManyToOne
-    @JoinColumn(name = "userid")
-    private UserEntity user;
+    @JoinColumn(name = "orderid")
+    private OrderEntity order;
 
     @ManyToOne
     @JoinColumn(name = "productid")
@@ -39,20 +36,20 @@ public class CartEntity {
         this.quantity = quantity;
     }
 
-    public LocalDateTime getDateposted() {
-        return dateposted;
+    public double getPrice() {
+        return price;
     }
 
-    public void setDateposted(LocalDateTime dateposted) {
-        this.dateposted = dateposted;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public OrderEntity getOrder() {
+        return order;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setOrder(OrderEntity order) {
+        this.order = order;
     }
 
     public ProductEntity getProduct() {
