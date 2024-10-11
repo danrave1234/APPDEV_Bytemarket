@@ -15,7 +15,7 @@ public class UserService {
     UserRepository userRepository;
 
     //Get ALL User
-    public List<UserEntity> getUser(){
+    public List<UserEntity> getAllUser(){
         return userRepository.findAll();
     }
 
@@ -25,7 +25,7 @@ public class UserService {
     }
 
     //Post User / Insert User
-    public UserEntity insertUser(UserEntity user){
+    public UserEntity addUser(UserEntity user){
         return userRepository.save(user);
     }
 
@@ -48,5 +48,4 @@ public class UserService {
     public void deleteUser(int id){
         userRepository.deleteById(id);
     }
-    //Vincent Bayot
 }
