@@ -9,4 +9,12 @@ public class RatingService {
     @Autowired
     private RatingRepository ratingRepository;
 
+    //Get
+
+    //Add
+
+    //Update
+
+    //Delete
+
 }

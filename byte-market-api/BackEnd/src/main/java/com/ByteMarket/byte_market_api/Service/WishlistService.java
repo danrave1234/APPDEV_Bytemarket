@@ -8,4 +8,13 @@ import org.springframework.stereotype.Service;
 public class WishlistService {
     @Autowired
     private WishlistRepository wishlistRepository;
+
+    //Get
+
+    //Add
+
+    //Update
+
+    //Delete
+
 }

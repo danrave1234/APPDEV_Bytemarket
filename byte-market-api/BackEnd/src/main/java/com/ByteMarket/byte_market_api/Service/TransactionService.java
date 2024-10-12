@@ -8,4 +8,13 @@ import org.springframework.stereotype.Service;
 public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
+
+    //Get
+
+    //Add
+
+    //Update
+
+    //Delete
+
 }

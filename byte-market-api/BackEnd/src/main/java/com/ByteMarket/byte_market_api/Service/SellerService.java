@@ -8,4 +8,13 @@ import org.springframework.stereotype.Service;
 public class SellerService {
     @Autowired
     private SellerRepository sellerRepository;
+
+    //Get
+
+    //Add
+
+    //Update
+
+    //Delete
+
 }
