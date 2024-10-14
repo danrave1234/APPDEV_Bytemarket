@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -40,13 +39,13 @@ public class UserService {
         userEntity.setDateofbirth(newUser.getDateofbirth());
         userEntity.setBalance(newUser.getBalance());
         userEntity.setFullname(newUser.getFullname());
-        userEntity.setRegistration(newUser.getRegistration());
 
         return userRepository.save(userEntity);
     }
 
     //Delete User
-    public void deleteUser(int id){
+    public UserEntity deleteUser(int id){
         userRepository.deleteById(id);
+        return null;
     }
 }
