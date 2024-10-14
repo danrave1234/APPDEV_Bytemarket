@@ -30,7 +30,7 @@ public class UserService {
     }
 
     //Put User / Update User
-    public UserEntity updateUser(int id, UserEntity newUser){
+        public UserEntity updateUser(int id, UserEntity newUser){
         UserEntity userEntity = userRepository.findById(id).get();
         userEntity.setUsername(newUser.getUsername());
         userEntity.setPassword(newUser.getPassword());
