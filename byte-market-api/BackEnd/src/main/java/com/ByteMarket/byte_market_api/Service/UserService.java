@@ -37,7 +37,6 @@ public class UserService {
         userEntity.setAddress(newUser.getAddress());
         userEntity.setPhonenumber(newUser.getPhonenumber());
         userEntity.setDateofbirth(newUser.getDateofbirth());
-        userEntity.setBalance(newUser.getBalance());
         userEntity.setFullname(newUser.getFullname());
 
         return userRepository.save(userEntity);

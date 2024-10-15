@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+//Danrave
 @Entity
 @Table(name = "tblUser")
 public class UserEntity {
@@ -17,7 +17,6 @@ public class UserEntity {
     private String password;
     private String email;
     private String fullname;
-    private double balance;
     private String phonenumber;
     private LocalDate registration;
     private String address; //Kuan rani kanang like street, barangay
@@ -37,7 +36,6 @@ public class UserEntity {
         this.dateofbirth = dateofbirth;
         this.registration = registration;
         this.fullname = fullname;
-        this.balance = balance;
     }
 
     @OneToMany
@@ -120,13 +118,7 @@ public class UserEntity {
         this.password = password;
     }
 
-    public double getBalance() {
-        return balance;
-    }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
 
     public String getEmail() {
         return email;
