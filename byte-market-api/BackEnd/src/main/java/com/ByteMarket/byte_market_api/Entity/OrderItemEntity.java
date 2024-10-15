@@ -29,6 +29,9 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
     @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
 
+    public int getOrderitemid() {
+        return orderitemid;
+    }
     public int getQuantity() {
         return quantity;
     }

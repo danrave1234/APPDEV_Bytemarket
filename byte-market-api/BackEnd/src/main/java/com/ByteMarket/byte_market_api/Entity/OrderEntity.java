@@ -30,6 +30,10 @@ public class OrderEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderItemEntity> orderItems;
 
+    public int getOrderid() {
+        return orderid;
+    }
+
     public double getTotalprice() {
         return totalprice;
     }

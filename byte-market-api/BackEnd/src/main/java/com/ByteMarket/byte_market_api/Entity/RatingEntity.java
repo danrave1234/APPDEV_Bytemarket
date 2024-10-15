@@ -32,6 +32,9 @@ public class RatingEntity {
     @JoinColumn(name = "productid")
     private ProductEntity product;
 
+    public int getRatingid() {
+        return ratingid;
+    }
     public int getScore() {
         return score;
     }

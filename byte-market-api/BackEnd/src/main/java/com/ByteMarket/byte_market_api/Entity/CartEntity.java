@@ -37,6 +37,9 @@ public class CartEntity {
     )
     private List<ProductEntity> products;
 
+    public int getCartid() {
+        return cartid;
+    }
     public int getQuantity() {
         return quantity;
     }

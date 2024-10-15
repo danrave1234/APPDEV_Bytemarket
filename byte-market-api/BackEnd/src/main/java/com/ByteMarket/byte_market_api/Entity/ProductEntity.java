@@ -43,6 +43,9 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product")
     private List<OrderItemEntity> orderItems;
 
+    public int getProductid() {
+        return productid;
+    }
     public String getProductname() {
         return productname;
     }

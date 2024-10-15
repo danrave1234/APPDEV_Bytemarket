@@ -6,4 +6,5 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "tbladmin")
 public class AdminEntity extends UserEntity{
+
 }

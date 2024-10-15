@@ -30,6 +30,9 @@ public class TransactionEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    public int getTransactionid() {
+        return transactionid;
+    }
     public LocalDateTime getTransactiondate() {
         return transactiondate;
     }

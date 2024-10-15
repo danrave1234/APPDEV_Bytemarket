@@ -34,6 +34,9 @@ public class WishlistEntity {
     )
     private List<ProductEntity> wishlistProducts;
 
+    public int getWishlistid() {
+        return wishlistid;
+    }
     public LocalDateTime getWishlistdate() {
         return wishlistdate;
     }
