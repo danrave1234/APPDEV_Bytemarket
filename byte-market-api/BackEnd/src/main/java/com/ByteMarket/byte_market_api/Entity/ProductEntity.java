@@ -3,7 +3,7 @@ package com.ByteMarket.byte_market_api.Entity;
 import jakarta.persistence.*;
 
 import java.util.List;
-
+//Andri
 @Entity
 @Table(name = "tblproduct")
 public class ProductEntity {
