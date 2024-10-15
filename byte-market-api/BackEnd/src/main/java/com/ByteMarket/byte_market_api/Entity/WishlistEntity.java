@@ -3,6 +3,7 @@ package com.ByteMarket.byte_market_api.Entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tblwishlist")
@@ -20,13 +21,18 @@ public class WishlistEntity {
         this.wishlistid = wishlistid;
         this.wishlistdate = wishlistdate;
     }
-    @ManyToOne
-    @JoinColumn (name = "userid")
+    // Relationships
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    @ManyToOne
-    @JoinColumn(name = "productid")
-    private ProductEntity product;
+    @ManyToMany
+    @JoinTable(
+            name = "wishlist_products",
+            joinColumns = @JoinColumn(name = "wishlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<ProductEntity> wishlistProducts;
 
     public LocalDateTime getWishlistdate() {
         return wishlistdate;
@@ -44,11 +50,11 @@ public class WishlistEntity {
         this.user = user;
     }
 
-    public ProductEntity getProduct() {
-        return product;
+    public List<ProductEntity> getWishlistProducts() {
+        return wishlistProducts;
     }
 
-    public void setProduct(ProductEntity product) {
-        this.product = product;
+    public void setWishlistProducts(List<ProductEntity> wishlistProducts) {
+        this.wishlistProducts = wishlistProducts;
     }
 }

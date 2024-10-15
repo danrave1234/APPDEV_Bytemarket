@@ -25,8 +25,9 @@ public class TransactionEntity {
         this.transactiontype = transactiontype;
     }
 
+    // Relationships
     @ManyToOne
-    @JoinColumn(name = "userid")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     public LocalDateTime getTransactiondate() {

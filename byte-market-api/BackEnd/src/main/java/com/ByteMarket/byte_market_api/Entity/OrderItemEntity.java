@@ -20,12 +20,13 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
         this.price = price;
     }
 
+    // Relationships
     @ManyToOne
-    @JoinColumn(name = "orderid")
+    @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
 
     @ManyToOne
-    @JoinColumn(name = "productid")
+    @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
 
     public int getQuantity() {

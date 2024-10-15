@@ -2,22 +2,19 @@ package com.ByteMarket.byte_market_api.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 //Vincent
 @Entity
 @Table(name = "tblseller")
 public class SellerEntity extends UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sellerid;
     private String sellername;
     private String storename;
     private double balance;
 
-
     public SellerEntity() {
         super();
     }
-
     public SellerEntity(String sellername, String phone, String email, String storename, double balance) {
         super();
         this.sellername = sellername;
@@ -25,18 +22,13 @@ public class SellerEntity extends UserEntity {
         this.balance = balance;
     }
 
+    //Relation
+    @OneToMany(mappedBy = "seller")
+    private List<ProductEntity> products;
+
     public String getSellername() {
         return sellername;
     }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
     public void setSellername(String sellername) {
         this.sellername = sellername;
     }
@@ -47,5 +39,21 @@ public class SellerEntity extends UserEntity {
 
     public void setStorename(String storename) {
         this.storename = storename;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public List<ProductEntity> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 }

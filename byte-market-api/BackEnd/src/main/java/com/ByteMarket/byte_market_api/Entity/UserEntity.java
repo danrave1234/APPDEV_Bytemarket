@@ -6,6 +6,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 //Danrave
+
+@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 @Table(name = "tblUser")
 public class UserEntity {
@@ -37,22 +39,21 @@ public class UserEntity {
         this.registration = registration;
         this.fullname = fullname;
     }
-
-    @OneToMany
-    @JoinColumn (name = "orderid")
-    private List<OrderEntity> orders;
-
-    @OneToMany
-    @JoinColumn(name = "ratingid")
-    private List<RatingEntity> ratings;
-
-    @OneToMany
-    @JoinColumn(name = "cartid")
+    // Relationships
+    @OneToMany(mappedBy = "user")
     private List<CartEntity> carts;
 
-    @OneToMany
-    @JoinColumn(name = "wishlistid")
+    @OneToMany(mappedBy = "user")
     private List<WishlistEntity> wishlists;
+
+    @OneToMany(mappedBy = "user")
+    private List<OrderEntity> orders;
+
+    @OneToMany(mappedBy = "user")
+    private List<RatingEntity> ratings;
+
+    @OneToMany(mappedBy = "user")
+    private List<TransactionEntity> transactions;
 
     public List<OrderEntity> getOrders() {
         return orders;

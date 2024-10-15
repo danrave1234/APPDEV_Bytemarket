@@ -22,8 +22,9 @@ public class OrderEntity {
         this.totalprice = price;
         this.orderstatus = status;
     }
-    @ManyToOne
-    @JoinColumn (name = "userid")
+    // Relationships
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     @OneToMany(mappedBy = "order")

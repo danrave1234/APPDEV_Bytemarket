@@ -1,15 +1,11 @@
 package com.ByteMarket.byte_market_api.Entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 //Vincent
+@Entity
+@Table(name = "tblcustomer")
 public class CustomerEntity extends UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int customerid;
-    private double balance;
-
-
+    //No id, uses superclass ID
+    private float balance;
 }
