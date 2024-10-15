@@ -17,14 +17,14 @@ public class ProductController {
     private ProductService productService;
 
     // Create a new product
-    @PostMapping("/create")
+    @PostMapping("/postProduct")
     public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity product) {
         ProductEntity createdProduct = productService.createProduct(product);
         return ResponseEntity.ok(createdProduct);
     }
 
     // Get all products
-    @GetMapping("/all")
+    @GetMapping("/getProduct")
     public ResponseEntity<List<ProductEntity>> getAllProducts() {
         List<ProductEntity> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     // Update a product by ID
-    @PutMapping("/update/{id}")
+    @PutMapping("/updateProduct/{id}")
     public ResponseEntity<ProductEntity> updateProduct(@PathVariable int id, @RequestBody ProductEntity product) {
         ProductEntity updatedProduct = productService.updateProduct(id, product);
         if (updatedProduct != null) {
@@ -49,7 +49,7 @@ public class ProductController {
     }
 
     // Delete a product by ID
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
         boolean isDeleted = productService.deleteProduct(id);
         if (isDeleted) {
