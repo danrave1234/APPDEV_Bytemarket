@@ -22,7 +22,7 @@ public class SellerService {
         return sellerRepository.save(seller);
     }
     //Update
-    //Not sure if this is the proper update structure for inherited entity
+    //Not sure if this is the proper update structures for the update
     public SellerEntity updateSeller(int id, SellerEntity newSeller){
         SellerEntity seller = sellerRepository.findById(id).get();
 //        seller.setRole(newSeller.getRole());
