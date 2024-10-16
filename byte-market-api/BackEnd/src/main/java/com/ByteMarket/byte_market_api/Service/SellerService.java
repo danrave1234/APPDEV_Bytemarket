@@ -29,6 +29,13 @@ public class SellerService {
         seller.setStorename(newSeller.getStorename());
         seller.setBalance(newSeller.getBalance());
 
+        seller.setUsername(newSeller.getUsername());
+        seller.setPassword(newSeller.getPassword());
+        seller.setFullname(newSeller.getFullname());
+        seller.setEmail(newSeller.getEmail());
+        seller.setPhonenumber(newSeller.getPhonenumber());
+        seller.setAddress(newSeller.getAddress());
+        seller.setDateofbirth(newSeller.getDateofbirth());
         return sellerRepository.save(seller);
     }
 
