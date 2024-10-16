@@ -19,7 +19,7 @@ SellerService sellerService;
     @PostMapping("/addSeller")
     public SellerEntity addSeller(@RequestBody SellerEntity newSeller) {
         newSeller.setRegistration(LocalDate.now());
-        newSeller.setRole("Admin");
+        newSeller.setRole("Seller");
         return sellerService.addSeller(newSeller);
     }
 

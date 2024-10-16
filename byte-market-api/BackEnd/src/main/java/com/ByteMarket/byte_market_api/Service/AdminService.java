@@ -34,6 +34,7 @@ public class AdminService {
         admin.setFullname(newadmin.getFullname());
         admin.setPhonenumber(newadmin.getPhonenumber());
         admin.setDateofbirth(newadmin.getDateofbirth());
+
         return adminRepository.save(admin);
     }
     //Delete
