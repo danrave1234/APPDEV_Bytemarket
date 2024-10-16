@@ -28,7 +28,7 @@ SellerService sellerService;
         return sellerService.getAllSeller();
     }
 
-    //Not sure if the update works
+    //Not sure if this works, check the sellerService
     @PutMapping("/updateSeller/{id}")
     public SellerEntity updateSeller(@PathVariable int id, @RequestBody SellerEntity newSeller ){
         return sellerService.updateSeller(id, newSeller);
