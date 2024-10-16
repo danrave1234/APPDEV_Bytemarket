@@ -25,15 +25,6 @@ public class SellerService {
     //Not sure if the update works, my structure is not tested
     public SellerEntity updateSeller(int id, SellerEntity newSeller){
         SellerEntity seller = sellerRepository.findById(id).get();
-//        seller.setRole(newSeller.getRole());
-        seller.setUsername(newSeller.getUsername());
-        seller.setPassword(newSeller.getPassword());
-        seller.setFullname(newSeller.getFullname());
-        seller.setEmail(newSeller.getEmail());
-        seller.setPhonenumber(newSeller.getPhonenumber());
-        seller.setAddress(newSeller.getAddress());
-        seller.setDateofbirth(newSeller.getDateofbirth());
-//        seller.setRegistration(newSeller.getRegistration());
         seller.setSellername(newSeller.getSellername());
         seller.setStorename(newSeller.getStorename());
         seller.setBalance(newSeller.getBalance());
