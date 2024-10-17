@@ -18,7 +18,10 @@ public class AdminController {
     public List<AdminEntity> getAllAdmin() {
         return adminService.getAllAdmins();
     }
-
+    @GetMapping("/getAdminById/{id}")
+    public AdminEntity getAdminById(@PathVariable int id) {
+        return adminService.getAdminById(id);
+    }
     @PostMapping("/addAdmin")
     public AdminEntity addAdmin(@RequestBody AdminEntity admin) {
         admin.setRegistration(LocalDate.now());

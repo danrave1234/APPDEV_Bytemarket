@@ -25,8 +25,8 @@ public class OrderController {
     public OrderEntity addOrder(@RequestBody OrderEntity order) {
         return orderService.addOrder(order);
     }
-//    @PutMapping("/updateOrder/{id}")
-//    public OrderEntity updateOrder(@PathVariable int id, @RequestBody OrderEntity newOrder) {
-//        return orderService.updateOrder(id, newOrder)
-//    }
+    @PutMapping("/updateOrder/{id}")
+    public OrderEntity updateOrder(@PathVariable int id, @RequestBody OrderEntity newOrder) {
+        return orderService.updateOrder(id, newOrder);
+    }
 }

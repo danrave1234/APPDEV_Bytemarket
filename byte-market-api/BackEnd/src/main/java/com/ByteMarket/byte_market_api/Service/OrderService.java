@@ -25,8 +25,13 @@ public class OrderService {
         return orderRepository.save(order);
     }
     //Update
-    public OrderEntity updateOrder(int id, OrderEntity order) {
+    public OrderEntity updateOrder(int id, OrderEntity newOrder) {
         OrderEntity orderEntity = orderRepository.findById(id).get();
+        orderEntity.setOrderItems(newOrder.getOrderItems());
+        orderEntity.setCustomer(newOrder.getCustomer());
+        orderEntity.setOrderstatus(newOrder.getOrderstatus());
+        orderEntity.setTotalprice(newOrder.getTotalprice());
+
         return orderRepository.save(orderEntity);
     }
     //Delete
