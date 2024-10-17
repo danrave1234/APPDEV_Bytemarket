@@ -5,6 +5,7 @@ import com.ByteMarket.byte_market_api.Repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,11 +22,15 @@ public class WishlistService {
     }
     //Add
     public WishlistEntity addWishlist(WishlistEntity wishlist) {
+        wishlist.setWishlistdate(LocalDateTime.now());
         return wishlistRepository.save(wishlist);
     }
     //Update
-    public WishlistEntity updateWishlist(WishlistEntity wishlistEntity) {
-        return wishlistRepository.save(wishlistEntity);
+    public WishlistEntity updateWishlist(int id, WishlistEntity newwishlistEntity) {
+        WishlistEntity wishlist = wishlistRepository.findById(id).get();
+        wishlist.setWishlistProducts(newwishlistEntity.getWishlistProducts());
+        wishlist.setCustomer(newwishlistEntity.getCustomer());
+        return wishlistRepository.save(wishlist);
     }
     //Delete
     public WishlistEntity deleteWishlist(int id) {
