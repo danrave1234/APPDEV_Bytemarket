@@ -5,6 +5,8 @@ import com.ByteMarket.byte_market_api.Service.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -21,8 +23,14 @@ public class WishlistController {
     public WishlistEntity GetWishListById(@PathVariable int id) {
         return wishlistService.getWishlistById(id);
     }
+    @GetMapping("/getWishlistWithProducts/{id}")
+    public WishlistEntity getWishlistWithProducts(@PathVariable int id) {
+        return wishlistService.getWishlistById(id);
+    }
+
     @PostMapping("/addWishlist")
     public WishlistEntity AddWishlist(@RequestBody WishlistEntity wishlistEntity) {
+        wishlistEntity.setWishlistdate(LocalDate.now());
         return wishlistService.addWishlist(wishlistEntity);
     }
     @PutMapping("/updateWishlist/{id}")

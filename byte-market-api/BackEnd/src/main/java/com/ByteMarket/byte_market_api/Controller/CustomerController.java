@@ -15,6 +15,7 @@ public class CustomerController {
 
     @PostMapping("/addCustomer")
     public CustomerEntity addCustomer(@RequestBody CustomerEntity newCustomer){
+        newCustomer.setRole("Customer");
         return customerService.addCustomer(newCustomer);
     }
     @GetMapping("/getAllCustomer")

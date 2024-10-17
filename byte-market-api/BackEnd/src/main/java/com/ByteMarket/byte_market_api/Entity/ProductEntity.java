@@ -1,5 +1,6 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -32,9 +33,11 @@ public class ProductEntity {
     private SellerEntity seller;
 
     @ManyToMany(mappedBy = "products")
+    @JsonIgnore
     private List<CartEntity> carts;
 
     @ManyToMany(mappedBy = "wishlistProducts")
+    @JsonIgnore
     private List<WishlistEntity> wishlists;
 
     @OneToMany(mappedBy = "product")

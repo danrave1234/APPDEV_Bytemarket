@@ -1,5 +1,7 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -24,12 +26,17 @@ public class CustomerEntity extends UserEntity {
     //Relation
     @OneToMany(mappedBy = "customer")
     private List<OrderEntity> order;
+
     @OneToMany(mappedBy = "customer")
     private List<CartEntity> cart;
+
     @OneToMany(mappedBy = "customer")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<WishlistEntity> wishlist;
+
     @OneToMany(mappedBy = "customer")
     private List<RatingEntity> rating;
+
     @OneToMany(mappedBy = "customer")
     private List<TransactionEntity> transaction;
 

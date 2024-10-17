@@ -20,9 +20,9 @@ public class WishlistService {
     public WishlistEntity getWishlistById(int id) {
         return wishlistRepository.findById(id).get();
     }
+
     //Add
     public WishlistEntity addWishlist(WishlistEntity wishlist) {
-        wishlist.setWishlistdate(LocalDateTime.now());
         return wishlistRepository.save(wishlist);
     }
     //Update

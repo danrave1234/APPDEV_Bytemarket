@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 //Danrave
@@ -17,10 +18,12 @@ public class UserEntity {
 
     private String role; //Customer, Seller, Admin
     private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //Para di makita ang password sa postman inig get
     private String password;
     private String fullname;
     private String email;
     private String phonenumber;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String address; //Kuan rani kanang like street, barangay
     private LocalDate dateofbirth; //LocalDate datatype
     private LocalDate registration;
