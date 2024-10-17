@@ -26,8 +26,8 @@ public class CartEntity {
     }
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @JoinColumn(name = "customerid", nullable = false)
+    private CustomerEntity customer;
 
     @ManyToMany
     @JoinTable(
@@ -56,12 +56,12 @@ public class CartEntity {
         this.dateposted = dateposted;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public CustomerEntity getCustomer() {
+        return customer;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
     }
 
     public List<ProductEntity> getProducts() {

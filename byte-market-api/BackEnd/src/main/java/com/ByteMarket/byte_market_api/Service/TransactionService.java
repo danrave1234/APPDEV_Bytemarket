@@ -30,7 +30,7 @@ public class TransactionService {
 
     public TransactionEntity updateTransaction(int id, TransactionEntity newTransaction){
         TransactionEntity transaction = transactionRepository.findById(id).get();
-        transaction.setUser(newTransaction.getUser());
+        transaction.setCustomer(newTransaction.getCustomer());
         transaction.setAmount(newTransaction.getAmount());
         transaction.setTransactiondate(newTransaction.getTransactiondate());
         transaction.setTransactiontype(newTransaction.getTransactiontype());
@@ -39,6 +39,9 @@ public class TransactionService {
     }
 
     //Delete
-
+    public TransactionEntity deleteTransaction(int id){
+        transactionRepository.deleteById(id);
+        return null;
+    }
 
 }

@@ -25,8 +25,8 @@ public class RatingEntity {
         this.ratingdate = ratingdate;
     }
     @ManyToOne
-    @JoinColumn (name = "userid")
-    private UserEntity user;
+    @JoinColumn (name = "customerid")
+    private CustomerEntity customer;
 
     @ManyToOne
     @JoinColumn(name = "productid")
@@ -59,12 +59,12 @@ public class RatingEntity {
         this.ratingdate = ratingdate;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public CustomerEntity getCustomer() {
+        return customer;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
     }
 
     public ProductEntity getProduct() {

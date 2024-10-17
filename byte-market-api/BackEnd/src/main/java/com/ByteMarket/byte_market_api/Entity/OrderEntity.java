@@ -24,11 +24,12 @@ public class OrderEntity {
     }
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @JoinColumn(name = "customerid", nullable = false)
+    private CustomerEntity customer;
 
     @OneToMany(mappedBy = "order")
     private List<OrderItemEntity> orderItems;
+
 
     public int getOrderid() {
         return orderid;
@@ -50,19 +51,19 @@ public class OrderEntity {
         this.orderstatus = orderstatus;
     }
 
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
-
     public List<OrderItemEntity> getOrderItems() {
         return orderItems;
     }
 
     public void setOrderItems(List<OrderItemEntity> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public CustomerEntity getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
     }
 }

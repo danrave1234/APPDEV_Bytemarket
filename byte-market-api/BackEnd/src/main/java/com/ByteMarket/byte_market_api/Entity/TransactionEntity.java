@@ -27,8 +27,8 @@ public class TransactionEntity {
 
     // Relationships
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @JoinColumn(name = "customerid", nullable = false)
+    private CustomerEntity customer;
 
     public int getTransactionid() {
         return transactionid;
@@ -57,11 +57,11 @@ public class TransactionEntity {
         this.transactiontype = transactiontype;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public CustomerEntity getCustomer() {
+        return customer;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
     }
 }

@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 //Danrave
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-@Table(name = "tblUser")
+@Table(name = "tbluser")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,21 +42,6 @@ public class UserEntity {
         this.fullname = fullname;
         this.role = role;
     }
-    // Relationships
-    @OneToMany(mappedBy = "user")
-    private List<CartEntity> carts;
-
-    @OneToMany(mappedBy = "user")
-    private List<WishlistEntity> wishlists;
-
-    @OneToMany(mappedBy = "user")
-    private List<OrderEntity> orders;
-
-    @OneToMany(mappedBy = "user")
-    private List<RatingEntity> ratings;
-
-    @OneToMany(mappedBy = "user")
-    private List<TransactionEntity> transactions;
 
     public String getRole() {
         return role;
@@ -132,45 +117,5 @@ public class UserEntity {
 
     public void setDateofbirth(LocalDate dateofbirth) {
         this.dateofbirth = dateofbirth;
-    }
-
-    public List<CartEntity> getCarts() {
-        return carts;
-    }
-
-    public void setCarts(List<CartEntity> carts) {
-        this.carts = carts;
-    }
-
-    public List<WishlistEntity> getWishlists() {
-        return wishlists;
-    }
-
-    public void setWishlists(List<WishlistEntity> wishlists) {
-        this.wishlists = wishlists;
-    }
-
-    public List<OrderEntity> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderEntity> orders) {
-        this.orders = orders;
-    }
-
-    public List<RatingEntity> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<RatingEntity> ratings) {
-        this.ratings = ratings;
-    }
-
-    public List<TransactionEntity> getTransactions() {
-        return transactions;
-    }
-
-    public void setTransactions(List<TransactionEntity> transactions) {
-        this.transactions = transactions;
     }
 }
