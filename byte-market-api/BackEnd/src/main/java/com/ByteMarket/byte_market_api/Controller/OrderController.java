@@ -1,9 +1,32 @@
 package com.ByteMarket.byte_market_api.Controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ByteMarket.byte_market_api.Entity.OrderEntity;
+import com.ByteMarket.byte_market_api.Service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/order")
 public class OrderController {
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping
+    public List<OrderEntity> getAllOrders() {
+        return orderService.getAllOrders();
+    }
+    @GetMapping("/getOrderById/{id}")
+    public OrderEntity getOrderById(@PathVariable int id) {
+        return orderService.getOrderById(id);
+    }
+    @PostMapping("/addOrder")
+    public OrderEntity addOrder(@RequestBody OrderEntity order) {
+        return orderService.addOrder(order);
+    }
+//    @PutMapping("/updateOrder/{id}")
+//    public OrderEntity updateOrder(@PathVariable int id, @RequestBody OrderEntity newOrder) {
+//        return orderService.updateOrder(id, newOrder)
+//    }
 }

@@ -1,5 +1,6 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class SellerEntity extends UserEntity {
 
     //Relation
     @OneToMany(mappedBy = "seller")
+    @JsonIgnore
     private List<ProductEntity> products;
 
     public String getSellername() {
