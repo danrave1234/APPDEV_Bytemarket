@@ -37,6 +37,7 @@ public class CustomerEntity extends UserEntity {
     private List<RatingEntity> rating;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnoreProperties({"customer"})
     private List<TransactionEntity> transaction;
 
     public float getBalance(){

@@ -1,7 +1,9 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -10,7 +12,7 @@ public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int transactionid;
-    private LocalDateTime transactiondate;
+    private LocalDate transactiondate;
     private double amount;
     private String transactiontype;
 
@@ -18,7 +20,7 @@ public class TransactionEntity {
         super();
     }
 
-    public TransactionEntity(LocalDateTime transactiondate, double amount, String transactiontype) {
+    public TransactionEntity(LocalDate transactiondate, double amount, String transactiontype) {
         super();
         this.transactiondate = transactiondate;
         this.amount = amount;
@@ -28,16 +30,17 @@ public class TransactionEntity {
     // Relationships
     @ManyToOne
     @JoinColumn(name = "customerid", nullable = false)
+    @JsonIgnoreProperties({"fullname", "email", "phonenumber", "dateofbirth", "order", "cart", "wishlist", "transaction", "registration" })
     private CustomerEntity customer;
 
     public int getTransactionid() {
         return transactionid;
     }
-    public LocalDateTime getTransactiondate() {
+    public LocalDate getTransactiondate() {
         return transactiondate;
     }
 
-    public void setTransactiondate(LocalDateTime transactiondate) {
+    public void setTransactiondate(LocalDate transactiondate) {
         this.transactiondate = transactiondate;
     }
 
