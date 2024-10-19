@@ -24,8 +24,12 @@ public class CartService {
         return cartRepository.save(cart);
     }
     //Update
-    public CartEntity updateCart(CartEntity cart) {
-        return cartRepository.save(cart);
+    public CartEntity updateCart(int id, CartEntity newcart) {
+        CartEntity cartEntity = cartRepository.findById(id).get();
+        cartEntity.setCustomer(newcart.getCustomer());
+        cartEntity.setQuantity(newcart.getQuantity());
+        cartEntity.setProduct(newcart.getProduct());
+        return cartRepository.save(cartEntity);
     }
     //Delete
     public CartEntity deleteCart(int id) {

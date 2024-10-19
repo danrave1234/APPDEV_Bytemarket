@@ -1,6 +1,7 @@
 package com.ByteMarket.byte_market_api.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -30,22 +31,20 @@ public class ProductEntity {
     // Relationships
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
+    @JsonIgnoreProperties({"registration", "products", "fullname", "username", "email", "phonenumber", "dateofbirth"}) // Ignore all other seller details
     private SellerEntity seller;
 
-    @ManyToMany(mappedBy = "products")
-    @JsonIgnore
+    @OneToMany
     private List<CartEntity> carts;
 
     @ManyToMany(mappedBy = "wishlistProducts")
-    @JsonIgnore
+    @JsonIgnoreProperties({"wishlistProducts", "carts", "wishlists"})
     private List<WishlistEntity> wishlists;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnore
     private List<RatingEntity> ratings;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnore
     private List<OrderItemEntity> orderItems;
 
     public int getProductid() {

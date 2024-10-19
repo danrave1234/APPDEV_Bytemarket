@@ -1,6 +1,7 @@
 package com.ByteMarket.byte_market_api.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -28,11 +29,12 @@ public class RatingEntity {
     }
     @ManyToOne
     @JoinColumn (name = "customerid")
-
+    @JsonIgnoreProperties({"fullname", "email", "phonenumber", "dateofbirth", "order", "cart", "wishlist", "transaction", "registration", "balance"})
     private CustomerEntity customer;
 
     @ManyToOne
     @JoinColumn(name = "productid")
+    @JsonIgnoreProperties({"carts", "orderItems", "wishlists", "ratings"})
     private ProductEntity product;
 
     public int getRatingid() {

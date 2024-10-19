@@ -1,6 +1,7 @@
 package com.ByteMarket.byte_market_api.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -24,9 +25,9 @@ public class WishlistEntity {
         this.wishlistdate = wishlistdate;
     }
     // Relationships
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customerid", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnoreProperties({"fullname", "email", "phonenumber", "dateofbirth", "order", "cart", "wishlist", "transaction", "username"})
     private CustomerEntity customer;
 
     @ManyToMany
@@ -35,6 +36,7 @@ public class WishlistEntity {
             joinColumns = @JoinColumn(name = "wishlist_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
+    @JsonIgnoreProperties({"carts", "wishlists", "ratings", "orderItems"})
     private List<ProductEntity> wishlistProducts;
 
     public int getWishlistid() {

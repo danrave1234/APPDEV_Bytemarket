@@ -5,6 +5,7 @@ import com.ByteMarket.byte_market_api.Service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -23,11 +24,12 @@ public class CartController {
     }
     @PostMapping("/addCart")
     public CartEntity addCart(@RequestBody CartEntity cart) {
+        cart.setDateposted(LocalDate.now());
         return cartService.addCart(cart);
     }
-    @PutMapping("/updateCart")
-    public CartEntity updateCart(@RequestBody CartEntity cart) {
-        return cartService.updateCart(cart);
+    @PutMapping("/updateCart/{id}")
+    public CartEntity updateCart(@PathVariable int id, @RequestBody CartEntity cart) {
+        return cartService.updateCart(id, cart);
     }
     @DeleteMapping("/deleteCart")
     public CartEntity deleteCart(@PathVariable int id) {

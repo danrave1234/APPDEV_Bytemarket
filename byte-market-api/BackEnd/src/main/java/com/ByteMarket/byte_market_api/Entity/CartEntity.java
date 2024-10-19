@@ -1,9 +1,9 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tblcart")
@@ -11,35 +11,37 @@ public class CartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartid;
-    private int quantity;
-    private LocalDateTime dateposted;
 
+    // This quantity will represent how many units of a single product
+    private int quantity;
+    private LocalDate dateposted;
 
     public CartEntity() {
         super();
     }
 
-    public CartEntity(int quantity, LocalDateTime dateposted) {
+    public CartEntity(int quantity, LocalDate dateposted) {
         super();
         this.quantity = quantity;
         this.dateposted = dateposted;
     }
+
     // Relationships
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customerid", nullable = false)
+    @JsonIgnoreProperties({"orderItems","transaction","wishlist","cart","order", "registration", "username", "email", "phonenumber", "dateofbirth","balance"})
     private CustomerEntity customer;
 
-    @ManyToMany
-    @JoinTable(
-            name = "cart_products",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<ProductEntity> products;
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false) // Change to ManyToOne
+    @JsonIgnoreProperties({"orderItems", "seller","carts"})
+    private ProductEntity product;
 
+    // Getters and Setters
     public int getCartid() {
         return cartid;
     }
+
     public int getQuantity() {
         return quantity;
     }
@@ -48,11 +50,11 @@ public class CartEntity {
         this.quantity = quantity;
     }
 
-    public LocalDateTime getDateposted() {
+    public LocalDate getDateposted() {
         return dateposted;
     }
 
-    public void setDateposted(LocalDateTime dateposted) {
+    public void setDateposted(LocalDate dateposted) {
         this.dateposted = dateposted;
     }
 
@@ -64,11 +66,11 @@ public class CartEntity {
         this.customer = customer;
     }
 
-    public List<ProductEntity> getProducts() {
-        return products;
+    public ProductEntity getProduct() {
+        return product;
     }
 
-    public void setProducts(List<ProductEntity> products) {
-        this.products = products;
+    public void setProduct(ProductEntity product) {
+        this.product = product;
     }
 }
