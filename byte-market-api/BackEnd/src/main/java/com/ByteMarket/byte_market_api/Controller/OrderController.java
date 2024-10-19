@@ -13,7 +13,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping
+    @GetMapping("/getAllOrder")
     public List<OrderEntity> getAllOrders() {
         return orderService.getAllOrders();
     }
@@ -23,8 +23,15 @@ public class OrderController {
     }
     @PostMapping("/addOrder")
     public OrderEntity addOrder(@RequestBody OrderEntity order) {
+        order.setOrderstatus("Pending");
+        double totalPrice = order.getOrderItems().stream()
+                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
+        order.setTotalprice(totalPrice);
+
         return orderService.addOrder(order);
     }
+
     @PutMapping("/updateOrder/{id}")
     public OrderEntity updateOrder(@PathVariable int id, @RequestBody OrderEntity newOrder) {
         return orderService.updateOrder(id, newOrder);

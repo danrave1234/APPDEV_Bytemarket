@@ -14,8 +14,9 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
     public OrderItemEntity() {
         super();
     }
-    public OrderItemEntity(int quantity, double price) {
+    public OrderItemEntity(OrderEntity order,  int quantity, double price) {
         super();
+        this.order=order;
         this.quantity = quantity;
         this.price = price;
     }

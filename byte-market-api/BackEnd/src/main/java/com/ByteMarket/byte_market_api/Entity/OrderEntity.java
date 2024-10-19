@@ -1,5 +1,8 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -35,9 +38,15 @@ public class OrderEntity {
         return orderid;
     }
 
+    public void calculateTotalPrice(){
+        this.totalprice = orderItems.stream()
+                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
+    }
     public double getTotalprice() {
         return totalprice;
     }
+
 
     public void setTotalprice(double totalprice) {
         this.totalprice = totalprice;
@@ -57,6 +66,7 @@ public class OrderEntity {
 
     public void setOrderItems(List<OrderItemEntity> orderItems) {
         this.orderItems = orderItems;
+        calculateTotalPrice();
     }
 
     public CustomerEntity getCustomer() {

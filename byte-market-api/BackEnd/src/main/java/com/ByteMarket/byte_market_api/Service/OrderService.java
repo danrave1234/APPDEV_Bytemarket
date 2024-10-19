@@ -1,6 +1,9 @@
 package com.ByteMarket.byte_market_api.Service;
 
+import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
 import com.ByteMarket.byte_market_api.Entity.OrderEntity;
+import com.ByteMarket.byte_market_api.Entity.OrderItemEntity;
+import com.ByteMarket.byte_market_api.Repository.CustomerRepository;
 import com.ByteMarket.byte_market_api.Repository.OrderRepository;
 import org.hibernate.query.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,8 @@ import java.util.List;
 public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
-
+    @Autowired
+    private CustomerRepository customerRepository;
     //Get
     public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll();
@@ -22,6 +26,18 @@ public class OrderService {
     }
     //Add
     public OrderEntity addOrder(OrderEntity order) {
+//        // Fetch the customer from the database
+//        CustomerEntity customer = customerRepository.findById(order.getCustomer().getUserid())
+//                .orElseThrow(() -> new RuntimeException("Customer not found"));
+//
+//        order.setCustomer(customer);
+//
+//        for (OrderItemEntity item : order.getOrderItems()) {
+//            item.setOrder(order);  // Set the order for each order item
+//            item.setPrice(item.getProduct().getPrice() * item.getQuantity()); // Calculate price based on quantity and product price
+//        }
+//
+//        order.calculateTotalPrice();
         return orderRepository.save(order);
     }
     //Update

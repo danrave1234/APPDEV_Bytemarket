@@ -1,6 +1,8 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -31,10 +33,11 @@ public class CustomerEntity extends UserEntity {
     private List<CartEntity> cart;
 
     @OneToMany(mappedBy = "customer")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<WishlistEntity> wishlist;
 
     @OneToMany(mappedBy = "customer")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<RatingEntity> rating;
 
     @OneToMany(mappedBy = "customer")

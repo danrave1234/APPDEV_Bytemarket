@@ -1,5 +1,7 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,6 +28,7 @@ public class RatingEntity {
     }
     @ManyToOne
     @JoinColumn (name = "customerid")
+
     private CustomerEntity customer;
 
     @ManyToOne

@@ -41,9 +41,11 @@ public class ProductEntity {
     private List<WishlistEntity> wishlists;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<RatingEntity> ratings;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<OrderItemEntity> orderItems;
 
     public int getProductid() {

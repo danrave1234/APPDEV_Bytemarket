@@ -25,8 +25,13 @@ public class RatingService {
         return ratingRepository.save(rating);
     }
     //Update
-    public RatingEntity updateRating(RatingEntity rating) {
-        return ratingRepository.save(rating);
+    public RatingEntity updateRating(int id, RatingEntity newRating) {
+        RatingEntity ratingEntity = ratingRepository.findById(id).get();
+        ratingEntity.setCustomer(newRating.getCustomer());
+        ratingEntity.setProduct(newRating.getProduct());
+        ratingEntity.setRatingtext(newRating.getRatingtext());
+
+        return ratingRepository.save(ratingEntity);
     }
     //Delete
     public RatingEntity deleteRating(int id) {
