@@ -24,17 +24,14 @@ public class TransactionService {
     @Autowired
     SellerRepository sellerRepository;
 
-    // Get all transactions
     public List<TransactionEntity> getAllTransaction() {
         return transactionRepository.findAll();
     }
 
-    // Get transaction by ID
     public TransactionEntity getTransactionById(int id) {
         return transactionRepository.findById(id).orElse(null);
     }
 
-    // Add transaction and update balances
     public TransactionEntity addTransaction(TransactionEntity transaction, int customerId, int sellerId) {
         CustomerEntity customer = customerRepository.findById(customerId).orElseThrow();
         SellerEntity seller = sellerRepository.findById(sellerId).orElseThrow();
@@ -53,10 +50,8 @@ public class TransactionService {
         transaction.setTransactiondate(LocalDate.now());
         transaction.setCustomer(customer);
 
-        // Save transaction
         transactionRepository.save(transaction);
 
-        // Update balances based on transaction type
         updateBalances(customer, seller, amount, transactionType);
 
         return transaction;
@@ -78,12 +73,10 @@ public class TransactionService {
                 break;
         }
 
-        // Save the updated balances
         customerRepository.save(customer);
         sellerRepository.save(seller);
     }
 
-    // Update transaction
     public TransactionEntity updateTransaction(int id, TransactionEntity newTransaction) {
         TransactionEntity transaction = transactionRepository.findById(id).orElseThrow();
         transaction.setCustomer(newTransaction.getCustomer());
@@ -94,7 +87,6 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
-    // Delete transaction
     public void deleteTransaction(int id) {
         transactionRepository.deleteById(id);
     }
