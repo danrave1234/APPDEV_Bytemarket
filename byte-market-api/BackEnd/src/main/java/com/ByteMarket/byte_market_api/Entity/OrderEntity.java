@@ -33,7 +33,7 @@ public class OrderEntity {
     private CustomerEntity customer;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"order", "orderItems"}) // Prevent recursion in both `order` and `orderItems`
+    @JsonIgnoreProperties({"order", "orderItems", "wishlists"}) // Prevent recursion in both `order` and `orderItems`
     private List<OrderItemEntity> orderItems;
 
 

@@ -31,7 +31,7 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    @JsonIgnoreProperties({"orderItems", "seller", "carts"}) // Prevent recursion and seller details if unnecessary
+    @JsonIgnoreProperties({"orderItems", "carts", "wishlists", "ratings"}) // Prevent recursion and seller details if unnecessary
     private ProductEntity product;
 
     public int getOrderitemid() {
