@@ -11,10 +11,6 @@ import TheRoutes from "./Routes.jsx";
 function App() {
     return (
         <>
-            <head>
-                <link rel="stylesheet"
-                      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-            </head>
             <div className="container1">
                 <header className="header">
                     <div className="logoAndName">
