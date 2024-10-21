@@ -42,6 +42,7 @@ public class ProductEntity {
     private List<WishlistEntity> wishlists;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnoreProperties({})
     private List<RatingEntity> ratings;
 
     @OneToMany(mappedBy = "product")
