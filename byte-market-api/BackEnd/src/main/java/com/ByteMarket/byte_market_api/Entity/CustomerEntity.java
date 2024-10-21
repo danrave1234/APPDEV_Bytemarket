@@ -24,12 +24,15 @@ public class CustomerEntity extends UserEntity {
 
     //Relation
     @OneToMany(mappedBy = "customer")
+    @JsonIgnoreProperties({"customer"})
     private List<OrderEntity> order;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnoreProperties({"customer"})
     private List<CartEntity> cart;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnoreProperties({"customer"})
     private List<WishlistEntity> wishlist;
 
     @OneToMany(mappedBy = "customer")
