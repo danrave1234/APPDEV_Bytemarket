@@ -22,15 +22,16 @@ header {
 }
 
 .logoAndName h1 {
-  margin-left: 0.5rem;
+  /*margin-left: 0.5rem;*/
   font-size: 1.2rem;
 }
 
 .logo {
-  width: 3.5vw;
-  min-width: 50px;
+  width: 5vw;
+  min-width: 100px;
   height: auto;
   max-width: 100%;
+  border-radius: 2vh;
 }
 
 .profileBar {

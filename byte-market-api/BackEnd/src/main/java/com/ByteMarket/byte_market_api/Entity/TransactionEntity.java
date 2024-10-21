@@ -2,9 +2,7 @@ package com.ByteMarket.byte_market_api.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbltransaction")
@@ -33,9 +31,17 @@ public class TransactionEntity {
     @JsonIgnoreProperties({"fullname", "email", "phonenumber", "dateofbirth", "order", "cart", "wishlist", "transaction", "registration" })
     private CustomerEntity customer;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false) // Link transaction to an order
+    @JsonIgnoreProperties({"customer", "orderItems"}) // Prevent recursion
+    private OrderEntity order;
+
+    // Getters and setters...
+
     public int getTransactionid() {
         return transactionid;
     }
+
     public LocalDate getTransactiondate() {
         return transactiondate;
     }
@@ -66,5 +72,13 @@ public class TransactionEntity {
 
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
+    }
+
+    public OrderEntity getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderEntity order) {
+        this.order = order;
     }
 }

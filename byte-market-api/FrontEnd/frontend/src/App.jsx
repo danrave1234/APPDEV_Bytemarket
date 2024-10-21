@@ -3,6 +3,9 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import logo from './assets/WizCat.jpg'
+import LogoNiAndri from './assets/LogoNiAndri.png'
+import LogoNiVincent from './assets/LogoNiVincent.png'
+import LogoNiVincent2 from './assets/LogoNiVincent2.png'
 import profileIcon from './assets/profileIcon.png'
 import arrow from './assets/Arrow.png'
 import searchIcon from './assets/searchIcon.png'
@@ -14,8 +17,10 @@ function App() {
             <div className="container1">
                 <header className="header">
                     <div className="logoAndName">
-                        <img src={logo} alt="ByteMarket Logo" className="logo"/>
-                        <h1>ByteMarket</h1>
+                        <img src={LogoNiVincent} alt="ByteMarket Logo" className="logo"/>
+                        <img src={LogoNiVincent2} alt="ByteMarket Logo" className="logo"/>
+                        <img src={LogoNiAndri} alt="ByteMarket Logo" className="logo"/>
+                        {/*<h1>ByteMarket</h1>*/}
                     </div>
                     <div className="profileBar">
                         <img src={arrow} alt="Arrow" className="profileArrow"/>

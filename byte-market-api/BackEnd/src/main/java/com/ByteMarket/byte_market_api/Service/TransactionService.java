@@ -1,11 +1,7 @@
 package com.ByteMarket.byte_market_api.Service;
 
-import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
-import com.ByteMarket.byte_market_api.Entity.SellerEntity;
-import com.ByteMarket.byte_market_api.Entity.TransactionEntity;
-import com.ByteMarket.byte_market_api.Repository.CustomerRepository;
-import com.ByteMarket.byte_market_api.Repository.SellerRepository;
-import com.ByteMarket.byte_market_api.Repository.TransactionRepository;
+import com.ByteMarket.byte_market_api.Entity.*;
+import com.ByteMarket.byte_market_api.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +20,12 @@ public class TransactionService {
     @Autowired
     SellerRepository sellerRepository;
 
+    @Autowired
+    OrderRepository orderRepository; // Add OrderRepository to access orders
+
+    @Autowired
+    ProductRepository productRepository;
+
     public List<TransactionEntity> getAllTransaction() {
         return transactionRepository.findAll();
     }
@@ -32,14 +34,18 @@ public class TransactionService {
         return transactionRepository.findById(id).orElse(null);
     }
 
-    public TransactionEntity addTransaction(TransactionEntity transaction, int customerId, int sellerId) {
-        CustomerEntity customer = customerRepository.findById(customerId).orElseThrow();
-        SellerEntity seller = sellerRepository.findById(sellerId).orElseThrow();
+    public TransactionEntity addTransaction(TransactionEntity transaction, int customerId, int sellerId, int orderId) {
+        CustomerEntity customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        SellerEntity seller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new RuntimeException("Seller not found"));
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        double amount = transaction.getAmount();
+        double totalOrderPrice = order.getTotalprice();
         String transactionType = transaction.getTransactiontype();
 
-        if (amount <= 0) {
+        if (totalOrderPrice <= 0) {
             throw new IllegalArgumentException("Amount must be greater than zero");
         }
 
@@ -48,14 +54,38 @@ public class TransactionService {
         }
 
         transaction.setTransactiondate(LocalDate.now());
+        transaction.setAmount(totalOrderPrice);
         transaction.setCustomer(customer);
+        transaction.setOrder(order);
 
         transactionRepository.save(transaction);
 
-        updateBalances(customer, seller, amount, transactionType);
+        for (OrderItemEntity orderItem : order.getOrderItems()) {
+            ProductEntity product = orderItem.getProduct();
+            int orderedQuantity = orderItem.getQuantity();
+
+            if (product.getQuantity() < orderedQuantity) {
+                throw new RuntimeException("Not enough stock for product: " + product.getProductname());
+            }
+
+            product.setQuantity(product.getQuantity() - orderedQuantity);
+            productRepository.save(product);
+
+            // Update seller's balance
+            double salePrice = orderedQuantity * product.getPrice();
+            seller.setBalance((float) (seller.getBalance() + salePrice));
+            sellerRepository.save(seller);
+        }
+
+        // Update customer balance
+        customer.setBalance((float) (customer.getBalance() - totalOrderPrice));
+        customerRepository.save(customer);
+
+        updateOrderStatus(order);
 
         return transaction;
     }
+
 
     private boolean isValidTransactionType(String type) {
         return type.equals("PURCHASE") || type.equals("REFUND") || type.equals("WITHDRAWAL");
@@ -75,6 +105,11 @@ public class TransactionService {
 
         customerRepository.save(customer);
         sellerRepository.save(seller);
+    }
+
+    private void updateOrderStatus(OrderEntity order) {
+        order.setOrderstatus("Paid");
+        orderRepository.save(order);
     }
 
     public TransactionEntity updateTransaction(int id, TransactionEntity newTransaction) {

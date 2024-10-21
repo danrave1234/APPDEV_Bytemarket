@@ -24,12 +24,13 @@ public class TransactionController {
         return transactionService.getTransactionById(id);
     }
 
-    @PostMapping("/addTransaction/{customerId}/{sellerId}")
+    @PostMapping("/addTransaction/{customerId}/{sellerId}/{orderId}")
     public TransactionEntity addTransaction(
             @RequestBody TransactionEntity transaction,
             @PathVariable int customerId,
-            @PathVariable int sellerId) {
-        return transactionService.addTransaction(transaction, customerId, sellerId);
+            @PathVariable int sellerId,
+            @PathVariable int orderId) {
+        return transactionService.addTransaction(transaction, customerId, sellerId, orderId);
     }
 
     @PutMapping("/updateTransaction/{id}")
