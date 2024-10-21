@@ -5,6 +5,7 @@ import com.ByteMarket.byte_market_api.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -16,6 +17,7 @@ public class CustomerController {
     @PostMapping("/addCustomer")
     public CustomerEntity addCustomer(@RequestBody CustomerEntity newCustomer){
         newCustomer.setRole("Customer");
+        newCustomer.setRegistration(LocalDate.now());
         return customerService.addCustomer(newCustomer);
     }
     @GetMapping("/getAllCustomer")
