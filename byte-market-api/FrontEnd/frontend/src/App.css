@@ -10,14 +10,12 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0;
   padding: 1rem 0;
   width: 100%;
 }
 
 .logoAndName {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -27,11 +25,11 @@ header {
 }
 
 .logo {
-  width: 5vw;
-  min-width: 100px;
+  width: 4vw;
+  min-width: 50px;
   height: auto;
   max-width: 100%;
-  border-radius: 2vh;
+  /*border-radius: 2vh;*/
 }
 
 .profileBar {
@@ -50,7 +48,6 @@ header {
 .profileIcon {
   width: 1.8vw;
   height: auto;
-  max-width: 100%;
   min-width: 30px;
 }
 
@@ -74,6 +71,8 @@ header {
 .container2{
   margin-top: 1rem;
   font-family: Inter, serif;
+  margin-right: 20vw;
+  margin-left: 20vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,4 +123,67 @@ input:focus{
   margin-top: 1rem;
   font-family: Inter, serif;
   padding: 0 5rem;
+}
+.dropdown {
+  position: fixed;
+  right: 7rem;
+  top: 5rem;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 8rem;
+}
+
+.dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdownItem {
+  padding: 1rem;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+.slideshow-container {
+  max-height: 20vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: space-between;
+  border-radius: 2rem;
+}
+.slideshow-container img{
+  height: 20vh;
+}
+.dots-container {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+}
+.dot-container img {
+}
+.dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 5px;
+  display: inline-block;
+  border-radius: 50%;
+  background-color: #bbb;
+  cursor: pointer;
+}
+.dot.active {
+  background-color: #717171;
+}
+.next, .prev {
+  height: 50px;
 }

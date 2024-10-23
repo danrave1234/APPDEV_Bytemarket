@@ -1,67 +1,126 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import logo from './assets/WizCat.jpg'
-import LogoNiAndri from './assets/LogoNiAndri.png'
-import LogoNiVincent from './assets/LogoNiVincent.png'
-import LogoNiVincent2 from './assets/LogoNiVincent2.png'
-import profileIcon from './assets/profileIcon.png'
-import arrow from './assets/Arrow.png'
-import searchIcon from './assets/searchIcon.png'
-import TheRoutes from "./Routes.jsx";
+import {useEffect, useState} from 'react';
+import './App.css';
+import SignUpModal from "./components/SignUpModal.jsx";
+import VincentLogo from './assets/VincentLogo3.png';
+import profileIcon from './assets/profileIcon.png';
+import logoNiAndri from './assets/logoNiAndri.png';
+import arrow from './assets/Arrow.png';
+import searchIcon from './assets/searchIcon.png';
+import ph1 from './assets/placeholderDan.png';
+import ph2 from './assets/placeholder2.png';
+import ph3 from './assets/placeholder3.png';
+
+// Import additional images for the slideshow
+
 
 function App() {
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [slideIndex, setSlideIndex] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+
+    const slides = [       //img size 1450x200
+        <img src={ph1} alt="logoNiAndri" />,
+        <img src={ph2} alt="Image 2" />,
+        <img src={ph3} alt="Image 3" />,
+        <img src={logoNiAndri} alt="LogoNiAndri" />
+    ];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSlideIndex((prev) => (prev + 1) % slides.length);
+        }, 5000); // 5 seconds interval
+
+        return () => clearInterval(interval); // Cleanup on unmount
+    }, [slides.length]);
+
+    const nextSlide = () => {
+        setSlideIndex((prev) => (prev + 1) % slides.length);
+    };
+
+    const prevSlide = () => {
+        setSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
+    };
+
+    const goToSlide = (index) => {
+        setSlideIndex(index);
+    };
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
+    const openModal = () => setShowModal(true);   // Open modal
+    const closeModal = () => setShowModal(false); // Close modal
     return (
         <>
             <div className="container1">
                 <header className="header">
                     <div className="logoAndName">
-                        <img src={LogoNiVincent} alt="ByteMarket Logo" className="logo"/>
-                        <img src={LogoNiVincent2} alt="ByteMarket Logo" className="logo"/>
-                        <img src={LogoNiAndri} alt="ByteMarket Logo" className="logo"/>
-                        {/*<h1>ByteMarket</h1>*/}
+                        <img src={VincentLogo} alt="ByteMarket Logo" className="logo" />
                     </div>
-                    <div className="profileBar">
-                        <img src={arrow} alt="Arrow" className="profileArrow"/>
-                        <img src={profileIcon} alt="Profile Icon" className="profileIcon"/>
+                    <div className="profileBar" onClick={toggleDropdown}>
+                        <img src={arrow} alt="Arrow" className="profileArrow" />
+                        <img src={profileIcon} alt="Profile Icon" className="profileIcon" />
                     </div>
+                    {showDropdown && (
+                        <div className="dropdown">
+                            <ul>
+                                <li className="dropdownItem" onClick={openModal}>Sign Up</li>
+                                <li className="dropdownItem">Logout</li>
+                            </ul>
+                        </div>
+                    )}
                 </header>
             </div>
+            <SignUpModal show={showModal} closeModal={closeModal} />
             <div className="container2">
                 <div className="searchBar">
-                    <input type="text" placeholder="Search..." className="searchBar"/>
-                    <button className="searchButton"><img src={searchIcon} alt="Search Icon" className="searchIcon"/></button>
+                    <input type="text" placeholder="Search..." className="searchBar" />
+                    <button className="searchButton">
+                        <img src={searchIcon} alt="Search Icon" className="searchIcon" />
+                    </button>
                 </div>
             </div>
             <div className="container3">
+                <div className="slideshow-container">
+                    <button className="prev" onClick={prevSlide}/>
+                    {slides.map((slide, index) => (
+                        <div
+                            key={index}
+                            className={`slide ${slideIndex === index ? "active" : ""}`}
+                            style={{display: slideIndex === index ? "block" : "none"}}
+                        >
+                            {slide}
+                        </div>
+                    ))}
+                    <button className="next" onClick={nextSlide}/>
+                    <div className="dots-container">
+                        {slides.map((_, index) => (
+                            <span
+                                key={index}
+                                className={`dot ${slideIndex === index ? "active" : ""}`}
+                                onClick={() => goToSlide(index)}
+                            />
+                        ))}
+                    </div>
+                </div>
+
                 <body>
-                <h1>This is where you put all your contents, all pages must have the same format,
-                    Unless on special pages that we might encounter later</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
-                <h1>WAW</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+                <h1>Waw</h1>
+
                 </body>
             </div>
         </>
     );
 }
 
-export default App
+export default App;
