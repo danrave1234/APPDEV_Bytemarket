@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import './App.css';
 import SignUpModal from "./components/SignUpModal.jsx";
+import LoginModal from "./components/LoginModal.jsx";
 import VincentLogo from './assets/VincentLogo3.png';
 import profileIcon from './assets/profileIcon.png';
 import logoNiAndri from './assets/logoNiAndri.png';
@@ -16,7 +17,8 @@ import ph3 from './assets/placeholder3.png';
 function App() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
-    const [showModal, setShowModal] = useState(false);
+    const [showModalSignUp, setShowModalSignUp] = useState(false);
+    const [showModalLogin, setShowModalLogin] = useState(false);
 
     const slides = [       //img size 1450x200
         <img src={ph1} alt="logoNiAndri" />,
@@ -48,8 +50,10 @@ function App() {
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
-    const openModal = () => setShowModal(true);   // Open modal
-    const closeModal = () => setShowModal(false); // Close modal
+    const openModalSignUp = () => setShowModalSignUp(true);   // Open modal for Sign up
+    const closeModalSignUp = () => setShowModalSignUp(false); // Close modal for Sign up
+    const openModalLogin = () => setShowModalLogin(true);   // Open modal for Sign up
+    const closeModalLogin = () => setShowModalLogin(false); // Close modal for Sign up
     return (
         <>
             <div className="container1">
@@ -64,14 +68,17 @@ function App() {
                     {showDropdown && (
                         <div className="dropdown">
                             <ul>
-                                <li className="dropdownItem" onClick={openModal}>Sign Up</li>
-                                <li className="dropdownItem">Logout</li>
+                                <li className="dropdownItem" onClick={openModalSignUp}>Sign Up</li>
+                                <li className="dropdownItem" onClick={openModalLogin}>Login</li>
                             </ul>
                         </div>
                     )}
                 </header>
             </div>
-            <SignUpModal show={showModal} closeModal={closeModal} />
+
+            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp} />
+            <LoginModal show={showModalLogin} closeModal={closeModalLogin} />
+
             <div className="container2">
                 <div className="searchBar">
                     <input type="text" placeholder="Search..." className="searchBar" />

@@ -18,12 +18,10 @@ public class UserEntity {
 
     private String role; //Customer, Seller, Admin
     private String username;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //Para di makita ang password sa postman inig get
     private String password;
     private String fullname;
     private String email;
     private String phonenumber;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String address; //Kuan rani kanang like street, barangay
     private LocalDate dateofbirth; //LocalDate datatype
     private LocalDate registration;

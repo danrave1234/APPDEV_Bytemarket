@@ -43,6 +43,10 @@ public class CustomerEntity extends UserEntity {
     @JsonIgnoreProperties({"customer"})
     private List<TransactionEntity> transaction;
 
+    public void loadEWallet(float amount){
+        this.balance += amount;
+    }
+
     public float getBalance(){
         return balance;
     }

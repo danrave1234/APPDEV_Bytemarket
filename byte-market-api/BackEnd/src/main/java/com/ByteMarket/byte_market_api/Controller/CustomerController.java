@@ -20,6 +20,16 @@ public class CustomerController {
         newCustomer.setRegistration(LocalDate.now());
         return customerService.addCustomer(newCustomer);
     }
+    @PostMapping("/auth/login")
+    public CustomerEntity login(@RequestBody CustomerEntity newCustomer){
+        CustomerEntity customer = customerService.authenticate(newCustomer.getUsername(), newCustomer.getPassword());
+
+        if(customer != null){
+            return customer;
+        }else{
+            throw new RuntimeException("Invalid username or password");
+        }
+    }
     @GetMapping("/getAllCustomer")
     public List<CustomerEntity> getAllCustomer(){
         return customerService.getAllCustomer();
