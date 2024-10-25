@@ -11,4 +11,4 @@ export default function LandingPage() {
             <button onClick={handleRegister}><b>REGISTER NOW!!!!</b></button>
         </>
     )
-}
+}   

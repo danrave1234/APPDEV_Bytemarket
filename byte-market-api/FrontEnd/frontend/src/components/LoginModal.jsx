@@ -52,7 +52,7 @@ const LoginModal = ({ show, closeModal }) => {
         <div className="modal-overlay">
             <div className="modal-box">
                 <button className="close-button" onClick={closeModal}>X</button>
-                <h2>Login</h2>
+                <h2>Login | ByteMarket</h2>
                 <form onSubmit={handleLogin}>
                     <input
                         type="text"

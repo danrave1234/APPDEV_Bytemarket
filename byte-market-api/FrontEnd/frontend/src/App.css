@@ -58,7 +58,7 @@ header {
 }
 
 .container1 {
-  font-family: Inter, serif;
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0 5rem;
   border-bottom: 1px solid #e0e0e0;
@@ -70,7 +70,7 @@ header {
 
 .container2{
   margin-top: 1rem;
-  font-family: Inter, serif;
+  font-family: Arial, Helvetica, sans-serif;
   margin-right: 20vw;
   margin-left: 20vw;
   display: flex;
@@ -121,7 +121,7 @@ input:focus{
 }
 .container3 {
   margin-top: 1rem;
-  font-family: Inter, serif;
+  font-family: Arial, Helvetica, sans-serif;
   padding: 0 5rem;
 }
 .dropdown {
@@ -171,6 +171,7 @@ input:focus{
   justify-content: center;
 }
 .dot-container img {
+
 }
 .dot {
   height: 10px;
@@ -184,6 +185,8 @@ input:focus{
 .dot.active {
   background-color: #717171;
 }
-.next, .prev {
+.next, .previous {
   height: 50px;
+  background: lightskyblue;
+  /*kailangan ma ilisan ang button color*/
 }

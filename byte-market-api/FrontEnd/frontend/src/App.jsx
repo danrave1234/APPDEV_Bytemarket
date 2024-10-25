@@ -11,8 +11,8 @@ import ph1 from './assets/placeholderDan.png';
 import ph2 from './assets/placeholder2.png';
 import ph3 from './assets/placeholder3.png';
 
-// Import additional images for the slideshow
 
+// Import additional images for the slideshow
 
 function App() {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -89,7 +89,7 @@ function App() {
             </div>
             <div className="container3">
                 <div className="slideshow-container">
-                    <button className="prev" onClick={prevSlide}/>
+                    <button className="previous" onClick={prevSlide}/>
                     {slides.map((slide, index) => (
                         <div
                             key={index}
@@ -111,21 +111,62 @@ function App() {
                     </div>
                 </div>
 
-                <body>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-                <h1>Waw</h1>
-
-                </body>
+                <div className="grid-container">
+                    <div className="grid-item">Danrave Keh</div>
+                    <div className="grid-item">Vincent Pacaña</div>
+                    <div className="grid-item">Andre Apas</div>
+                    <div className="grid-item">Judiel Oppura</div>
+                    <div className="grid-item">Josemar Pajares</div>
+                    <div className="grid-item">Sir Busico</div>
+                </div>
             </div>
+
+            <style jsx>{`
+              .grid-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                justify-items: center;
+                margin: 20px 0;
+                padding: 20px;
+              }
+
+              .grid-item {
+                background-color: #f0f0f0;
+                padding: 20px;
+                text-align: center;
+                font-size: 1.2em;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+              }
+
+              .grid-item:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+              }
+
+              .searchBar {
+                display: flex;
+                justify-content: center;
+                margin: 20px;
+              }
+
+              .container1, .container2, .container3 {
+                color: #000000;
+                padding: 20px;
+              }
+
+              body {
+                font-family: Helvetica, sans-serif;
+              }
+
+              h1 {
+                text-align: center;
+                font-size: 2em;
+                color: #333;
+              }
+            `}</style>
         </>
     );
 }
