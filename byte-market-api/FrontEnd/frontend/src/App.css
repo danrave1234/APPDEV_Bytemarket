@@ -43,7 +43,7 @@ header {
 }
 
 .profileBar:hover{
-  box-shadow: 0px 0px 0.5rem black;
+  box-shadow: 0px 0px 0.5rem lightblue;
 }
 .profileIcon {
   width: 1.8vw;
@@ -185,8 +185,36 @@ input:focus{
 .dot.active {
   background-color: #717171;
 }
+
+/*next and previous buttons css styles*/
 .next, .previous {
-  height: 50px;
-  background: lightskyblue;
-  /*kailangan ma ilisan ang button color*/
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  transition: 0.6s ease;
+}
+
+.previous {
+  left: 0;
+  border-radius: 3px 0 0 3px;
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  right: 0;
+  border-radius: 0 3px 3px 0;
+  background-color: gray;
+  color: white;
+}
+
+.previous:hover, .next:hover {
+  background-color: lightblue;
+  color: white;
 }

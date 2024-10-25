@@ -144,6 +144,7 @@ function App() {
               .grid-item:hover {
                 transform: translateY(-10px);
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                background: lightblue;
               }
 
               .searchBar {
