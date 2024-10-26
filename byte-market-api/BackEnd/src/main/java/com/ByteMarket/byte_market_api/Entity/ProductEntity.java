@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.sql.Blob;
 import java.util.List;
 //Andri
 @Entity
@@ -16,6 +17,8 @@ public class ProductEntity {
     private double price;
     private int quantity;
     private String category;
+    @Lob
+    private byte[] image;
 
     public ProductEntity() {
         super();
