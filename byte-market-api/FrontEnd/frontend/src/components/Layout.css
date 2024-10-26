@@ -1,0 +1,204 @@
+/* Global Reset */
+html, body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    width: 100%;
+}
+
+.containerLayout1 {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0 5rem;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    z-index: 999;
+    top: 0;
+    background: white;
+}
+.logoAndName {
+    display: flex;
+    align-items: center;
+}
+.logoAndName h1 {
+    /*margin-left: 0.5rem;*/
+    font-size: 1.2rem;
+}
+.logo {
+    width: 4vw;
+    min-width: 50px;
+    height: auto;
+    max-width: 100%;
+}
+
+.profileBar {
+    display: flex;
+    align-items: center;
+    margin-right: 2vw;
+    border: 1px solid #e0e0e0;
+    padding: 0.3rem;
+    border-radius: 10rem;
+    transition: box-shadow 0.3s;
+}
+
+.profileBar:hover {
+    box-shadow: 0px 0px 0.5rem lightblue;
+}
+
+.profileIcon {
+    width: 1.8vw;
+    height: auto;
+    min-width: 30px;
+}
+
+.profileArrow {
+    width: 1.3vw;
+    height: 1.5vh;
+    min-width: 20px;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: fixed;
+    right: 7rem;
+    top: 5rem;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 8rem;
+}
+
+.dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdownItem {
+    padding: 1rem;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdownItem:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+/* Search Bar */
+.containerLayout2 {
+    margin-top: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-right: 20vw;
+    margin-left: 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    z-index: 999;
+    top: 1.5rem;
+}
+.containerLayout2 input{
+    border: none;
+    background: none;
+    outline: none;
+}
+.searchBar {
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-radius: 5rem;
+    padding: 0.3rem;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    min-width: 20vw;
+}
+
+.searchIcon {
+    width: 0.6vw;
+    min-width: 20px;
+    margin-right: 0.2rem;
+    background: mediumvioletred;
+    border-radius: 10rem;
+    padding: 0.5rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.searchIcon:hover {
+    cursor: pointer;
+    background: #535bf2;
+    transform: scale(1.05);
+}
+
+.searchButton {
+    background: none;
+    border: none;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 2rem;
+    background-color: #333;
+    color: white;
+    font-size: 1rem;
+}
+
+.footer-logo {
+    width: 3vw;
+    min-width: 30px;
+    height: auto;
+    max-width: 100%;
+}
+
+footer > div {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1200px;
+}
+
+footer div > div {
+    flex: 1;
+    min-width: 200px;
+    padding: 1rem;
+}
+
+footer h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #ffcccb;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer li {
+    margin: 0.5rem 0;
+}
+
+footer li a {
+    color: lightgray;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer li a:hover {
+    color: #ff6f61;
+}
