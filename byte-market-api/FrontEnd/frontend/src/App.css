@@ -218,3 +218,6 @@ input:focus{
   background-color: lightblue;
   color: white;
 }
+footer{
+  background: red;
+}

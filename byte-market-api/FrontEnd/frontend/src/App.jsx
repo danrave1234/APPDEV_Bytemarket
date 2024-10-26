@@ -59,11 +59,11 @@ function App() {
             <div className="container1">
                 <header className="header">
                     <div className="logoAndName">
-                        <img src={VincentLogo} alt="ByteMarket Logo" className="logo" />
+                        <img src={VincentLogo} alt="ByteMarket Logo" className="logo"/>
                     </div>
                     <div className="profileBar" onClick={toggleDropdown}>
-                        <img src={arrow} alt="Arrow" className="profileArrow" />
-                        <img src={profileIcon} alt="Profile Icon" className="profileIcon" />
+                        <img src={arrow} alt="Arrow" className="profileArrow"/>
+                        <img src={profileIcon} alt="Profile Icon" className="profileIcon"/>
                     </div>
                     {showDropdown && (
                         <div className="dropdown">
@@ -76,14 +76,14 @@ function App() {
                 </header>
             </div>
 
-            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp} />
-            <LoginModal show={showModalLogin} closeModal={closeModalLogin} />
+            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp}/>
+            <LoginModal show={showModalLogin} closeModal={closeModalLogin}/>
 
             <div className="container2">
                 <div className="searchBar">
-                    <input type="text" placeholder="Search..." className="searchBar" />
+                    <input type="text" placeholder="Search..." className="searchBar"/>
                     <button className="searchButton">
-                        <img src={searchIcon} alt="Search Icon" className="searchIcon" />
+                        <img src={searchIcon} alt="Search Icon" className="searchIcon"/>
                     </button>
                 </div>
             </div>
@@ -120,54 +120,72 @@ function App() {
                     <div className="grid-item">Sir Busico</div>
                 </div>
             </div>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
+            <h1>Waw</h1>
 
-            <style jsx>{`
-              .grid-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 20px;
-                justify-items: center;
-                margin: 20px 0;
-                padding: 20px;
-              }
 
-              .grid-item {
-                background-color: #f0f0f0;
-                padding: 20px;
-                text-align: center;
-                font-size: 1.2em;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-              }
+            <footer>
+                <p>GG</p>
+                <h2>are you a seller? <b>Click here</b>
+                </h2>
+            </footer>
+            {/*<style jsx>{`*/}
+            {/*  .grid-container {*/}
+            {/*    display: grid;*/}
+            {/*    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/}
+            {/*    gap: 20px;*/}
+            {/*    justify-items: center;*/}
+            {/*    margin: 20px 0;*/}
+            {/*    padding: 20px;*/}
+            {/*  }*/}
 
-              .grid-item:hover {
-                transform: translateY(-10px);
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-                background: lightblue;
-              }
+            {/*  .grid-item {*/}
+            {/*    background-color: #f0f0f0;*/}
+            {/*    padding: 20px;*/}
+            {/*    text-align: center;*/}
+            {/*    font-size: 1.2em;*/}
+            {/*    border-radius: 8px;*/}
+            {/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/}
+            {/*    transition: transform 0.3s ease, box-shadow 0.3s ease;*/}
+            {/*  }*/}
 
-              .searchBar {
-                display: flex;
-                justify-content: center;
-                margin: 20px;
-              }
+            {/*  .grid-item:hover {*/}
+            {/*    transform: translateY(-10px);*/}
+            {/*    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);*/}
+            {/*    background: lightblue;*/}
+            {/*  }*/}
 
-              .container1, .container2, .container3 {
-                color: #000000;
-                padding: 20px;
-              }
+            {/*  .searchBar {*/}
+            {/*    display: flex;*/}
+            {/*    justify-content: center;*/}
+            {/*    margin: 20px;*/}
+            {/*  }*/}
 
-              body {
-                font-family: Helvetica, sans-serif;
-              }
+            {/*  .container1, .container2, .container3 {*/}
+            {/*    color: #000000;*/}
+            {/*    padding: 20px;*/}
+            {/*  }*/}
 
-              h1 {
-                text-align: center;
-                font-size: 2em;
-                color: #333;
-              }
-            `}</style>
+            {/*  body {*/}
+            {/*    font-family: Helvetica, sans-serif;*/}
+            {/*  }*/}
+
+            {/*  h1 {*/}
+            {/*    text-align: center;*/}
+            {/*    font-size: 2em;*/}
+            {/*    color: #333;*/}
+            {/*  }*/}
+            {/*`}</style>*/}
         </>
     );
 }
