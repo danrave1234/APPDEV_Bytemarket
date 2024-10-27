@@ -34,7 +34,10 @@ public class CustomerController {
     public List<CustomerEntity> getAllCustomer(){
         return customerService.getAllCustomer();
     }
-
+    @GetMapping("/getCustomerById/{id}")
+    public CustomerEntity getCustomerById(@PathVariable int id){
+        return customerService.getCustomerById(id);
+    }
     @PutMapping("/updateCustomer/{id}")
     public CustomerEntity updateCustomer(@PathVariable int id, @RequestBody CustomerEntity newCustomer){
         return customerService.updateCustomer(id, newCustomer);

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import './LoginModal.css';
+import { useEffect, useState } from 'react';
+import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
 
 const LoginModal = ({ show, closeModal }) => {
+    const { setIsLoggedIn } = useAuth(); // Use setuserid from AuthProvider
+    const { setUserId } = useAuth();
     const [loginData, setLoginData] = useState({
         username: '',
         password: ''
@@ -13,36 +15,34 @@ const LoginModal = ({ show, closeModal }) => {
         setLoginData({ ...loginData, [name]: value });
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
-        fetch('http://localhost:8080/api/customer/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: loginData.username,
-                password: loginData.password
-            }),
-        })
-            .then((response) => {
-                console.log('Response:', response);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log('Login successful:', data);
-                closeModal();
-            })
-            .catch((error) => {
-                console.error('Error logging in:', error);
-                setErrorMessage("Login failed. Please check your credentials.");
+        try {
+            const response = await fetch('http://localhost:8080/api/customer/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData),
             });
-    };
 
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            localStorage.setItem('token', data.token);  // Assuming 'data.token' holds the authentication token
+            console.log('Login successful:', data);
+            console.log(data.userid);
+            setIsLoggedIn(true);  // Set login status
+            setUserId(data.userid); // Use setuserid to set the userId
+            closeModal();
+        } catch (error) {
+            console.error('Error logging in:', error);
+            setErrorMessage("Login failed. Please check your credentials.");
+        }
+    };
 
     if (!show) {
         return null;

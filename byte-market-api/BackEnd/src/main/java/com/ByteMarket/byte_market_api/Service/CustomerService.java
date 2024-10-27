@@ -30,17 +30,19 @@ public class CustomerService {
     public List<CustomerEntity> getAllCustomer(){
         return customerRepository.findAll();
     }
+    public CustomerEntity getCustomerById(int id){
+        return customerRepository.findById(id).get();
+    }
     //update
     public CustomerEntity updateCustomer(int id, CustomerEntity newCustomer){
         CustomerEntity customer = customerRepository.findById(id).get();
-        customer.setBalance(newCustomer.getBalance());
-        customer.setUsername(customer.getUsername());
-        customer.setPassword(customer.getPassword());
-        customer.setFullname(customer.getFullname());
-        customer.setEmail(customer.getEmail());
-        customer.setPhonenumber(customer.getPhonenumber());
-        customer.setAddress(customer.getAddress());
-        customer.setDateofbirth(customer.getDateofbirth());
+        customer.setUsername(newCustomer.getUsername());
+        customer.setPassword(newCustomer.getPassword());
+        customer.setFullname(newCustomer.getFullname());
+        customer.setEmail(newCustomer.getEmail());
+        customer.setPhonenumber(newCustomer.getPhonenumber());
+        customer.setAddress(newCustomer.getAddress());
+        customer.setDateofbirth(newCustomer.getDateofbirth());
         return customerRepository.save(customer);
     }
     //delete

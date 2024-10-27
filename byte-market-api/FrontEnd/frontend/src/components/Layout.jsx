@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Route, Routes, useNavigate } from "react-router-dom";
 import SignUpModal from './SignUpModal.jsx';
 import LoginModal from './LoginModal.jsx';
 import VincentLogo from '../assets/VincentLogo3.png';
@@ -6,23 +7,31 @@ import profileIcon from '../assets/profileIcon.png';
 import arrow from '../assets/Arrow.png';
 import searchIcon from '../assets/searchIcon.png';
 import './Layout.css';
+import {useAuth} from "./AuthProvider.jsx";
 
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showModalSignUp, setShowModalSignUp] = useState(false);
     const [showModalLogin, setShowModalLogin] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // Adjust this according to your auth logic
 
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     const openModalSignUp = () => setShowModalSignUp(true);
     const closeModalSignUp = () => setShowModalSignUp(false);
     const openModalLogin = () => setShowModalLogin(true);
     const closeModalLogin = () => setShowModalLogin(false);
+    const navigate = useNavigate(); // Initialize navigate using the hook
+    const { isLoggedIn, logout } = useAuth();
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
+        logout();
         setShowDropdown(false);
     };
+    const handleProfile = () => {
+        navigate('/customer/userProfile');
+    }
+    const handleHistory = () => {
+        navigate('/customer/orderHistory');
+    }
 
     return (
         <>
@@ -40,10 +49,10 @@ function PageLayout({ children }) {
                             <ul>
                                 {isLoggedIn ? (
                                     <>
-                                        <li className="dropdownItem">Profile</li>
+                                        <li className="dropdownItem" onClick={handleProfile}>Profile</li>
                                         <li className="dropdownItem">Wishlist</li>
                                         <li className="dropdownItem">Cart</li>
-                                        <li className="dropdownItem">Order History</li>
+                                        <li className="dropdownItem" onClick={handleHistory}>Order History</li>
                                         <li className="dropdownItem" onClick={handleLogout}>Logout</li>
                                     </>
                                 ) : (

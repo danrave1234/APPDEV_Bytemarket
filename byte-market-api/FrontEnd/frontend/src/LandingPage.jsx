@@ -5,10 +5,11 @@ import ph1 from './assets/placeholderDan.png';
 import ph2 from './assets/placeholder2.png';
 import ph3 from './assets/placeholder3.png';
 import PageLayout from "./components/Layout.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 function LandingPage() {
     const [slideIndex, setSlideIndex] = useState(0);
-
+    const {userid} = useAuth();
 
     const slides = [       //img size 1450x200
         <img src={ph1} alt="logoNiAndri" />,
@@ -36,6 +37,7 @@ function LandingPage() {
     const goToSlide = (index) => {
         setSlideIndex(index);
     };
+    console.log("User ID: ", userid);
     return (
         <>
             <PageLayout>
