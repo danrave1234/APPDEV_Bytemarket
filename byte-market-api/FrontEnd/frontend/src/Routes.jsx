@@ -4,6 +4,7 @@ import UserProfile from "./UserProfile.jsx";
 import OrderHistory from "./OrderHistory.jsx";
 import AdminDashboard from "./AdminDashboard.jsx";
 import Store from "./Store.jsx";
+import CheckOut from "./CheckOut.jsx";
 
 export default function TheRoutes() {
     return (
@@ -13,6 +14,7 @@ export default function TheRoutes() {
             <Route path="/customer/orderHistory" element={<OrderHistory />}/>
             <Route path="/admin/dashboard" element={<AdminDashboard />}/>
             <Route path="/seller/store" element={<Store />}/>
+            <Route path="/customer/CheckOut" element={<CheckOut />}/>
         </Routes>
     )
 

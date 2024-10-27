@@ -48,7 +48,7 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
     public double getPrice() {
         return price;
     }
-
+    
     public void setPrice(double price) {
         this.price = price;
     }

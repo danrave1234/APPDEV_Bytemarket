@@ -6,10 +6,16 @@ import ph2 from './assets/placeholder2.png';
 import ph3 from './assets/placeholder3.png';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
+import {useNavigate} from "react-router-dom" ;
 
 function LandingPage() {
     const [slideIndex, setSlideIndex] = useState(0);
     const {userid, role} = useAuth();
+    const navigate = useNavigate();
+
+    const handlePrevious = () => { 
+        navigate("/customer/CheckOut");
+        };
 
     const slides = [       //img size 1450x200
         <img src={ph1} alt="logoNiAndri" />,
@@ -76,6 +82,7 @@ function LandingPage() {
                         <div className="grid-item">Josemar Pajares</div>
                         <div className="grid-item">Sir Busico</div>
                         <h1>WAW</h1>
+                        <button onClick={handlePrevious}> button </button>
                         <h1>WAW</h1>
                         <h1>WAW</h1>
                         <h1>WAW</h1>
