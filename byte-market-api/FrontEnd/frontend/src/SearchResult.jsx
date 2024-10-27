@@ -1,7 +1,10 @@
-import 'styles/SearchResult.css'
+import './styles/SearchResult.css'
 import PageLayout from "./components/Layout.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 function SearchResult() {
+    const {userid} = useAuth();
+
     return (
         <>
             <PageLayout>
@@ -17,3 +20,4 @@ function SearchResult() {
         </>
     )
 }
+export default SearchResult;

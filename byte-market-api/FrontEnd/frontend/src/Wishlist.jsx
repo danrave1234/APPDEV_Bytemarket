@@ -1,7 +1,10 @@
-import 'styles/Wishlist.css'
+import './styles/Wishlist.css'
 import PageLayout from "./components/Layout.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 function Wishlist() {
+    const {userid} = useAuth();
+
     return (
         <>
             <PageLayout>
@@ -17,3 +20,4 @@ function Wishlist() {
         </>
     )
 }
+export default Wishlist;

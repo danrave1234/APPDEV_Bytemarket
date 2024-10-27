@@ -1,6 +1,7 @@
 package com.ByteMarket.byte_market_api.Service;
 
 import com.ByteMarket.byte_market_api.Entity.AdminEntity;
+import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
 import com.ByteMarket.byte_market_api.Repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,14 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+
+    public AdminEntity authenticate(String username, String password) {
+        AdminEntity admin = adminRepository.findByUsername(username);
+        if(admin.getPassword().equals(password)) {
+            return admin;
+        }
+        return null;
+    }
 
     //Get
     public List<AdminEntity> getAllAdmins() {

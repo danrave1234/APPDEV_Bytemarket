@@ -1,7 +1,10 @@
-import 'styles/Store.css'
+import './styles/Store.css'
 import PageLayout from "./components/Layout.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 function Store() {
+    const {userid} = useAuth();
+
     return (
         <>
             <PageLayout>
@@ -17,3 +20,4 @@ function Store() {
         </>
     )
 }
+export default Store;

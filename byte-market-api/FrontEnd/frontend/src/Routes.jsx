@@ -2,6 +2,8 @@ import {Route, Routes} from "react-router-dom";
 import LandingPage from "./LandingPage.jsx";
 import UserProfile from "./UserProfile.jsx";
 import OrderHistory from "./OrderHistory.jsx";
+import AdminDashboard from "./AdminDashboard.jsx";
+import Store from "./Store.jsx";
 
 export default function TheRoutes() {
     return (
@@ -9,6 +11,8 @@ export default function TheRoutes() {
             <Route path="/" element={<LandingPage />}/>
             <Route path="/customer/userProfile" element={<UserProfile />}/>
             <Route path="/customer/orderHistory" element={<OrderHistory />}/>
+            <Route path="/admin/dashboard" element={<AdminDashboard />}/>
+            <Route path="/seller/store" element={<Store />}/>
         </Routes>
     )
 

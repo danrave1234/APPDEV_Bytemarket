@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
+import './SignUpModal.css';
 
 const LoginModal = ({ show, closeModal }) => {
     const { setIsLoggedIn } = useAuth(); // Use setuserid from AuthProvider
@@ -20,7 +21,7 @@ const LoginModal = ({ show, closeModal }) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8080/api/customer/auth/login', {
+            const response = await fetch('http://localhost:8080/api/admin/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ const LoginModal = ({ show, closeModal }) => {
         <div className="modal-overlay">
             <div className="modal-box">
                 <button className="close-button" onClick={closeModal}>X</button>
-                <h2>Login | ByteMarket</h2>
+                <h2>Login | ByteMarket Admin</h2>
                 <form onSubmit={handleLogin}>
                     <input
                         type="text"

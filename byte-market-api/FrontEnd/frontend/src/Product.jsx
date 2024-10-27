@@ -1,7 +1,10 @@
-import 'styles/Product.css'
+import './styles/Product.css'
 import PageLayout from "./components/Layout.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 function Product() {
+    const {userid} = useAuth();
+
     return (
         <>
             <PageLayout>
@@ -17,3 +20,4 @@ function Product() {
         </>
     )
 }
+export default Product;

@@ -164,41 +164,41 @@ footer {
     max-width: 100%;
 }
 
-footer > div {
+footer > .footer-div {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     max-width: 1200px;
 }
 
-footer div > div {
+.footer-div > div {
     flex: 1;
     min-width: 200px;
     padding: 1rem;
 }
 
-footer h4 {
+.footer-div h4 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: #ffcccb;
 }
 
-footer ul {
+.footer-div ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-footer li {
+.footer-div li {
     margin: 0.5rem 0;
 }
 
-footer li a {
+.footer-div li a {
     color: lightgray;
     text-decoration: none;
     transition: color 0.3s;
 }
 
-footer li a:hover {
+.footer-div li a:hover {
     color: #ff6f61;
 }

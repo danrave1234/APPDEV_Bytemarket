@@ -1,7 +1,10 @@
-import 'styles/Rating.css'
+import './styles/Rating.css'
 import PageLayout from "./components/Layout.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 function Rating() {
+    const {userid} = useAuth();
+
     return (
         <>
             <PageLayout>
@@ -17,3 +20,4 @@ function Rating() {
         </>
     )
 }
+export default Rating;

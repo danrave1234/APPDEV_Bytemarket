@@ -1,5 +1,6 @@
 package com.ByteMarket.byte_market_api.Service;
 
+import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
 import com.ByteMarket.byte_market_api.Entity.SellerEntity;
 import com.ByteMarket.byte_market_api.Entity.TransactionEntity;
 import com.ByteMarket.byte_market_api.Repository.SellerRepository;
@@ -13,6 +14,13 @@ public class SellerService {
     @Autowired
     private SellerRepository sellerRepository;
 
+    public SellerEntity authenticate(String username, String password) {
+        SellerEntity seller = sellerRepository.findByUsername(username);
+        if(seller.getPassword().equals(password)) {
+            return seller;
+        }
+        return null;
+    }
     //Get
     public List<SellerEntity> getAllSeller(){
         return sellerRepository.findAll();

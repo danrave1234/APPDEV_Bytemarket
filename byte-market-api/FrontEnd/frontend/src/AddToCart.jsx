@@ -1,7 +1,10 @@
-import 'styles/AddToCart.css';
+import './styles/AddToCart.css';
 import PageLayout from "./components/Layout.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 function AddToCart() {
+    const {userid} = useAuth();
+
     return (
         <>
             <PageLayout>
@@ -17,3 +20,4 @@ function AddToCart() {
         </>
     )
 }
+export default AddToCart;

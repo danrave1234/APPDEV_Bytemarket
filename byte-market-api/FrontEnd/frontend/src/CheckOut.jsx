@@ -1,7 +1,10 @@
-import 'styles/CheckOut.css'
+import './styles/CheckOut.css'
 import PageLayout from "./components/Layout.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 function CheckOut() {
+    const {userid} = useAuth();
+
     return (
         <>
             <PageLayout>
@@ -17,3 +20,4 @@ function CheckOut() {
         </>
     )
 }
+export default CheckOut;

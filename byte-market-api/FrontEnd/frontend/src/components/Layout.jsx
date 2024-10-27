@@ -8,22 +8,37 @@ import arrow from '../assets/Arrow.png';
 import searchIcon from '../assets/searchIcon.png';
 import './Layout.css';
 import {useAuth} from "./AuthProvider.jsx";
+import LoginModalSeller from "./LoginModalSeller.jsx";
+import LoginModalAdmin from "./LoginModalAdmin.jsx";
 
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showModalSignUp, setShowModalSignUp] = useState(false);
     const [showModalLogin, setShowModalLogin] = useState(false);
 
+    const [showModalSignUpSeller, setShowModalSignUpSeller] = useState(false);
+    const [showModalLoginSeller, setShowModalLoginSeller] = useState(false);
+
+    const [showModalSignUpAdmin, setShowModalSignUpAdmin] = useState(false);
+    const [showModalLoginAdmin, setShowModalLoginAdmin] = useState(false);
+
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     const openModalSignUp = () => setShowModalSignUp(true);
     const closeModalSignUp = () => setShowModalSignUp(false);
     const openModalLogin = () => setShowModalLogin(true);
     const closeModalLogin = () => setShowModalLogin(false);
+
+    const openModalLoginSeller = () => setShowModalLoginSeller(true);
+    const closeModalLoginSeller = () => setShowModalLoginSeller(false);
+
+    const openModalLoginAdmin = () => setShowModalLoginAdmin(true);
+    const closeModalLoginAdmin = () => setShowModalLoginAdmin(false);
     const navigate = useNavigate(); // Initialize navigate using the hook
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, role} = useAuth();
 
     const handleLogout = () => {
         logout();
+        navigate("/");
         setShowDropdown(false);
     };
     const handleProfile = () => {
@@ -32,7 +47,15 @@ function PageLayout({ children }) {
     const handleHistory = () => {
         navigate('/customer/orderHistory');
     }
+    const handleStore = () => {
+        navigate('/seller/store');
+    }
+    const handleAdminDashboard = () => {
+        navigate('/admin/dashboard');
+    }
+    const handleSellerLogin = () => {
 
+    }
     return (
         <>
             <div className="containerLayout1">
@@ -50,9 +73,19 @@ function PageLayout({ children }) {
                                 {isLoggedIn ? (
                                     <>
                                         <li className="dropdownItem" onClick={handleProfile}>Profile</li>
-                                        <li className="dropdownItem">Wishlist</li>
-                                        <li className="dropdownItem">Cart</li>
-                                        <li className="dropdownItem" onClick={handleHistory}>Order History</li>
+                                        {role === 'Customer' && (
+                                            <>
+                                                <li className="dropdownItem">Wishlist</li>
+                                                <li className="dropdownItem">Cart</li>
+                                                <li className="dropdownItem" onClick={handleHistory}>Order History</li>
+                                            </>
+                                        )}
+                                        {role === 'Seller' && (
+                                            <li className="dropdownItem" onClick={handleStore}>Store</li>
+                                        )}
+                                        {role === 'Admin' && (
+                                            <li className="dropdownItem" onClick={handleAdminDashboard}>Dashboard</li>
+                                        )}
                                         <li className="dropdownItem" onClick={handleLogout}>Logout</li>
                                     </>
                                 ) : (
@@ -66,27 +99,28 @@ function PageLayout({ children }) {
                     )}
                 </header>
             </div>
-            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp} />
-            <LoginModal show={showModalLogin} closeModal={closeModalLogin} />
+            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp}/>
+            <LoginModal show={showModalLogin} closeModal={closeModalLogin}/>
 
             <div className="containerLayout2">
                 <div className="searchBar">
-                    <input type="text" placeholder="Search..." className="searchBar" />
+                    <input type="text" placeholder="Search..." className="searchBar"/>
                     <button className="searchButton">
-                        <img src={searchIcon} alt="Search Icon" className="searchIcon" />
+                        <img src={searchIcon} alt="Search Icon" className="searchIcon"/>
                     </button>
                 </div>
             </div>
             <main>{children}</main>
 
             <footer>
-                <div>
+                <div className="footer-div">
                     <div>
-                        <img src={VincentLogo} alt="ByteMarket Logo" className="footer-logo" />
-                        <p>Your one-stop marketplace for quality products. Discover, shop, and enjoy fast, secure transactions.</p>
+                        <img src={VincentLogo} alt="ByteMarket Logo" className="footer-logo"/>
+                        <p>Your one-stop marketplace for quality products. Discover, shop, and enjoy fast, secure
+                            transactions.</p>
                     </div>
 
-                    <div style={{ flex: 1, minWidth: "200px", padding: "10px" }}>
+                    <div style={{flex: 1, minWidth: "200px", padding: "10px"}}>
                         <h4>Quick Links</h4>
                         <ul>
                             <li><a href="#">Home</a></li>
@@ -109,12 +143,22 @@ function PageLayout({ children }) {
                     <div>
                         <h4>Seller Resources</h4>
                         <ul>
-                            <li><a href="#">Seller Login</a></li>
+                            <li><a onClick={openModalLoginSeller}>Seller Login</a></li>
                             <li><a href="#">Become a Seller</a></li>
                             <li><a href="#">Seller Policies</a></li>
                             <li><a href="#">Account Support</a></li>
                         </ul>
                     </div>
+                    {/*<SignUpModalSeller show={showModalSignUp} closeModal={closeModalSignUp}/>*/}
+                    <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller}/>
+                    <div>
+                        <h4>Admin</h4>
+                        <ul>
+                            <li><a onClick={openModalLoginAdmin}>Admin Login</a></li>
+                        </ul>
+                    </div>
+                    <LoginModalAdmin show={showModalLoginAdmin} closeModal={closeModalLoginAdmin}/>
+
                 </div>
             </footer>
         </>

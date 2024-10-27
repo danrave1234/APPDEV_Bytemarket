@@ -1,6 +1,7 @@
 package com.ByteMarket.byte_market_api.Controller;
 
 import com.ByteMarket.byte_market_api.Entity.AdminEntity;
+import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
 import com.ByteMarket.byte_market_api.Entity.SellerEntity;
 import com.ByteMarket.byte_market_api.Service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,16 @@ public class SellerController {
 @Autowired
 SellerService sellerService;
 
+    @PostMapping("/auth/login")
+    public SellerEntity login(@RequestBody CustomerEntity newSeller){
+        SellerEntity seller = sellerService.authenticate(newSeller.getUsername(), newSeller.getPassword());
+
+        if(seller != null){
+            return seller;
+        }else{
+            throw new RuntimeException("Invalid username or password");
+        }
+    }
     @PostMapping("/addSeller")
     public SellerEntity addSeller(@RequestBody SellerEntity newSeller) {
         newSeller.setRegistration(LocalDate.now());
