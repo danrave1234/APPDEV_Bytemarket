@@ -26,7 +26,7 @@ public class SellerEntity extends UserEntity {
 
     //Relation
     @OneToMany(mappedBy = "seller")
-    @JsonIgnoreProperties({"carts", "seller"})
+    @JsonIgnoreProperties({"carts", "seller", })
     private List<ProductEntity> products;
     public String getSellername() {
         return sellername;
@@ -58,4 +58,5 @@ public class SellerEntity extends UserEntity {
     public void setProducts(List<ProductEntity> products) {
         this.products = products;
     }
+
 }

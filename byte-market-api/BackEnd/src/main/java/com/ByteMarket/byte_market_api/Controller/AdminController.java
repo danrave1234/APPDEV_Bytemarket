@@ -129,7 +129,7 @@ public class AdminController {
     public AdminEntity updateAdminById(@PathVariable int id, @RequestBody AdminEntity newadmin) {
         return adminService.updateAdmin(id, newadmin);
     }
-    @DeleteMapping("/deleteAdmin")
+    @DeleteMapping("/deleteAdmin/{id}")
     public void deleteAdminById(@PathVariable int id) {
         adminService.deleteAdmin(id);
     }

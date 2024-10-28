@@ -25,6 +25,9 @@ public class SellerService {
     public List<SellerEntity> getAllSeller(){
         return sellerRepository.findAll();
     }
+    public SellerEntity getSellerById(int id) {
+        return sellerRepository.findById(id).get();
+    }
     //Add
     public SellerEntity addSeller(SellerEntity seller){
         return sellerRepository.save(seller);
@@ -35,9 +38,10 @@ public class SellerService {
         SellerEntity seller = sellerRepository.findById(id).get();
         seller.setSellername(newSeller.getSellername());
         seller.setStorename(newSeller.getStorename());
-        seller.setBalance(newSeller.getBalance());
+        seller.setBalance(seller.getBalance());
 
         seller.setUsername(newSeller.getUsername());
+
         seller.setPassword(newSeller.getPassword());
         seller.setFullname(newSeller.getFullname());
         seller.setEmail(newSeller.getEmail());

@@ -70,13 +70,22 @@ function PageLayout({ children }) {
                     <div className="logoAndName">
                         <a onClick={handleHome}><img src={VincentLogo} alt="ByteMarket Logo" className="logo"/></a>
                     </div>
-                    <div className="profileBar" onClick={toggleDropdown}>
-                        <img src={arrow} alt="Arrow" className="profileArrow" />
-                        <img src={profileIcon} alt="Profile Icon" className="profileIcon" />
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        {/*{isLoggedIn && role === 'Seller' && (*/}
+                            <div className="balance">
+                                balance
+                                {/*Balance: ₱{user.balance.toFixed(2)}*/}
+                            </div>
+                        {/*)}*/}
+                        <div className="profileBar" onClick={toggleDropdown}>
+                            <img src={arrow} alt="Arrow" className="profileArrow"/>
+                            <img src={profileIcon} alt="Profile Icon" className="profileIcon"/>
+                        </div>
                     </div>
+
                     {showDropdown && (
                         <div className="dropdown">
-                            <ul>
+                        <ul>
                                 {isLoggedIn ? (
                                     <>
                                         <li className="dropdownItem" onClick={handleProfile}>Profile</li>

@@ -38,6 +38,10 @@ SellerService sellerService;
     public List<SellerEntity> getAllSeller(){
         return sellerService.getAllSeller();
     }
+    @GetMapping("/getSellerById/{id}")
+    public SellerEntity getSellerById(@PathVariable int id){
+        return sellerService.getSellerById(id);
+    }
 
     //Not sure if this works, check the sellerService
     @PutMapping("/updateSeller/{id}")
