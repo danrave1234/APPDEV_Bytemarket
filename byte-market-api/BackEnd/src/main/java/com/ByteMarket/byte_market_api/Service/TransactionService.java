@@ -30,6 +30,8 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
+
+
     public TransactionEntity getTransactionById(int id) {
         return transactionRepository.findById(id).orElse(null);
     }
@@ -44,10 +46,10 @@ public class TransactionService {
 
         double totalOrderPrice = order.getTotalprice();
         String transactionType = transaction.getTransactiontype();
-
-        if (totalOrderPrice <= 0) {
-            throw new IllegalArgumentException("Amount must be greater than zero");
+        if (transactionType == null) {
+            transactionType = "PURCHASE";  // or another appropriate default
         }
+        transaction.setTransactiontype(transactionType);
 
         if (!isValidTransactionType(transactionType)) {
             throw new IllegalArgumentException("Invalid transaction type");

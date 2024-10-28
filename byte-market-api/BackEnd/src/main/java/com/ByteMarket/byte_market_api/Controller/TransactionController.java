@@ -19,6 +19,7 @@ public class TransactionController {
         return transactionService.getAllTransaction();
     }
 
+
     @GetMapping("/getTransactionsById/{id}")
     public TransactionEntity getTransactionById(@PathVariable int id) {
         return transactionService.getTransactionById(id);

@@ -1,102 +1,111 @@
-import PageLayout from "./components/Layout.jsx";
+// CheckoutPage.jsx
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useAuth } from "./components/AuthProvider.jsx";
-import { useEffect, useState } from 'react';
+import './styles/Checkout.css';
+import PageLayout from "./components/Layout.jsx";
 
-function CheckOut() {
+const Checkout = () => {
     const { userid } = useAuth();
-    const [transactions, setTransactions] = useState([]);
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [transactionStatus, setTransactionStatus] = useState(null); // To show feedback for each transaction
 
-    // Fetch transactions for the logged-in user
     useEffect(() => {
-        const fetchTransactions = async () => {
-            try {
-                // Replace with actual API endpoint to fetch transactions
-                const response = await fetch(`/api/transactions?userid=${userid}`);
-                const data = await response.json();
-                setTransactions(data);
-            } catch (error) {
-                console.error("Error fetching transactions:", error);
-            }
-        };
-
-        fetchTransactions();
+        if (userid) {
+            const fetchUserOrders = async () => {
+                try {
+                    setLoading(true);
+                    const response = await axios.get(`http://localhost:8080/api/order/getAllOrder`);
+                    const userOrders = response.data.filter(order => order.customer.userid === userid);
+                    setOrders(userOrders);
+                } catch (error) {
+                    console.error('Error fetching orders:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchUserOrders();
+        }
     }, [userid]);
 
+    const handleCheckout = async (order) => {
+        const { orderid, customer, orderItems } = order;
+
+        try {
+            for (const item of orderItems) {
+                const sellerId = item.product.seller.userid;
+                if (!sellerId) {
+                    setTransactionStatus({
+                        orderid,
+                        status: 'error',
+                        message: 'No seller found for this item in the order.',
+                    });
+                    continue;
+                }
+
+                const transaction = {
+                    transactiontype: "purchase", // Set a valid transaction type
+                };
+
+
+                const response = await axios.post(
+                    `http://localhost:8080/api/transaction/addTransaction/${customer.userid}/${sellerId}/${orderid}`,
+                    transaction
+                );
+
+                setTransactionStatus({
+                    orderid,
+                    status: 'success',
+                    message: `Transaction for Order ${orderid} with Seller ${sellerId} completed successfully!`,
+                });
+
+                // Update local order status to 'Completed'
+                setOrders((prevOrders) =>
+                    prevOrders.map((o) =>
+                        o.orderid === orderid ? { ...o, orderstatus: 'Completed' } : o
+                    )
+                );
+            }
+        } catch (error) {
+            console.error('Error during transaction:', error);
+            setTransactionStatus({
+                orderid,
+                status: 'error',
+                message: `Error processing transaction for Order ${orderid}.`,
+            });
+        }
+    };
+
+    if (loading) return <p>Loading your orders...</p>;
+    if (orders.length === 0) return <p>You have no orders available for checkout.</p>;
+
     return (
-        <>
-            <PageLayout>
-                <div className="container">
-                    <h2>My E-Wallet Transactions</h2>
-                    <table className="transaction-table">
-                        <thead>
-                            <tr>
-                                <th>Transaction ID</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.length > 0 ? (
-                                transactions.map((transaction) => (
-                                    <tr key={transaction.TransactionID}>
-                                        <td>{transaction.TransactionID}</td>
-                                        <td>{new Date(transaction.TransactionDate).toLocaleDateString()}</td>
-                                        <td>{transaction.Amount}</td>
-                                        <td>{transaction.TransactionType}</td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="4" className="no-transactions">No transactions found.</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            </PageLayout>
-
-            {/* Inline CSS */}
-            <style jsx>{`
-                .container {
-                    padding: 20px;
-                    font-family: Arial, sans-serif;
-                }
-
-                h2 {
-                    text-align: center;
-                    color: #333;
-                    margin-bottom: 20px;
-                }
-
-                .transaction-table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
-
-                .transaction-table th, .transaction-table td {
-                    padding: 12px;
-                    border: 1px solid #ddd;
-                    text-align: left;
-                }
-
-                .transaction-table th {
-                    background-color: #f4f4f4;
-                    font-weight: bold;
-                }
-
-                .transaction-table tr:nth-child(even) {
-                    background-color: #f9f9f9;
-                }
-
-                .no-transactions {
-                    text-align: center;
-                    color: #888;
-                    padding: 20px;
-                }
-            `}</style>
-        </>
+        <PageLayout>
+            <div className="checkout-page">
+                <h3>Your Orders</h3>
+                {orders.map((order) => (
+                    <div key={order.orderid} className="order-card">
+                        <p>Order ID: {order.orderid}</p>
+                        <p>Status: {order.orderstatus}</p>
+                        <p>Total Price: ${order.totalprice.toFixed(2)}</p>
+                        {order.orderstatus === 'Pending' ? (
+                            <button onClick={() => handleCheckout(order)}>
+                                Checkout
+                            </button>
+                        ) : (
+                            <p>This order has already been processed.</p>
+                        )}
+                    </div>
+                ))}
+                {transactionStatus && (
+                    <div className={`transaction-feedback ${transactionStatus.status}`}>
+                        {transactionStatus.message}
+                    </div>
+                )}
+            </div>
+        </PageLayout>
     );
-}
+};
 
-export default CheckOut;
+export default Checkout;
