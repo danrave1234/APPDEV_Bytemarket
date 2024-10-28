@@ -35,6 +35,9 @@ header {
     /*margin-left: 0.5rem;*/
     font-size: 1.2rem;
 }
+.logoAndName a {
+    cursor: pointer;
+}
 .logo {
     width: 4vw;
     min-width: 50px;

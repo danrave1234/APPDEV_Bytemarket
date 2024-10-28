@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SignUpModal.css';
 
-const SignUpModal = ({ show, closeModal }) => {
+const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -59,6 +59,7 @@ const SignUpModal = ({ show, closeModal }) => {
         })
         .then((data) => {
           console.log('Customer added successfully:', data);
+          toggleDropdown();
           closeModal();
         })
         .catch((error) => {

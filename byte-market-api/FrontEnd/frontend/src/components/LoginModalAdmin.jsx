@@ -3,7 +3,7 @@ import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
 import './SignUpModal.css';
 import {useNavigate} from "react-router-dom";
 
-const LoginModal = ({ show, closeModal }) => {
+const LoginModal = ({ show, closeModal, toggleDropdown }) => {
     const { setIsLoggedIn } = useAuth(); // Use setuserid from AuthProvider
     const { setUserId, setRole } = useAuth();
     const navigate = useNavigate();
@@ -42,6 +42,7 @@ const LoginModal = ({ show, closeModal }) => {
             setIsLoggedIn(true);  // Set login status
             setUserId(data.userid); // Use setuserid to set the userId
             setRole(data.role);
+            toggleDropdown();
             closeModal();
         } catch (error) {
             console.error('Error logging in:', error);
