@@ -12,6 +12,7 @@
   "homepage": "/",
   "dependencies": {
     "axios": "^1.7.7",
+    "cors": "^2.8.5",
     "frontend": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
