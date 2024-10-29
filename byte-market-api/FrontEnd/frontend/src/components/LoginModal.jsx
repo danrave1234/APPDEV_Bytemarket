@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
 
-const LoginModal = ({ show, closeModal }) => {
-    const { setIsLoggedIn } = useAuth(); // Use setuserid from AuthProvider
-    const { setUserId, setRole } = useAuth();
+const LoginModal = ({ show, closeModal, toggleDropdown}) => {
+    const {setIsLoggedIn, setUserId, setRole } = useAuth();
 
     const [loginData, setLoginData] = useState({
         username: '',
@@ -34,11 +33,14 @@ const LoginModal = ({ show, closeModal }) => {
 
             const data = await response.json();
             localStorage.setItem('token', data.token);  // Assuming 'data.token' holds the authentication token
+            localStorage.setItem('userId', data.userid);
+            localStorage.setItem('role', data.role);
             console.log('Login successful:', data);
             console.log(data.userid);
-            setIsLoggedIn(true);  // Set login status
-            setUserId(data.userid); // Use setuserid to set the userId
+            setIsLoggedIn(true);
+            setUserId(data.userid);
             setRole(data.role);
+            toggleDropdown();
             closeModal();
         } catch (error) {
             console.error('Error logging in:', error);

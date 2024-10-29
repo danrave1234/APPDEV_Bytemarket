@@ -11,9 +11,9 @@ import {useAuth} from "./AuthProvider.jsx";
 import LoginModalSeller from "./LoginModalSeller.jsx";
 import LoginModalAdmin from "./LoginModalAdmin.jsx";
 
-
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
+
     const [showModalSignUp, setShowModalSignUp] = useState(false);
     const [showModalLogin, setShowModalLogin] = useState(false);
 
@@ -22,6 +22,7 @@ function PageLayout({ children }) {
 
     const [showModalSignUpAdmin, setShowModalSignUpAdmin] = useState(false);
     const [showModalLoginAdmin, setShowModalLoginAdmin] = useState(false);
+
 
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     const openModalSignUp = () => setShowModalSignUp(true);
@@ -42,6 +43,10 @@ function PageLayout({ children }) {
         navigate("/");
         setShowDropdown(false);
     };
+    const handleHome = () => {
+        navigate("/");
+        setShowDropdown(false);
+    };
     const handleProfile = () => {
         navigate('/customer/userProfile');
     }
@@ -54,34 +59,41 @@ function PageLayout({ children }) {
     const handleAdminDashboard = () => {
         navigate('/admin/dashboard');
     }
-    const handleSellerLogin = () => {
+    const handleCheckoOut = () => {
+        navigate('/customer/CheckOut');
+    }
 
-    }
-    const handleAddToCart = () => {
-        console.log("Navigating to AddToCart");
-        navigate('/customer/addToCart');
-    }
     return (
         <>
             <div className="containerLayout1">
                 <header className="header">
                     <div className="logoAndName">
-                        <img src={VincentLogo} alt="ByteMarket Logo" className="logo" />
+                        <a onClick={handleHome}><img src={VincentLogo} alt="ByteMarket Logo" className="logo"/></a>
                     </div>
-                    <div className="profileBar" onClick={toggleDropdown}>
-                        <img src={arrow} alt="Arrow" className="profileArrow" />
-                        <img src={profileIcon} alt="Profile Icon" className="profileIcon" />
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        {/*{isLoggedIn && role === 'Seller' && (*/}
+                            <div className="balance">
+                                balance
+                                {/*Balance: ₱{user.balance.toFixed(2)}*/}
+                            </div>
+                        {/*)}*/}
+                        <div className="profileBar" onClick={toggleDropdown}>
+                            <img src={arrow} alt="Arrow" className="profileArrow"/>
+                            <img src={profileIcon} alt="Profile Icon" className="profileIcon"/>
+                        </div>
                     </div>
+
                     {showDropdown && (
                         <div className="dropdown">
-                            <ul>
+                        <ul>
                                 {isLoggedIn ? (
                                     <>
                                         <li className="dropdownItem" onClick={handleProfile}>Profile</li>
                                         {role === 'Customer' && (
                                             <>
                                                 <li className="dropdownItem">Wishlist</li>
-                                                <li className="dropdownItem" onClick={handleAddToCart}>Cart</li>
+                                                <li className="dropdownItem">Cart</li>
+                                                <li className="dropdownItem" onClick={handleCheckoOut}>CheckOut</li>
                                                 <li className="dropdownItem" onClick={handleHistory}>Order History</li>
                                             </>
                                         )}
@@ -104,8 +116,8 @@ function PageLayout({ children }) {
                     )}
                 </header>
             </div>
-            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp}/>
-            <LoginModal show={showModalLogin} closeModal={closeModalLogin}/>
+            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp} toggleDropdown={toggleDropdown}/>
+            <LoginModal show={showModalLogin} closeModal={closeModalLogin} toggleDropdown={toggleDropdown}/>
 
             <div className="containerLayout2">
                 <div className="searchBar">
@@ -155,14 +167,14 @@ function PageLayout({ children }) {
                         </ul>
                     </div>
                     {/*<SignUpModalSeller show={showModalSignUp} closeModal={closeModalSignUp}/>*/}
-                    <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller}/>
+                    <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller} toggleDropdown={toggleDropdown}/>
                     <div>
                         <h4>Admin</h4>
                         <ul>
                             <li><a onClick={openModalLoginAdmin}>Admin Login</a></li>
                         </ul>
                     </div>
-                    <LoginModalAdmin show={showModalLoginAdmin} closeModal={closeModalLoginAdmin}/>
+                    <LoginModalAdmin show={showModalLoginAdmin} closeModal={closeModalLoginAdmin} toggleDropdown={toggleDropdown}/>
 
                 </div>
             </footer>

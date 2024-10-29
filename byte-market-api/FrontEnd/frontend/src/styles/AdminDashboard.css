@@ -11,7 +11,8 @@ html, body {
 }
 
 .sidebar {
-    background-color: #5b0b0b;
+    border-top-right-radius: 5rem;
+    background-color: grey;
     color: #fff;
     width: 250px;
     padding: 20px;

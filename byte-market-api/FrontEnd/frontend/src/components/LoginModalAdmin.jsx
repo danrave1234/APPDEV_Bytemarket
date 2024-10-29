@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
 import './SignUpModal.css';
+import {useNavigate} from "react-router-dom";
 
-const LoginModal = ({ show, closeModal }) => {
+const LoginModal = ({ show, closeModal, toggleDropdown }) => {
     const { setIsLoggedIn } = useAuth(); // Use setuserid from AuthProvider
     const { setUserId, setRole } = useAuth();
+    const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
         username: '',
@@ -19,7 +21,7 @@ const LoginModal = ({ show, closeModal }) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
+        navigate('/admin/dashboard');
         try {
             const response = await fetch('http://localhost:8080/api/admin/auth/login', {
                 method: 'POST',
@@ -40,6 +42,7 @@ const LoginModal = ({ show, closeModal }) => {
             setIsLoggedIn(true);  // Set login status
             setUserId(data.userid); // Use setuserid to set the userId
             setRole(data.role);
+            toggleDropdown();
             closeModal();
         } catch (error) {
             console.error('Error logging in:', error);
