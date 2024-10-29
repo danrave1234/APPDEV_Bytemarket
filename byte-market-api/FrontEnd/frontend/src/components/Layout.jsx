@@ -11,6 +11,7 @@ import {useAuth} from "./AuthProvider.jsx";
 import LoginModalSeller from "./LoginModalSeller.jsx";
 import LoginModalAdmin from "./LoginModalAdmin.jsx";
 
+
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showModalSignUp, setShowModalSignUp] = useState(false);
@@ -56,6 +57,10 @@ function PageLayout({ children }) {
     const handleSellerLogin = () => {
 
     }
+    const handleAddToCart = () => {
+        console.log("Navigating to AddToCart");
+        navigate('/customer/addToCart');
+    }
     return (
         <>
             <div className="containerLayout1">
@@ -76,7 +81,7 @@ function PageLayout({ children }) {
                                         {role === 'Customer' && (
                                             <>
                                                 <li className="dropdownItem">Wishlist</li>
-                                                <li className="dropdownItem">Cart</li>
+                                                <li className="dropdownItem" onClick={handleAddToCart}>Cart</li>
                                                 <li className="dropdownItem" onClick={handleHistory}>Order History</li>
                                             </>
                                         )}
