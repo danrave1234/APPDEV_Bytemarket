@@ -62,6 +62,9 @@ function PageLayout({ children }) {
     const handleCheckoOut = () => {
         navigate('/customer/CheckOut');
     }
+    const handleAddToCart = () => {
+            navigate('/customer/addToCart');
+        }
 
     return (
         <>
@@ -92,7 +95,7 @@ function PageLayout({ children }) {
                                         {role === 'Customer' && (
                                             <>
                                                 <li className="dropdownItem">Wishlist</li>
-                                                <li className="dropdownItem">Cart</li>
+                                                <li className="dropdownItem" onClick={handleAddToCart}>Cart</li>
                                                 <li className="dropdownItem" onClick={handleCheckoOut}>CheckOut</li>
                                                 <li className="dropdownItem" onClick={handleHistory}>Order History</li>
                                             </>
