@@ -22,16 +22,16 @@ function AdminDashboard() {
 
         switch (selectedOption) {
             case 'Products':
-                endpoint = '/api/admin/getAllProduct';
+                endpoint = 'http://localhost:8080/api/admin/getAllProduct';
                 break;
             case 'Customers':
-                endpoint = '/api/admin/getAllCustomer';
+                endpoint = 'http://localhost:8080/api/admin/getAllCustomer';
                 break;
             case 'Sellers':
-                endpoint = '/api/admin/getAllSellers';
+                endpoint = 'http://localhost:8080/api/admin/getAllSellers';
                 break;
             case 'Orders':
-                endpoint = '/api/admin/getAllOrder';
+                endpoint = 'http://localhost:8080/api/admin/getAllOrder';
                 break;
             default:
                 break;

@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/admin")
 public class AdminController {
     @Autowired
