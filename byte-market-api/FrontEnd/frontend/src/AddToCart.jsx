@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {Route, Routes, useNavigate} from 'react-router-dom';
 import './styles/AddToCart.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
@@ -8,6 +9,11 @@ function AddToCart() {
     const { userid } = useAuth(); // Assuming user ID comes from context
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
+    const handleCheckOut = () => {
+        navigate('/customer/CheckOut');
+    }
 
     useEffect(() => {
         // Fetch cart items for the user when the component mounts
@@ -108,6 +114,7 @@ function AddToCart() {
                     ))
                 )}
             </div>
+            <button className="checkout-button" onClick={handleCheckOut}>Proceed to Checkout</button>
         </PageLayout>
     );
 }
