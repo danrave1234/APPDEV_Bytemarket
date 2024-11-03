@@ -6,7 +6,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'C:/Users/Danrave/Desktop/School/APPDEV_Final Project/byte-market-api/BackEnd/src/main/resources/static',
+    outDir: 'C:/Users/User/IdeaProjects/APPDEV_Final_Project/byte-market-api/BackEnd/src/main/resources/static/',
     // Set the output directory to the Spring Boot static folder
     emptyOutDir: true,
   }

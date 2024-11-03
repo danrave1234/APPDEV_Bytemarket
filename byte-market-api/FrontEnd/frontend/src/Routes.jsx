@@ -6,6 +6,7 @@ import AdminDashboard from "./AdminDashboard.jsx";
 import Store from "./Store.jsx";
 import CheckOut from "./CheckOut.jsx";
 import AddToCart from "./AddToCart.jsx";
+import Wishlist from "./Wishlist.jsx"
 
 export default function TheRoutes() {
     return (
@@ -17,6 +18,7 @@ export default function TheRoutes() {
             <Route path="/seller/store" element={<Store />}/>
             <Route path="/customer/CheckOut" element={<CheckOut />}/>
             <Route path="/customer/addToCart" element={<AddToCart />}/>
+            <Route path="/customer/wishlists" element={<Wishlist />}/>
         </Routes>
     )
 
