@@ -16,12 +16,11 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
     public OrderItemEntity() {
         super();
     }
-    public OrderItemEntity(OrderEntity order,  int quantity, double price) {
-        super();
-        this.order=order;
+    public OrderItemEntity(ProductEntity product, int quantity) {
+        this.product = product;
         this.quantity = quantity;
-        this.price = price;
     }
+
 
     // Relationships
     @ManyToOne

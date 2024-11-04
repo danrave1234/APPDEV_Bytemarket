@@ -6,6 +6,7 @@
     import com.fasterxml.jackson.annotation.JsonProperty;
     import jakarta.persistence.*;
 
+    import java.util.ArrayList;
     import java.util.List;
 
     @Entity
@@ -25,6 +26,7 @@
             super();
             this.totalprice = price;
             this.orderstatus = status;
+            calculateTotalPrice();
         }
         // Relationships
         @ManyToOne
@@ -34,7 +36,7 @@
 
         @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
         @JsonIgnoreProperties({"order", "orderItems", "wishlists"}) // Prevent recursion in both `order` and `orderItems`
-        private List<OrderItemEntity> orderItems;
+        private List<OrderItemEntity> orderItems = new ArrayList<>();
 
 
 
