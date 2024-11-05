@@ -17,18 +17,20 @@ public class ProductEntity {
     private double price;
     private int quantity;
     private String category;
+    private String description;
     @Lob
     private byte[] image;
 
     public ProductEntity() {
         super();
     }
-    public ProductEntity(String productname, double price, int quantity, String category) {
+    public ProductEntity(String productname, double price, int quantity, String category, String description) {
         super();
         this.productname = productname;
         this.price = price;
         this.quantity = quantity;
         this.category = category;
+        this.description = description;
     }
 
     // Relationships
@@ -50,6 +52,14 @@ public class ProductEntity {
 
     @OneToMany(mappedBy = "product")
     private List<OrderItemEntity> orderItems;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public int getProductid() {
         return productid;
