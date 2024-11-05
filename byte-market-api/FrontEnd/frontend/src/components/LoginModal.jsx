@@ -28,8 +28,12 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
             });
 
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const errorData = await response.json(); // Capture error response if available
+                console.error('Error logging in:', errorData.message || 'Unknown error');
+                setErrorMessage(errorData.message || "Login failed. Please check your credentials.");
+                return;
             }
+
 
             const data = await response.json();
             localStorage.setItem('token', data.token);  // Assuming 'data.token' holds the authentication token

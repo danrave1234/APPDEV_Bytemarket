@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import { useNavigate } from 'react-router-dom';
 import './styles/UserProfile.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
@@ -9,8 +9,9 @@ function UserProfile() {
     const [user, setUser] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
-    const { userid, role, logout } = useAuth(); // Destructure userid and role from useAuth
-    const navigate = useNavigate(); // Initialize useNavigate for redirection
+    const [showPassword, setShowPassword] = useState(false); // Add state for password visibility
+    const { userid, role, logout } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userid) {
@@ -18,7 +19,6 @@ function UserProfile() {
                 try {
                     setLoading(true);
                     let response;
-                    // Separate API calls based on user role
                     if (role === 'Admin') {
                         response = await axios.get(`http://localhost:8080/api/admin/getAdminById/${userid}`);
                     } else if (role === 'Seller') {
@@ -33,7 +33,6 @@ function UserProfile() {
                     setLoading(false);
                 }
             };
-
             fetchUser();
         }
     }, [userid, role]);
@@ -47,7 +46,6 @@ function UserProfile() {
 
     const handleSave = async () => {
         try {
-            // Separate API calls based on user role for updating
             if (role === 'Admin') {
                 await axios.put(`http://localhost:8080/api/admin/updateAdmin/${userid}`, user);
             } else if (role === 'Seller') {
@@ -75,7 +73,7 @@ function UserProfile() {
                 await axios.delete(deleteApiUrl);
                 alert('Account deleted successfully.');
                 logout();
-                navigate('/'); // Redirect to home page after successful deletion
+                navigate('/');
             } catch (error) {
                 console.error('Error deleting account:', error);
                 alert('Failed to delete account. Please try again later.');
@@ -86,6 +84,9 @@ function UserProfile() {
     if (loading) return <p>Loading...</p>;
     if (!user) return <p>No user data available.</p>;
 
+    const today = new Date();
+    today.setDate(today.getDate() - 1);
+    const formattedToday = today.toISOString().split('T')[0];
     return (
         <PageLayout>
             <div className="profile-container">
@@ -126,13 +127,18 @@ function UserProfile() {
                     <div className="profile-field">
                         <label>Date Of Birth:</label>
                         {editMode ? (
-                            <input type="date" name="dateofbirth" value={user.dateofbirth} onChange={handleInputChange} />
-                        ) : (
+                            <input
+                                type="date"
+                                name="dateofbirth"
+                                value={user.dateofbirth} // Use formData for controlled input
+                                onChange={handleInputChange}
+                                max={formattedToday} // Prevent selection of future dates
+                                required
+                            />) : (
                             <p>{user.dateofbirth}</p>
                         )}
                     </div>
-                    {/* Only show seller fields if role is 'seller' */}
-                    {role === 'seller' && (
+                    {role === 'Seller' && (
                         <>
                             <div className="profile-field">
                                 <label>Store Name:</label>
@@ -160,13 +166,22 @@ function UserProfile() {
                             </div>
                         </>
                     )}
-
                     <div className="profile-field">
                         <label>Password:</label>
                         {editMode ? (
-                            <input type="password" name="password" value={user.password} onChange={handleInputChange} />
+                            <div>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    name="password"
+                                    value={user.password}
+                                    onChange={handleInputChange}
+                                />
+                                <button onClick={() => setShowPassword(!showPassword)} type="button">
+                                    {showPassword ? "Hide" : "Show"}
+                                </button>
+                            </div>
                         ) : (
-                            <p>{user.password}</p>
+                            <p>{'*'.repeat(user.password.length)}</p>
                         )}
                     </div>
                     {editMode ? (

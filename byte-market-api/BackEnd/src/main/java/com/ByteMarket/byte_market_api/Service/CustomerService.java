@@ -17,11 +17,12 @@ public class CustomerService {
 
     public CustomerEntity authenticate(String username, String password) {
         CustomerEntity customer = customerRepository.findByUsername(username);
-        if(customer.getPassword().equals(password)) {
+        if (customer != null && customer.getPassword().equals(password)) {
             return customer;
         }
         return null;
     }
+
     //add
     public CustomerEntity addCustomer(CustomerEntity customer){
         return customerRepository.save(customer);

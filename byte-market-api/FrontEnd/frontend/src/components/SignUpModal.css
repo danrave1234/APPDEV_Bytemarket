@@ -128,3 +128,16 @@
     color: red;
     font-size: 0.9rem;
 }
+.password-requirements p {
+  font-size: 0.9em;
+  margin: 2px 0;
+}
+
+.password-requirements .valid {
+  color: green;
+}
+
+.password-requirements .invalid {
+  color: red;
+}
+
