@@ -18,39 +18,64 @@ html, body {
 
 .cart-item {
     display: flex;
-    flex-direction: column;
-    align-items: start;
+    align-items: center;
     margin-bottom: 1.5rem;
     padding: 1rem;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
+    gap: 1rem;
+}
+
+.cart-item input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
+
+.image-placeholder {
+    width: 80px;
+    height: 80px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
 
 .product-name {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 0.5rem;
     color: #333;
 }
 
 .product-category,
 .product-stock,
 .product-price {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #666;
 }
 
 .quantity-box {
     display: flex;
     align-items: center;
-    margin-top: 0.5rem;
+    gap: 0.5rem;
+    margin-left: auto;
 }
 
 .quantity-box button {
     width: 30px;
     height: 30px;
-    margin: 0 5px;
     background-color: #007bff;
     color: white;
     border: none;
@@ -67,39 +92,77 @@ html, body {
     text-align: center;
     border: 1px solid #ddd;
     border-radius: 4px;
+    padding: 0.2rem;
 }
 
 .remove-button {
-    margin-top: 1rem;
     padding: 0.5rem 1rem;
     background-color: #dc3545;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .remove-button:hover {
     background-color: #c82333;
 }
 
+.sort-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.sort-buttons button {
+    padding: 0.5rem 1rem;
+    background: #e0e0e0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.sort-buttons button.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.checkout-summary {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.total-price {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+}
+
 .checkout-button {
-    width: 100%;
     max-width: 200px;
     padding: 0.75rem;
-    margin: 2rem auto;
     font-size: 1rem;
     font-weight: bold;
-    text-align: center;
     background-color: #28a745;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     display: block;
-    mar
+    transition: background-color 0.3s ease;
 }
 
 .checkout-button:hover {
     background-color: #218838;
+}
+
+.checkout-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
