@@ -10,10 +10,16 @@ html, body {
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 1rem;
     max-width: 600px;
-    padding: 0 5rem;
+    padding: 2rem;
     background-color: #f4f4f4;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 1rem;
 }
 
 .profile-details {
@@ -34,21 +40,70 @@ html, body {
 }
 
 .profile-field input {
-    padding: 8px;
+    padding: 10px;
     font-size: 16px;
     border-radius: 4px;
     border: 1px solid #ccc;
+    transition: border-color 0.3s;
+}
+
+.profile-field input:focus {
+    border-color: #007bff; /* Change border color on focus */
+    outline: none; /* Remove default outline */
 }
 
 .profile-container button {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
-.profile-container button:hover {
-    background-color: #0056b3;
+.edit-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.save-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.cancel-button {
+    background-color: #ffc107;
+    color: white;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.edit-button:hover,
+.save-button:hover,
+.cancel-button:hover,
+.delete-button:hover {
+    opacity: 0.9; /* Reduce opacity for hover effect */
+}
+
+@media (max-width: 600px) {
+    .profile-container {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .profile-title {
+        font-size: 20px;
+    }
+
+    .profile-field input {
+        padding: 8px;
+    }
+
+    .edit-button, .save-button, .cancel-button, .delete-button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
 }
