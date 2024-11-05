@@ -17,6 +17,7 @@ public class ProductEntity {
     private double price;
     private int quantity;
     private String category;
+    @Column(columnDefinition = "TEXT")
     private String description;
     @Lob
     private byte[] image;
