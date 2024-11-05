@@ -1,99 +1,78 @@
 .modal-overlay {
-    font-family: Arial, Helvetica, sans-serif;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
 }
 
 .modal-box {
-    background-color: #fff;
+    background-color: #1e1e1e;
     padding: 2rem;
     border-radius: 12px;
     width: 400px;
-    max-width: 100%;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     position: relative;
-}
-
-.modal-box h2 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
+    color: #fff;
     text-align: center;
 }
 
-.back-arrow {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: transparent;
-    border: none;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    color: #999;
+.modal-header {
+    margin-bottom: 1.5rem;
 }
 
-.back-arrow:hover {
-    color: #333;
+.modal-icon {
+    font-size: 2.5rem;
+    color: #007bff;
 }
 
-/* X Close Button */
 .close-button {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: transparent;
+    top: 15px;
+    right: 15px;
+    background: transparent;
     border: none;
+    color: #888;
     font-size: 1.5rem;
-    font-weight: bold;
     cursor: pointer;
-    color: #999;
 }
 
-.close-button:hover {
-    color: #333;
-}
-
-.modal-box form {
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-box input {
+form input {
     margin-bottom: 1rem;
     padding: 0.8rem;
-    border: 1px solid #ddd;
+    border: 1px solid #333;
     border-radius: 8px;
     font-size: 1rem;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease;
+    background-color: #333;
+    color: #fff;
 }
 
-.modal-box input:focus {
-    border-color: #4CAF50;
+form input:focus {
+    border-color: #007bff;
     outline: none;
 }
 
 .show-password {
     display: flex;
     align-items: center;
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
 }
 
-.show-password label {
-    margin-left: 0.5rem;
-}
-
-.modal-box button[type="button"],
-.modal-box button[type="submit"] {
+.next-button, .submit-button {
     background-color: #007bff;
     color: white;
     padding: 0.8rem;
@@ -101,32 +80,19 @@
     border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
+    width: 100%;
     transition: background-color 0.3s ease;
 }
-.modal-box button[type="button"]:hover,
-.modal-box button[type="submit"]:hover {
-    background-color: #007bff;
-}
-.next-button {
-     margin-top: 1rem;
-     padding: 0.5rem 1rem;
-     font-size: 1rem;
-     border: none;
-     color: white;
-     cursor: pointer;
-     border-radius: 5px;
-     transition: background-color 0.3s ease;
- }
 
-.next-button.disabled {
-    background-color: #ccc; /* Greyed out */
-    cursor: not-allowed;
+.next-button:hover, .submit-button:hover {
+    background-color: #0056b3;
 }
 
 .error-message {
-    margin-top: 0.5rem;
     color: red;
     font-size: 0.9rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
 }
 .password-requirements p {
   font-size: 0.9em;

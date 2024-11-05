@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
+import './LoginModal.css';
 
-const LoginModal = ({ show, closeModal, toggleDropdown}) => {
-    const {setIsLoggedIn, setUserId, setRole } = useAuth();
+const LoginModal = ({ show, closeModal, toggleDropdown }) => {
+    const { setIsLoggedIn, setUserId, setRole } = useAuth();
 
-    const [loginData, setLoginData] = useState({
-        username: '',
-        password: ''
-    });
+    const [loginData, setLoginData] = useState({ username: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
@@ -17,13 +15,10 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             const response = await fetch('http://localhost:8080/api/customer/auth/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData),
             });
 
@@ -35,11 +30,10 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
             }
 
             const data = await response.json();
-            localStorage.setItem('token', data.token);  // Assuming 'data.token' holds the authentication token
+            localStorage.setItem('token', data.token);
             localStorage.setItem('userId', data.userid);
             localStorage.setItem('role', data.role);
-            console.log('Login successful:', data);
-            console.log(data.userid);
+
             setIsLoggedIn(true);
             setUserId(data.userid);
             setRole(data.role);
@@ -51,9 +45,7 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
         }
     };
 
-    if (!show) {
-        return null;
-    }
+    if (!show) return null;
 
     return (
         <div className="modal-overlay">
@@ -77,7 +69,7 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit">Login</button>
+                    <button type="submit" className="submit-button">Login</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </form>
             </div>

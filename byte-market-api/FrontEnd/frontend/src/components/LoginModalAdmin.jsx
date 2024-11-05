@@ -1,17 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
-import './SignUpModal.css';
-import {useNavigate} from "react-router-dom";
+import { useState } from 'react';
+import { useAuth } from './AuthProvider.jsx';
+import './LoginModal.css';
+import { useNavigate } from 'react-router-dom';
 
-const LoginModal = ({ show, closeModal, toggleDropdown }) => {
-    const { setIsLoggedIn } = useAuth(); // Use setuserid from AuthProvider
-    const { setUserId, setRole } = useAuth();
+const LoginModalAdmin = ({ show, closeModal, toggleDropdown }) => {
+    const { setIsLoggedIn, setUserId, setRole } = useAuth();
     const navigate = useNavigate();
-
-    const [loginData, setLoginData] = useState({
-        username: '',
-        password: ''
-    });
+    const [loginData, setLoginData] = useState({ username: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
@@ -21,38 +16,33 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        navigate('/admin/dashboard');
         try {
             const response = await fetch('http://localhost:8080/api/admin/auth/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData),
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+            if (!response.ok) throw new Error('Network response was not ok');
 
             const data = await response.json();
-            localStorage.setItem('token', data.token);  // Assuming 'data.token' holds the authentication token
-            console.log('Login successful:', data);
-            console.log(data.userid);
-            setIsLoggedIn(true);  // Set login status
-            setUserId(data.userid); // Use setuserid to set the userId
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.userid);
+            localStorage.setItem('role', data.role);
+
+            setIsLoggedIn(true);
+            setUserId(data.userid);
             setRole(data.role);
             toggleDropdown();
             closeModal();
+            navigate('/admin/dashboard');
         } catch (error) {
             console.error('Error logging in:', error);
             setErrorMessage("Login failed. Please check your credentials.");
         }
     };
 
-    if (!show) {
-        return null;
-    }
+    if (!show) return null;
 
     return (
         <div className="modal-overlay">
@@ -76,7 +66,7 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit">Login</button>
+                    <button type="submit" className="submit-button">Login</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </form>
             </div>
@@ -84,4 +74,4 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
     );
 };
 
-export default LoginModal;
+export default LoginModalAdmin;
