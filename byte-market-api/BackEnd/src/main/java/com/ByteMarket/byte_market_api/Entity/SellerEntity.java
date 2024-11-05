@@ -25,7 +25,7 @@ public class SellerEntity extends UserEntity {
     }
 
     //Relation
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({"carts", "seller", })
     private List<ProductEntity> products;
     public String getSellername() {
