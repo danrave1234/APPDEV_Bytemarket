@@ -1,15 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
-import './SignUpModal.css';
+import { useState } from 'react';
+import { useAuth } from './AuthProvider.jsx';
+import './LoginModal.css';
 
-const LoginModal = ({ show, closeModal, toggleDropdown}) => {
-    const { setIsLoggedIn } = useAuth(); // Use setuserid from AuthProvider
-    const { setUserId, setRole } = useAuth();
-
-    const [loginData, setLoginData] = useState({
-        username: '',
-        password: ''
-    });
+const LoginModalSeller = ({ show, closeModal, toggleDropdown }) => {
+    const { setIsLoggedIn, setUserId, setRole } = useAuth();
+    const [loginData, setLoginData] = useState({ username: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
@@ -19,26 +14,22 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             const response = await fetch('http://localhost:8080/api/seller/auth/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData),
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+            if (!response.ok) throw new Error('Network response was not ok');
 
             const data = await response.json();
-            localStorage.setItem('token', data.token);  // Assuming 'data.token' holds the authentication token
-            console.log('Login successful:', data);
-            console.log(data.userid);
-            setIsLoggedIn(true);  // Set login status
-            setUserId(data.userid); // Use setuserid to set the userId
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.userid);
+            localStorage.setItem('role', data.role);
+
+            setIsLoggedIn(true);
+            setUserId(data.userid);
             setRole(data.role);
             toggleDropdown();
             closeModal();
@@ -48,9 +39,7 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
         }
     };
 
-    if (!show) {
-        return null;
-    }
+    if (!show) return null;
 
     return (
         <div className="modal-overlay">
@@ -74,7 +63,7 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
                         onChange={handleChange}
                         required
                     />
-                    <button type="submit">Login</button>
+                    <button type="submit" className="submit-button">Login</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </form>
             </div>
@@ -82,4 +71,4 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
     );
 };
 
-export default LoginModal;
+export default LoginModalSeller;

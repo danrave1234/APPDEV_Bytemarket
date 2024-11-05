@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './SignupModal.css';
+import './SignUpModal.css';
 
 const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
   const [formData, setFormData] = useState({
@@ -104,20 +104,6 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
     });
   };
 
-
-  const handleNextStep = () => {
-    if (!formData.username || !formData.password) {
-      setErrorMessage('Please fill in both the username and password to proceed.');
-      return;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setErrorMessage("Passwords don't match!");
-      return;
-    }
-    setErrorMessage(''); // Clear any previous error message
-    setStep(2);
-  };
-
   const handleBackStep = () => {
     setStep(1);
   };
@@ -142,16 +128,8 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
             ←
           </button>
         )}
-      <div className="modal-overlay">
-        <div className="modal-box">
-          {step === 2 && (
-              <button className="back-arrow" onClick={handleBackStep}>
-                ←
-              </button>
-          )}
 
         <button className="close-button" onClick={closeModal}>X</button>
-          <button className="close-button" onClick={closeModal}>X</button>
 
         <h2>Sign Up</h2>
         {step === 1 ? (
@@ -188,46 +166,6 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               />
               <label>Show Password</label>
             </div>
-          <div className="modal-header">
-            <div className="modal-icon">🔒</div>
-            <h2>Sign Up</h2>
-            <p>Welcome, please sign up to continue</p>
-          </div>
-
-          {step === 1 ? (
-              <form>
-                <input
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type={showPassword ? "text" : "password"}
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                />
-                <div className="show-password">
-                  <input
-                      type="checkbox"
-                      checked={showPassword}
-                      onChange={toggleShowPassword}
-                  />
-                  <label>Show Password</label>
-                </div>
 
             {/* Password Requirements */}
             <div className="password-requirements">
@@ -252,13 +190,6 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
             >
               Next
             </button>
-                <button
-                    type="button"
-                    onClick={handleNextStep}
-                    className="next-button"
-                >
-                  Next
-                </button>
 
             {errorMessage && (
               <p className="error-message">
@@ -313,58 +244,6 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
         )}
       </div>
     </div>
-                {errorMessage && (
-                    <p className="error-message">
-                      {errorMessage}
-                    </p>
-                )}
-              </form>
-          ) : (
-              <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="fullname"
-                    placeholder="Full Name"
-                    value={formData.fullname}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="phonenumber"
-                    placeholder="Phone Number"
-                    value={formData.phonenumber}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="text"
-                    name="address"
-                    placeholder="Address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="date"
-                    name="dateofbirth"
-                    value={formData.dateofbirth}
-                    onChange={handleChange}
-                    required
-                />
-                <button type="submit" className="submit-button">Submit</button>
-              </form>
-          )}
-        </div>
-      </div>
   );
 };
 
