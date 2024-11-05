@@ -1,34 +1,42 @@
- import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {Route, Routes, useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './styles/AddToCart.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 
 function AddToCart() {
-    const { userid } = useAuth(); // Assuming user ID comes from context
-    const [cartItems, setCartItems] = useState([]);
+    const { userid, isLoggedIn } = useAuth();
+    const [cartItems, setCartItems] = useState(() => {
+        const storedCart = localStorage.getItem('cartItems');
+        return storedCart ? JSON.parse(storedCart) : [];
+    });
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const handleCheckOut = () => {
         navigate('/customer/CheckOut');
-    }
+    };
 
     useEffect(() => {
-        // Fetch cart items for the user when the component mounts
-        const fetchCartItems = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/cart/getAllCart`);
-                setCartItems(response.data);
-            } catch (error) {
-                console.error('Error fetching cart items:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchCartItems();
-    }, [userid]);
+        if (isLoggedIn && userid) {
+            const fetchCartItems = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8080/api/cart/getAllCart`);
+                    // Filter only items that belong to the logged-in user
+                    const userCartItems = response.data.filter(item => item.customer.userid === parseInt(userid));
+                    setCartItems(userCartItems);
+                    // Store user's cart items in localStorage
+                    localStorage.setItem('cartItems', JSON.stringify(userCartItems));
+                } catch (error) {
+                    console.error('Error fetching cart items:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchCartItems();
+        }
+    }, [userid, isLoggedIn]);
 
     const handleQuantityChange = async (cartItem, newQuantity) => {
         if (newQuantity < 1) return; // Prevent setting quantity less than 1
@@ -36,7 +44,7 @@ function AddToCart() {
         const updatedCartItem = {
             ...cartItem,
             quantity: newQuantity,
-            customer: { userid: cartItem.customer.userid }, // Ensure proper structure
+            customer: { userid: cartItem.customer.userid },
             product: { productid: cartItem.product.productid }
         };
 
@@ -45,11 +53,11 @@ function AddToCart() {
                 `http://localhost:8080/api/cart/updateCart/${cartItem.cartid}`,
                 updatedCartItem
             );
-            setCartItems((prevItems) =>
-                prevItems.map((item) =>
-                    item.cartid === cartItem.cartid ? { ...item, quantity: newQuantity } : item
-                )
+            const updatedCartItems = cartItems.map(item =>
+                item.cartid === cartItem.cartid ? { ...item, quantity: newQuantity } : item
             );
+            setCartItems(updatedCartItems);
+            localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
         } catch (error) {
             console.error('Error updating cart quantity:', error);
         }
@@ -58,9 +66,9 @@ function AddToCart() {
     const handleRemoveItem = async (cartId) => {
         try {
             await axios.delete(`http://localhost:8080/api/cart/deleteCart/${cartId}`);
-            setCartItems((prevItems) =>
-                prevItems.filter((item) => item.cartid !== cartId)
-            );
+            const updatedCartItems = cartItems.filter(item => item.cartid !== cartId);
+            setCartItems(updatedCartItems);
+            localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
         } catch (error) {
             console.error('Error removing cart item:', error);
         }
