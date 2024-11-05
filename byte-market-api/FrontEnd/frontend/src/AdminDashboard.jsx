@@ -10,6 +10,8 @@ function AdminDashboard() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [currentItem, setCurrentItem] = useState(null);
 
     useEffect(() => {
         fetchData();
@@ -48,6 +50,28 @@ function AdminDashboard() {
             });
     };
 
+    const handleEdit = (item) => {
+        setCurrentItem(item);
+        setShowModal(true);
+    };
+
+    const handleDelete = (itemId) => {
+        const deleteEndpoint = `http://localhost:8080/api/admin/delete${selectedOption}/${itemId}`;
+        axios.delete(deleteEndpoint)
+            .then(() => fetchData())
+            .catch((error) => setError(error));
+    };
+
+    const handleUpdate = () => {
+        const updateEndpoint = `http://localhost:8080/api/admin/update${selectedOption}`;
+        axios.put(updateEndpoint, currentItem)
+            .then(() => {
+                setShowModal(false);
+                fetchData();
+            })
+            .catch((error) => setError(error));
+    };
+
     const renderTableContent = () => {
         return data.map(item => {
             switch (selectedOption) {
@@ -61,8 +85,8 @@ function AdminDashboard() {
                             <td>{item.category}</td>
                             <td>{item.seller?.storename}</td>
                             <td>
-                                <button>Edit</button>
-                                <button>Delete</button>
+                                <button onClick={() => handleEdit(item)}>Edit</button>
+                                <button onClick={() => handleDelete(item.productid)}>Delete</button>
                             </td>
                         </tr>
                     );
@@ -77,8 +101,8 @@ function AdminDashboard() {
                             <td>{item.address}</td>
                             <td>{item.balance}</td>
                             <td>
-                                <button>Edit</button>
-                                <button>Delete</button>
+                                <button onClick={() => handleEdit(item)}>Edit</button>
+                                <button onClick={() => handleDelete(item.userid)}>Delete</button>
                             </td>
                         </tr>
                     );
@@ -99,10 +123,7 @@ function AdminDashboard() {
                                     {Array.isArray(item.products) && item.products.length > 0 ? (
                                         item.products.map(product => (
                                             <li key={product.productid}>
-                                                {product.productname} -
-                                                Qty: {product.quantity} -
-                                                Price: {product.price} -
-                                                Rating: {product.ratings?.score || 'N/A'}
+                                                {product.productname} - Qty: {product.quantity} - Price: {product.price} - Rating: {product.ratings?.score || 'N/A'}
                                             </li>
                                         ))
                                     ) : (
@@ -111,8 +132,8 @@ function AdminDashboard() {
                                 </ul>
                             </td>
                             <td>
-                                <button>Edit</button>
-                                <button>Delete</button>
+                                <button onClick={() => handleEdit(item)}>Edit</button>
+                                <button onClick={() => handleDelete(item.userid)}>Delete</button>
                             </td>
                         </tr>
                     );
@@ -123,7 +144,7 @@ function AdminDashboard() {
                             <td>{item.totalprice}</td>
                             <td>{item.orderstatus}</td>
                             <td>
-                                {item.customer?.fullname} <br/>
+                                {item.customer?.fullname} <br />
                                 {item.customer?.email}
                             </td>
                             <td>
@@ -135,17 +156,16 @@ function AdminDashboard() {
                                             </li>
                                         ))
                                     ) : (
-                                        <li>No items in this order</li> // Fallback for orders with no items
+                                        <li>No items in this order</li>
                                     )}
                                 </ul>
                             </td>
                             <td>
-                                <button>Edit</button>
-                                <button>Delete</button>
+                                <button onClick={() => handleEdit(item)}>Edit</button>
+                                <button onClick={() => handleDelete(item.orderid)}>Delete</button>
                             </td>
                         </tr>
                     );
-
                 default:
                     return null;
             }
@@ -181,63 +201,25 @@ function AdminDashboard() {
                         {!loading && !error && (
                             <table>
                                 <thead>
-                                <tr>
-                                    {selectedOption === 'Products' && (
-                                        <>
-                                            <th>Product ID</th>
-                                            <th>Product Name</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Category</th>
-                                            <th>Store Name</th>
-                                            <th>Actions</th>
-                                        </>
-                                    )}
-                                    {selectedOption === 'Customers' && (
-                                        <>
-                                            <th>User ID</th>
-                                            <th>Full Name</th>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                            <th>Phone Number</th>
-                                            <th>Address</th>
-                                            <th>Balance</th>
-                                            <th>Actions</th>
-                                        </>
-                                    )}
-                                    {selectedOption === 'Sellers' && (
-                                        <>
-                                            <th>User ID</th>
-                                            <th>Full Name</th>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                            <th>Phone Number</th>
-                                            <th>Address</th>
-                                            <th>Seller Name</th>
-                                            <th>Store Name</th>
-                                            <th>Balance</th>
-                                            <th>Products</th>
-                                            <th>Actions</th>
-                                        </>
-                                    )}
-                                    {selectedOption === 'Orders' && (
-                                        <>
-                                            <th>Order ID</th>
-                                            <th>Total Price</th>
-                                            <th>Order Status</th>
-                                            <th>Full name</th>
-                                            <th>Ordered Items</th>
-                                            <th>Actions</th>
-                                        </>
-                                    )}
-                                </tr>
+                                    {/* Add headers for each option */}
                                 </thead>
                                 <tbody>
-                                {renderTableContent()}
+                                    {renderTableContent()}
                                 </tbody>
                             </table>
                         )}
                     </div>
+
+                    {showModal && (
+                        <div className="modal">
+                            <div className="modal-content">
+                                <h2>Edit {selectedOption.slice(0, -1)}</h2>
+                                {/* Dynamically render fields based on `selectedOption` */}
+                                <button onClick={handleUpdate}>Save</button>
+                                <button onClick={() => setShowModal(false)}>Cancel</button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </PageLayout>
