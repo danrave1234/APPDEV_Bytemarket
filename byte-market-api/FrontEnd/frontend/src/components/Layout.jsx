@@ -10,6 +10,7 @@ import './Layout.css';
 import {useAuth} from "./AuthProvider.jsx";
 import LoginModalSeller from "./LoginModalSeller.jsx";
 import LoginModalAdmin from "./LoginModalAdmin.jsx";
+import SignUpModalSeller from "./SignUpModalSeller.jsx";
 
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -30,6 +31,8 @@ function PageLayout({ children }) {
     const openModalLogin = () => setShowModalLogin(true);
     const closeModalLogin = () => setShowModalLogin(false);
 
+    const openModalSignUpSeller = () => setShowModalSignUpSeller(true);
+    const closeModalSignUpSeller = () => setShowModalSignUpSeller(false);
     const openModalLoginSeller = () => setShowModalLoginSeller(true);
     const closeModalLoginSeller = () => setShowModalLoginSeller(false);
 
@@ -167,12 +170,12 @@ function PageLayout({ children }) {
                         <h4>Seller Resources</h4>
                         <ul>
                             <li><a onClick={openModalLoginSeller}>Seller Login</a></li>
-                            <li><a href="#">Become a Seller</a></li>
+                            <li><a onClick={openModalSignUpSeller}>Become a Seller</a></li>
                             <li><a href="#">Seller Policies</a></li>
                             <li><a href="#">Account Support</a></li>
                         </ul>
                     </div>
-                    {/*<SignUpModalSeller show={showModalSignUp} closeModal={closeModalSignUp}/>*/}
+                    <SignUpModalSeller show={showModalSignUpSeller} closeModal={closeModalSignUpSeller} toggleDropdown={toggleDropdown}/>
                     <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller} toggleDropdown={toggleDropdown}/>
                     <div>
                         <h4>Admin</h4>
