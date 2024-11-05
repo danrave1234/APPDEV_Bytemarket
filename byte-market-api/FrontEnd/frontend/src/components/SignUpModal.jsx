@@ -65,69 +65,43 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
     setStep(2);
   };
 
-  const checkUniqueFields = async () => {
-    const response = await fetch('http://localhost:8080/api/customer/checkUnique', {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const customerData = {
+      username: formData.username,
+      password: formData.password,
+      fullname: formData.fullname,
+      email: formData.email,
+      phonenumber: formData.phonenumber,
+      address: formData.address,
+      dateofbirth: formData.dateofbirth,
+      balance: 0,
+      role: "Customer"
+    };
+
+    fetch('http://localhost:8080/api/customer/addCustomer', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username: formData.username,
-        email: formData.email,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return await response.json();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const { usernameExists, emailExists } = await checkUniqueFields();
-      if (usernameExists) {
-        setErrorMessage('Username already exists. Please choose another one.');
-        return;
-      }
-      if (emailExists) {
-        setErrorMessage('Email already exists. Please use another email.');
-        return;
-      }
-
-      const customerData = {
-        username: formData.username,
-        password: formData.password,
-        fullname: formData.fullname,
-        email: formData.email,
-        phonenumber: formData.phonenumber,
-        address: formData.address,
-        dateofbirth: formData.dateofbirth,
-        balance: 0,
-        role: "Customer"
-      };
-
-      const registerResponse = await fetch('http://localhost:8080/api/customer/addCustomer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(customerData),
-      });
-
-      if (!registerResponse.ok) {
+      body: JSON.stringify(customerData),
+    })
+    .then((response) => {
+      if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const data = await registerResponse.json();
+      return response.json();
+    })
+    .then((data) => {
       console.log('Customer added successfully:', data);
       toggleDropdown();
       closeModal();
-    } catch (error) {
-      console.error('Error during registration:', error);
+    })
+    .catch((error) => {
+      console.error('Error adding customer:', error);
       setErrorMessage("Registration failed. Please try again.");
-    }
+    });
   };
 
   const handleBackStep = () => {

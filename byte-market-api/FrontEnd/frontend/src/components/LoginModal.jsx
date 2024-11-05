@@ -34,7 +34,6 @@ const LoginModal = ({ show, closeModal, toggleDropdown}) => {
                 return;
             }
 
-
             const data = await response.json();
             localStorage.setItem('token', data.token);  // Assuming 'data.token' holds the authentication token
             localStorage.setItem('userId', data.userid);
