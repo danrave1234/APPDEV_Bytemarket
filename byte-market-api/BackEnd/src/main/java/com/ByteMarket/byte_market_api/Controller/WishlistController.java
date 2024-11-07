@@ -13,6 +13,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("api/wishlist")
 public class WishlistController {
+
     @Autowired
     private WishlistService wishlistService;
 
@@ -20,10 +21,17 @@ public class WishlistController {
     public List<WishlistEntity> GetAllWishList() {
         return wishlistService.getAllWishlists();
     }
+
     @GetMapping("/getWishlistById/{id}")
     public WishlistEntity GetWishListById(@PathVariable int id) {
         return wishlistService.getWishlistById(id);
     }
+
+    @GetMapping("/getWishlistByUserId/{customerId}")
+    public List<WishlistEntity> getWishlistsByUserId(@PathVariable int customerId) {
+        return wishlistService.getWishlistsByUserId(customerId);
+    }
+
     @GetMapping("/getWishlistWithProducts/{id}")
     public WishlistEntity getWishlistWithProducts(@PathVariable int id) {
         return wishlistService.getWishlistById(id);
@@ -34,6 +42,7 @@ public class WishlistController {
         wishlistEntity.setWishlistdate(LocalDate.now());
         return wishlistService.addWishlist(wishlistEntity);
     }
+
     @PutMapping("/updateWishlist/{id}")
     public WishlistEntity UpdateWishlist(@PathVariable int id, @RequestBody WishlistEntity wishlistEntity) {
         return wishlistService.updateWishlist(id, wishlistEntity);

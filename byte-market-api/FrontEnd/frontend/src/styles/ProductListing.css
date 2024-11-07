@@ -1,4 +1,4 @@
-.wishlist-container {
+.product-listing-container {
     max-width: 1200px;
     margin: 1.6rem auto;
     padding: 0.8rem;
@@ -34,7 +34,6 @@
 
 .sort-buttons {
     display: flex;
-
 }
 
 .sort-btn {
@@ -60,7 +59,7 @@
     border-radius: 12px;
 }
 
-.wishlist-grid {
+.product-listing-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.6rem;
@@ -177,6 +176,10 @@
     transform: scale(1.1);
 }
 
+.remove-btn.wishlisted {
+    color: red;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -206,6 +209,7 @@
     gap: 1rem;
     margin-top: 1rem;
 }
+
 .cancel-btn {
     background: #ff9999;
     color: white;

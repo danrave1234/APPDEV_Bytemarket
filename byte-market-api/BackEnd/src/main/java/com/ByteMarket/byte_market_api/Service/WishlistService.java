@@ -17,14 +17,20 @@ public class WishlistService {
     public List<WishlistEntity> getAllWishlists() {
         return wishlistRepository.findAll();
     }
+
     public WishlistEntity getWishlistById(int id) {
         return wishlistRepository.findById(id).get();
+    }
+
+    public List<WishlistEntity> getWishlistsByUserId(int customerId) {
+        return wishlistRepository.findByCustomer_Userid(customerId);
     }
 
     //Add
     public WishlistEntity addWishlist(WishlistEntity wishlist) {
         return wishlistRepository.save(wishlist);
     }
+
     //Update
     public WishlistEntity updateWishlist(int id, WishlistEntity newwishlistEntity) {
         WishlistEntity wishlist = wishlistRepository.findById(id).get();
@@ -32,6 +38,7 @@ public class WishlistService {
         wishlist.setCustomer(newwishlistEntity.getCustomer());
         return wishlistRepository.save(wishlist);
     }
+
     //Delete
     public WishlistEntity deleteWishlist(int id) {
         wishlistRepository.deleteById(id);
