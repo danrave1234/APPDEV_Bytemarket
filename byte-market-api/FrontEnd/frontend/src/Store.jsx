@@ -76,15 +76,25 @@ const handleProductAdded = async () => {
 };
 
 
-  const handleProductUpdated = (updatedProduct) => {
+const handleProductUpdated = async (updatedProduct) => {
+  try {
+    // Call the API to update the product on the server
+    const response = await axios.put(`http://localhost:8080/api/product/updateProduct/${productToEdit.productid}`, updatedProduct);
+
+    // Update the product in local state with the server's response
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
-        product.productid === updatedProduct.productid ? updatedProduct : product
+        product.productid === response.data.productid ? response.data : product
       )
     );
-    localStorage.setItem("userProducts", JSON.stringify(products));
-    closeEditModal();
-  };
+
+    localStorage.setItem("userProducts", JSON.stringify(products)); // Update local storage with the modified products list
+    closeEditModal(); // Close the modal after successful update
+  } catch (error) {
+    console.error("Error updating product:", error);
+  }
+};
+
 
   const handleProductDeleted = async () => {
     if (productToDelete) {
