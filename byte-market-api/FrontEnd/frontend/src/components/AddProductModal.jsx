@@ -37,7 +37,7 @@ const handleSubmit = async (e) => {
       console.error("Error request:", error.request);
       alert("No response from server. Please try again later.");
     } else {
-      consofle.error("Error:", error.message);
+      console.error("Error:", error.message);
       alert("An error occurred. Please try again.");
     }
   }

@@ -19,6 +19,7 @@ function Store() {
   const [productToEdit, setProductToEdit] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // State for Delete Modal
   const [productToDelete, setProductToDelete] = useState(null); // Product to be deleted
+    const [seller, setSeller] = useState(null);
 
   useEffect(() => {
     if (userid) {
@@ -27,6 +28,8 @@ function Store() {
           setLoading(true);
           const response = await axios.get("http://localhost:8080/api/product/getAllProduct");
           const userProducts = response.data.filter((product) => product.seller.userid === userid);
+          const sellerResponse = await axios.get(`http://localhost:8080/api/seller/getSellerById/${userid}`);
+                setSeller(sellerResponse.data); // Set seller data
           if (userProducts.length > 0) {
             setProducts(userProducts);
             localStorage.setItem("userProducts", JSON.stringify(userProducts));
@@ -56,11 +59,22 @@ function Store() {
   };
   const closeDeleteModal = () => setIsDeleteModalOpen(false);
 
-  const handleProductAdded = () => {
-    localStorage.removeItem("userProducts");
-    setProducts([]);
-    fetchProducts();
-  };
+const handleProductAdded = async () => {
+  localStorage.removeItem("userProducts");
+  setProducts([]);  // Clear the current products in the state
+
+  try {
+    // Fetch the updated list of products
+    const response = await axios.get("http://localhost:8080/api/product/getAllProduct");
+    const userProducts = response.data.filter((product) => product.seller.userid === userid);
+
+    setProducts(userProducts);  // Update the state with the new products
+    localStorage.setItem("userProducts", JSON.stringify(userProducts));  // Save the updated list in localStorage
+  } catch (error) {
+    console.error("Error fetching products:", error);
+  }
+};
+
 
   const handleProductUpdated = (updatedProduct) => {
     setProducts((prevProducts) =>
@@ -86,17 +100,21 @@ function Store() {
   };
 
   if (loading) return <p>Loading products...</p>;
-  if (!products.length) return <p>No products available.</p>;
 
   return (
     <PageLayout>
       <div className="store-container">
         <div className="store-header">
           <div className="store-info">
-            {products.length > 0 && (
+            {seller ? (
               <div>
-                <h2>Store: {products[0].seller.storename}</h2>
-                <p>Seller: {products[0].seller.sellername}</p>
+                <h2>Store: {seller.storename}</h2>
+                <p>Seller: {seller.sellername}</p>
+              </div>
+            ) : (
+              <div>
+                <h2>No Store Name</h2>
+                <p>No Seller Name</p>
               </div>
             )}
           </div>

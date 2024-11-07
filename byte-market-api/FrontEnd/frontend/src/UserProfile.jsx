@@ -182,16 +182,6 @@ try {
                                     readOnly={!editMode}
                                 />
                             </div>
-                            <div className="profile-field">
-                                <label>Balance:</label>
-                                <input
-                                    type="number"
-                                    name="balance"
-                                    value={user.balance}
-                                    onChange={handleInputChange}
-                                    readOnly={!editMode}
-                                />
-                            </div>
                         </>
                     )}
                     <div className="profile-field">
