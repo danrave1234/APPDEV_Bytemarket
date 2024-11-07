@@ -72,158 +72,235 @@ function AdminDashboard() {
             .catch((error) => setError(error));
     };
 
-    const renderTableContent = () => {
-        return data.map(item => {
-            switch (selectedOption) {
-                case 'Products':
-                    return (
-                        <tr key={item.productid}>
-                            <td>{item.productid}</td>
-                            <td>{item.productname}</td>
-                            <td>{item.price}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.category}</td>
-                            <td>{item.seller?.storename}</td>
-                            <td>
-                                <button onClick={() => handleEdit(item)}>Edit</button>
-                                <button onClick={() => handleDelete(item.productid)}>Delete</button>
-                            </td>
-                        </tr>
-                    );
-                case 'Customers':
-                    return (
-                        <tr key={item.userid}>
-                            <td>{item.userid}</td>
-                            <td>{item.fullname}</td>
-                            <td>{item.username}</td>
-                            <td>{item.email}</td>
-                            <td>{item.phonenumber}</td>
-                            <td>{item.address}</td>
-                            <td>{item.balance}</td>
-                            <td>
-                                <button onClick={() => handleEdit(item)}>Edit</button>
-                                <button onClick={() => handleDelete(item.userid)}>Delete</button>
-                            </td>
-                        </tr>
-                    );
-                case 'Sellers':
-                    return (
-                        <tr key={item.userid}>
-                            <td>{item.userid}</td>
-                            <td>{item.fullname}</td>
-                            <td>{item.username}</td>
-                            <td>{item.email}</td>
-                            <td>{item.phonenumber}</td>
-                            <td>{item.address}</td>
-                            <td>{item.sellername}</td>
-                            <td>{item.storename}</td>
-                            <td>{item.balance}</td>
-                            <td>
-                                <ul>
-                                    {Array.isArray(item.products) && item.products.length > 0 ? (
-                                        item.products.map(product => (
-                                            <li key={product.productid}>
-                                                {product.productname} - Qty: {product.quantity} - Price: {product.price} - Rating: {product.ratings?.score || 'N/A'}
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <li>No products available</li>
-                                    )}
-                                </ul>
-                            </td>
-                            <td>
-                                <button onClick={() => handleEdit(item)}>Edit</button>
-                                <button onClick={() => handleDelete(item.userid)}>Delete</button>
-                            </td>
-                        </tr>
-                    );
-                case 'Orders':
-                    return (
-                        <tr key={item.orderid}>
-                            <td>{item.orderid}</td>
-                            <td>{item.totalprice}</td>
-                            <td>{item.orderstatus}</td>
-                            <td>
-                                {item.customer?.fullname} <br />
-                                {item.customer?.email}
-                            </td>
-                            <td>
-                                <ul>
-                                    {Array.isArray(item.orderItems) && item.orderItems.length > 0 ? (
-                                        item.orderItems.map(orderItem => (
-                                            <li key={orderItem.orderitemid}>
-                                                {orderItem.product.productname} - Qty: {orderItem.quantity} - Price: {orderItem.price}
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <li>No items in this order</li>
-                                    )}
-                                </ul>
-                            </td>
-                            <td>
-                                <button onClick={() => handleEdit(item)}>Edit</button>
-                                <button onClick={() => handleDelete(item.orderid)}>Delete</button>
-                            </td>
-                        </tr>
-                    );
-                default:
-                    return null;
-            }
-        });
+    // Renders specific fields based on selectedOption for editing
+    const renderEditFields = () => {
+        if (!currentItem) return null;
+
+        switch (selectedOption) {
+            case 'Products':
+                return (
+                    <>
+                        <label>
+                            Product Name:
+                            <input
+                                type="text"
+                                value={currentItem.productname || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, productname: e.target.value })
+                                }
+                            />
+                        </label>
+                        <label>
+                            Price:
+                            <input
+                                type="number"
+                                value={currentItem.price || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, price: e.target.value })
+                                }
+                            />
+                        </label>
+                        <label>
+                            Quantity:
+                            <input
+                                type="number"
+                                value={currentItem.quantity || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, quantity: e.target.value })
+                                }
+                            />
+                        </label>
+                        <label>
+                            Category:
+                            <input
+                                type="text"
+                                value={currentItem.category || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, category: e.target.value })
+                                }
+                            />
+                        </label>
+                    </>
+                );
+            case 'Customers':
+                return (
+                    <>
+                        <label>
+                            Full Name:
+                            <input
+                                type="text"
+                                value={currentItem.fullname || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, fullname: e.target.value })
+                                }
+                            />
+                        </label>
+                        <label>
+                            Email:
+                            <input
+                                type="email"
+                                value={currentItem.email || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, email: e.target.value })
+                                }
+                            />
+                        </label>
+                        <label>
+                            Address:
+                            <input
+                                type="text"
+                                value={currentItem.address || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, address: e.target.value })
+                                }
+                            />
+                        </label>
+                    </>
+                );
+            // Add similar fields for 'Sellers' and 'Orders' based on the attributes.
+            default:
+                return null;
+        }
     };
 
-    return (
-        <PageLayout>
-            <div className="admin-dashboard">
-                <div className="sidebar">
-                    <h2>Menu</h2>
-                    <ul>
-                        {['Products', 'Customers', 'Sellers', 'Orders'].map(option => (
-                            <li
-                                key={option}
-                                className={selectedOption === option ? 'active' : ''}
-                                onClick={() => setSelectedOption(option)}
-                            >
-                                {option}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+    // Render headers and row cells dynamically based on selectedOption
+const renderTableHeaders = () => {
+    switch (selectedOption) {
+        case 'Products':
+            return (
+                <>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </>
+            );
+        case 'Customers':
+            return (
+                <>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </>
+            );
+        case 'Sellers':
+            return (
+                <>
+                    <th>Seller Name</th>
+                    <th>Store Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </>
+            );
+        case 'Orders':
+            return (
+                <>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </>
+            );
+        default:
+            return null;
+    }
+};
 
-                <div className="main-content">
-                    <header>
-                        <h1>{selectedOption} Management</h1>
-                        <input type="text" placeholder="Search" className="search-bar" />
-                    </header>
-                    <div className="table-container">
-                        {loading && <p>Loading...</p>}
-                        {error && <p>Error loading data: {error.message}</p>}
-                        {!loading && !error && (
-                            <table>
-                                <thead>
-                                    {/* Add headers for each option */}
-                                </thead>
-                                <tbody>
-                                    {renderTableContent()}
-                                </tbody>
-                            </table>
-                        )}
-                    </div>
+const renderTableRows = () => {
+    return data.map(item => (
+        <tr key={item.id}>
+            {selectedOption === 'Products' && (
+                <>
+                    <td>{item.productname}</td>
+                    <td>{item.price}</td>
+                    <td>{item.quantity}</td>
+                    <td>{item.category}</td>
+                </>
+            )}
+            {selectedOption === 'Customers' && (
+                <>
+                    <td>{item.fullname}</td>
+                    <td>{item.email}</td>
+                    <td>{item.address}</td>
+                </>
+            )}
+            {selectedOption === 'Sellers' && (
+                <>
+                    <td>{item.sellername}</td>
+                    <td>{item.storename}</td>
+                    <td>{item.email}</td>
+                </>
+            )}
+            {selectedOption === 'Orders' && (
+                <>
+                    <td>{item.orderId}</td>
+                    <td>{item.customerName}</td>
+                    <td>{item.totalAmount}</td>
+                    <td>{item.status}</td>
+                </>
+            )}
+            <td>
+                <button onClick={() => handleEdit(item)}>Edit</button>
+                <button onClick={() => handleDelete(item.id)}>Delete</button>
+            </td>
+        </tr>
+    ));
+};
 
-                    {showModal && (
-                        <div className="modal">
-                            <div className="modal-content">
-                                <h2>Edit {selectedOption.slice(0, -1)}</h2>
-                                {/* Dynamically render fields based on `selectedOption` */}
-                                <button onClick={handleUpdate}>Save</button>
-                                <button onClick={() => setShowModal(false)}>Cancel</button>
-                            </div>
-                        </div>
+return (
+    <PageLayout>
+        <div className="admin-dashboard">
+            <div className="sidebar">
+                <h2>Menu</h2>
+                <ul>
+                    {['Products', 'Customers', 'Sellers', 'Orders'].map(option => (
+                        <li
+                            key={option}
+                            className={selectedOption === option ? 'active' : ''}
+                            onClick={() => setSelectedOption(option)}
+                        >
+                            {option}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <div className="main-content">
+                <header>
+                    <h1>{selectedOption} Management</h1>
+                    <input type="text" placeholder="Search" className="search-bar" />
+                </header>
+                <div className="table-container">
+                    {loading && <p>Loading...</p>}
+                    {error && <p>Error loading data: {error.message}</p>}
+                    {!loading && !error && (
+                        <table>
+                            <thead>
+                                <tr>{renderTableHeaders()}</tr>
+                            </thead>
+                            <tbody>{renderTableRows()}</tbody>
+                        </table>
                     )}
                 </div>
+
+                {showModal && (
+                    <div className="modal">
+                        <div className="modal-content">
+                            <h2>Edit {selectedOption.slice(0, -1)}</h2>
+                            {renderEditFields()}
+                            <button onClick={handleUpdate}>Save</button>
+                            <button onClick={() => setShowModal(false)}>Cancel</button>
+                        </div>
+                    </div>
+                )}
             </div>
-        </PageLayout>
-    );
+        </div>
+    </PageLayout>
+);
+
 }
 
 export default AdminDashboard;

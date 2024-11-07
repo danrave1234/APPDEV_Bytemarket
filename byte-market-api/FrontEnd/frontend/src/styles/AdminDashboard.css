@@ -87,8 +87,8 @@ td button {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
@@ -96,13 +96,18 @@ td button {
     z-index: 1000;
 }
 
-.modal-content {
-    background: white;
+.modal .modal-content {
+    background-color: white;
     padding: 20px;
     border-radius: 8px;
-    max-width: 500px;
-    width: 100%;
+    max-width: 500px; /* Limits the modal's width */
+    width: 90%;
+    height: auto; /* Limits the modal's height */
+    max-height: 80vh; /* Limits height to 80% of the viewport */
+    overflow-y: auto; /* Allows scrolling only if content exceeds height */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
+
 
 .modal-content h2 {
     margin-top: 0;
@@ -114,4 +119,3 @@ td button {
     margin: 10px 0;
     box-sizing: border-box;
 }
-

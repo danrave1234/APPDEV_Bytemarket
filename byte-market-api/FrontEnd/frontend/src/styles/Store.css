@@ -1,13 +1,131 @@
-html, body {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
+/* Store Container */
+.store-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
 }
 
-.container {
-    margin-top: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 0 5rem;
+/* Header Section */
+.store-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.store-info h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.store-info p {
+    font-size: 16px;
+    color: #555;
+}
+
+.add-product-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-product-btn:hover {
+    background-color: #ff5252;
+}
+
+/* Product Grid */
+/* Product Grid */
+.store-container .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Increased the min size for more space */
+    gap: 20px;
+}
+
+/* Product Card */
+.product-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    min-height: 30rem; /* Set a minimum height for each product card */
+    max-width: 100%;
+}
+
+
+/* Image Placeholder */
+.product-image-placeholder {
+    background-color: #f0f0f0;
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.product-image-placeholder p {
+    color: #aaa;
+}
+
+/* Product Details */
+.productDetails {
+    display: flex;
+    height: 15rem;
+    flex-direction: column;
+}
+
+/* Description */
+.description {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.2;
+    max-height: 100px;
+    overflow-y: auto;
+    text-overflow: ellipsis;
+    white-space: normal;
+    margin-bottom: 5px;
+}
+.productDetails h3 {
+    margin-bottom: 0;
+}
+/* Price */
+.price {
+    color: #ff6b6b;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* Category */
+.category {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+/* Action Buttons */
+.product-actions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.edit-btn, .delete-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    background-color: #ff5252;
 }
