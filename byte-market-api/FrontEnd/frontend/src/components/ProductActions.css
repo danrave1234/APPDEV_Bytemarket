@@ -1,0 +1,97 @@
+/* ProductActions.css */
+.product-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.add-cart-btn, .buy-now-btn, .wishlist-btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 30%;
+}
+
+.add-cart-btn {
+    background-color: #98DFD6;
+    color: #333;
+}
+
+.buy-now-btn {
+    background-color: #FF9999;
+    color: white;
+}
+
+.wishlist-btn {
+    background-color: #fff;
+    color: #333;
+    font-size: 1.2rem;
+    width: 15%;
+    text-align: center;
+}
+
+.wishlist-btn.wishlisted {
+    color: #FF0000;
+}
+
+.add-cart-btn:hover, .buy-now-btn:hover, .wishlist-btn:hover {
+    opacity: 0.8;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    align-items: center;
+    width: 300px;
+    height: 100px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.cancel-btn, .confirm-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background: #FF9999;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background: #F57D7D;
+}
+
+.confirm-btn {
+    background: #C7E3B1;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background: #A5D18C;
+}

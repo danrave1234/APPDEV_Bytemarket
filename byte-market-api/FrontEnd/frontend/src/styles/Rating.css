@@ -11,3 +11,200 @@ html, body {
     font-family: Arial, Helvetica, sans-serif;
     padding: 0 5rem;
 }
+/* Reuse base container styles from Wishlist */
+.wishlist-container {
+    max-width: 1200px;
+    margin: 1.6rem auto;
+    padding: 0.8rem;
+}
+
+.products-outer-container {
+    background: #edf9fc;
+    padding: 1.6rem;
+    border-radius: 12px;
+}
+
+/* Rating specific styles */
+.rating-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.product-info {
+    background: #f8f8f8;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+.product-info h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.product-info p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.star-rating {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.star-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.star-button:hover {
+    transform: scale(1.1);
+}
+
+.star-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.star-active {
+    color: #ffd700;
+    fill: #ffd700;
+}
+
+.star-inactive {
+    color: #e0e0e0;
+}
+
+.review-textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.review-textarea:focus {
+    outline: none;
+    border-color: #98DFD6;
+    box-shadow: 0 0 0 2px rgba(152, 223, 214, 0.2);
+}
+
+.submit-button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #ff9999;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+    background: #ff8080;
+}
+
+.submit-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Test area styles */
+.test-area {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px dashed #ddd;
+    border-radius: 4px;
+}
+
+.test-input {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+}
+
+.test-button {
+    padding: 0.5rem 1rem;
+    background: #98DFD6;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.test-button:hover {
+    background: #7ac9bf;
+}
+
+/* Modal styles (reused from Wishlist) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .rating-form-container {
+        padding: 1rem;
+    }
+
+    .star-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .submit-button {
+        padding: 0.6rem;
+    }
+}

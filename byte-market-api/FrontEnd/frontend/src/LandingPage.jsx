@@ -37,6 +37,16 @@ function LandingPage() {
     return (
         <PageLayout>
             <div className="container">
+                  {/*productlisting page -----------------*/}
+                    <div className="cta-container">
+                        <button
+                            className="cta-button"
+                            onClick={() => navigate('/productlisting')}
+                        >
+                            Go to Product Listing
+                        </button>
+                    </div>
+                 {/* End listing page ---------------------*/}
                 <div className="slideshow-container">
                     <button className="previous" onClick={prevSlide}>‹</button>
                     {slides.map((slide, index) => (

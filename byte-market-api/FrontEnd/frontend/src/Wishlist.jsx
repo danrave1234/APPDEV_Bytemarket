@@ -23,8 +23,7 @@ function Wishlist() {
 
     const fetchWishlistItems = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/wishlist/getAllWishlist`);
-            // Sort the items by date immediately when receiving them
+            const response = await axios.get('http://localhost:8080/api/wishlist/getAllWishlist');
             const sortedItems = response.data.sort((a, b) =>
                 new Date(b.wishlistdate).getTime() - new Date(a.wishlistdate).getTime()
             );
@@ -36,8 +35,21 @@ function Wishlist() {
         }
     };
 
+    // Check if the product already exists in the wishlist
+    const isProductInWishlist = (productId) => {
+        return wishlistItems.some(item =>
+            item.wishlistProducts.some(product => product.productid === parseInt(productId))
+        );
+    };
+
     const handleAddProduct = async () => {
         if (!productId.trim()) return;
+
+        // Check if the product is already in the wishlist
+        if (isProductInWishlist(productId)) {
+            alert("This product is already in your wishlist!");
+            return;
+        }
 
         try {
             const wishlistItem = {
@@ -48,7 +60,7 @@ function Wishlist() {
 
             await axios.post('http://localhost:8080/api/wishlist/addWishlist', wishlistItem);
             fetchWishlistItems();
-            setProductId('');
+            setProductId(''); // Clear the input field
         } catch (error) {
             console.error('Error adding product to wishlist:', error);
         }
@@ -65,7 +77,9 @@ function Wishlist() {
         }
     };
 
-    const handleAddToCart = async (product) => {
+    const handleAddToCart = async (product, event) => {
+        event.stopPropagation(); // Prevent the card click handler from being triggered
+
         try {
             const cartItem = {
                 quantity: 1,
@@ -81,8 +95,10 @@ function Wishlist() {
         }
     };
 
-    const handleBuyNow = async (product) => {
-        await handleAddToCart(product);
+    const handleBuyNow = async (product, event) => {
+        event.stopPropagation(); // Prevent the card click handler from being triggered
+
+        await handleAddToCart(product, event);
         navigate('/customer/addToCart');
     };
 
@@ -103,13 +119,16 @@ function Wishlist() {
                 );
             case 'recent':
             default:
-                // Ensure proper date comparison by converting to timestamps
                 return sortedProducts.sort((a, b) => {
                     const dateA = new Date(a.wishlistdate).getTime();
                     const dateB = new Date(b.wishlistdate).getTime();
-                    return dateB - dateA; // Most recent first
+                    return dateB - dateA;
                 });
         }
+    };
+
+    const handleCardPress = (product) => {
+        navigate(`/productdetail/${product.productid}`, { state: { product } });
     };
 
     if (loading) return <p>Loading your wishlist...</p>;
@@ -119,7 +138,8 @@ function Wishlist() {
             <div className="wishlist-container">
                 {/* Top section with input and sort buttons */}
                 <div className="top-section">
-                    {/* Test input section - TO BE REMOVED IN PRODUCTION */}
+
+                    {/*Test Area add products =========================*/}
                     <div className="test-input-section">
                         <input
                             type="text"
@@ -130,8 +150,10 @@ function Wishlist() {
                         />
                         <button onClick={handleAddProduct} className="add-btn">Add</button>
                     </div>
+                    {/*Test Area end ===================================*/}
 
-                    {/* Sort buttons */}
+
+                    {/* Sort btns ======================================== */}
                     <div className="sort-buttons">
                         <button
                             className={`sort-btn ${sortBy === 'recent' ? 'active' : ''}`}
@@ -167,7 +189,11 @@ function Wishlist() {
                         <div className="wishlist-grid">
                             {getSortedItems().map((item) => (
                                 item.wishlistProducts.map((product) => (
-                                    <div className="product-card" key={product.productid}>
+                                    <div
+                                        className="product-card"
+                                        key={product.productid}
+                                        onClick={() => handleCardPress(product)} // Card press redirect
+                                    >
                                         <div className="product-image">
                                             <div className="image-placeholder">
                                                 Empty box For Picture
@@ -179,24 +205,24 @@ function Wishlist() {
                                             <div className="product-rating">
                                                 ⭐ {product.rating}
                                             </div>
-                                            <div className="product-note">Note!: For Christmas Gift</div>
                                             <div className="product-actions">
                                                 <button
                                                     className="buy-now-btn"
-                                                    onClick={() => handleBuyNow(product)}
+                                                    onClick={(e) => handleBuyNow(product, e)} // Prevents card click navigation
                                                 >
                                                     Buy Now
                                                 </button>
                                                 <button
                                                     className="cart-btn"
-                                                    onClick={() => handleAddToCart(product)}
+                                                    onClick={(e) => handleAddToCart(product, e)} // Prevents card click navigation
                                                     title="Add to cart"
                                                 >
                                                     🛒
                                                 </button>
                                                 <button
                                                     className="remove-btn"
-                                                    onClick={() => {
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); // Prevents card click navigation
                                                         setSelectedItemId(item.wishlistid);
                                                         setShowRemoveModal(true);
                                                     }}
@@ -213,11 +239,11 @@ function Wishlist() {
                     )}
                 </div>
 
-                {/* Modals */}
+                {/* Modals ===================================================================*/}
                 {showRemoveModal && (
                     <div className="modal-overlay" onClick={() => setShowRemoveModal(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
-                            <h3>Remove from Favorites</h3>
+                            <h3>Remove from Wishlist?</h3>
                             <div className="modal-buttons">
                                 <button onClick={() => setShowRemoveModal(false)} className="cancel-btn">
                                     Cancel
@@ -233,7 +259,7 @@ function Wishlist() {
                 {showRemoveConfirmModal && (
                     <div className="modal-overlay" onClick={() => setShowRemoveConfirmModal(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
-                            <p>Item Removed from favorites.</p>
+                            <p>Item Removed from Wishlist!</p>
                         </div>
                     </div>
                 )}
