@@ -51,6 +51,22 @@ public class SellerService {
         return sellerRepository.save(seller);
     }
 
+    public SellerEntity addBalanceSeller(int id, float balance){
+        SellerEntity seller = sellerRepository.findById(id).get();
+        seller.setBalance(seller.getBalance() + balance);
+
+        seller.setSellername(seller.getSellername());
+        seller.setStorename(seller.getStorename());
+        seller.setUsername(seller.getUsername());
+        seller.setPassword(seller.getPassword());
+        seller.setFullname(seller.getFullname());
+        seller.setEmail(seller.getEmail());
+        seller.setPhonenumber(seller.getPhonenumber());
+        seller.setAddress(seller.getAddress());
+        seller.setDateofbirth(seller.getDateofbirth());
+        return sellerRepository.save(seller);
+    }
+
     //Delete
     public SellerEntity deleteSeller(int id){
         sellerRepository.deleteById(id);

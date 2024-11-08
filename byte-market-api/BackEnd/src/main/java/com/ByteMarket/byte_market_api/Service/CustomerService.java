@@ -46,6 +46,19 @@ public class CustomerService {
         customer.setDateofbirth(newCustomer.getDateofbirth());
         return customerRepository.save(customer);
     }
+
+    public CustomerEntity addBalanceCustomer(int id, float balance){
+        CustomerEntity customer = customerRepository.findById(id).get();
+        customer.setBalance(customer.getBalance() + balance);
+        customer.setUsername(customer.getUsername());
+        customer.setPassword(customer.getPassword());
+        customer.setFullname(customer.getFullname());
+        customer.setEmail(customer.getEmail());
+        customer.setPhonenumber(customer.getPhonenumber());
+        customer.setAddress(customer.getAddress());
+        customer.setDateofbirth(customer.getDateofbirth());
+        return customerRepository.save(customer);
+    }
     //delete
     public CustomerEntity deleteCustomer(int id){
         customerRepository.deleteById(id);
