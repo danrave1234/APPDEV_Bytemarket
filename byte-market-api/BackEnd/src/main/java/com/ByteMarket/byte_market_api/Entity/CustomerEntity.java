@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "tblcustomer")
 public class CustomerEntity extends UserEntity {
     //No id, uses superclass ID
-    private float balance;
+    private double balance;
 
     public CustomerEntity() {
         super();
@@ -47,11 +47,11 @@ public class CustomerEntity extends UserEntity {
         this.balance += amount;
     }
 
-    public float getBalance(){
+    public double getBalance(){
         return balance;
     }
 
-    public void setBalance(float balance){
+    public void setBalance(double balance){
         this.balance = balance;
     }
 

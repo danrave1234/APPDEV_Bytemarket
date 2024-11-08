@@ -41,6 +41,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('userProducts');
         localStorage.removeItem('cartItems');
         localStorage.removeItem('userOrders');
+        localStorage.removeItem('pendingOrders');
+        localStorage.removeItem('completedOrders');
         setIsLoggedIn(false);
         setUserId(null);
         setRole(null);

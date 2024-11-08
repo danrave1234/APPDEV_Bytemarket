@@ -140,11 +140,12 @@ const handleProductUpdated = async (updatedProduct) => {
               <div className="productDetails">
                 <h3>{product.productname}</h3>
                 <p className="price">${product.price}</p>
+                <p className="quanitity">${product.quantity}</p>
                 <p className="category">Category: {product.category}</p>
                 <p className="description">Description: {product.description}</p>
               </div>
               <div className="product-actions">
-                <button className="edit-btn" onClick={() => openEditModal(product)}>Edit</button>
+              <button className="edit-btn" onClick={() => openEditModal(product)}>Edit</button>
                 <button className="delete-btn" onClick={() => openDeleteModal(product)}>Delete</button>
               </div>
             </div>

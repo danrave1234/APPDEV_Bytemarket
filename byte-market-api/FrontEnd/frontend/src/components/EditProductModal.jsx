@@ -5,6 +5,7 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
   const [productData, setProductData] = useState({
     productname: '',
     price: '',
+    quantity: '',
     category: '',
     description: '',
   });
@@ -14,6 +15,7 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
       setProductData({
         productname: product.productname || '',
         price: product.price || '',
+        quantity: product.quantity || '',
         category: product.category || '',
         description: product.description || '',
       });
@@ -63,6 +65,15 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
               onChange={handleChange}
             />
           </div>
+              <div>
+                  <label>Quantity:</label>
+                  <input
+                  type="number"
+                  name="quantity"
+                  value={productData.quantity}
+                  onChange={handleChange}
+                  />
+              </div>
           <div>
             <label>Category:</label>
             <input

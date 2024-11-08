@@ -47,7 +47,7 @@ public class TransactionService {
         double totalOrderPrice = order.getTotalprice();
         String transactionType = transaction.getTransactiontype();
         if (transactionType == null) {
-            transactionType = "PURCHASE";  // or another appropriate default
+            transactionType = "PURCHASE";
         }
         transaction.setTransactiontype(transactionType);
 
@@ -62,6 +62,7 @@ public class TransactionService {
 
         transactionRepository.save(transaction);
 
+        // Validate stock availability and update product quantities
         for (OrderItemEntity orderItem : order.getOrderItems()) {
             ProductEntity product = orderItem.getProduct();
             int orderedQuantity = orderItem.getQuantity();
@@ -72,17 +73,12 @@ public class TransactionService {
 
             product.setQuantity(product.getQuantity() - orderedQuantity);
             productRepository.save(product);
-
-            // Update seller's balance
-            double salePrice = orderedQuantity * product.getPrice();
-            seller.setBalance((float) (seller.getBalance() + salePrice));
-            sellerRepository.save(seller);
         }
 
-        // Update customer balance
-        customer.setBalance((float) (customer.getBalance() - totalOrderPrice));
-        customerRepository.save(customer);
+        // Centralized balance update
+        updateBalances(customer, seller, totalOrderPrice, transactionType);
 
+        // Update order status to "Completed"
         updateOrderStatus(order);
 
         return transaction;
@@ -96,12 +92,15 @@ public class TransactionService {
     private void updateBalances(CustomerEntity customer, SellerEntity seller, double amount, String transactionType) {
         switch (transactionType) {
             case "PURCHASE":
-                customer.setBalance(customer.getBalance() - (float) amount);
-                seller.setBalance(seller.getBalance() + amount);
+                customer.setBalance(customer.getBalance() - amount);
+                seller.setBalance(seller.getBalance() +  amount);
                 break;
             case "REFUND":
-                customer.setBalance(customer.getBalance() + (float) amount);
-                seller.setBalance(seller.getBalance() - amount);
+                customer.setBalance(customer.getBalance() +  amount);
+                seller.setBalance(seller.getBalance() -  amount);
+                break;
+            case "WITHDRAWAL":
+                seller.setBalance(seller.getBalance() -  amount);
                 break;
         }
 
@@ -109,8 +108,9 @@ public class TransactionService {
         sellerRepository.save(seller);
     }
 
+
     private void updateOrderStatus(OrderEntity order) {
-        order.setOrderstatus("Paid");
+        order.setOrderstatus("Completed");
         orderRepository.save(order);
     }
 
