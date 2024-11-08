@@ -13,19 +13,24 @@ const Checkout = () => {
 
     useEffect(() => {
         if (userid) {
-            const fetchUserOrders = async () => {
+            const fetchSellerOrders = async () => {
                 try {
                     setLoading(true);
                     const response = await axios.get(`http://localhost:8080/api/order/getAllOrder`);
-                    const userOrders = response.data.filter(order => order.customer.userid === userid);
-                    setOrders(userOrders);
+
+                    // Filter orders where at least one order item is associated with the current seller's userid
+                    const sellerOrders = response.data.filter(order =>
+                        order.orderItems.some(item => item.product.seller.userid === userid)
+                    );
+
+                    setOrders(sellerOrders);
                 } catch (error) {
                     console.error('Error fetching orders:', error);
                 } finally {
                     setLoading(false);
                 }
             };
-            fetchUserOrders();
+            fetchSellerOrders();
         }
     }, [userid]);
 
@@ -47,7 +52,6 @@ const Checkout = () => {
                 const transaction = {
                     transactiontype: "purchase", // Set a valid transaction type
                 };
-
 
                 const response = await axios.post(
                     `http://localhost:8080/api/transaction/addTransaction/${customer.userid}/${sellerId}/${orderid}`,
@@ -83,7 +87,7 @@ const Checkout = () => {
     return (
         <PageLayout>
             <div className="checkout-page">
-                <h3>Your Orders</h3>
+                <h3>Your Orders to Fulfill</h3>
                 {orders.map((order) => (
                     <div key={order.orderid} className="order-card">
                         <p>Order ID: {order.orderid}</p>
@@ -91,7 +95,7 @@ const Checkout = () => {
                         <p>Total Price: ${order.totalprice.toFixed(2)}</p>
                         {order.orderstatus === 'Pending' ? (
                             <button onClick={() => handleCheckout(order)}>
-                                Checkout
+                                Fulfill Order
                             </button>
                         ) : (
                             <p>This order has already been processed.</p>

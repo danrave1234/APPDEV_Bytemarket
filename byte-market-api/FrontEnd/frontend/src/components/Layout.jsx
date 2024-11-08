@@ -102,14 +102,13 @@ function PageLayout({ children }) {
                                         <>
                                             <li className="dropdownItem" onClick={handleWishlist}>Wishlist</li>
                                             <li className="dropdownItem" onClick={handleAddToCart}>Cart</li>
-                                            <li className="dropdownItem" onClick={handleCheckoOut}>CheckOut</li>
                                             <li className="dropdownItem" onClick={handleHistory}>Order History</li>
                                         </>
                                     )}
                                     {role === 'Seller' && (
                                         <>
                                         <li className="dropdownItem" onClick={handleStore}>Store</li>
-                                        <li className="dropdownItem" onClick={handleStore}>Order</li>
+                                        <li className="dropdownItem" onClick={handleCheckoOut}>Orders</li>
                                         </>
                                 )}
                             {role === 'Admin' && (
