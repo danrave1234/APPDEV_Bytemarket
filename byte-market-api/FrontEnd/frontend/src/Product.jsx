@@ -217,14 +217,16 @@ function Product() {
                                     <div className="reviewer-info">
                                         <div className="reviewer-avatar"></div>
                                         <div className="reviewer-details">
-                                            <p className="reviewer-name">Customer Name</p>
+                                            <p className="reviewer-name">{rating.customer.username}
+                                                <p>{rating.ratingdate}</p>
+                                            </p>
                                             <div className="review-rating">
-                                                <span className="star">⭐</span>
+                                                <span className="star">⭐{rating.score}</span>
                                                 <span>{rating.rating}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <p className="review-text">{rating.comment || 'No comment provided'}</p>
+                                    <p className="review-text">{rating.ratingtext || 'No comment provided'}</p>
                                 </div>
                             ))}
                         </div>

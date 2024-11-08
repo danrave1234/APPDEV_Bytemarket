@@ -239,6 +239,10 @@ html, body {
 .reviewer-name {
     font-weight: 600;
     margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 32px;
 }
 
 .review-rating {
