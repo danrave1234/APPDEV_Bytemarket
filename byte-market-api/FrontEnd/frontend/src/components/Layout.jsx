@@ -11,6 +11,7 @@ import {useAuth} from "./AuthProvider.jsx";
 import LoginModalSeller from "./LoginModalSeller.jsx";
 import LoginModalAdmin from "./LoginModalAdmin.jsx";
 import SignUpModalSeller from "./SignUpModalSeller.jsx";
+import WalletModal from "./WalletModal.jsx";
 
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -24,6 +25,11 @@ function PageLayout({ children }) {
     const [showModalSignUpAdmin, setShowModalSignUpAdmin] = useState(false);
     const [showModalLoginAdmin, setShowModalLoginAdmin] = useState(false);
 
+    const [showModalWallet, setShowModalWallet] = useState(false);
+
+    //modal wallet
+    const openModalWallet = () => setShowModalWallet(true);
+    const closeModalWallet = () => setShowModalWallet(false);
 
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     const openModalSignUp = () => setShowModalSignUp(true);
@@ -82,7 +88,7 @@ function PageLayout({ children }) {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         {/*{isLoggedIn && role === 'Seller' && (*/}
                             <div className="balance">
-                                balance
+                                <button onClick={openModalWallet}>balance</button>
                                 {/*Balance: ₱{user.balance.toFixed(2)}*/}
                             </div>
                         {/*)}*/}
@@ -179,6 +185,7 @@ function PageLayout({ children }) {
                     </div>
                     <SignUpModalSeller show={showModalSignUpSeller} closeModal={closeModalSignUpSeller} toggleDropdown={toggleDropdown}/>
                     <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller} toggleDropdown={toggleDropdown}/>
+                    <WalletModal show={showModalWallet} closeModal={closeModalWallet}/>
                     <div>
                         <h4>Admin</h4>
                         <ul>

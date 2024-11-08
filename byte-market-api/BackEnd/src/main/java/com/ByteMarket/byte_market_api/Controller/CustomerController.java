@@ -43,6 +43,10 @@ public class CustomerController {
     public CustomerEntity updateCustomer(@PathVariable int id, @RequestBody CustomerEntity newCustomer){
         return customerService.updateCustomer(id, newCustomer);
     }
+    @PutMapping("/addBalanceCustomer/{id}")
+    public CustomerEntity addBalance(@PathVariable int id, @RequestParam float balance){
+        return customerService.addBalanceCustomer(id, balance);
+    }
 
     @DeleteMapping("/deleteCustomer/{id}")
     public CustomerEntity deleteCustomer(@PathVariable int id){

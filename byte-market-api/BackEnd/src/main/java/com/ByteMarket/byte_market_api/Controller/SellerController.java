@@ -50,6 +50,11 @@ SellerService sellerService;
         return sellerService.updateSeller(id, newSeller);
     }
 
+    @PutMapping("/addBalanceSeller/{id}")
+    public SellerEntity addBalanceSeller(@PathVariable int id, @RequestParam float balance){
+        return sellerService.addBalanceSeller(id, balance);
+    }
+
     @DeleteMapping("/deleteSeller/{id}")
     public SellerEntity deleteUser(@PathVariable int id){
         return sellerService.deleteSeller(id);

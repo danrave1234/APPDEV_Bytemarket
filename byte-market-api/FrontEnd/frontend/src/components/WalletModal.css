@@ -1,0 +1,169 @@
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Modal box */
+.wallet-modal {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 600px; /* Increased width for better proportions */
+    max-width: 90%;
+    position: relative;
+    text-align: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button */
+.close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+}
+
+.wallet-content {
+    display: flex; /* Enable flexbox for horizontal alignment */
+    align-items: center; /* Align items vertically centered */
+}
+
+/* User card section */
+.user-card {
+    background-color: #3b82f6; /* Blue color */
+    border-radius: 10px;
+    padding: 1.8rem;
+    color: white;
+    text-align: left;
+    margin-bottom: 1rem;
+    width: 50%;
+}
+
+.user-card h3 {
+    margin-top: 0;
+    padding-top: 0;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.role-text {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-bottom: 1rem;
+}
+
+.user-card p {
+    font-size: 1rem;
+    margin: 0.2rem 0;
+}
+
+/* Balance information */
+.balance-info {
+    flex: 1; /* Take up the remaining space to the right of .user-card */
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align balance text to the left inside .balance-info */
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.balance-amount {
+    font-size: 2.6rem;
+    font-weight: bold;
+    color: #3b82f6;
+}
+
+.balance-label {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Cash-in input */
+.cash-in-input {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cash-in-input input {
+    width: 60%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.cash-in-input button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #34d399;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cash-in-input button:hover {
+    background-color: #10b981;
+}
+
+/* Action buttons */
+.wallet-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.wallet-buttons input{
+    width: 60%;
+    margin-right: -1.9rem;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.wallet-buttons button{
+    padding: 0.8rem 1.1rem;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-left: 1.8rem;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+}
+
+.cash-out {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #f87171;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cash-out:hover {
+    background-color: #ef4444;
+}
