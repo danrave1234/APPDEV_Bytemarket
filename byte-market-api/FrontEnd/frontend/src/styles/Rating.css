@@ -18,7 +18,7 @@ html, body {
     padding: 0.8rem;
 }
 
-.products-outer-container {
+.wishlist-container .products-outer-container {
     background: #edf9fc;
     padding: 1.6rem;
     border-radius: 12px;
@@ -34,53 +34,53 @@ html, body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.form-header {
+.wishlist-container .form-header {
     margin-bottom: 2rem;
     text-align: center;
 }
 
-.form-header h2 {
+.wishlist-container .form-header h2 {
     font-size: 1.5rem;
     font-weight: 600;
     color: #333;
 }
 
-.product-info {
+.wishlist-container .product-info {
     background: #f8f8f8;
     padding: 1rem;
     border-radius: 6px;
     margin-bottom: 1.5rem;
 }
 
-.product-info h3 {
+.wishlist-container .product-info h3 {
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
-.product-info p {
+.wishlist-container .product-info p {
     color: #666;
     font-size: 0.9rem;
 }
 
-.form-group {
+.wishlist-container .form-group {
     margin-bottom: 1.5rem;
 }
 
-.form-label {
+.wishlist-container .form-label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
     color: #333;
 }
 
-.star-rating {
+.wishlist-container .star-rating {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 1rem;
 }
 
-.star-button {
+.wishlist-container .star-button {
     background: none;
     border: none;
     padding: 0;
@@ -88,25 +88,25 @@ html, body {
     transition: transform 0.2s;
 }
 
-.star-button:hover {
+.wishlist-container .star-button:hover {
     transform: scale(1.1);
 }
 
-.star-icon {
+.wishlist-container .star-icon {
     width: 24px;
     height: 24px;
 }
 
-.star-active {
+.wishlist-container .star-active {
     color: #ffd700;
     fill: #ffd700;
 }
 
-.star-inactive {
+.wishlist-container .star-inactive {
     color: #e0e0e0;
 }
 
-.review-textarea {
+.wishlist-container .review-textarea {
     width: 100%;
     min-height: 150px;
     padding: 0.8rem;
@@ -117,13 +117,13 @@ html, body {
     line-height: 1.5;
 }
 
-.review-textarea:focus {
+.wishlist-container .review-textarea:focus {
     outline: none;
     border-color: #98DFD6;
     box-shadow: 0 0 0 2px rgba(152, 223, 214, 0.2);
 }
 
-.submit-button {
+.wishlist-container .submit-button {
     width: 100%;
     padding: 0.8rem;
     background: #ff9999;
@@ -135,31 +135,31 @@ html, body {
     transition: background-color 0.2s;
 }
 
-.submit-button:hover {
+.wishlist-container .submit-button:hover {
     background: #ff8080;
 }
 
-.submit-button:disabled {
+.wishlist-container .submit-button:disabled {
     background: #cccccc;
     cursor: not-allowed;
 }
 
 /* Test area styles */
-.test-area {
+.wishlist-container .test-area {
     margin-bottom: 1.5rem;
     padding: 1rem;
     border: 1px dashed #ddd;
     border-radius: 4px;
 }
 
-.test-input {
+.wishlist-container .test-input {
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-right: 0.5rem;
 }
 
-.test-button {
+.wishlist-container .test-button {
     padding: 0.5rem 1rem;
     background: #98DFD6;
     border: none;
@@ -167,12 +167,12 @@ html, body {
     cursor: pointer;
 }
 
-.test-button:hover {
+.wishlist-container .test-button:hover {
     background: #7ac9bf;
 }
 
 /* Modal styles (reused from Wishlist) */
-.modal-overlay {
+.wishlist-container .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -185,7 +185,7 @@ html, body {
     z-index: 1000;
 }
 
-.modal-content {
+.wishlist-container .modal-content {
     background: white;
     padding: 2rem;
     border-radius: 10px;
@@ -195,16 +195,16 @@ html, body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .rating-form-container {
+    .wishlist-container .rating-form-container {
         padding: 1rem;
     }
 
-    .star-icon {
+    .wishlist-container .star-icon {
         width: 20px;
         height: 20px;
     }
 
-    .submit-button {
+    .wishlist-container .submit-button {
         padding: 0.6rem;
     }
 }

@@ -1,15 +1,15 @@
-// CheckoutPage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from "./components/AuthProvider.jsx";
-import './styles/Checkout.css';
+import styles from './styles/Checkout.module.css';
 import PageLayout from "./components/Layout.jsx";
 
 const Checkout = () => {
     const { userid } = useAuth();
-    const [orders, setOrders] = useState([]);
+    const [pendingOrders, setPendingOrders] = useState([]);
+    const [completedOrders, setCompletedOrders] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [transactionStatus, setTransactionStatus] = useState(null); // To show feedback for each transaction
+    const [transactionStatus, setTransactionStatus] = useState(null);
 
     useEffect(() => {
         if (userid) {
@@ -18,12 +18,15 @@ const Checkout = () => {
                     setLoading(true);
                     const response = await axios.get(`http://localhost:8080/api/order/getAllOrder`);
 
-                    // Filter orders where at least one order item is associated with the current seller's userid
                     const sellerOrders = response.data.filter(order =>
                         order.orderItems.some(item => item.product.seller.userid === userid)
                     );
 
-                    setOrders(sellerOrders);
+                    const pending = sellerOrders.filter(order => order.orderstatus === 'Pending');
+                    const completed = sellerOrders.filter(order => order.orderstatus === 'Completed');
+
+                    setPendingOrders(pending);
+                    setCompletedOrders(completed);
                 } catch (error) {
                     console.error('Error fetching orders:', error);
                 } finally {
@@ -35,28 +38,38 @@ const Checkout = () => {
     }, [userid]);
 
     const handleCheckout = async (order) => {
-        const { orderid, customer, orderItems } = order;
+    const { orderid, customer, orderItems } = order;
 
-        try {
-            for (const item of orderItems) {
-                const sellerId = item.product.seller.userid;
-                if (!sellerId) {
-                    setTransactionStatus({
-                        orderid,
-                        status: 'error',
-                        message: 'No seller found for this item in the order.',
-                    });
-                    continue;
-                }
+    try {
+        for (const item of orderItems) {
+            // Log item details to verify data structure
+            console.log("Processing item:", item);
 
-                const transaction = {
-                    transactiontype: "purchase", // Set a valid transaction type
-                };
+            const sellerId = item.product.seller.userid;
+            if (!sellerId) {
+                console.error(`Seller ID not found for item:`, item);
+                setTransactionStatus({
+                    orderid,
+                    status: 'error',
+                    message: 'No seller found for this item in the order.',
+                });
+                continue; // Skip this item if no sellerId is found
+            }
 
-                const response = await axios.post(
-                    `http://localhost:8080/api/transaction/addTransaction/${customer.userid}/${sellerId}/${orderid}`,
-                    transaction
-                );
+            const transaction = {
+                transactiontype: "purchase",
+            };
+
+            // Log the transaction URL and payload before the API call
+            const transactionUrl = `http://localhost:8080/api/transaction/addTransaction/${customer.userid}/${sellerId}/${orderid}`;
+            console.log("Transaction URL:", transactionUrl);
+            console.log("Transaction Payload:", transaction);
+
+            try {
+                const response = await axios.post(transactionUrl, transaction);
+
+                // Log the API response to ensure it's as expected
+                console.log("Transaction response:", response.data);
 
                 setTransactionStatus({
                     orderid,
@@ -64,46 +77,75 @@ const Checkout = () => {
                     message: `Transaction for Order ${orderid} with Seller ${sellerId} completed successfully!`,
                 });
 
-                // Update local order status to 'Completed'
-                setOrders((prevOrders) =>
-                    prevOrders.map((o) =>
-                        o.orderid === orderid ? { ...o, orderstatus: 'Completed' } : o
-                    )
-                );
+                // Update order lists
+                setPendingOrders((prevOrders) => prevOrders.filter((o) => o.orderid !== orderid));
+                setCompletedOrders((prevOrders) => [
+                    ...prevOrders,
+                    { ...order, orderstatus: 'Completed' },
+                ]);
+            } catch (apiError) {
+                // Log API error details specifically
+                console.error("API Error during transaction:", apiError);
+                setTransactionStatus({
+                    orderid,
+                    status: 'error',
+                    message: `Error processing transaction for Order ${orderid}.`,
+                });
             }
-        } catch (error) {
-            console.error('Error during transaction:', error);
-            setTransactionStatus({
-                orderid,
-                status: 'error',
-                message: `Error processing transaction for Order ${orderid}.`,
-            });
         }
-    };
+    } catch (generalError) {
+        // Log any other errors that might occur
+        console.error('General error in handleCheckout:', generalError);
+        setTransactionStatus({
+            orderid,
+            status: 'error',
+            message: `Error processing transaction for Order ${orderid}.`,
+        });
+    }
+};
+
 
     if (loading) return <p>Loading your orders...</p>;
-    if (orders.length === 0) return <p>You have no orders available for checkout.</p>;
 
     return (
         <PageLayout>
-            <div className="checkout-page">
+            <div className={styles.checkoutPage}>
                 <h3>Your Orders to Fulfill</h3>
-                {orders.map((order) => (
-                    <div key={order.orderid} className="order-card">
-                        <p>Order ID: {order.orderid}</p>
-                        <p>Status: {order.orderstatus}</p>
-                        <p>Total Price: ${order.totalprice.toFixed(2)}</p>
-                        {order.orderstatus === 'Pending' ? (
-                            <button onClick={() => handleCheckout(order)}>
-                                Fulfill Order
-                            </button>
-                        ) : (
-                            <p>This order has already been processed.</p>
-                        )}
-                    </div>
-                ))}
+
+                <div className={styles.ordersSection}>
+                    <h4>Pending Orders</h4>
+                    {pendingOrders.length > 0 ? (
+                        pendingOrders.map((order) => (
+                            <div key={order.orderid} className={`${styles.orderCard} ${styles.pendingOrder}`}>
+                                <p>Order ID: {order.orderid}</p>
+                                <p>Total Price: ${order.totalprice.toFixed(2)}</p>
+                                <button onClick={() => handleCheckout(order)}>
+                                    Fulfill Order
+                                </button>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No pending orders to fulfill.</p>
+                    )}
+                </div>
+
+                <div className={styles.ordersSection}>
+                    <h4>Completed Orders</h4>
+                    {completedOrders.length > 0 ? (
+                        completedOrders.map((order) => (
+                            <div key={order.orderid} className={`${styles.orderCard} ${styles.completedOrder}`}>
+                                <p>Order ID: {order.orderid}</p>
+                                <p>Total Price: ${order.totalprice.toFixed(2)}</p>
+                                <p>Status: {order.orderstatus}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No completed orders.</p>
+                    )}
+                </div>
+
                 {transactionStatus && (
-                    <div className={`transaction-feedback ${transactionStatus.status}`}>
+                    <div className={`${styles.transactionFeedback} ${styles[transactionStatus.status]}`}>
                         {transactionStatus.message}
                     </div>
                 )}

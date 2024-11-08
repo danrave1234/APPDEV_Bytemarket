@@ -36,7 +36,7 @@ function LandingPage() {
 
     return (
         <PageLayout>
-            <div className="container">
+            <div className="landing-container">
                   {/*productlisting page -----------------*/}
                     <div className="cta-container">
                         <button

@@ -4,26 +4,26 @@
     padding: 0.8rem;
 }
 
-.top-section {
+.wishlist-container .top-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.6rem;
 }
 
-.test-input-section {
+.wishlist-container .test-input-section {
     display: flex;
     gap: 0.8rem;
 }
 
-.product-id-input {
+.wishlist-container .product-id-input {
     padding: 0.4rem;
     border: 1px solid #ddd;
     border-radius: 4px;
     width: 160px;
 }
 
-.add-btn {
+.wishlist-container .add-btn {
     padding: 0.4rem 0.8rem;
     background-color: #98DFD6;
     border: none;
@@ -32,12 +32,12 @@
     font-size: 0.9rem;
 }
 
-.sort-buttons {
+.wishlist-container .sort-buttons {
     display: flex;
 
 }
 
-.sort-btn {
+.wishlist-container .sort-btn {
     padding: 0.5rem 1.2rem;
     border: none;
     background: white;
@@ -48,13 +48,13 @@
     border-bottom: 1px solid;
 }
 
-.sort-btn.active {
+.wishlist-container .sort-btn.active {
     background: #e0e0e0;
     border-radius: 20px;
     border-bottom: 0px;
 }
 
-.products-outer-container {
+.wishlist-container .products-outer-container {
     background: #edf9fc;
     padding: 1.6rem;
     border-radius: 12px;
@@ -67,7 +67,7 @@
     padding: 0.8rem;
 }
 
-.product-card {
+.wishlist-container .product-card {
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -78,16 +78,16 @@
     flex-direction: column;
 }
 
-.product-card:hover {
+.wishlist-container .product-card:hover {
     transform: translateY(-4px);
 }
 
-.product-image {
+.wishlist-container .product-image {
     flex: 1;
     min-height: 240px;
 }
 
-.image-placeholder {
+.wishlist-container .image-placeholder {
     width: 100%;
     height: 100%;
     background: #f0f0f0;
@@ -98,43 +98,43 @@
     font-size: 0.9rem;
 }
 
-.product-details {
+.wishlist-container .product-details {
     padding: 0.8rem;
 }
 
-.product-title {
+.wishlist-container .product-title {
     font-size: 0.9rem;
     margin: 0 0 0.4rem 0;
     color: #333;
 }
 
-.product-price {
+.wishlist-container .product-price {
     font-size: 1rem;
     font-weight: 700;
     color: #FFA500;
     margin: 0.4rem 0;
 }
 
-.product-rating {
+.wishlist-container .product-rating {
     color: #ffd700;
     margin: 0.4rem 0;
     font-size: 0.9rem;
 }
 
-.product-note {
+.wishlist-container .product-note {
     color: #666;
     font-size: 0.8rem;
     margin: 0.4rem 0;
 }
 
-.product-actions {
+.wishlist-container .product-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 0.8rem;
 }
 
-.buy-now-btn {
+.wishlist-container .buy-now-btn {
     background: #ff9999;
     color: white;
     border: none;
@@ -146,7 +146,7 @@
     font-size: 0.9rem;
 }
 
-.cart-btn, .remove-btn {
+.wishlist-container .cart-btn, .wishlist-container .remove-btn {
     background: none;
     border: none;
     font-size: 1.2rem;
@@ -155,7 +155,7 @@
     position: relative;
 }
 
-.cart-btn:hover::after, .remove-btn:hover::after {
+.wishlist-container .cart-btn:hover::after, .wishlist-container .remove-btn:hover::after {
     content: attr(title);
     position: absolute;
     bottom: 100%;
@@ -169,15 +169,15 @@
     white-space: nowrap;
 }
 
-.buy-now-btn:hover {
+.wishlist-container .buy-now-btn:hover {
     background: #ff8080;
 }
 
-.cart-btn:hover, .remove-btn:hover {
+.wishlist-container .cart-btn:hover, .remove-btn:hover {
     transform: scale(1.1);
 }
 
-.modal-overlay {
+.wishlist-container .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -190,7 +190,7 @@
     z-index: 1000;
 }
 
-.modal-content {
+.wishlist-container .modal-content {
     background: white;
     padding: 2rem;
     border-radius: 10px;
@@ -200,13 +200,13 @@
     height: 100px;
 }
 
-.modal-buttons {
+.wishlist-container .modal-buttons {
     display: flex;
     justify-content: center;
     gap: 1rem;
     margin-top: 1rem;
 }
-.cancel-btn {
+.wishlist-container .cancel-btn {
     background: #ff9999;
     color: white;
     border: none;
@@ -215,12 +215,12 @@
     cursor: pointer;
 }
 
-.cancel-btn:hover {
+.wishlist-container .cancel-btn:hover {
     background: #f57d7d;
     color: white;
 }
 
-.confirm-btn {
+.wishlist-container .confirm-btn {
     background: #c7e3b1;
     color: white;
     border: none;
@@ -229,6 +229,6 @@
     cursor: pointer;
 }
 
-.confirm-btn:hover {
+.wishlist-container .confirm-btn:hover {
     background: #a5d18c;
 }

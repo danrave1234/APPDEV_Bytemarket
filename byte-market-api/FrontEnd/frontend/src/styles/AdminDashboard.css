@@ -10,7 +10,7 @@ html, body {
     display: flex;
 }
 
-.sidebar {
+.admin-dashboard .sidebar {
     border-top-right-radius: 5rem;
     background-color: grey;
     color: #fff;
@@ -18,29 +18,29 @@ html, body {
     padding: 20px;
 }
 
-.sidebar h2 {
+.admin-dashboard .sidebar h2 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-.sidebar ul {
+.admin-dashboard .sidebar ul {
     list-style: none;
     padding: 0;
 }
 
-.sidebar li {
+.admin-dashboard .sidebar li {
     padding: 10px;
     cursor: pointer;
     font-size: 18px;
 }
 
-.sidebar li.active {
+.admin-dashboard .sidebar li.active {
     background-color: #fff;
     color: #5b0b0b;
     border-radius: 5px;
 }
 
-.main-content {
+.admin-dashboard .main-content {
     flex: 1;
     padding: 20px;
 }
@@ -51,39 +51,39 @@ html, body {
     align-items: center;
 }
 
-.search-bar {
+.admin-dashboard .search-bar {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid #ddd;
 }
 
-.table-container {
+.admin-dashboard .table-container {
     margin-top: 20px;
 }
 
-table {
+.admin-dashboard table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
 }
 
-th, td {
+.admin-dashboard th, td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
 }
 
-th {
+.admin-dashboard th {
     background-color: #f2f2f2;
 }
 
-td button {
+.admin-dashboard td button {
     margin: 0 5px;
     padding: 5px 10px;
     font-size: 14px;
     cursor: pointer;
 }
-.modal {
+.admin-dashboard .modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -96,7 +96,7 @@ td button {
     z-index: 1000;
 }
 
-.modal .modal-content {
+.admin-dashboard .modal .modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -109,11 +109,11 @@ td button {
 }
 
 
-.modal-content h2 {
+.admin-dashboard .modal-content h2 {
     margin-top: 0;
 }
 
-.modal-content input {
+.admin-dashboard .modal-content input {
     width: 100%;
     padding: 8px;
     margin: 10px 0;

@@ -6,24 +6,24 @@
 }
 
 /* Header Section */
-.store-header {
+.store-container .store-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.store-info h1 {
+.store-container .store-info h1 {
     font-size: 24px;
     margin: 0;
 }
 
-.store-info p {
+.store-container .store-info p {
     font-size: 16px;
     color: #555;
 }
 
-.add-product-btn {
+.store-container .store-header .add-product-btn {
     background-color: #ff6b6b;
     color: white;
     border: none;
@@ -32,7 +32,7 @@
     cursor: pointer;
 }
 
-.add-product-btn:hover {
+.store-container .add-product-btn:hover {
     background-color: #ff5252;
 }
 
@@ -45,7 +45,7 @@
 }
 
 /* Product Card */
-.product-card {
+.store-container .product-card {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -59,7 +59,7 @@
 
 
 /* Image Placeholder */
-.product-image-placeholder {
+.store-container .product-image-placeholder {
     background-color: #f0f0f0;
     width: 100%;
     height: 200px;
@@ -70,19 +70,19 @@
     margin-bottom: 5px;
 }
 
-.product-image-placeholder p {
+.store-container .product-image-placeholder p {
     color: #aaa;
 }
 
 /* Product Details */
-.productDetails {
+.store-container .productDetails {
     display: flex;
     height: 15rem;
     flex-direction: column;
 }
 
 /* Description */
-.description {
+.store-container .description {
     font-size: 11px;
     color: #555;
     line-height: 1.2;
@@ -92,11 +92,11 @@
     white-space: normal;
     margin-bottom: 5px;
 }
-.productDetails h3 {
+.store-container .productDetails h3 {
     margin-bottom: 0;
 }
 /* Price */
-.price {
+.store-container .price {
     color: #ff6b6b;
     font-weight: bold;
     font-size: 18px;
@@ -104,19 +104,19 @@
 }
 
 /* Category */
-.category {
+.store-container .category {
     font-size: 14px;
     color: #777;
     margin-bottom: 5px;
 }
 
 /* Action Buttons */
-.product-actions {
+.store-container .product-actions {
     display: flex;
     justify-content: space-around;
 }
 
-.edit-btn, .delete-btn {
+.store-container .edit-btn, .delete-btn {
     background-color: #ff6b6b;
     color: white;
     border: none;
@@ -126,6 +126,6 @@
     font-size: 14px;
 }
 
-.edit-btn:hover, .delete-btn:hover {
+.store-container .edit-btn:hover, .delete-btn:hover {
     background-color: #ff5252;
 }
