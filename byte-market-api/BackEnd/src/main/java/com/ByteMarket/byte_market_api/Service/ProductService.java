@@ -4,7 +4,6 @@ import com.ByteMarket.byte_market_api.Entity.ProductEntity;
 import com.ByteMarket.byte_market_api.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -19,6 +18,9 @@ public class ProductService {
     public ProductEntity getProductById(int id) {
         return productRepository.findById(id).get();
     }
+//    public List<ProductEntity> getProductsBySeller(int userid) {
+//        return productRepository.findBySeller(userid);
+//    }
     //Add
     public ProductEntity addProduct(ProductEntity product) {
         return productRepository.save(product);

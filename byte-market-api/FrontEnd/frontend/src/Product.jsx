@@ -2,7 +2,7 @@ import './styles/Product.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';  // Added useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Product() {
@@ -87,7 +87,6 @@ function Product() {
                 setIsWishlisted(true);  // Update the heart to red
                 setIsAddingToWishlist(false);
                 setShowAddToCartModal(true);  // Show added to wishlist modal
-                // Notify user added to wishlist
             } catch (error) {
                 console.error('Error adding to wishlist:', error);
                 setIsAddingToWishlist(false);
@@ -109,14 +108,12 @@ function Product() {
                 setIsWishlisted(false);  // Remove the red heart
                 setShowRemoveConfirmModal(true);  // Show confirmation modal
                 setShowWishlistModal(false);  // Close the modal
-                // Notify user removed from wishlist
             }
         } catch (error) {
             console.error('Error removing from wishlist:', error);
         }
     };
 
-    // New handler for the "Buy Now" button
     const handleBuyNow = async () => {
         try {
             const cartItem = {
@@ -187,6 +184,24 @@ function Product() {
                             <div className="product-description">
                                 <h3>Description:</h3>
                                 <p>{product?.description}</p>
+                            </div>
+
+                            {/* Display Store Name & Profile Icon Below Description */}
+                            <div className="store-info">
+                                <div className="profile-icon-container">
+                                    <span className="profile-icon">👤</span>
+                                    <span className="store-name-container">
+                                        <span className="store-name">
+                                            {product?.seller?.storename || 'No Store Name Available'}
+                                        </span>
+                                        <a
+                                            href={`/store/${product?.seller?.username}`} // Link to seller's store page
+                                            className="visit-store-link"
+                                        >
+                                            Visit Store
+                                        </a>
+                                    </span>
+                                </div>
                             </div>
 
                             <div className="quantity-section">

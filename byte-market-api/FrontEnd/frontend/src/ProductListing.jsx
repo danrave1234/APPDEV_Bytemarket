@@ -12,6 +12,8 @@ export default function ProductListing() {
     const [loading, setLoading] = useState(true);
     const [sortBy, setSortBy] = useState('recent');
     const [wishlist, setWishlist] = useState([]);
+    const [sellers, setSellers] = useState([]);
+    const [selectedSeller, setSelectedSeller] = useState('');
 
     // Modal states
     const [showAddToWishlistModal, setShowAddToWishlistModal] = useState(false);
@@ -21,17 +23,32 @@ export default function ProductListing() {
     const [selectedItemId, setSelectedItemId] = useState(null);
 
     useEffect(() => {
+        fetchSellers();
         fetchProducts();
         fetchWishlist();
-    }, [userid]);
+    }, [userid, selectedSeller]);
+
+    const fetchSellers = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/seller/getAllSeller');
+            setSellers(response.data);
+        } catch (error) {
+            console.error('Error fetching sellers:', error);
+        }
+    };
 
     const fetchProducts = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/product/getAllProduct');
-            const sortedItems = response.data.sort((a, b) =>
-                new Date(b.dateposted).getTime() - new Date(a.dateposted).getTime()
-            );
-            setProducts(sortedItems);
+            let filteredProducts = response.data;
+
+            if (selectedSeller) {
+                filteredProducts = response.data.filter(product =>
+                    product.seller && product.seller.sellerid === parseInt(selectedSeller)
+                );
+            }
+
+            setProducts(filteredProducts);
         } catch (error) {
             console.error('Error fetching products:', error);
         } finally {
@@ -130,9 +147,7 @@ export default function ProductListing() {
             case 'priceHigh':
                 return sortedProducts.sort((a, b) => b.price - a.price);
             case 'alpha':
-                return sortedProducts.sort((a, b) =>
-                    a.productname.localeCompare(b.productname)
-                );
+                return sortedProducts.sort((a, b) => a.productname.localeCompare(b.productname));
             case 'rating':
                 return sortedProducts.sort((a, b) => {
                     const aRating = a.ratings?.length > 0
@@ -145,9 +160,7 @@ export default function ProductListing() {
                 });
             case 'recent':
             default:
-                return sortedProducts.sort((a, b) =>
-                    new Date(b.dateposted).getTime() - new Date(a.dateposted).getTime()
-                );
+                return sortedProducts.sort((a, b) => new Date(b.dateposted).getTime() - new Date(a.dateposted).getTime());
         }
     };
 
@@ -157,6 +170,22 @@ export default function ProductListing() {
         <PageLayout>
             <div className="product-listing-container">
                 <div className="top-section">
+                    <div className="store-dropdown">
+                        <select
+                            value={selectedSeller}
+                            onChange={(e) => {
+                                setSelectedSeller(e.target.value);
+                                setLoading(true);
+                            }}
+                        >
+                            <option value="">All Stores</option>
+                            {sellers.map(seller => (
+                                <option key={seller.sellerid} value={seller.sellerid}>
+                                    {seller.storename}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                     <div className="sort-buttons">
                         <button
                             className={`sort-btn ${sortBy === 'recent' ? 'active' : ''}`}
@@ -209,9 +238,7 @@ export default function ProductListing() {
                                                 alt={product.productname}
                                             />
                                         ) : (
-                                            <div className="image-placeholder">
-                                                No Image Available
-                                            </div>
+                                            <div className="image-placeholder">No Image Available</div>
                                         )}
                                     </div>
                                     <div className="product-details">
@@ -236,8 +263,8 @@ export default function ProductListing() {
                                             >
                                                 🛒
                                             </button>
-                                            <button
-                                                className={`wishlist-btn ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`}
+                                            <span
+                                                className={`wishlist-icon ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`}
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (isProductInWishlist(product.productid)) {
@@ -250,7 +277,7 @@ export default function ProductListing() {
                                                 title={isProductInWishlist(product.productid) ? "Remove from wishlist" : "Add to wishlist"}
                                             >
                                                 {isProductInWishlist(product.productid) ? '❤️' : '🤍'}
-                                            </button>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

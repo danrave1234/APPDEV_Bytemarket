@@ -22,6 +22,10 @@ public class ProductController {
     public ProductEntity getProductById(@PathVariable int id){
         return productService.getProductById(id);
     }
+//    @GetMapping("/getProductsBySeller/{id}")
+//    public List<ProductEntity> getProductsBySeller(@PathVariable int id) {
+//        return productService.getProductsBySeller(id);
+//    }
     @PostMapping("/addProduct")
     public ProductEntity addProduct(@RequestBody ProductEntity product){
         return productService.addProduct(product);

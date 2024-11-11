@@ -211,7 +211,8 @@
 }
 
 .product-listing-container .cancel-btn {
-    background: #ff9999;
+    background: #ff9c9c;
+    width: 100px;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -220,12 +221,13 @@
 }
 
 .product-listing-container .cancel-btn:hover {
-    background: #f57d7d;
+    background: #febaba;
     color: white;
 }
 
 .product-listing-container .confirm-btn {
     background: #c7e3b1;
+    width: 100px;
     color: white;
     border: none;
     padding: 0.5rem 1rem;

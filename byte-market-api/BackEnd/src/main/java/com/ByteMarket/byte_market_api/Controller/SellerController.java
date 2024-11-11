@@ -39,6 +39,7 @@ SellerService sellerService;
     public List<SellerEntity> getAllSeller(){
         return sellerService.getAllSeller();
     }
+
     @GetMapping("/getSellerById/{id}")
     public SellerEntity getSellerById(@PathVariable int id){
         return sellerService.getSellerById(id);
