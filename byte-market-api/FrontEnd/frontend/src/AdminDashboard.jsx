@@ -120,6 +120,15 @@ function AdminDashboard() {
                                 }
                             />
                         </label>
+                        <label>
+                            Description:
+                            <textarea
+                                value={currentItem.description || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, description: e.target.value })
+                                }
+                                />
+                        </label>
                     </>
                 );
             case 'Customers':
@@ -169,16 +178,20 @@ const renderTableHeaders = () => {
         case 'Products':
             return (
                 <>
+                    <th>Product ID</th>
                     <th>Product Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Category</th>
+                    <th>Seller name</th>
+                    <th>Store</th>
                     <th>Actions</th>
                 </>
             );
         case 'Customers':
             return (
                 <>
+                    <th>Customer ID</th>
                     <th>Full Name</th>
                     <th>Email</th>
                     <th>Address</th>
@@ -188,6 +201,7 @@ const renderTableHeaders = () => {
         case 'Sellers':
             return (
                 <>
+                    <th>Seller ID</th>
                     <th>Seller Name</th>
                     <th>Store Name</th>
                     <th>Email</th>
@@ -214,14 +228,18 @@ const renderTableRows = () => {
         <tr key={item.id}>
             {selectedOption === 'Products' && (
                 <>
+                    <td>{item.productid}</td>
                     <td>{item.productname}</td>
                     <td>{item.price}</td>
                     <td>{item.quantity}</td>
                     <td>{item.category}</td>
+                    <td>{item.seller?.sellername || 'N/A'}</td>
+                    <td>{item.seller?.storename || 'N/A'}</td>
                 </>
             )}
             {selectedOption === 'Customers' && (
                 <>
+                <td>{item.userid}</td>
                     <td>{item.fullname}</td>
                     <td>{item.email}</td>
                     <td>{item.address}</td>
@@ -229,6 +247,7 @@ const renderTableRows = () => {
             )}
             {selectedOption === 'Sellers' && (
                 <>
+                    <th>{item.userid}</th>
                     <td>{item.sellername}</td>
                     <td>{item.storename}</td>
                     <td>{item.email}</td>
@@ -236,10 +255,11 @@ const renderTableRows = () => {
             )}
             {selectedOption === 'Orders' && (
                 <>
-                    <td>{item.orderId}</td>
-                    <td>{item.customerName}</td>
-                    <td>{item.totalAmount}</td>
-                    <td>{item.status}</td>
+                    <td>{item.orderid}</td>
+                    <td>{item.customer?.fullname}</td>
+                    {/*<td>{item.orderItems.product.seller.sellername}</td>*/}
+                    <td>{item.totalprice}</td>
+                    <td>{item.orderstatus}</td>
                 </>
             )}
             <td>

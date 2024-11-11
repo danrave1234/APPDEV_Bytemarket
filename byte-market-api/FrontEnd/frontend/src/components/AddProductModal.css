@@ -1,4 +1,4 @@
-.modal-overlay {
+.addProduct-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,23 +12,23 @@
 
 }
 
-.modal-overlay .modal-content {
+.addProduct-modal-overlay .modal-content {
   background: white;
   padding: 30px;
   border-radius: 8px;
   width: 400px;height: auto;
 }
 
-.modal-overlay  .modal-content h3 {
+.addProduct-modal-overlay .modal-content h3 {
   margin-bottom: 20px;
 }
 
-.modal-overlay .modal-content label {
+.addProduct-modal-overlay .modal-content label {
   display: block;
   margin-bottom: 8px;
 }
 
-.modal-overlay .modal-content input{
+.addProduct-modal-overlay .modal-content input{
     background-color: #f1f1f1;
     color: black;
   width: 100%;
@@ -37,14 +37,14 @@
   border-radius: 4px;
   border: 1px solid #ccc;
 }
-.modal-overlay .modal-content textarea{
+.addProduct-modal-overlay .modal-content textarea{
     background-color: #f1f1f1;
   width: 100%;
   margin-bottom: 12px;
   border-radius: 4px;
   border: 1px solid #ccc;
 }
-.modal-content button {
+.addProduct-modal-overlay button {
   padding: 10px 15px;
   margin-right: 10px;
   background-color: #007bff;
@@ -52,7 +52,15 @@
   border: none;
   cursor: pointer;
 }
-
-.modal-content button:hover {
+.addProduct-modal-overlay textarea{
+    background-color: #f1f1f1;
+    color: black;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+.addProduct-modal-overlay button:hover {
   background-color: #0056b3;
 }

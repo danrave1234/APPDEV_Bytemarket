@@ -124,14 +124,14 @@ const Checkout = () => {
                         pendingOrders.map((order) => (
                             <div key={order.orderid} className="orderCard pendingOrder">
                                 <p>Order ID: {order.orderid}</p>
-                                <p>Total Price: ${order.totalprice.toFixed(2)}</p>
+                                <p>Total Price: ₱{order.totalprice.toFixed(2)}</p>
                                 <h5>Products in Order:</h5>
                                 <ul>
                                     {order.orderItems.map((item, index) => (
                                         <li key={item.id || `${order.orderid}-${index}`}>
                                             <p>Product Name: {item.product.productname}</p>
                                             <p>Quantity: {item.quantity}</p>
-                                            <p>Price: ${item.product.price.toFixed(2)}</p>
+                                            <p>Price: ₱{item.product.price.toFixed(2)}</p>
                                         </li>
                                     ))}
                                 </ul>
@@ -150,7 +150,7 @@ const Checkout = () => {
                         completedOrders.map((order) => (
                             <div key={order.orderid} className="orderCard completedOrder">
                                 <p>Order ID: {order.orderid}</p>
-                                <p>Total Price: ${order.totalprice.toFixed(2)}</p>
+                                <p>Total Price: ₱{order.totalprice.toFixed(2)}</p>
                                 <p>Status: Completed</p>
                                 <h5>Products in Order:</h5>
                                 <ul>
@@ -158,7 +158,7 @@ const Checkout = () => {
                                         <li key={item.id || `${order.orderid}-${index}`}>
                                             <p>Product Name: {item.product.productname}</p>
                                             <p>Quantity: {item.quantity}</p>
-                                            <p>Price: ${item.product.price.toFixed(2)}</p>
+                                            <p>Price: ₱{item.product.price.toFixed(2)}</p>
                                         </li>
                                     ))}
                                 </ul>

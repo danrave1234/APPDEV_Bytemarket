@@ -168,17 +168,16 @@ function Product() {
                             </div>
 
                             <div className="product-rating">
-                                <span className="star">⭐</span>
-                                <span>{product?.ratings?.length > 0
-                                    ? (product.ratings.reduce((acc, curr) => acc + curr.rating, 0) / product.ratings.length).toFixed(1)
-                                    : 'No ratings'}</span>
+                                ⭐ {product.ratings?.length > 0
+                                ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
+                                : 'No ratings'}
                             </div>
 
                             <div className="product-price">₱ {product?.price?.toFixed(2)}</div>
 
                             <div className="product-meta">
                                 <p>Stock/s left: {product?.quantity}</p>
-                                <p>Seller: {product?.seller?.username}</p>
+                                <p>Seller: {product?.seller?.sellername}</p>
                             </div>
 
                             <div className="product-description">
@@ -215,7 +214,8 @@ function Product() {
 
                             <div className="action-buttons">
                                 <button onClick={handleAddToCart} className="add-cart-btn">Add to Cart</button>
-                                <button onClick={handleBuyNow} className="buy-now-btn">Buy Now</button>  {/* Buy Now button */}
+                                <button onClick={handleBuyNow} className="buy-now-btn">Buy Now</button>
+                                {/* Buy Now button */}
                             </div>
                         </div>
                     </div>

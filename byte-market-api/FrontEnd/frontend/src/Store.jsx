@@ -44,20 +44,31 @@ function Store() {
     }
   }, [userid]);
 
-  const openAddModal = () => setIsAddModalOpen(true);
-  const closeAddModal = () => setIsAddModalOpen(false);
+  const openAddModal = () => {
+    setIsAddModalOpen(true);
+    document.body.style.overflow = 'hidden';};
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+    document.body.style.overflow = 'auto';};
 
   const openEditModal = (product) => {
     setProductToEdit(product);
     setIsEditModalOpen(true);
+    document.body.style.overflow = 'hidden';
   };
-  const closeEditModal = () => setIsEditModalOpen(false);
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    document.body.style.overflow = 'auto';};
 
   const openDeleteModal = (product) => {
     setProductToDelete(product); // Set product to be deleted
     setIsDeleteModalOpen(true);
+    document.body.style.overflow = 'hidden';
   };
-  const closeDeleteModal = () => setIsDeleteModalOpen(false);
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+    document.body.style.overflow = 'auto';
+  };
 
 const handleProductAdded = async () => {
   localStorage.removeItem("userProducts");
@@ -139,8 +150,8 @@ const handleProductUpdated = async (updatedProduct) => {
               </div>
               <div className="productDetails">
                 <h3>{product.productname}</h3>
-                <p className="price">${product.price}</p>
-                <p className="quanitity">${product.quantity}</p>
+                <p className="price">₱{product.price}</p>
+                <p className="quanitity">Stock: {product.quantity}</p>
                 <p className="category">Category: {product.category}</p>
                 <p className="description">Description: {product.description}</p>
               </div>

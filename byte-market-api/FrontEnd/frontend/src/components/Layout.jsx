@@ -26,24 +26,63 @@ function PageLayout({ children }) {
     const [showModalLoginAdmin, setShowModalLoginAdmin] = useState(false);
 
     const [showModalWallet, setShowModalWallet] = useState(false);
+    const toggleDropdown = () => setShowDropdown(!showDropdown);
 
     //modal wallet
-    const openModalWallet = () => setShowModalWallet(true);
-    const closeModalWallet = () => setShowModalWallet(false);
+    const openModalWallet = () => {
+        setShowModalWallet(true);
+        document.body.style.overflow = 'hidden'; // Disable scrolling
+    };
+    const closeModalWallet = () => {
+        setShowModalWallet(false);
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+    };
 
-    const toggleDropdown = () => setShowDropdown(!showDropdown);
-    const openModalSignUp = () => setShowModalSignUp(true);
-    const closeModalSignUp = () => setShowModalSignUp(false);
-    const openModalLogin = () => setShowModalLogin(true);
-    const closeModalLogin = () => setShowModalLogin(false);
+    const openModalSignUp = () => {
+        setShowModalSignUp(true);
+        document.body.style.overflow = 'hidden';
+    };
+    const closeModalSignUp = () => {
+        setShowModalSignUp(false);
+        document.body.style.overflow = 'auto';
+    };
 
-    const openModalSignUpSeller = () => setShowModalSignUpSeller(true);
-    const closeModalSignUpSeller = () => setShowModalSignUpSeller(false);
-    const openModalLoginSeller = () => setShowModalLoginSeller(true);
-    const closeModalLoginSeller = () => setShowModalLoginSeller(false);
+    const openModalLogin = () => {
+        setShowModalLogin(true);
+        document.body.style.overflow = 'hidden';
+    };
+    const closeModalLogin = () => {
+        setShowModalLogin(false);
+        document.body.style.overflow = 'auto';
+    };
 
-    const openModalLoginAdmin = () => setShowModalLoginAdmin(true);
-    const closeModalLoginAdmin = () => setShowModalLoginAdmin(false);
+    const openModalSignUpSeller = () => {
+        setShowModalSignUpSeller(true);
+        document.body.style.overflow = 'hidden';
+    };
+    const closeModalSignUpSeller = () => {
+        setShowModalSignUpSeller(false);
+        document.body.style.overflow = 'auto';
+    };
+
+    const openModalLoginSeller = () => {
+        setShowModalLoginSeller(true);
+        document.body.style.overflow = 'hidden';
+    };
+    const closeModalLoginSeller = () => {
+        setShowModalLoginSeller(false);
+        document.body.style.overflow = 'auto';
+    };
+
+    const openModalLoginAdmin = () => {
+        setShowModalLoginAdmin(true);
+        document.body.style.overflow = 'hidden';
+    };
+    const closeModalLoginAdmin = () => {
+        setShowModalLoginAdmin(false);
+        document.body.style.overflow = 'auto';
+    };
+
     const navigate = useNavigate(); // Initialize navigate using the hook
     const { isLoggedIn, logout, role} = useAuth();
 

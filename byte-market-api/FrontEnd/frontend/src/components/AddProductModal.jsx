@@ -47,7 +47,7 @@ const handleSubmit = async (e) => {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
+    <div className="addProduct-modal-overlay">
       <div className="modal-content">
         <h3>Add New Product</h3>
         <form onSubmit={handleSubmit}>

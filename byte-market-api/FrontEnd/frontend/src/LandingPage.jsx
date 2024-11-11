@@ -21,6 +21,8 @@ function LandingPage() {
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
+    const [productsPerPage, setProductsPerPage] = useState(8);
+    const [displayedProducts, setDisplayedProducts] = useState([]);
 
     const slides = [
         { src: ph1, alt: "Placeholder 1" },
@@ -47,14 +49,19 @@ function LandingPage() {
                 new Date(b.dateposted).getTime() - new Date(a.dateposted).getTime()
             );
             // Only get the first 8 products for the landing page
-            setProducts(sortedItems.slice(0, 8));
+            const shuffledProducts = sortedItems.sort(() => 0.5 - Math.random());
+            setProducts(shuffledProducts);
+            setDisplayedProducts(sortedItems.slice(0, productsPerPage));
         } catch (error) {
             console.error('Error fetching products:', error);
         } finally {
             setLoading(false);
         }
     };
-
+    const loadMoreProducts = () => {
+        const nextProducts = products.slice(displayedProducts.length, displayedProducts.length + productsPerPage);
+        setDisplayedProducts((prevDisplayed) => [...prevDisplayed, ...nextProducts])
+    };
     const fetchWishlist = async () => {
            try {
                const response = await axios.get(`http://localhost:8080/api/wishlist/getWishlistByUserId/${userid}`);
@@ -179,14 +186,13 @@ function LandingPage() {
                 </div>
 
                 {/* Featured Products Section */}
-                {/* for testing have a drop down for stores name here. */}
                 <div className="featured-products-section">
                     <h2>Featured Products</h2>
                     {loading ? (
                         <div className="loading">Loading products...</div>
                     ) : (
                         <div className="product-grid">
-                            {products.map((product) => (
+                            {displayedProducts.map((product) => (
                                 <div
                                     className="product-card"
                                     key={product.productid}
@@ -209,8 +215,8 @@ function LandingPage() {
                                         <p className="product-price">₱{product.price?.toFixed(2)}</p>
                                         <div className="product-rating">
                                             ⭐ {product.ratings?.length > 0
-                                                ? (product.ratings.reduce((acc, curr) => acc + curr.rating, 0) / product.ratings.length).toFixed(1)
-                                                : 'No ratings'}
+                                            ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
+                                            : 'No ratings'}
                                         </div>
                                         <div className="product-actions">
                                             <button
@@ -248,7 +254,11 @@ function LandingPage() {
                         </div>
                     )}
                 </div>
-
+                {!loading && displayedProducts.length < products.length && (
+                    <button className="show-more-btn" onClick={loadMoreProducts}>
+                        Show More
+                    </button>
+                )}
                 <div className="grid-container">
                     {["Danrave Keh", "Vincent Pacaña", "Andre Apas", "Judiel Oppura", "Josemar Pajares", "Sir Busico"].map((name, index) => (
                         <div className="grid-item" key={index}>{name}</div>

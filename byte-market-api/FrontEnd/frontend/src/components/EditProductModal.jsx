@@ -42,13 +42,13 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
   };
 
   return (
-    <div className="modal-overlay">
+    <div className="editProduct-modal-overlay">
       <div className="modal-content">
         <button className="close-btn" onClick={onClose}>X</button>
         <h3>Edit Product</h3>
         <form onSubmit={handleSave}>
           <div>
-            <label>Product Name:</label>
+            <label>Product <br/>Name:</label>
             <input
               type="text"
               name="productname"
@@ -71,6 +71,7 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
                   type="number"
                   name="quantity"
                   value={productData.quantity}
+                  min="0"
                   onChange={handleChange}
                   />
               </div>
