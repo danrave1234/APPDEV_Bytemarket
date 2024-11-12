@@ -52,7 +52,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
 
   const handleNextStep = () => {
     if (!formData.username || !formData.password) {
-      setErrorMessage('Please fill in both the username and password to proceed.');
+      setErrorMessage('Please fill in both the username and password to proceed!');
       return;
     }
     if (formData.password !== formData.confirmPassword) {
@@ -135,10 +135,10 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
 
         <button className="close-button" onClick={closeModal}>X</button>
 
-        <h2>Sign Up</h2>
+        <h2>SIGN UP NOW AS OUR SELLER!</h2>
         {step === 1 ? (
           <form>
-            <input
+            <input className="sign-up-credentials"
               type="text"
               name="username"
               placeholder="Username"
@@ -146,7 +146,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               onChange={handleChange}
               required
             />
-            <input
+            <input className="sign-up-credentials"
               type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
@@ -154,7 +154,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               onChange={handleChange}
               required
             />
-            <input
+            <input className="sign-up-credentials"
               type={showPassword ? "text" : "password"}
               name="confirmPassword"
               placeholder="Confirm Password"
@@ -173,6 +173,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
 
             {/* Password Requirements */}
             <div className="password-requirements">
+              <p>Password Requirements:</p>
               <p className={passwordValidations.length ? 'valid' : 'invalid'}>
                 Minimum 8 characters
               </p>

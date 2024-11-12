@@ -1,53 +1,112 @@
+/* Overlay for the entire modal */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7); /* Slightly darker for better focus */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    animation: fadeInOverlay 0.3s ease forwards;
 }
 
+@keyframes fadeInOverlay {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Modal container */
 .modal-box {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
     max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: slideInModal 0.4s ease-out forwards;
 }
 
+@keyframes slideInModal {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Close button styling */
 .close-button {
     background: none;
     border: none;
-    font-size: 1.2rem;
-    color: #fff;
+    font-size: 1.5rem;
+    color: #888;
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 15px;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-.submit-button {
-    background-color: #5a9bd6;
-    color: #fff;
-    width: 100%;
+.close-button:hover {
+    color: #333;
+}
+
+/* Header styling */
+.modal-box h2 {
+    color: #4a90e2; /* Sky-blue */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+/* Input fields styling */
+.credential-fields {
+    width: 50%;
     padding: 10px;
-    border-radius: 5px;
-    margin-top: 1rem;
+    margin-bottom: 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+.credential-fields:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+/* Submit button styling */
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 1.1rem;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submit-button:hover {
-    background-color: #3a7cb6;
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
+/* Error message styling */
 .error-message {
-    color: #ff5c5c;
+    color: #FF0000;
     font-size: 0.9rem;
     margin-top: 0.5rem;
     text-align: center;
+}
+
+/* Animation */
+@keyframes fadeInModal {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
