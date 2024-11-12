@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "tblseller")
 public class SellerEntity extends UserEntity {
     private String sellername;
+    @Column(unique = true)
     private String storename;
     private double balance;
 

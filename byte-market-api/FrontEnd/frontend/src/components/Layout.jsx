@@ -4,7 +4,6 @@ import SignUpModal from './SignUpModal.jsx';
 import LoginModal from './LoginModal.jsx';
 import VincentLogo from '../assets/VincentLogo3.png';
 import profileIcon from '../assets/profileIcon.png';
-import walletLogoBlue from '../assets/walletLogo-bytemarket-color.png';
 import walletLogoBlack from '../assets/walletLogo-black.png';
 import arrow from '../assets/Arrow.png';
 import searchIcon from '../assets/searchIcon.png';
