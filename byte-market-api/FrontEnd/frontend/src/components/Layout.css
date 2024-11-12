@@ -205,3 +205,21 @@ footer > .footer-div {
 .footer-div li a:hover {
     color: #ff6f61;
 }
+
+/* Wallet Button Styling */
+.wallet-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.wallet-button img {
+    width: auto; /* Adjust the size as needed */
+    height: 4vh;
+    margin-right: 1.5rem;
+    transition: transform 0.2s;
+}
+
+.wallet-button img:hover {
+    transform: scale(1.1);
+}
