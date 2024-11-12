@@ -84,9 +84,13 @@
 
 .wishlist-container .product-image {
     flex: 1;
-    min-height: 240px;
+    height: 100%;
+    overflow: hidden;
 }
-
+.wishlist-container .product-image img{
+    height: 100%;
+    width: 100%;
+}
 .wishlist-container .image-placeholder {
     width: 100%;
     height: 100%;

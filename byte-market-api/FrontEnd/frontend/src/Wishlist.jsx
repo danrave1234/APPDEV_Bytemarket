@@ -195,9 +195,10 @@ function Wishlist() {
                                         onClick={() => handleCardPress(product)} // Card press redirect
                                     >
                                         <div className="product-image">
-                                            <div className="image-placeholder">
-                                                Empty box For Picture
-                                            </div>
+                                            <img
+                                                src={`data:image/jpeg;base64,${product.image}`}
+                                                alt={product.productname}
+                                            />
                                         </div>
                                         <div className="product-details">
                                             <h3 className="product-title">{product.productname}</h3>

@@ -139,7 +139,6 @@ function Product() {
     );
 
     const imageBase64 = product?.image ? `data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}` : null;
-
     return (
         <PageLayout>
             <div className="container">
@@ -185,7 +184,6 @@ function Product() {
                                 <p>{product?.description}</p>
                             </div>
 
-                            {/* Display Store Name & Profile Icon Below Description */}
                             <div className="store-info">
                                 <div className="profile-icon-container">
                                     <span className="profile-icon">👤</span>

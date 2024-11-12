@@ -33,6 +33,7 @@ public class ProductService {
         productEntity.setQuantity(product.getQuantity());
         productEntity.setProductname(product.getProductname());
         productEntity.setDescription(product.getDescription());
+        productEntity.setImage(product.getImage());
 
         return productRepository.save(productEntity);
     }

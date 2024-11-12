@@ -20,6 +20,7 @@ public class ProductEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] image;
 
     public ProductEntity() {
@@ -135,5 +136,13 @@ public class ProductEntity {
 
     public void setOrderItems(List<OrderItemEntity> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

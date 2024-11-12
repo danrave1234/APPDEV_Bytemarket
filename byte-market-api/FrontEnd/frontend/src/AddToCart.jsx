@@ -134,7 +134,9 @@ function AddToCart() {
                                 onChange={() => handleSelectItem(item)}
                                 checked={selectedItems.some(selectedItem => selectedItem.cartid === item.cartid)}
                             />
-                            <div className="image-placeholder">Image</div>
+                            <div className="image-placeholder">
+                                <img src={`data:image/jpeg;base64,${item.product.image}`} alt="Product" />
+                            </div>
                             <div className="product-info">
                                 <h3 className="product-name">{item.product.productname}</h3>
                                 <p className="product-category">Category: {item.product.category}</p>

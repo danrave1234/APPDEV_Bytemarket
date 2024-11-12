@@ -70,41 +70,48 @@ function Store() {
     document.body.style.overflow = 'auto';
   };
 
-const handleProductAdded = async () => {
-  localStorage.removeItem("userProducts");
-  setProducts([]);  // Clear the current products in the state
+  const handleProductAdded = async () => {
+    localStorage.removeItem("userProducts");
+    setProducts([]);  // Clear the current products in the state
 
-  try {
-    // Fetch the updated list of products
-    const response = await axios.get("http://localhost:8080/api/product/getAllProduct");
-    const userProducts = response.data.filter((product) => product.seller.userid === userid);
+    try {
+      // Fetch the updated list of products
+      const response = await axios.get("http://localhost:8080/api/product/getAllProduct");
+      const userProducts = response.data.filter((product) => product.seller.userid === userid);
 
-    setProducts(userProducts);  // Update the state with the new products
-    localStorage.setItem("userProducts", JSON.stringify(userProducts));  // Save the updated list in localStorage
-  } catch (error) {
-    console.error("Error fetching products:", error);
-  }
-};
+      setProducts(userProducts);  // Update the state with the new products
+      localStorage.setItem("userProducts", JSON.stringify(userProducts));  // Save the updated list in localStorage
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
 
-const handleProductUpdated = async (updatedProduct) => {
-  try {
-    // Call the API to update the product on the server
-    const response = await axios.put(`http://localhost:8080/api/product/updateProduct/${productToEdit.productid}`, updatedProduct);
+  const handleProductUpdated = async (updatedProduct) => {
+    try {
+      console.log("Updating product with ID:", productToEdit.productid); // Log product ID
+      console.log("Payload being sent:", updatedProduct); // Log the payload for the PUT request
 
-    // Update the product in local state with the server's response
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.productid === response.data.productid ? response.data : product
-      )
-    );
+      const response = await axios.put(
+        `http://localhost:8080/api/product/updateProduct/${productToEdit.productid}`,
+        updatedProduct
+      );
 
-    localStorage.setItem("userProducts", JSON.stringify(products)); // Update local storage with the modified products list
-    closeEditModal(); // Close the modal after successful update
-  } catch (error) {
-    console.error("Error updating product:", error);
-  }
-};
+      console.log("Response from server:", response.data); // Log the server response
+
+      setProducts((prevProducts) =>
+        prevProducts.map((product) =>
+          product.productid === response.data.productid ? response.data : product
+        )
+      );
+
+      localStorage.setItem("userProducts", JSON.stringify(products)); // Update local storage with the modified products list
+      closeEditModal(); // Close the modal after successful update
+    } catch (error) {
+      console.error("Error updating product:", error.response ? error.response.data : error.message); // Log error details
+    }
+  };
+
 
 
   const handleProductDeleted = async () => {
@@ -144,28 +151,28 @@ const handleProductUpdated = async (updatedProduct) => {
 
         <div className="product-grid">
           {products.map((product) => (
-            <div key={product.productid} className="product-card">
-              <div className="product-image-placeholder">
-                <p>Image Placeholder</p>
+              <div key={product.productid} className="product-card">
+                <div className="product-image-placeholder">
+                  <img src={`data:image/jpeg;base64,${product.image}`} alt="Product"/>
+                </div>
+                <div className="productDetails">
+                  <h3>{product.productname}</h3>
+                  <p className="price">₱{product.price}</p>
+                  <p className="quanitity">Stock: {product.quantity}</p>
+                  <p className="category">Category: {product.category}</p>
+                  <p className="description">Description: {product.description}</p>
+                </div>
+                <div className="product-actions">
+                  <button className="edit-btn" onClick={() => openEditModal(product)}>Edit</button>
+                  <button className="delete-btn" onClick={() => openDeleteModal(product)}>Delete</button>
+                </div>
               </div>
-              <div className="productDetails">
-                <h3>{product.productname}</h3>
-                <p className="price">₱{product.price}</p>
-                <p className="quanitity">Stock: {product.quantity}</p>
-                <p className="category">Category: {product.category}</p>
-                <p className="description">Description: {product.description}</p>
-              </div>
-              <div className="product-actions">
-              <button className="edit-btn" onClick={() => openEditModal(product)}>Edit</button>
-                <button className="delete-btn" onClick={() => openDeleteModal(product)}>Delete</button>
-              </div>
-            </div>
           ))}
         </div>
 
         {/* Add Product Modal */}
         <AddProductModal
-          isOpen={isAddModalOpen}
+            isOpen={isAddModalOpen}
           onClose={closeAddModal}
           onProductAdded={handleProductAdded}
         />

@@ -12,7 +12,7 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
     private int orderitemid;
     private int quantity;
     private double price;
-
+    private boolean isRated;
     public OrderItemEntity() {
         super();
     }
@@ -66,5 +66,13 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
 
     public void setProduct(ProductEntity product) {
         this.product = product;
+    }
+
+    public boolean isRated() {
+        return isRated;
+    }
+
+    public void setRated(boolean rated) {
+        isRated = rated;
     }
 }

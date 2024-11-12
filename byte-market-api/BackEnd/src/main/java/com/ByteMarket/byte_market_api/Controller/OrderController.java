@@ -1,6 +1,7 @@
 package com.ByteMarket.byte_market_api.Controller;
 
 import com.ByteMarket.byte_market_api.Entity.OrderEntity;
+import com.ByteMarket.byte_market_api.Entity.OrderItemEntity;
 import com.ByteMarket.byte_market_api.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,4 +38,9 @@ public class OrderController {
     public OrderEntity updateOrder(@PathVariable int id, @RequestBody OrderEntity newOrder) {
         return orderService.updateOrder(id, newOrder);
     }
+    @PutMapping("/orderItem/{orderItemId}/isRated")
+    public OrderItemEntity updateIsRated(@PathVariable int orderItemId, @RequestParam boolean isRated) {
+        return orderService.updateIsRatedStatus(orderItemId, isRated);
+    }
+
 }

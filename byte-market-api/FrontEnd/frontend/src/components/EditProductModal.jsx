@@ -8,6 +8,7 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
     quantity: '',
     category: '',
     description: '',
+    image: '',
   });
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
         quantity: product.quantity || '',
         category: product.category || '',
         description: product.description || '',
+        image: product.image || '',
       });
     }
   }, [product]);
@@ -33,13 +35,34 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
   };
 
   const handleSave = (e) => {
-    e.preventDefault();
-    if (productData.productname && productData.price) {
-      onSave(productData);
-    } else {
-      console.log("Please fill in all required fields.");
-    }
+      e.preventDefault();
+      if (productData.productname && productData.price) {
+          console.log("Saving product data:", productData); // Log data before saving
+          onSave(productData);
+      } else {
+          console.log("Please fill in all required fields.");
+      }
   };
+
+  const handleImageUpload = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+          console.log("Selected file for upload:", file); // Log the selected file details
+          const reader = new FileReader();
+          reader.onloadend = () => {
+              console.log("Image data after reading file:", reader.result); // Log the base64 data of the image
+              let image = reader.result;
+              let cleanedImage = image.replace(/^data:image\/[a-z]+;base64,/, "");
+              console.log("Image data after cleaning:", cleanedImage); // Log the cleaned image data
+              setProductData({
+                  ...productData,
+                  image: cleanedImage,
+              });
+          };
+          reader.readAsDataURL(file); // Reads the image as a base64 URL
+      }
+  };
+
 
   return (
     <div className="editProduct-modal-overlay">
@@ -91,6 +114,14 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
               value={productData.description}
               onChange={handleChange}
             />
+          </div>
+          <div>
+            <label>Image:</label>
+            <input
+              type="file"
+              name="image"
+              onChange={handleImageUpload}
+              />
           </div>
           <div>
             <button type="submit">Save</button>

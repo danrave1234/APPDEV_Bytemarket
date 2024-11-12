@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles/LandingPage.css';
 import logoNiAndri from './assets/logoNiAndri.png';
@@ -200,13 +200,11 @@ function LandingPage() {
                                 >
                                     <div className="product-image">
                                         {product.image ? (
-                                            <img
-                                                src={`data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}`}
-                                                alt={product.productname}
-                                            />
+                                            <img src={`data:image/jpeg;base64,${product.image}`} alt="Product"
+                                                 className="preview-img"/>
                                         ) : (
                                             <div className="image-placeholder">
-                                                No Image Available
+                                            No Image Available
                                             </div>
                                         )}
                                     </div>
