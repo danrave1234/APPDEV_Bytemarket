@@ -152,15 +152,6 @@ function LandingPage() {
     return (
         <PageLayout>
             <div className="landing-container">
-                <div className="cta-container">
-                    <button
-                        className="cta-button"
-                        onClick={() => navigate('/productlisting')}
-                    >
-                        Go to Product Listing
-                    </button>
-                </div>
-
                 <div className="slideshow-container">
                     <button className="previous" onClick={prevSlide}>‹</button>
                     {slides.map((slide, index) => (
@@ -187,7 +178,15 @@ function LandingPage() {
 
                 {/* Featured Products Section */}
                 <div className="featured-products-section">
-                    <h2>Featured Products</h2>
+                    <h2>Featured Products of the Week</h2>
+                <div className="cta-container">
+                    <button
+                        className="cta-button"
+                        onClick={() => navigate('/productlisting')}
+                    >
+                     View More
+                    </button>
+                </div>
                     {loading ? (
                         <div className="loading">Loading products...</div>
                     ) : (

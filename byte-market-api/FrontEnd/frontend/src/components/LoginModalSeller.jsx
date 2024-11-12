@@ -45,9 +45,9 @@ const LoginModalSeller = ({ show, closeModal, toggleDropdown }) => {
         <div className="modal-overlay">
             <div className="modal-box">
                 <button className="close-button" onClick={closeModal}>X</button>
-                <h2>Login | ByteMarket Seller</h2>
+                <h2>LOGIN | ByteMarket Seller</h2>
                 <form onSubmit={handleLogin}>
-                    <input
+                    <input className="credential-fields"
                         type="text"
                         name="username"
                         placeholder="Username"
@@ -55,7 +55,7 @@ const LoginModalSeller = ({ show, closeModal, toggleDropdown }) => {
                         onChange={handleChange}
                         required
                     />
-                    <input
+                    <input className="credential-fields"
                         type="password"
                         name="password"
                         placeholder="Password"

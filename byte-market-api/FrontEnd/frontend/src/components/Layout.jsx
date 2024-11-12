@@ -16,20 +16,16 @@ import WalletModal from "./WalletModal.jsx";
 
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
-
     const [showModalSignUp, setShowModalSignUp] = useState(false);
     const [showModalLogin, setShowModalLogin] = useState(false);
-
     const [showModalSignUpSeller, setShowModalSignUpSeller] = useState(false);
     const [showModalLoginSeller, setShowModalLoginSeller] = useState(false);
-
     const [showModalSignUpAdmin, setShowModalSignUpAdmin] = useState(false);
     const [showModalLoginAdmin, setShowModalLoginAdmin] = useState(false);
-
     const [showModalWallet, setShowModalWallet] = useState(false);
+
     const toggleDropdown = () => setShowDropdown(!showDropdown);
 
-    // Modal functions with scrolling control
     const openModalWallet = () => {
         setShowModalWallet(true);
         document.body.style.overflow = 'hidden';
@@ -85,7 +81,7 @@ function PageLayout({ children }) {
     };
 
     const navigate = useNavigate();
-    const { isLoggedIn, logout, role } = useAuth();
+    const { isLoggedIn, logout, role, name } = useAuth(); // Assuming `name` is available in useAuth
 
     const handleLogout = () => {
         logout();
@@ -118,6 +114,18 @@ function PageLayout({ children }) {
         navigate('/customer/wishlists');
     }
 
+    // Greeting Logic
+    const getGreetingMessage = () => {
+        if (role === 'Admin') {
+            return `Greetings, ${name}!`;
+        } else if (role === 'Customer') {
+            return `Welcome, ${name}!`;
+        } else if (role === 'Seller') {
+            return `It's sales time, ${name}!`;
+        }
+        return '';
+    };
+
     return (
         <>
             <div className="containerLayout1">
@@ -125,6 +133,9 @@ function PageLayout({ children }) {
                     <div className="logoAndName">
                         <a onClick={handleHome}><img src={VincentLogo} alt="ByteMarket Logo" className="logo" /></a>
                     </div>
+                    {isLoggedIn && (
+                        <div className="greeting-message">{getGreetingMessage()}</div>
+                    )}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         {isLoggedIn && (
                             <div className="wallet-button">
@@ -217,7 +228,7 @@ function PageLayout({ children }) {
                             <li><a href="#">Seller Policies</a></li>
                             <li><a href="#">Account Support</a></li>
                         </ul>
-                    </div>
+                        </div>
                     <SignUpModalSeller show={showModalSignUpSeller} closeModal={closeModalSignUpSeller} toggleDropdown={toggleDropdown} />
                     <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller} toggleDropdown={toggleDropdown} />
                     <WalletModal show={showModalWallet} closeModal={closeModalWallet} />

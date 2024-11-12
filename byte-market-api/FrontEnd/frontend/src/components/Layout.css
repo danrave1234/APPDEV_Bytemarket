@@ -9,12 +9,12 @@ html, body {
 }
 
 /* Header Styles */
-header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
-    width: 100%;
+    padding: 10px 20px;
+    background-color: #5a9bd6;
 }
 
 .containerLayout1 {
@@ -25,7 +25,7 @@ header {
     position: sticky;
     z-index: 999;
     top: 0;
-    background: white;
+    background: #5a9bd6;
 }
 .logoAndName {
     display: flex;
@@ -46,29 +46,29 @@ header {
 }
 
 .profileBar {
+    position: relative;
     display: flex;
     align-items: center;
-    margin-right: 2vw;
-    border: 1px solid #e0e0e0;
-    padding: 0.3rem;
-    border-radius: 10rem;
-    transition: box-shadow 0.3s;
+    cursor: pointer;
 }
 
-.profileBar:hover {
-    box-shadow: 0px 0px 0.5rem lightblue;
-}
 
 .profileIcon {
-    width: 1.8vw;
-    height: auto;
-    min-width: 30px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
 }
 
 .profileArrow {
     width: 1.3vw;
     height: 1.5vh;
     min-width: 20px;
+}
+
+.profileBar:hover .profileIcon {
+    transform: scale(1.1);
 }
 
 /* Dropdown Menu */
@@ -127,6 +127,7 @@ header {
     align-items: center;
     width: 40vw;
     min-width: 20vw;
+    background-color: white;
 }
 
 .searchIcon {
@@ -222,4 +223,13 @@ footer > .footer-div {
 
 .wallet-button img:hover {
     transform: scale(1.1);
+}
+
+/* Greeting Message */
+.greeting-message {
+    font-size: 1.2rem;
+    color: #ffcccb;
+    margin-right: auto;
+    padding-left: 1rem;
+    font-weight: bold;
 }

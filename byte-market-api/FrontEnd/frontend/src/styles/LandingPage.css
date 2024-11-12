@@ -282,8 +282,8 @@ html, body {
 /* CTA Button */
 .landing-container .cta-container {
     margin-top: 2rem;
-    display: flex;
-    justify-content: center;
+   
+    margin-bottom: 1rem;
 }
 
 .landing-container .cta-button {
