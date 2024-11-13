@@ -119,4 +119,5 @@ public class UserEntity {
     public void setDateofbirth(LocalDate dateofbirth) {
         this.dateofbirth = dateofbirth;
     }
+
 }

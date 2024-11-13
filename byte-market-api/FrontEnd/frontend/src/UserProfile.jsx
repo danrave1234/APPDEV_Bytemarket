@@ -14,10 +14,12 @@ function UserProfile() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("UserProfile component mounted.");
         if (userid) {
             const fetchUser = async () => {
                 try {
                     setLoading(true);
+                    console.log("Fetching user data for userId:", userid, "with role:", role);
                     let response;
                     if (role === 'Admin') {
                         response = await axios.get(`http://localhost:8080/api/admin/getAdminById/${userid}`);
@@ -26,40 +28,55 @@ function UserProfile() {
                     } else {
                         response = await axios.get(`http://localhost:8080/api/customer/getCustomerById/${userid}`);
                     }
+                    console.log("Fetched user data:", response.data);
                     setUser(response.data);
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                 } finally {
                     setLoading(false);
+                    console.log("Finished fetching user data.");
                 }
             };
             fetchUser();
         }
     }, [userid, role]);
 
-    const handleEditToggle = () => setEditMode(!editMode);
+    const handleEditToggle = () => {
+        console.log("Toggling edit mode. Current state:", editMode);
+        setEditMode(!editMode);
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        console.log("Changing input:", name, "to value:", value);
         setUser({ ...user, [name]: value });
     };
 
-    const handleSave = async () => {
-        try {
-            if (role === 'Admin') {
-                await axios.put(`http://localhost:8080/api/admin/updateAdmin/${userid}`, user);
-            } else if (role === 'Seller') {
-                await axios.put(`http://localhost:8080/api/seller/updateSeller/${userid}`, user);
-            } else {
-                await axios.put(`http://localhost:8080/api/customer/updateCustomer/${userid}`, user);
-            }
-            setEditMode(false);
-            alert('Profile updated successfully!');
-        } catch (error) {
-            console.error('Error updating user:', error);
+const handleSave = async () => {
+    console.log("Saving profile for userId:", userid, "with role:", role);
+    try {
+        console.log("Payload being sent:", user);
+        let response;
+        if (role === 'Admin') {
+            response = await axios.put(`http://localhost:8080/api/admin/updateAdmin/${userid}`, user);
+        } else if (role === 'Seller') {
+            response = await axios.put(`http://localhost:8080/api/seller/updateSeller/${userid}`, user);
+        } else {
+            response = await axios.put(`http://localhost:8080/api/customer/updateCustomer/${userid}`, user);
+        }
+        setEditMode(false);
+        console.log("Profile updated successfully.");
+        alert('Profile updated successfully!');
+    } catch (error) {
+        console.error('Error updating user:', error);
+        if (error.response && error.response.data) {
+            alert(`Error: ${error.response.data.message || 'Failed to update profile.'}`);
+        } else {
             alert('Failed to update profile.');
         }
-    };
+    }
+};
+
 
     const handleDelete = async () => {
         const deleteApiUrl = role === 'Admin'
@@ -67,39 +84,44 @@ function UserProfile() {
             : role === 'Seller'
                 ? `http://localhost:8080/api/seller/deleteSeller/${userid}`
                 : `http://localhost:8080/api/customer/deleteCustomer/${userid}`;
-        console.log(deleteApiUrl);
+        console.log("Delete URL:", deleteApiUrl);
 
         if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-try {
-    await axios.delete(deleteApiUrl);
-    alert('Account deleted successfully.');
-    logout();
-    navigate('/');
-} catch (error) {
-    console.error('Error deleting account:', error);
-    if (error.response) {
-        console.error('Response data:', error.response.data);
-        alert(`Error: ${error.response.data.message || 'An error occurred while deleting the account.'}`);
-    } else if (error.request) {
-        console.error('Request made but no response received:', error.request);
-        alert('No response from the server. Please try again later.');
-    } else {
-        console.error('Error setting up request:', error.message);
-        alert('An unexpected error occurred. Please try again.');
-    }
-}
-
+            try {
+                console.log("Deleting account for userId:", userid);
+                await axios.delete(deleteApiUrl);
+                alert('Account deleted successfully.');
+                logout();
+                navigate('/');
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                if (error.response) {
+                    console.error('Response data:', error.response.data);
+                    alert(`Error: ${error.response.data.message || 'An error occurred while deleting the account.'}`);
+                } else if (error.request) {
+                    console.error('Request made but no response received:', error.request);
+                    alert('No response from the server. Please try again later.');
+                } else {
+                    console.error('Error setting up request:', error.message);
+                    alert('An unexpected error occurred. Please try again.');
+                }
+            }
         }
     };
 
     const handleCancel = () => {
+        console.log("Canceling edit mode. Reverting changes.");
         setEditMode(false);
-        // Optionally, reset user state or refetch user data
-        // fetchUser();
     };
 
-    if (loading) return <p>Loading...</p>;
-    if (!user) return <p>No user data available.</p>;
+    if (loading) {
+        console.log("Loading user data...");
+        return <p>Loading...</p>;
+    }
+    if (!user) {
+        console.log("No user data available.");
+        return <p>No user data available.</p>;
+    }
 
     const today = new Date();
     today.setDate(today.getDate() - 1);
@@ -194,7 +216,10 @@ try {
                                 onChange={handleInputChange}
                                 readOnly={!editMode}
                             />
-                            <button onClick={() => setShowPassword(!showPassword)}>
+                            <button onClick={() => {
+                                console.log("Toggling password visibility. Current state:", showPassword);
+                                setShowPassword(!showPassword);
+                            }}>
                                 {showPassword ? "Hide" : "Show"}
                             </button>
                         </div>

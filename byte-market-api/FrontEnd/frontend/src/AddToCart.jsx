@@ -18,7 +18,7 @@ function AddToCart() {
     const navigate = useNavigate();
 
     const handleCheckOut = () => {
-        navigate('/customer/CheckOut');
+        navigate('/customer/orderHistory');
     };
 
     useEffect(() => {
