@@ -217,68 +217,95 @@ function LandingPage() {
 
                 {/* Stores Section */}
                 <div className="stores-section">
-                                    {loading ? (
-                                        <div className="loading">Loading stores...</div>
-                                    ) : (
-                                        <>
-                                            {displayedSellers.map((seller) => {
-                                                const products = sellerProducts[seller.userid] || [];
-                                                if (products.length === 0) return null; // Don't display store if no products
-                                                return (
-                                                    <div key={seller.userid} className="store-container">
-                                                        <h2 className="store-name" onClick={() => navigateToStore(seller.userid)}>
-                                                            {seller.storename}
-                                                        </h2>
-                                                        <div className="store-products">
-                                                            {products.map((product) => (
-                                                                <div
-                                                                    className="product-cards"
-                                                                    key={product.productid}
-                                                                    onClick={() => handleCardPress(product)}
-                                                                >
-                                                                    <div className="product-image">
-                                                                        {product.image ? (
-                                                                            <img
-                                                                                src={`data:image/jpeg;base64,${product.image}`}
-                                                                                alt={product.productname}
-                                                                                className="preview-img"
-                                                                            />
-                                                                        ) : (
-                                                                            <div className="image-placeholder">
-                                                                                No Image Available
-                                                                            </div>
-                                                                        )}
-                                                                    </div>
-                                                                    <div className="product-details">
-                                                                        <h3 className="product-title" title={product.productname}>
-                                                                            {product.productname.length > 30
-                                                                                ? `${product.productname.slice(0, 30)}...`
-                                                                                : product.productname}
-                                                                        </h3>
-                                                                        <p className="product-price">₱{product.price?.toFixed(2)}</p>
-                                                                        <div className="product-rating">
-                                                                            ⭐ {product.ratings?.length > 0
-                                                                                ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
-                                                                                : 'No ratings'}
-                                                                        </div>
-                                                                        <div className="product-actions">
-                                                                            {/* ... (existing code) */}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            ))}
+                    {loading ? (
+                        <div className="loading">Loading stores...</div>
+                    ) : (
+                        <>
+                            {displayedSellers.map((seller) => {
+                                const products = sellerProducts[seller.userid] || [];
+                                if (products.length === 0) return null; // Don't display store if no products
+                                return (
+                                    <div key={seller.userid} className="store-container">
+                                        <h2 className="store-name" onClick={() => navigateToStore(seller.userid)}>
+                                            {seller.storename}
+                                        </h2>
+                                        <div className="store-products">
+                                            {products.map((product) => (
+                                                <div
+                                                    className="product-cards"
+                                                    key={product.productid}
+                                                    onClick={() => handleCardPress(product)}
+                                                >
+                                                    <div className="product-image">
+                                                        {product.image ? (
+                                                            <img
+                                                                src={`data:image/jpeg;base64,${product.image}`}
+                                                                alt={product.productname}
+                                                                className="preview-img"
+                                                            />
+                                                        ) : (
+                                                            <div className="image-placeholder">
+                                                                No Image Available
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="product-details">
+                                                        <h3 className="product-title" title={product.productname}>
+                                                            {product.productname.length > 30
+                                                                ? `${product.productname.slice(0, 30)}...`
+                                                                : product.productname}
+                                                        </h3>
+                                                        <p className="product-price">₱{product.price?.toFixed(2)}</p>
+                                                        <div className="product-rating">
+                                                            ⭐ {product.ratings?.length > 0
+                                                                ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
+                                                                : 'No ratings'}
+                                                        </div>
+                                                        <div className="product-actions">
+                                                            <button
+                                                                className="buy-now-btn"
+                                                                onClick={(e) => handleBuyNow(product, e)}
+                                                            >
+                                                                Buy Now
+                                                            </button>
+                                                            <button
+                                                                className="cart-btn"
+                                                                onClick={(e) => handleAddToCart(product, e)}
+                                                                title="Add to cart"
+                                                            >
+                                                                🛒
+                                                            </button>
+                                                            <span
+                                                                className={`wishlist-icon ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    if (isProductInWishlist(product.productid)) {
+                                                                        setSelectedItemId(product.productid);
+                                                                        setShowRemoveWishlistModal(true);
+                                                                    } else {
+                                                                        handleAddToWishlist(product.productid);
+                                                                    }
+                                                                }}
+                                                                title={isProductInWishlist(product.productid) ? "Remove from wishlist" : "Add to wishlist"}
+                                                            >
+                                                                {isProductInWishlist(product.productid) ? '❤️' : '🤍'}
+                                                            </span>
                                                         </div>
                                                     </div>
-                                                );
-                                            })}
-                                            {displayedSellers.length < sellers.length && (
-                                                <button className="show-more-btn" onClick={loadMoreSellers}>
-                                                    Show More Stores
-                                                </button>
-                                            )}
-                                        </>
-                                    )}
-                                </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                            {displayedSellers.length < sellers.length && (
+                                <button className="show-more-btn" onClick={loadMoreSellers}>
+                                    Show More Stores
+                                </button>
+                            )}
+                        </>
+                    )}
+                </div>
 
                 {/* Footer Grid */}
                 <div className="grid-container">
