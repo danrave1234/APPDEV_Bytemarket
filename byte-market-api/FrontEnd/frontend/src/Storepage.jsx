@@ -141,6 +141,19 @@ function StorePage() {
         event.stopPropagation();
 
         try {
+            // Fetch existing cart items
+            const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
+            const userCartItems = response.data.filter(item => item.customer.userid === parseInt(customerId));
+
+            // Check if the product is already in the cart
+            const isProductInCart = userCartItems.some(cartItem => cartItem.product.productid === parseInt(product.productid));
+
+            if (isProductInCart) {
+                alert("This product is already in your cart!");
+                return;
+            }
+
+            // Add the product to the cart if not a duplicate
             const cartItem = {
                 quantity: 1,
                 dateposted: new Date().toISOString(),

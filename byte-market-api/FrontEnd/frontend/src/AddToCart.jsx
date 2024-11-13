@@ -13,13 +13,9 @@ function AddToCart() {
     });
     const [loading, setLoading] = useState(true);
     const [selectedItems, setSelectedItems] = useState([]);
-    const [sortBy, setSortBy] = useState('default');
-    const [totalPrice, setTotalPrice] = useState(0); // Track the total price in state
+    const [totalPrice, setTotalPrice] = useState(0); // Total price state
+    const [selectedCount, setSelectedCount] = useState(0); // Selected items count
     const navigate = useNavigate();
-
-    const handleCheckOut = () => {
-        navigate('/customer/orderHistory');
-    };
 
     useEffect(() => {
         if (isLoggedIn && userid) {
@@ -39,17 +35,16 @@ function AddToCart() {
         }
     }, [userid, isLoggedIn]);
 
-    // Update total price when cart items or selected items change
     useEffect(() => {
         const calculateTotal = () => {
             const total = selectedItems.reduce((acc, item) => acc + item.quantity * item.product.price, 0);
             setTotalPrice(total.toFixed(2));
+            setSelectedCount(selectedItems.length);
         };
         calculateTotal();
     }, [selectedItems]);
 
     const handleQuantityChange = async (cartItem, newQuantity) => {
-        // Default to 0 if the input is empty or not a valid number
         if (!newQuantity || isNaN(newQuantity) || newQuantity < 0) {
             newQuantity = 0;
         }
@@ -72,7 +67,6 @@ function AddToCart() {
             setCartItems(updatedCartItems);
             localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
 
-            // Update selected items if the item is already selected
             if (selectedItems.some(selected => selected.cartid === cartItem.cartid)) {
                 setSelectedItems(prevSelected =>
                     prevSelected.map(item =>
@@ -91,12 +85,30 @@ function AddToCart() {
             const updatedCartItems = cartItems.filter(item => item.cartid !== cartId);
             setCartItems(updatedCartItems);
             localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+            setSelectedItems(prevSelected =>
+                prevSelected.filter(item => item.cartid !== cartId)
+            );
         } catch (error) {
             console.error('Error removing cart item:', error);
         }
     };
 
     const handleSelectItem = (cartItem) => {
+        const currentStore = selectedItems.length > 0
+            ? selectedItems[0].product.seller.storename
+            : null;
+
+        if (currentStore && currentStore !== cartItem.product.seller.storename) {
+            const confirmChange = window.confirm(
+                "Selecting another store will deselect your current selected products. Do you want to continue?"
+            );
+
+            if (!confirmChange) return;
+
+            // Clear previously selected items
+            setSelectedItems([]);
+        }
+
         setSelectedItems(prevSelected => {
             if (prevSelected.some(item => item.cartid === cartItem.cartid)) {
                 return prevSelected.filter(item => item.cartid !== cartItem.cartid);
@@ -105,12 +117,52 @@ function AddToCart() {
         });
     };
 
-    const sortedCartItems = [...cartItems].sort((a, b) => {
-        if (sortBy === 'priceLow') return a.product.price - b.product.price;
-        if (sortBy === 'priceHigh') return b.product.price - a.product.price;
-        if (sortBy === 'alpha') return a.product.productname.localeCompare(b.product.productname);
-        return 0;
-    });
+    const handleSelectStore = (storeName, products) => {
+        const allSelected = products.every(item => selectedItems.some(selected => selected.cartid === item.cartid));
+
+        const currentStore = selectedItems.length > 0
+            ? selectedItems[0].product.seller.storename
+            : null;
+
+        if (currentStore && currentStore !== storeName) {
+            const confirmChange = window.confirm(
+                "Selecting another store will deselect your current selected products. Do you want to continue?"
+            );
+
+            if (!confirmChange) return;
+
+            // Clear previously selected items
+            setSelectedItems([]);
+        }
+
+        setSelectedItems(prevSelected => {
+            if (allSelected) {
+                return prevSelected.filter(item => !products.some(product => product.cartid === item.cartid));
+            } else {
+                const newItems = products.filter(item => !prevSelected.some(selected => selected.cartid === item.cartid));
+                return [...prevSelected, ...newItems];
+            }
+        });
+    };
+
+    const groupByStore = (items) => {
+        return items.reduce((groups, item) => {
+            const storeName = item.product?.seller?.storename || "Unknown Store";
+            if (!groups[storeName]) {
+                groups[storeName] = [];
+            }
+            groups[storeName].push(item);
+            return groups;
+        }, {});
+    };
+
+    const groupedCartItems = groupByStore(cartItems);
+
+    const handleCheckOut = () => {
+        if (selectedItems.length > 0) {
+            navigate('/customer/orderHistory');
+        }
+    };
 
     if (loading) return <p>Loading your cart...</p>;
 
@@ -118,47 +170,60 @@ function AddToCart() {
         <PageLayout>
             <div className="cart-container">
                 <h2>Your Cart</h2>
-                <div className="sort-buttons">
-                    <button onClick={() => setSortBy('default')} className={sortBy === 'default' ? 'active' : ''}>Default</button>
-                    <button onClick={() => setSortBy('priceLow')} className={sortBy === 'priceLow' ? 'active' : ''}>Price Lowest</button>
-                    <button onClick={() => setSortBy('priceHigh')} className={sortBy === 'priceHigh' ? 'active' : ''}>Price Highest</button>
-                    <button onClick={() => setSortBy('alpha')} className={sortBy === 'alpha' ? 'active' : ''}>Alphabetical</button>
-                </div>
-                {sortedCartItems.length === 0 ? (
+                {Object.keys(groupedCartItems).length === 0 ? (
                     <p>Your cart is empty. Add some products to get started!</p>
                 ) : (
-                    sortedCartItems.map((item) => (
-                        <div className="cart-item" key={item.cartid}>
-                            <input
-                                type="checkbox"
-                                onChange={() => handleSelectItem(item)}
-                                checked={selectedItems.some(selectedItem => selectedItem.cartid === item.cartid)}
-                            />
-                            <div className="image-placeholder">
-                                <img src={`data:image/jpeg;base64,${item.product.image}`} alt="Product" />
-                            </div>
-                            <div className="product-info">
-                                <h3 className="product-name">{item.product.productname}</h3>
-                                <p className="product-category">Category: {item.product.category}</p>
-                                <p className="product-stock">Stock: {item.product.quantity}</p>
-                                <p className="product-price">Price: ${item.product.price.toFixed(2)}</p>
-                            </div>
-                            <div className="quantity-box">
-                                <button onClick={() => handleQuantityChange(item, item.quantity - 1)}>-</button>
+                    Object.entries(groupedCartItems).map(([storeName, products]) => (
+                        <div key={storeName} className="store-group">
+                            <h3 className="store-name">
                                 <input
-                                    type="number"
-                                    value={item.quantity || 0} // Default to 0 if quantity is falsy
-                                    onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
+                                    type="checkbox"
+                                    onChange={() => handleSelectStore(storeName, products)}
+                                    checked={products.every(item => selectedItems.some(selected => selected.cartid === item.cartid))}
                                 />
-                                <button onClick={() => handleQuantityChange(item, item.quantity + 1)}>+</button>
+                                {storeName}
+                            </h3>
+                            <div className="store-products">
+                                {products.map((item) => (
+                                    <div className="cart-item" key={item.cartid}>
+                                        <input
+                                            type="checkbox"
+                                            onChange={() => handleSelectItem(item)}
+                                            checked={selectedItems.some(selectedItem => selectedItem.cartid === item.cartid)}
+                                        />
+                                        <div className="image-placeholder">
+                                            <img src={`data:image/jpeg;base64,${item.product.image}`} alt="Product" />
+                                        </div>
+                                        <div className="product-info">
+                                            <h3 className="product-name">{item.product.productname}</h3>
+                                            <p className="product-category">Category: {item.product.category}</p>
+                                            <p className="product-stock">Stock: {item.product.quantity}</p>
+                                            <p className="product-price">Price: ₱{item.product.price.toFixed(2)}</p>
+                                            {selectedItems.some(selected => selected.cartid === item.cartid) && (
+                                                <p className="product-subprice">Sub-total: ₱{(item.quantity * item.product.price).toFixed(2)}</p>
+                                            )}
+                                        </div>
+                                        <div className="quantity-box">
+                                            <button onClick={() => handleQuantityChange(item, item.quantity - 1)}>-</button>
+                                            <input
+                                                type="number"
+                                                value={item.quantity}
+                                                onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
+                                            />
+                                            <button onClick={() => handleQuantityChange(item, item.quantity + 1)}>+</button>
+                                        </div>
+                                        <button className="remove-button" onClick={() => handleRemoveItem(item.cartid)}>Remove</button>
+                                    </div>
+                                ))}
                             </div>
-                            <button className="remove-button" onClick={() => handleRemoveItem(item.cartid)}>Remove</button>
                         </div>
                     ))
                 )}
-                <div className="checkout-summary">
-                    <p className="total-price">Total: ${totalPrice}</p>
-                    <button className="checkout-button" onClick={handleCheckOut} disabled={selectedItems.length === 0}>Proceed to Checkout</button>
+                <div className="checkout-summary sticky-summary">
+                    <p className="total-price">Total ({selectedCount}): ₱{totalPrice}</p>
+                    <button className="checkout-button" onClick={handleCheckOut} disabled={selectedItems.length === 0}>
+                        Proceed to Checkout
+                    </button>
                 </div>
             </div>
         </PageLayout>

@@ -38,7 +38,7 @@ public class ProductEntity {
     // Relationships
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false)
-    @JsonIgnoreProperties({"registration", "products", "fullname", "username", "email", "phonenumber", "dateofbirth"}) // Ignore all other seller details
+    @JsonIgnoreProperties({"registration", "products", "email", "phonenumber", "dateofbirth"}) // Ignore all other seller details
     private SellerEntity seller;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

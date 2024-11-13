@@ -139,9 +139,21 @@ function LandingPage() {
     };
 
     const handleAddToCart = async (product, event) => {
-        event.stopPropagation();
+        event.stopPropagation(); // Prevent the card click handler from being triggered
 
         try {
+            // Fetch existing cart items to check for duplicates
+            const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
+            const userCartItems = response.data.filter(item => item.customer.userid === parseInt(userid));
+
+            const isProductInCart = userCartItems.some(cartItem => cartItem.product.productid === parseInt(product.productid));
+
+            if (isProductInCart) {
+                alert("This product is already in your cart!");
+                return;
+            }
+
+            // Add the product to the cart if it's not a duplicate
             const cartItem = {
                 quantity: 1,
                 dateposted: new Date().toISOString(),
@@ -156,6 +168,7 @@ function LandingPage() {
             console.error('Error adding to cart:', error);
         }
     };
+
 
     const handleBuyNow = async (product, event) => {
         event.stopPropagation();
@@ -219,7 +232,7 @@ function LandingPage() {
                                         <div className="store-products">
                                             {products.map((product) => (
                                                 <div
-                                                    className="product-card"
+                                                    className="product-cards"
                                                     key={product.productid}
                                                     onClick={() => handleCardPress(product)}
                                                 >
@@ -292,7 +305,7 @@ function LandingPage() {
 
                 {/* Footer Grid */}
                 <div className="grid-container">
-                    {["Danrave Keh", "Vincent Pacaña", "Andre Apas", "Judiel Oppura", "Josemar Pajares", "Sir Busico"].map((name, index) => (
+                    {["Danrave Keh", "Vincent Pacaña", "Andri Apas", "Judiel Oppura", "Josemar Pajares", "Sir Busico"].map((name, index) => (
                         <div className="grid-item" key={index}>{name}</div>
                     ))}
                 </div>
