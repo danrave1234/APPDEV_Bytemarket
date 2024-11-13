@@ -119,9 +119,22 @@ export default function ProductListing() {
     };
 
     const handleAddToCart = async (product, event) => {
-        event.stopPropagation();
+        event.stopPropagation(); // Prevent the card click handler from being triggered
 
         try {
+            // Fetch existing cart items to check for duplicates
+            const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
+            const userCartItems = response.data.filter(item => item.customer.userid === parseInt(userid));
+
+            // Check if the product already exists in the cart
+            const isProductInCart = userCartItems.some(cartItem => cartItem.product.productid === parseInt(product.productid));
+
+            if (isProductInCart) {
+                alert("This product is already in your cart!");
+                return;
+            }
+
+            // Add the product to the cart if it is not a duplicate
             const cartItem = {
                 quantity: 1,
                 dateposted: new Date().toISOString(),

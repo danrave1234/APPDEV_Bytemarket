@@ -51,18 +51,33 @@ function Product() {
 
     const handleAddToCart = async () => {
         try {
+            // Fetch existing cart items
+            const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
+            const userCartItems = response.data.filter(item => item.customer.userid === parseInt(userid));
+
+            // Check if the product is already in the cart
+            const isProductInCart = userCartItems.some(cartItem => cartItem.product.productid === parseInt(product.productid));
+
+            if (isProductInCart) {
+                alert("This product is already in your cart!");
+                return;
+            }
+
+            // Add the product to the cart if not a duplicate
             const cartItem = {
                 quantity: quantity,
                 dateposted: new Date().toISOString(),
                 customer: { userid: userid },
                 product: { productid: product.productid }
             };
+
             await axios.post('http://localhost:8080/api/cart/addCart', cartItem);
-            setShowAddToCartModal(true);  // Show add to cart modal
+            setShowAddToCartModal(true); // Show add to cart modal
         } catch (error) {
             console.error('Error adding to cart:', error);
         }
     };
+
 
     const handleQuantityChange = (change) => {
         const newQuantity = quantity + change;
@@ -188,7 +203,7 @@ function Product() {
                                     <span className="profile-icon">👤</span>
                                     <span className="store-name-container">
                                         <span className="store-name">
-                                            <a href={`/store/${product?.seller?.username}`}>
+                                            <a href={`/store/${product?.seller.userid}`}>
                                                 {product?.seller?.storename || 'No Store Name Available'}
                                             </a>
                                         </span>
