@@ -120,6 +120,7 @@ html, body {
 .product-description p {
     color: #666;
     line-height: 1.5;
+    overflow: auto;
 }
 
 /* Quantity Controls */
