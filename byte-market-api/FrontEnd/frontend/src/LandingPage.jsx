@@ -11,18 +11,19 @@ import { useNavigate } from 'react-router-dom';
 
 function LandingPage() {
     const [slideIndex, setSlideIndex] = useState(0);
-    const { userid, role } = useAuth();
+    const { userid } = useAuth();
     const navigate = useNavigate();
-    const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [wishlist, setWishlist] = useState([]);
+    const [sellers, setSellers] = useState([]);
+    const [displayedSellers, setDisplayedSellers] = useState([]);
+    const [sellerProducts, setSellerProducts] = useState({});
     const [showAddToWishlistModal, setShowAddToWishlistModal] = useState(false);
     const [showRemoveWishlistModal, setShowRemoveWishlistModal] = useState(false);
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
-    const [productsPerPage, setProductsPerPage] = useState(8);
-    const [displayedProducts, setDisplayedProducts] = useState([]);
+    const sellersPerPage = 3;
 
     const slides = [
         { src: ph1, alt: "Placeholder 1" },
@@ -35,41 +36,62 @@ function LandingPage() {
         const interval = setInterval(() => {
             setSlideIndex((prevIndex) => (prevIndex + 1) % slides.length);
         }, 7000);
-        fetchProducts();
+        fetchSellers();
         if (userid) {
             fetchWishlist();
         }
         return () => clearInterval(interval);
     }, [slides.length, userid]);
 
-    const fetchProducts = async () => {
+    const fetchSellers = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/product/getAllProduct');
-            const sortedItems = response.data.sort((a, b) =>
-                new Date(b.dateposted).getTime() - new Date(a.dateposted).getTime()
-            );
-            // Only get the first 8 products for the landing page
-            const shuffledProducts = sortedItems.sort(() => 0.5 - Math.random());
-            setProducts(shuffledProducts);
-            setDisplayedProducts(sortedItems.slice(0, productsPerPage));
+            const response = await axios.get('http://localhost:8080/api/seller/getAllSeller');
+            const shuffledSellers = response.data.sort(() => 0.5 - Math.random());
+            setSellers(shuffledSellers);
+            setDisplayedSellers(shuffledSellers.slice(0, sellersPerPage));
+
+            // Fetch products for each seller
+            const productsMap = {};
+            for (const seller of shuffledSellers) {
+                const products = await fetchSellerProducts(seller.userid);
+                productsMap[seller.userid] = products;
+            }
+            setSellerProducts(productsMap);
         } catch (error) {
-            console.error('Error fetching products:', error);
+            console.error('Error fetching sellers:', error);
         } finally {
             setLoading(false);
         }
     };
-    const loadMoreProducts = () => {
-        const nextProducts = products.slice(displayedProducts.length, displayedProducts.length + productsPerPage);
-        setDisplayedProducts((prevDisplayed) => [...prevDisplayed, ...nextProducts])
+
+    const fetchSellerProducts = async (sellerId) => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/product/getAllProduct');
+            const sellerProducts = response.data.filter(product =>
+                product.seller && product.seller.userid === sellerId
+            );
+            // Shuffle and get only 4 products
+            return sellerProducts.sort(() => 0.5 - Math.random()).slice(0, 4);
+        } catch (error) {
+            console.error('Error fetching seller products:', error);
+            return [];
+        }
     };
+
     const fetchWishlist = async () => {
-           try {
-               const response = await axios.get(`http://localhost:8080/api/wishlist/getWishlistByUserId/${userid}`);
-               setWishlist(response.data);
-           } catch (error) {
-               console.error('Error fetching wishlist:', error);
-           }
-       };
+        try {
+            const response = await axios.get(`http://localhost:8080/api/wishlist/getWishlistByUserId/${userid}`);
+            setWishlist(response.data);
+        } catch (error) {
+            console.error('Error fetching wishlist:', error);
+        }
+    };
+
+    const loadMoreSellers = () => {
+        const currentLength = displayedSellers.length;
+        const nextSellers = sellers.slice(currentLength, currentLength + sellersPerPage);
+        setDisplayedSellers([...displayedSellers, ...nextSellers]);
+    };
 
     const isProductInWishlist = (productId) => {
         return wishlist.some(item =>
@@ -145,6 +167,10 @@ function LandingPage() {
         navigate(`/productdetail/${product.productid}`, { state: { product } });
     };
 
+    const navigateToStore = (sellerId) => {
+        navigate(`/store/${sellerId}`);
+    };
+
     const nextSlide = () => setSlideIndex((prevIndex) => (prevIndex + 1) % slides.length);
     const prevSlide = () => setSlideIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
     const goToSlide = (index) => setSlideIndex(index);
@@ -176,86 +202,91 @@ function LandingPage() {
                     </div>
                 </div>
 
-                {/* Featured Products Section */}
-                <div className="featured-products-section">
-                    <h2>Featured Products of the Week</h2>
-                <div className="cta-container">
-                    <button
-                        className="cta-button"
-                        onClick={() => navigate('/productlisting')}
-                    >
-                     View More
-                    </button>
-                </div>
+                {/* Stores Section */}
+                <div className="stores-section">
                     {loading ? (
-                        <div className="loading">Loading products...</div>
+                        <div className="loading">Loading stores...</div>
                     ) : (
-                        <div className="product-grid">
-                            {displayedProducts.map((product) => (
-                                <div
-                                    className="product-card"
-                                    key={product.productid}
-                                    onClick={() => handleCardPress(product)}
-                                >
-                                    <div className="product-image">
-                                        {product.image ? (
-                                            <img src={`data:image/jpeg;base64,${product.image}`} alt="Product"
-                                                 className="preview-img"/>
-                                        ) : (
-                                            <div className="image-placeholder">
-                                            No Image Available
+                        <>
+                            {displayedSellers.map((seller) => (
+                                <div key={seller.userid} className="store-container">
+                                    <h2 className="store-name" onClick={() => navigateToStore(seller.userid)}>
+                                        {seller.storename}
+                                    </h2>
+                                    <div className="store-products">
+                                        {sellerProducts[seller.userid]?.map((product) => (
+                                            <div
+                                                className="product-card"
+                                                key={product.productid}
+                                                onClick={() => handleCardPress(product)}
+                                            >
+                                                <div className="product-image">
+                                                    {product.image ? (
+                                                        <img
+                                                            src={`data:image/jpeg;base64,${product.image}`}
+                                                            alt={product.productname}
+                                                            className="preview-img"
+                                                        />
+                                                    ) : (
+                                                        <div className="image-placeholder">
+                                                            No Image Available
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="product-details">
+                                                    <h3 className="product-title">{product.productname}</h3>
+                                                    <p className="product-price">₱{product.price?.toFixed(2)}</p>
+                                                    <div className="product-rating">
+                                                        ⭐ {product.ratings?.length > 0
+                                                            ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
+                                                            : 'No ratings'}
+                                                    </div>
+                                                    <div className="product-actions">
+                                                        <button
+                                                            className="buy-now-btn"
+                                                            onClick={(e) => handleBuyNow(product, e)}
+                                                        >
+                                                            Buy Now
+                                                        </button>
+                                                        <button
+                                                            className="cart-btn"
+                                                            onClick={(e) => handleAddToCart(product, e)}
+                                                            title="Add to cart"
+                                                        >
+                                                            🛒
+                                                        </button>
+                                                        <span
+                                                            className={`wishlist-icon ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                if (isProductInWishlist(product.productid)) {
+                                                                    setSelectedItemId(product.productid);
+                                                                    setShowRemoveWishlistModal(true);
+                                                                } else {
+                                                                    handleAddToWishlist(product.productid);
+                                                                }
+                                                            }}
+                                                            title={isProductInWishlist(product.productid) ? "Remove from wishlist" : "Add to wishlist"}
+                                                        >
+                                                            {isProductInWishlist(product.productid) ? '❤️' : '🤍'}
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        )}
-                                    </div>
-                                    <div className="product-details">
-                                        <h3 className="product-title">{product.productname}</h3>
-                                        <p className="product-price">₱{product.price?.toFixed(2)}</p>
-                                        <div className="product-rating">
-                                            ⭐ {product.ratings?.length > 0
-                                            ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
-                                            : 'No ratings'}
-                                        </div>
-                                        <div className="product-actions">
-                                            <button
-                                                className="buy-now-btn"
-                                                onClick={(e) => handleBuyNow(product, e)}
-                                            >
-                                                Buy Now
-                                            </button>
-                                            <button
-                                                className="cart-btn"
-                                                onClick={(e) => handleAddToCart(product, e)}
-                                                title="Add to cart"
-                                            >
-                                                🛒
-                                            </button>
-                                            <span
-                                                className={`wishlist-icon ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (isProductInWishlist(product.productid)) {
-                                                        setSelectedItemId(product.productid);
-                                                        setShowRemoveWishlistModal(true);
-                                                    } else {
-                                                        handleAddToWishlist(product.productid);
-                                                    }
-                                                }}
-                                                title={isProductInWishlist(product.productid) ? "Remove from wishlist" : "Add to wishlist"}
-                                            >
-                                                {isProductInWishlist(product.productid) ? '❤️' : '🤍'}
-                                            </span>
-                                        </div>
+                                        ))}
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                            {displayedSellers.length < sellers.length && (
+                                <button className="show-more-btn" onClick={loadMoreSellers}>
+                                    Show More Stores
+                                </button>
+                            )}
+                        </>
                     )}
                 </div>
-                {!loading && displayedProducts.length < products.length && (
-                    <button className="show-more-btn" onClick={loadMoreProducts}>
-                        Show More
-                    </button>
-                )}
+
+                {/* Footer Grid */}
                 <div className="grid-container">
                     {["Danrave Keh", "Vincent Pacaña", "Andre Apas", "Judiel Oppura", "Josemar Pajares", "Sir Busico"].map((name, index) => (
                         <div className="grid-item" key={index}>{name}</div>
@@ -308,12 +339,3 @@ function LandingPage() {
 }
 
 export default LandingPage;
-
-
-
-
-
-
-
-
-
