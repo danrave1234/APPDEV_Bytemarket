@@ -160,7 +160,7 @@ function Product() {
     return (
         <PageLayout>
             <div className="container">
-                <div className="product-container">
+                <div className="product-containers">
                     <div className="product-content">
                         <div className="product-image-section">
                             <div className="image-container">
