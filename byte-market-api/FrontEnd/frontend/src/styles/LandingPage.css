@@ -116,7 +116,7 @@ html, body {
     gap: 1.6rem;
 }
 
-.landing-container .product-card {
+.landing-container .product-cards {
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);

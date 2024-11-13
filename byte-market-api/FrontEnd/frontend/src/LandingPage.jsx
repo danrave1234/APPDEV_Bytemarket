@@ -232,7 +232,7 @@ function LandingPage() {
                                         <div className="store-products">
                                             {products.map((product) => (
                                                 <div
-                                                    className="product-card"
+                                                    className="product-cards"
                                                     key={product.productid}
                                                     onClick={() => handleCardPress(product)}
                                                 >
@@ -305,7 +305,7 @@ function LandingPage() {
 
                 {/* Footer Grid */}
                 <div className="grid-container">
-                    {["Danrave Keh", "Vincent Pacaña", "Andre Apas", "Judiel Oppura", "Josemar Pajares", "Sir Busico"].map((name, index) => (
+                    {["Danrave Keh", "Vincent Pacaña", "Andri Apas", "Judiel Oppura", "Josemar Pajares", "Sir Busico"].map((name, index) => (
                         <div className="grid-item" key={index}>{name}</div>
                     ))}
                 </div>
