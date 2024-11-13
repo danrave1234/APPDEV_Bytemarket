@@ -34,7 +34,6 @@
 
 .wishlist-container .sort-buttons {
     display: flex;
-
 }
 
 .wishlist-container .sort-btn {
@@ -110,6 +109,26 @@
     font-size: 0.9rem;
     margin: 0 0 0.4rem 0;
     color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wishlist-container .product-title[title] {
+    cursor: help;
+}
+
+.wishlist-container .product-title[title]:hover::before {
+    content: attr(title);
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    max-width: 200px;
+    white-space: normal;
+    z-index: 1;
 }
 
 .wishlist-container .product-price {

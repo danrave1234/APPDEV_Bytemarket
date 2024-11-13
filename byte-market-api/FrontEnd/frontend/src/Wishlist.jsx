@@ -85,7 +85,7 @@ function Wishlist() {
             const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
             const userCartItems = response.data.filter(item => item.customer.userid === parseInt(userid));
             // Check if the product already exists in the cart
-                const isProductInCart = userCartItems.some(cartItem => cartItem.product.productid === parseInt(product.productid));
+            const isProductInCart = userCartItems.some(cartItem => cartItem.product.productid === parseInt(product.productid));
 
             if (isProductInCart) {
                 alert("This product is already in your cart!");
@@ -106,7 +106,6 @@ function Wishlist() {
             console.error('Error adding to cart:', error);
         }
     };
-
 
     const handleBuyNow = async (product, event) => {
         event.stopPropagation(); // Prevent the card click handler from being triggered
@@ -151,20 +150,9 @@ function Wishlist() {
             <div className="wishlist-container">
                 {/* Top section with input and sort buttons */}
                 <div className="top-section">
-
                     {/*Test Area add products =========================*/}
-                    <div className="test-input-section">
-                        <input
-                            type="text"
-                            value={productId}
-                            onChange={(e) => setProductId(e.target.value)}
-                            placeholder="Test: Enter Product ID"
-                            className="product-id-input"
-                        />
-                        <button onClick={handleAddProduct} className="add-btn">Add</button>
-                    </div>
-                    {/*Test Area end ===================================*/}
 
+                    {/*Test Area end ===================================*/}
 
                     {/* Sort btns ======================================== */}
                     <div className="sort-buttons">
@@ -214,7 +202,11 @@ function Wishlist() {
                                             />
                                         </div>
                                         <div className="product-details">
-                                            <h3 className="product-title">{product.productname}</h3>
+                                            <h3 className="product-title" title={product.productname}>
+                                                {product.productname.length > 30
+                                                    ? `${product.productname.slice(0, 30)}...`
+                                                    : product.productname}
+                                            </h3>
                                             <p className="product-price">${product.price?.toFixed(2)}</p>
                                             <div className="product-rating">
                                                 ⭐ {product.rating}
