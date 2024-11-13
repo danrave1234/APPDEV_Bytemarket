@@ -89,22 +89,17 @@ const OrderHistory = () => {
         return true;  // Show all orders by default
     });
 
-    if (loading) return <p>Loading orders...</p>;
-    if (filteredOrders.length === 0) return <p>No order history available.</p>;
-
     return (
         <PageLayout>
             <div className="order-history-container">
                 <h3>Your Order History</h3>
 
-                {/* Tab navigation */}
                 <div className="tab-navigation">
                     <button className={`tab ${tab === 'all' ? 'active' : ''}`} onClick={() => setTab('all')}>All Orders</button>
                     <button className={`tab ${tab === 'pending' ? 'active' : ''}`} onClick={() => setTab('pending')}>Pending Orders</button>
                     <button className={`tab ${tab === 'completed' ? 'active' : ''}`} onClick={() => setTab('completed')}>Completed Orders</button>
                 </div>
 
-                {/* Single Card Layout for Orders */}
                 <div className="orders-list">
                     {filteredOrders.map(order => (
                         <div key={order.orderid} className="order-card">
