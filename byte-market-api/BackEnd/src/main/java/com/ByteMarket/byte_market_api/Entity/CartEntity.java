@@ -34,7 +34,7 @@ public class CartEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false) // Change to ManyToOne
-    @JsonIgnoreProperties({"orderItems", "seller","carts", "wishlists", "ratings"})
+    @JsonIgnoreProperties({"orderItems","carts", "wishlists", "ratings"})
     private ProductEntity product;
 
     // Getters and Setters
