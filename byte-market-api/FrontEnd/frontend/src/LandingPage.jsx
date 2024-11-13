@@ -307,13 +307,6 @@ function LandingPage() {
                     )}
                 </div>
 
-                {/* Footer Grid */}
-                <div className="grid-container">
-                    {["Danrave Keh", "Vincent Pacaña", "Andri Apas", "Judiel Oppura", "Josemar Pajares", "Sir Busico"].map((name, index) => (
-                        <div className="grid-item" key={index}>{name}</div>
-                    ))}
-                </div>
-
                 {/* Modals */}
                 {showRemoveWishlistModal && (
                     <div className="modal-overlay" onClick={() => setShowRemoveWishlistModal(false)}>
