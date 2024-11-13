@@ -16,7 +16,7 @@ html, body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.cart-item {
+.cart-container .cart-item {
     display: flex;
     align-items: center;
     margin-bottom: 1.5rem;
@@ -27,13 +27,13 @@ html, body {
     gap: 1rem;
 }
 
-.cart-item input[type="checkbox"] {
+.cart-container .cart-item input[type="checkbox"] {
     width: 1.2rem;
     height: 1.2rem;
     cursor: pointer;
 }
 
-.image-placeholder {
+.cart-container .image-placeholder {
     width: 200px;
     height: 200px;
     background-color: #e0e0e0;
@@ -45,40 +45,40 @@ html, body {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
-.image-placeholder img{
+.cart-container .image-placeholder img{
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.product-info {
+.cart-container .product-info {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
 }
 
-.product-name {
+.cart-container .product-name {
     font-size: 1.2rem;
     font-weight: bold;
     color: #333;
 }
 
-.product-category,
-.product-stock,
-.product-price {
+.cart-container .product-category,
+.cart-container .product-stock,
+.cart-container .product-price {
     font-size: 0.95rem;
     color: #666;
 }
 
-.quantity-box {
+.cart-container .quantity-box {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     margin-left: auto;
 }
 
-.quantity-box button {
+.cart-container .quantity-box button {
     width: 30px;
     height: 30px;
     background-color: #007bff;
@@ -88,11 +88,11 @@ html, body {
     cursor: pointer;
 }
 
-.quantity-box button:hover {
+.cart-container .quantity-box button:hover {
     background-color: #0056b3;
 }
 
-.quantity-box input {
+.cart-container .quantity-box input {
     width: 50px;
     text-align: center;
     border: 1px solid #ddd;
@@ -100,7 +100,7 @@ html, body {
     padding: 0.2rem;
 }
 
-.remove-button {
+.cart-container .remove-button {
     padding: 0.5rem 1rem;
     background-color: #dc3545;
     color: white;
@@ -110,17 +110,17 @@ html, body {
     font-size: 0.9rem;
 }
 
-.remove-button:hover {
+.cart-container .remove-button:hover {
     background-color: #c82333;
 }
 
-.sort-buttons {
+.cart-container .sort-buttons {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 1rem;
 }
 
-.sort-buttons button {
+.cart-container .sort-buttons button {
     padding: 0.5rem 1rem;
     background: #e0e0e0;
     border: none;
@@ -130,12 +130,12 @@ html, body {
     transition: background-color 0.3s ease;
 }
 
-.sort-buttons button.active {
+.cart-container .sort-buttons button.active {
     background-color: #007bff;
     color: #fff;
 }
 
-.checkout-summary {
+.cart-container .checkout-summary {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -143,13 +143,13 @@ html, body {
     margin-top: 1.5rem;
 }
 
-.total-price {
+.cart-container .total-price {
     font-size: 1.3rem;
     font-weight: bold;
     color: #333;
 }
 
-.checkout-button {
+.cart-container .checkout-button {
     max-width: 200px;
     padding: 0.75rem;
     font-size: 1rem;
@@ -163,11 +163,11 @@ html, body {
     transition: background-color 0.3s ease;
 }
 
-.checkout-button:hover {
+.cart-container .checkout-button:hover {
     background-color: #218838;
 }
 
-.checkout-button:disabled {
+.cart-container .checkout-button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
 }

@@ -14,7 +14,6 @@ html, body {
     padding: 1.6rem;
     border-radius: 12px;
     width: 80%;
-    padding-top: 30px;
 }
 
 .product-content {
@@ -28,7 +27,10 @@ html, body {
     flex: 1;
     min-width: 300px;
 }
-
+.product-image-section img {
+    height: 100%;
+    width: 100%;
+}
 .product-container .image-container {
     background: white;
     border-radius: 8px;

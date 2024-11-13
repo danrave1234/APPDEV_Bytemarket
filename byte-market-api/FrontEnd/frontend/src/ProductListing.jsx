@@ -3,17 +3,20 @@ import axios from 'axios';
 import './styles/ProductListing.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function ProductListing() {
     const { userid } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [sortBy, setSortBy] = useState('recent');
     const [wishlist, setWishlist] = useState([]);
     const [sellers, setSellers] = useState([]);
     const [selectedSeller, setSelectedSeller] = useState('');
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('search') || '';
 
     // Modal states
     const [showAddToWishlistModal, setShowAddToWishlistModal] = useState(false);
@@ -26,7 +29,7 @@ export default function ProductListing() {
         fetchSellers();
         fetchProducts();
         fetchWishlist();
-    }, [userid, selectedSeller]);
+    }, [userid, selectedSeller, searchQuery]);
 
     const fetchSellers = async () => {
         try {
@@ -44,10 +47,15 @@ export default function ProductListing() {
 
             if (selectedSeller) {
                 filteredProducts = response.data.filter(product =>
-                    product.seller && product.seller.sellerid === parseInt(selectedSeller)
+                    product.seller && product.seller.userid === parseInt(selectedSeller)
                 );
             }
-
+            if (searchQuery) {
+                filteredProducts = filteredProducts.filter(product =>
+                    product.productname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    product.description?.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+            }
             setProducts(filteredProducts);
         } catch (error) {
             console.error('Error fetching products:', error);
@@ -180,7 +188,7 @@ export default function ProductListing() {
                         >
                             <option value="">All Stores</option>
                             {sellers.map(seller => (
-                                <option key={seller.sellerid} value={seller.sellerid}>
+                                <option key={seller.userid} value={seller.userid}>
                                     {seller.storename}
                                 </option>
                             ))}
@@ -234,7 +242,7 @@ export default function ProductListing() {
                                     <div className="product-image">
                                         {product.image ? (
                                             <img
-                                                src={`data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}`}
+                                                src={`data:image/jpeg;base64,${product.image}`}
                                                 alt={product.productname}
                                             />
                                         ) : (

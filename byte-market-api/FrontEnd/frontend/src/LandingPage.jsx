@@ -260,9 +260,6 @@ function LandingPage() {
                     {["Danrave Keh", "Vincent Pacaña", "Andre Apas", "Judiel Oppura", "Josemar Pajares", "Sir Busico"].map((name, index) => (
                         <div className="grid-item" key={index}>{name}</div>
                     ))}
-                    {Array(6).fill("Pic/prgraph Placeholders").map((text, index) => (
-                        <div key={index} className="grid-item waw-item">{text}</div>
-                    ))}
                 </div>
 
                 {/* Modals */}

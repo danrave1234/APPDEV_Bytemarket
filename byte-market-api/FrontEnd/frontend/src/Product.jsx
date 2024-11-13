@@ -138,7 +138,6 @@ function Product() {
         </PageLayout>
     );
 
-    const imageBase64 = product?.image ? `data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}` : null;
     return (
         <PageLayout>
             <div className="container">
@@ -146,11 +145,7 @@ function Product() {
                     <div className="product-content">
                         <div className="product-image-section">
                             <div className="image-container">
-                                {imageBase64 ? (
-                                    <img src={imageBase64} alt={product?.productname} className="product-image" />
-                                ) : (
-                                    <div className="image-placeholder">No image available</div>
-                                )}
+                                    <img src={`data:image/jpeg;base64,${product.image}`} alt={product?.productname} className="product-image" />
                             </div>
                         </div>
 
@@ -189,14 +184,10 @@ function Product() {
                                     <span className="profile-icon">👤</span>
                                     <span className="store-name-container">
                                         <span className="store-name">
-                                            {product?.seller?.storename || 'No Store Name Available'}
+                                            <a href={`/store/${product?.seller?.username}`}>
+                                                {product?.seller?.storename || 'No Store Name Available'}
+                                            </a>
                                         </span>
-                                        <a
-                                            href={`/store/${product?.seller?.username}`} // Link to seller's store page
-                                            className="visit-store-link"
-                                        >
-                                            Visit Store
-                                        </a>
                                     </span>
                                 </div>
                             </div>

@@ -20,11 +20,12 @@ function PageLayout({ children }) {
     const [showModalLogin, setShowModalLogin] = useState(false);
     const [showModalSignUpSeller, setShowModalSignUpSeller] = useState(false);
     const [showModalLoginSeller, setShowModalLoginSeller] = useState(false);
-    const [showModalSignUpAdmin, setShowModalSignUpAdmin] = useState(false);
     const [showModalLoginAdmin, setShowModalLoginAdmin] = useState(false);
     const [showModalWallet, setShowModalWallet] = useState(false);
-
+    const [searchQuery, setSearchQuery] = useState("");
     const toggleDropdown = () => setShowDropdown(!showDropdown);
+    const navigate = useNavigate();
+    const { isLoggedIn, logout, role, name } = useAuth(); // Assuming `name` is available in useAuth
 
     const openModalWallet = () => {
         setShowModalWallet(true);
@@ -79,10 +80,6 @@ function PageLayout({ children }) {
         setShowModalLoginAdmin(false);
         document.body.style.overflow = 'auto';
     };
-
-    const navigate = useNavigate();
-    const { isLoggedIn, logout, role, name } = useAuth(); // Assuming `name` is available in useAuth
-
     const handleLogout = () => {
         logout();
         navigate("/");
@@ -125,7 +122,18 @@ function PageLayout({ children }) {
         }
         return '';
     };
-
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            navigate(`/productlisting?search=${encodeURIComponent(searchQuery)}`);
+            setSearchQuery("");
+        }
+    };
+    const clearSearch = () => {
+        setSearchQuery('');
+        const queryParams = new URLSearchParams(location.search);
+        queryParams.delete('search');
+        navigate(`?${queryParams.toString()}`);
+    };
     return (
         <>
             <div className="containerLayout1">
@@ -188,10 +196,19 @@ function PageLayout({ children }) {
 
             <div className="containerLayout2">
                 <div className="searchBar">
-                    <input type="text" placeholder="Search..." className="searchBar" />
-                    <button className="searchButton">
-                        <img src={searchIcon} alt="Search Icon" className="searchIcon" />
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="searchBar"
+                    />
+                    <button className="clearButton" onClick={clearSearch}> X</button>
+                    <button className="searchButton" onClick={handleSearch}>
+                        <img src={searchIcon} alt="Search Icon" className="searchIcon"/>
                     </button>
+
+
                 </div>
             </div>
             <main>{children}</main>
@@ -199,13 +216,14 @@ function PageLayout({ children }) {
             <footer>
                 <div className="footer-div">
                     <div>
-                        <img src={VincentLogo} alt="ByteMarket Logo" className="footer-logo" />
-                        <p>Your one-stop marketplace for quality products. Discover, shop, and enjoy fast, secure transactions.</p>
+                        <img src={VincentLogo} alt="ByteMarket Logo" className="footer-logo"/>
+                        <p>Your one-stop marketplace for quality products. Discover, shop, and enjoy fast, secure
+                            transactions.</p>
                     </div>
-                    <div style={{ flex: 1, minWidth: "200px", padding: "10px" }}>
+                    <div style={{flex: 1, minWidth: "200px", padding: "10px"}}>
                         <h4>Quick Links</h4>
                         <ul>
-                            <li><a href="#">Home</a></li>
+                        <li><a href="#">Home</a></li>
                             <li><a href="#">Shop</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Contact</a></li>
