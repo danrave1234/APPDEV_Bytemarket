@@ -96,7 +96,6 @@ function Product() {
 
     const removeFromWishlist = async () => {
         try {
-            // Fetch the user's wishlist to find the item to remove
             const response = await axios.get(`http://localhost:8080/api/wishlist/getWishlistByUserId/${userid}`);
             const wishlistItems = response.data;
             const wishlistItemToRemove = wishlistItems.find(item =>
@@ -130,6 +129,11 @@ function Product() {
         }
     };
 
+    // Navigate to the reviews page
+    const handleSeeAllReviews = () => {
+        navigate(`/productdetail/${productid}/reviews`);
+    };
+
     if (loading) return (
         <PageLayout>
             <div className="container">
@@ -145,7 +149,7 @@ function Product() {
                     <div className="product-content">
                         <div className="product-image-section">
                             <div className="image-container">
-                                    <img src={`data:image/jpeg;base64,${product.image}`} alt={product?.productname} className="product-image" />
+                                <img src={`data:image/jpeg;base64,${product.image}`} alt={product?.productname} className="product-image" />
                             </div>
                         </div>
 
@@ -163,8 +167,8 @@ function Product() {
 
                             <div className="product-rating">
                                 ⭐ {product.ratings?.length > 0
-                                ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
-                                : 'No ratings'}
+                                    ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
+                                    : 'No ratings'}
                             </div>
 
                             <div className="product-price">₱ {product?.price?.toFixed(2)}</div>
@@ -204,7 +208,6 @@ function Product() {
                             <div className="action-buttons">
                                 <button onClick={handleAddToCart} className="add-cart-btn">Add to Cart</button>
                                 <button onClick={handleBuyNow} className="buy-now-btn">Buy Now</button>
-                                {/* Buy Now button */}
                             </div>
                         </div>
                     </div>
@@ -212,7 +215,9 @@ function Product() {
                     <div className="reviews-section">
                         <div className="reviews-header">
                             <h2>Reviews</h2>
-                            <button className="see-all-btn">See All Reviews →</button>
+                            <button className="see-all-btn" onClick={handleSeeAllReviews}>
+                                See All Reviews →
+                            </button>
                         </div>
 
                         <div className="reviews-grid">
@@ -221,9 +226,8 @@ function Product() {
                                     <div className="reviewer-info">
                                         <div className="reviewer-avatar"></div>
                                         <div className="reviewer-details">
-                                            <p className="reviewer-name">{rating.customer.username}
-                                                <p>{rating.ratingdate}</p>
-                                            </p>
+                                            <p className="reviewer-name">{rating.customer.username}</p>
+                                            <p>{rating.ratingdate}</p>
                                             <div className="review-rating">
                                                 <span className="star">⭐{rating.score}</span>
                                                 <span>{rating.rating}</span>

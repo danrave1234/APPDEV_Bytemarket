@@ -10,6 +10,8 @@ import Wishlist from "./Wishlist.jsx"
 import Rating from "./Rating.jsx"
 import Product from "./Product.jsx"
 import ProductListing from "./ProductListing.jsx"
+import Reviews from "./Reviews.jsx"
+import Storepage from"./Storepage.jsx"
 
 export default function TheRoutes() {
     return (
@@ -24,7 +26,9 @@ export default function TheRoutes() {
             <Route path="/customer/wishlists" element={<Wishlist />}/>
             <Route path="/customer/rating" element={<Rating />}/>
             <Route path="/productdetail/:productid" element={<Product />} />
+            <Route path="/productdetail/:productid/reviews" element={<Reviews/>} />
             <Route path="/productlisting" element={<ProductListing />} />
+            <Route path="/store/:userid" element={<Storepage />} />
         </Routes>
     )
 
