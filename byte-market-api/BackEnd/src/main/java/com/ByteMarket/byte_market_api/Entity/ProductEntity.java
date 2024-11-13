@@ -41,14 +41,14 @@ public class ProductEntity {
     @JsonIgnoreProperties({"registration", "products", "email", "phonenumber", "dateofbirth"}) // Ignore all other seller details
     private SellerEntity seller;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartEntity> carts;
 
-    @ManyToMany(mappedBy = "wishlistProducts")
+    @ManyToMany(mappedBy = "wishlistProducts", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JsonIgnoreProperties({"wishlistProducts", "carts", "wishlists"})
     private List<WishlistEntity> wishlists;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties({})
     private List<RatingEntity> ratings;
 

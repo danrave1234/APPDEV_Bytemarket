@@ -7,37 +7,38 @@ import RatingModal from './components/RatingModal';
 
 const OrderHistory = () => {
     const { userid } = useAuth();
-    const [orders, setOrders] = useState(() => {
-        const cachedOrders = localStorage.getItem('userOrders');
-        return cachedOrders ? JSON.parse(cachedOrders) : [];
-    });
+    const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
     const [tab, setTab] = useState('all');  // Tab to filter orders: 'all', 'pending', or 'completed'
 
     useEffect(() => {
-        if (userid) {
-            const fetchOrders = async () => {
+        const fetchOrders = async () => {
                 try {
-                    setLoading(true);
                     const response = await axios.get('http://localhost:8080/api/order/getAllOrder');
-                    const userOrders = response.data.filter(order => order.customer.userid === userid);
+                    const userOrders = response.data.filter(order => order.customer.userid === parseInt(userid));
                     userOrders.sort((a, b) => Number(b.orderid) - Number(a.orderid));
-                    if (userOrders.length > 0) {
-                        setOrders(userOrders);
-                        localStorage.setItem('userOrders', JSON.stringify(userOrders));
-                    }
+                    setOrders(userOrders);
                 } catch (error) {
                     console.error('Error fetching orders:', error);
                 } finally {
                     setLoading(false);
                 }
-            };
+        };
+        if (userid) {
             fetchOrders();
+        }else{
+            console.error("No user ID available.");
+            setLoading(false);
         }
     }, [userid]);
 
+    const filteredOrders = orders.filter(order => {
+        if (tab === 'pending') return order.orderstatus === 'Pending';
+        if (tab === 'completed') return order.orderstatus === 'Completed';
+        return true;
+    });
     const handleRatingClick = (orderItemId, productId, productName, orderId) => {
         setCurrentItem({ orderItemId, productId, productName, orderId });
         setShowRatingModal(true);
@@ -82,24 +83,24 @@ const OrderHistory = () => {
 
     const hasRatedProduct = (orderItem) => orderItem.rated;
 
-    // Filter orders based on tab selection
-    const filteredOrders = orders.filter(order => {
-        if (tab === 'pending') return order.orderstatus === 'Pending';
-        if (tab === 'completed') return order.orderstatus === 'Completed';
-        return true;  // Show all orders by default
-    });
+
+
+    if (loading) return <p>Loading orders...</p>;
+    if (filteredOrders.length === 0) return <p>No order history available.</p>;
 
     return (
         <PageLayout>
             <div className="order-history-container">
                 <h3>Your Order History</h3>
 
+                {/* Tab navigation */}
                 <div className="tab-navigation">
                     <button className={`tab ${tab === 'all' ? 'active' : ''}`} onClick={() => setTab('all')}>All Orders</button>
                     <button className={`tab ${tab === 'pending' ? 'active' : ''}`} onClick={() => setTab('pending')}>Pending Orders</button>
                     <button className={`tab ${tab === 'completed' ? 'active' : ''}`} onClick={() => setTab('completed')}>Completed Orders</button>
                 </div>
 
+                {/* Single Card Layout for Orders */}
                 <div className="orders-list">
                     {filteredOrders.map(order => (
                         <div key={order.orderid} className="order-card">

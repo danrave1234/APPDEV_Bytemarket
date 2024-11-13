@@ -9,47 +9,48 @@ import DeleteProductModal from "./components/DeleteProductModal.jsx"; // Import 
 
 function Store() {
   const { userid } = useAuth();
-  const [products, setProducts] = useState(() => {
-    const cachedProducts = localStorage.getItem("userProducts");
-    return cachedProducts ? JSON.parse(cachedProducts) : [];
-  });
-  const [loading, setLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);  // Loading state to track data fetching
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [productToEdit, setProductToEdit] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // State for Delete Modal
   const [productToDelete, setProductToDelete] = useState(null); // Product to be deleted
-    const [seller, setSeller] = useState(null);
+  const [seller, setSeller] = useState(null);
 
-  useEffect(() => {
-    if (userid) {
-      const fetchProducts = async () => {
-        try {
-          setLoading(true);
-          const response = await axios.get("http://localhost:8080/api/product/getAllProduct");
-          const userProducts = response.data.filter((product) => product.seller.userid === userid);
-          const sellerResponse = await axios.get(`http://localhost:8080/api/seller/getSellerById/${userid}`);
-                setSeller(sellerResponse.data); // Set seller data
-          if (userProducts.length > 0) {
-            setProducts(userProducts);
-            localStorage.setItem("userProducts", JSON.stringify(userProducts));
-          }
-        } catch (error) {
-          console.error("Error fetching products:", error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchProducts();
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      const productResponse = await axios.get('http://localhost:8080/api/product/getAllProduct');
+      setProducts(productResponse.data);
+
+      // Verify the API URL with userid
+      console.log(`Fetching seller info with userid: ${userid}`);
+      const sellerResponse = await axios.get(`http://localhost:8080/api/seller/getSellerById/${userid}`);
+      setSeller(sellerResponse.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
-  }, [userid]);
+  };
+  if (userid) {
+    fetchProducts();
+  } else {
+    console.error("No user ID available.");
+    setLoading(false);
+  }
+}, [userid]);
+
 
   const openAddModal = () => {
     setIsAddModalOpen(true);
-    document.body.style.overflow = 'hidden';};
+    document.body.style.overflow = 'hidden';
+  };
   const closeAddModal = () => {
     setIsAddModalOpen(false);
-    document.body.style.overflow = 'auto';};
+    document.body.style.overflow = 'auto';
+  };
 
   const openEditModal = (product) => {
     setProductToEdit(product);
@@ -58,7 +59,8 @@ function Store() {
   };
   const closeEditModal = () => {
     setIsEditModalOpen(false);
-    document.body.style.overflow = 'auto';};
+    document.body.style.overflow = 'auto';
+  };
 
   const openDeleteModal = (product) => {
     setProductToDelete(product); // Set product to be deleted
@@ -71,21 +73,17 @@ function Store() {
   };
 
   const handleProductAdded = async () => {
-    localStorage.removeItem("userProducts");
     setProducts([]);  // Clear the current products in the state
 
     try {
       // Fetch the updated list of products
       const response = await axios.get("http://localhost:8080/api/product/getAllProduct");
       const userProducts = response.data.filter((product) => product.seller.userid === userid);
-
       setProducts(userProducts);  // Update the state with the new products
-      localStorage.setItem("userProducts", JSON.stringify(userProducts));  // Save the updated list in localStorage
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
-
 
   const handleProductUpdated = async (updatedProduct) => {
     try {
@@ -104,22 +102,17 @@ function Store() {
           product.productid === response.data.productid ? response.data : product
         )
       );
-
-      localStorage.setItem("userProducts", JSON.stringify(products)); // Update local storage with the modified products list
       closeEditModal(); // Close the modal after successful update
     } catch (error) {
       console.error("Error updating product:", error.response ? error.response.data : error.message); // Log error details
     }
   };
 
-
-
   const handleProductDeleted = async () => {
     if (productToDelete) {
       try {
         await axios.delete(`http://localhost:8080/api/product/deleteProduct/${productToDelete.productid}`);
         setProducts((prevProducts) => prevProducts.filter((product) => product.productid !== productToDelete.productid));
-        localStorage.setItem("userProducts", JSON.stringify(products));
         closeDeleteModal(); // Close the modal after deletion
       } catch (error) {
         console.error("Error deleting product:", error);
@@ -135,17 +128,19 @@ function Store() {
         <div className="store-header">
           <div className="store-info">
             {seller ? (
-              <div>
-                <h2>Store: {seller.storename}</h2>
-                <p>Seller: {seller.sellername}</p>
-              </div>
+                <div>
+                  <h2>Store: {seller.storename}</h2>
+                  <p>Seller: {seller.sellername}</p>
+                </div>
             ) : (
-              <div>
-                <h2>No Store Name</h2>
-                <p>No Seller Name</p>
-              </div>
+                <div>
+                  <h2>Loading store information...</h2>
+                  <p>Please wait while we fetch the seller details.</p>
+                </div>
             )}
           </div>
+
+
           <button className="add-product-btn" onClick={openAddModal}>Add Product</button>
         </div>
 
@@ -155,24 +150,24 @@ function Store() {
                 <div className="product-image-placeholder">
                   <img src={`data:image/jpeg;base64,${product.image}`} alt="Product"/>
                 </div>
-                <div className="productDetails">
-                  <h3>{product.productname}</h3>
-                  <p className="price">₱{product.price}</p>
-                  <p className="quanitity">Stock: {product.quantity}</p>
-                  <p className="category">Category: {product.category}</p>
-                  <p className="description">Description: {product.description}</p>
-                </div>
-                <div className="product-actions">
-                  <button className="edit-btn" onClick={() => openEditModal(product)}>Edit</button>
-                  <button className="delete-btn" onClick={() => openDeleteModal(product)}>Delete</button>
-                </div>
+              <div className="productDetails">
+                <h3>{product.productname}</h3>
+                <p className="price">₱{product.price}</p>
+                <p className="quanitity">Stock: {product.quantity}</p>
+                <p className="category">Category: {product.category}</p>
+                <p className="description">Description: {product.description}</p>
               </div>
+              <div className="product-actions">
+                <button className="edit-btn" onClick={() => openEditModal(product)}>Edit</button>
+                <button className="delete-btn" onClick={() => openDeleteModal(product)}>Delete</button>
+              </div>
+            </div>
           ))}
         </div>
 
         {/* Add Product Modal */}
         <AddProductModal
-            isOpen={isAddModalOpen}
+          isOpen={isAddModalOpen}
           onClose={closeAddModal}
           onProductAdded={handleProductAdded}
         />
