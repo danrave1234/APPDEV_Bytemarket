@@ -116,8 +116,8 @@ const WalletModal = ({ show, closeModal }) => {
                         <p>{new Date(userData.dateofbirth).toLocaleDateString()}</p>
                     </div>
                     <div className="balance-info">
-                        <p className="balance-amount" title={`$${Number(userData.balance).toFixed(2)}`}>
-                            ${Number(userData.balance).toFixed(2)}
+                        <p className="balance-amount" title={`₱${Number(userData.balance).toFixed(2)}`}>
+                            ₱{Number(userData.balance).toFixed(2)}
                         </p>
                         <p className="balance-label">Current Balance</p>
                     </div>
