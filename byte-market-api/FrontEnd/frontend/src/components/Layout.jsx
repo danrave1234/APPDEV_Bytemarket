@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Route, Routes, useNavigate } from "react-router-dom";
 import SignUpModal from './SignUpModal.jsx';
 import LoginModal from './LoginModal.jsx';
@@ -23,9 +23,25 @@ function PageLayout({ children }) {
     const [showModalLoginAdmin, setShowModalLoginAdmin] = useState(false);
     const [showModalWallet, setShowModalWallet] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const toggleDropdown = () => setShowDropdown(!showDropdown);
     const navigate = useNavigate();
     const { isLoggedIn, logout, role, name } = useAuth();
+    const dropdownRef = useRef(null);
+
+    // Handle click outside of dropdown
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [dropdownRef]);
+
+    const toggleDropdown = () => setShowDropdown(!showDropdown);
 
     // All modal handlers remain the same...
     const openModalWallet = () => {
@@ -82,40 +98,47 @@ function PageLayout({ children }) {
         document.body.style.overflow = 'auto';
     };
 
-    // Navigation handlers remain the same...
     const handleLogout = () => {
         logout();
         navigate("/");
         setShowDropdown(false);
     };
+
     const handleHome = () => {
         navigate("/");
         setShowDropdown(false);
     };
+
     const handleProfile = () => {
         navigate('/customer/userProfile');
         setShowDropdown(false);
     }
+
     const handleHistory = () => {
         navigate('/customer/orderHistory');
         setShowDropdown(false);
     }
+
     const handleStore = () => {
         navigate('/seller/store');
         setShowDropdown(false);
     }
+
     const handleAdminDashboard = () => {
         navigate('/admin/dashboard');
         setShowDropdown(false);
     }
+
     const handleCheckOut = () => {
         navigate('/customer/CheckOut');
         setShowDropdown(false);
     }
+
     const handleAddToCart = () => {
         navigate('/customer/addToCart');
         setShowDropdown(false);
     }
+
     const handleWishlist = () => {
         navigate('/customer/wishlists');
         setShowDropdown(false);
@@ -187,7 +210,7 @@ function PageLayout({ children }) {
                     </div>
 
                     {showDropdown && (
-                        <div className="dropdown">
+                        <div className="dropdown" ref={dropdownRef}>
                             <ul>
                                 {isLoggedIn ? (
                                     <>
@@ -205,6 +228,7 @@ function PageLayout({ children }) {
                                             <>
                                                 <li className="dropdownItem" onClick={handleStore}><b>Store</b></li>
                                                 <li className="dropdownItem" onClick={handleCheckOut}><b>Orders</b></li>
+                                                <li className="dropdownDivider"></li>
                                             </>
                                         )}
                                         {role === 'Admin' && (
