@@ -4,9 +4,10 @@ import './styles/ProductListing.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 import { useNavigate, useLocation } from 'react-router-dom';
+import LoginModal from './components/LoginModal.jsx'; // Import the LoginModal component
 
 export default function ProductListing() {
-    const { userid } = useAuth();
+    const { userid } = useAuth(); // Get userid from auth context
     const navigate = useNavigate();
     const location = useLocation();
     const [products, setProducts] = useState([]);
@@ -24,6 +25,9 @@ export default function ProductListing() {
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
+    
+    // Login modal state
+    const [showLoginModal, setShowLoginModal] = useState(false);
 
     useEffect(() => {
         fetchSellers();
@@ -44,17 +48,11 @@ export default function ProductListing() {
         try {
             const response = await axios.get('http://localhost:8080/api/product/getAllProduct');
             let filteredProducts = response.data;
-
             if (selectedSeller) {
-                filteredProducts = response.data.filter(product =>
-                    product.seller && product.seller.userid === parseInt(selectedSeller)
-                );
+                filteredProducts = response.data.filter(product => product.seller && product.seller.userid === parseInt(selectedSeller));
             }
             if (searchQuery) {
-                filteredProducts = filteredProducts.filter(product =>
-                    product.productname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    product.description?.toLowerCase().includes(searchQuery.toLowerCase())
-                );
+                filteredProducts = filteredProducts.filter(product => product.productname.toLowerCase().includes(searchQuery.toLowerCase()) || product.description?.toLowerCase().includes(searchQuery.toLowerCase()));
             }
             setProducts(filteredProducts);
         } catch (error) {
@@ -74,21 +72,16 @@ export default function ProductListing() {
     };
 
     const isProductInWishlist = (productId) => {
-        return wishlist.some(item =>
-            item.wishlistProducts && item.wishlistProducts.some(product =>
-                product.productid === parseInt(productId)
-            )
-        );
+        return wishlist.some(item => item.wishlistProducts && item.wishlistProducts.some(product => product.productid === parseInt(productId)));
     };
 
     const handleAddToWishlist = async (productId) => {
+        if (!userid) { // Check if user is logged in
+            setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
         try {
-            const wishlistItem = {
-                wishlistdate: new Date().toISOString(),
-                customer: { userid: userid },
-                wishlistProducts: [{ productid: parseInt(productId) }]
-            };
-
+            const wishlistItem = { wishlistdate: new Date().toISOString(), customer: { userid: userid }, wishlistProducts: [{ productid: parseInt(productId) }] };
             await axios.post('http://localhost:8080/api/wishlist/addWishlist', wishlistItem);
             await fetchWishlist();
             setShowAddToWishlistModal(true);
@@ -100,12 +93,7 @@ export default function ProductListing() {
 
     const handleRemoveFromWishlist = async () => {
         try {
-            const wishlistItemToRemove = wishlist.find(item =>
-                item.wishlistProducts.some(product =>
-                    product.productid === parseInt(selectedItemId)
-                )
-            );
-
+            const wishlistItemToRemove = wishlist.find(item => item.wishlistProducts.some(product => product.productid === parseInt(selectedItemId)));
             if (wishlistItemToRemove) {
                 await axios.delete(`http://localhost:8080/api/wishlist/deleteWishlist/${wishlistItemToRemove.wishlistid}`);
                 await fetchWishlist();
@@ -120,28 +108,25 @@ export default function ProductListing() {
 
     const handleAddToCart = async (product, event) => {
         event.stopPropagation(); // Prevent the card click handler from being triggered
-
+        if (!userid) { // Check if user is logged in
+            setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
         try {
             // Fetch existing cart items to check for duplicates
             const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
             const userCartItems = response.data.filter(item => item.customer.userid === parseInt(userid));
-
+            
             // Check if the product already exists in the cart
             const isProductInCart = userCartItems.some(cartItem => cartItem.product.productid === parseInt(product.productid));
-
+            
             if (isProductInCart) {
                 alert("This product is already in your cart!");
                 return;
             }
 
             // Add the product to the cart if it is not a duplicate
-            const cartItem = {
-                quantity: 1,
-                dateposted: new Date().toISOString(),
-                customer: { userid: userid },
-                product: { productid: product.productid }
-            };
-
+            const cartItem = { quantity: 1, dateposted: new Date().toISOString(), customer: { userid: userid }, product: { productid: product.productid } };
             await axios.post('http://localhost:8080/api/cart/addCart', cartItem);
             setShowAddToCartModal(true);
             setTimeout(() => setShowAddToCartModal(false), 2000);
@@ -152,6 +137,10 @@ export default function ProductListing() {
 
     const handleBuyNow = async (product, event) => {
         event.stopPropagation();
+        if (!userid) { // Check if user is logged in
+            setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
         await handleAddToCart(product, event);
         navigate('/customer/CheckOut');
     };
@@ -171,12 +160,8 @@ export default function ProductListing() {
                 return sortedProducts.sort((a, b) => a.productname.localeCompare(b.productname));
             case 'rating':
                 return sortedProducts.sort((a, b) => {
-                    const aRating = a.ratings?.length > 0
-                        ? a.ratings.reduce((acc, curr) => acc + curr.rating, 0) / a.ratings.length
-                        : 0;
-                    const bRating = b.ratings?.length > 0
-                        ? b.ratings.reduce((acc, curr) => acc + curr.rating, 0) / b.ratings.length
-                        : 0;
+                    const aRating = a.ratings?.length > 0 ? a.ratings.reduce((acc, curr) => acc + curr.rating, 0) / a.ratings.length : 0;
+                    const bRating = b.ratings?.length > 0 ? b.ratings.reduce((acc, curr) => acc + curr.rating, 0) / b.ratings.length : 0;
                     return bRating - aRating;
                 });
             case 'recent':
@@ -192,72 +177,34 @@ export default function ProductListing() {
             <div className="product-listing-container">
                 <div className="top-section">
                     <div className="store-dropdown">
-                        <select
-                            value={selectedSeller}
-                            onChange={(e) => {
-                                setSelectedSeller(e.target.value);
-                                setLoading(true);
-                            }}
-                        >
+                        <select value={selectedSeller} onChange={(e) => { 
+                            setSelectedSeller(e.target.value); 
+                            setLoading(true); 
+                        }}>
                             <option value="">All Stores</option>
                             {sellers.map(seller => (
-                                <option key={seller.userid} value={seller.userid}>
-                                    {seller.storename}
-                                </option>
+                                <option key={seller.userid} value={seller.userid}>{seller.storename}</option>
                             ))}
                         </select>
                     </div>
                     <div className="sort-buttons">
-                        <button
-                            className={`sort-btn ${sortBy === 'recent' ? 'active' : ''}`}
-                            onClick={() => setSortBy('recent')}
-                        >
-                            Most Recent
-                        </button>
-                        <button
-                            className={`sort-btn ${sortBy === 'priceLow' ? 'active' : ''}`}
-                            onClick={() => setSortBy('priceLow')}
-                        >
-                            Price: Low to High
-                        </button>
-                        <button
-                            className={`sort-btn ${sortBy === 'priceHigh' ? 'active' : ''}`}
-                            onClick={() => setSortBy('priceHigh')}
-                        >
-                            Price: High to Low
-                        </button>
-                        <button
-                            className={`sort-btn ${sortBy === 'alpha' ? 'active' : ''}`}
-                            onClick={() => setSortBy('alpha')}
-                        >
-                            Alphabetical
-                        </button>
-                        <button
-                            className={`sort-btn ${sortBy === 'rating' ? 'active' : ''}`}
-                            onClick={() => setSortBy('rating')}
-                        >
-                            Highest Rated
-                        </button>
+                        <button className={`sort-btn ${sortBy === 'recent' ? 'active' : ''}`} onClick={() => setSortBy('recent')}>Most Recent</button>
+                        <button className={`sort-btn ${sortBy === 'priceLow' ? 'active' : ''}`} onClick={() => setSortBy('priceLow')}>Price: Low to High</button>
+                        <button className={`sort-btn ${sortBy === 'priceHigh' ? 'active' : ''}`} onClick={() => setSortBy('priceHigh')}>Price: High to Low</button>
+                        <button className={`sort-btn ${sortBy === 'alpha' ? 'active' : ''}`} onClick={() => setSortBy('alpha')}>Alphabetical</button>
+                        <button className={`sort-btn ${sortBy === 'rating' ? 'active' : ''}`} onClick={() => setSortBy('rating')}>Highest Rated</button>
                     </div>
                 </div>
-
                 <div className="products-outer-container">
                     {products.length === 0 ? (
                         <p className="no-products">No products available. Start browsing!</p>
                     ) : (
                         <div className="product-listing-grid">
                             {getSortedItems().map((product) => (
-                                <div
-                                    className="product-card"
-                                    key={product.productid}
-                                    onClick={() => handleCardPress(product)}
-                                >
+                                <div className="product-card" key={product.productid} onClick={() => handleCardPress(product)}>
                                     <div className="product-image">
                                         {product.image ? (
-                                            <img
-                                                src={`data:image/jpeg;base64,${product.image}`}
-                                                alt={product.productname}
-                                            />
+                                            <img src={`data:image/jpeg;base64,${product.image}`} alt={product.productname} />
                                         ) : (
                                             <div className="image-placeholder">No Image Available</div>
                                         )}
@@ -266,37 +213,20 @@ export default function ProductListing() {
                                         <h3 className="product-title">{product.productname}</h3>
                                         <p className="product-price">₱{product.price?.toFixed(2)}</p>
                                         <div className="product-rating">
-                                            ⭐ {product.ratings?.length > 0
-                                                ? (product.ratings.reduce((acc, curr) => acc + curr.rating, 0) / product.ratings.length).toFixed(1)
-                                                : 'No ratings'}
+                                            ⭐ {product.ratings?.length > 0 ? (product.ratings.reduce((acc, curr) => acc + curr.rating, 0) / product.ratings.length).toFixed(1) : 'No ratings'}
                                         </div>
                                         <div className="product-actions">
-                                            <button
-                                                className="buy-now-btn"
-                                                onClick={(e) => handleBuyNow(product, e)}
-                                            >
-                                                Buy Now
-                                            </button>
-                                            <button
-                                                className="cart-btn"
-                                                onClick={(e) => handleAddToCart(product, e)}
-                                                title="Add to cart"
-                                            >
-                                                🛒
-                                            </button>
-                                            <span
-                                                className={`wishlist-icon ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    if (isProductInWishlist(product.productid)) {
-                                                        setSelectedItemId(product.productid);
-                                                        setShowRemoveWishlistModal(true);
-                                                    } else {
-                                                        handleAddToWishlist(product.productid);
-                                                    }
-                                                }}
-                                                title={isProductInWishlist(product.productid) ? "Remove from wishlist" : "Add to wishlist"}
-                                            >
+                                            <button className="buy-now-btn" onClick={(e) => handleBuyNow(product, e)}>Buy Now</button>
+                                            <button className="cart-btn" onClick={(e) => handleAddToCart(product, e)} title="Add to cart">🛒</button>
+                                            <span className={`wishlist-icon ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`} onClick={(e) => { 
+                                                e.stopPropagation(); 
+                                                if (isProductInWishlist(product.productid)) { 
+                                                    setSelectedItemId(product.productid); 
+                                                    setShowRemoveWishlistModal(true); 
+                                                } else { 
+                                                    handleAddToWishlist(product.productid); 
+                                                } 
+                                            }} title={isProductInWishlist(product.productid) ? "Remove from wishlist" : "Add to wishlist"}>
                                                 {isProductInWishlist(product.productid) ? '❤️' : '🤍'}
                                             </span>
                                         </div>
@@ -313,17 +243,13 @@ export default function ProductListing() {
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
                             <h3>Remove from Wishlist?</h3>
                             <div className="modal-buttons">
-                                <button onClick={() => setShowRemoveWishlistModal(false)} className="cancel-btn">
-                                    Cancel
-                                </button>
-                                <button onClick={handleRemoveFromWishlist} className="confirm-btn">
-                                    Confirm
-                                </button>
+                                <button onClick={() => setShowRemoveWishlistModal(false)} className="cancel-btn">Cancel</button>
+                                <button onClick={handleRemoveFromWishlist} className="confirm-btn">Confirm</button>
                             </div>
                         </div>
                     </div>
                 )}
-
+                
                 {showAddToWishlistModal && (
                     <div className="modal-overlay" onClick={() => setShowAddToWishlistModal(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -331,7 +257,7 @@ export default function ProductListing() {
                         </div>
                     </div>
                 )}
-
+                
                 {showRemoveConfirmModal && (
                     <div className="modal-overlay" onClick={() => setShowRemoveConfirmModal(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -339,7 +265,7 @@ export default function ProductListing() {
                         </div>
                     </div>
                 )}
-
+                
                 {showAddToCartModal && (
                     <div className="modal-overlay" onClick={() => setShowAddToCartModal(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -347,6 +273,12 @@ export default function ProductListing() {
                         </div>
                     </div>
                 )}
+
+                {/* Login Modal */}
+                {showLoginModal && (
+                    <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} toggleDropdown={() => {/* Handle dropdown toggle */}} />
+                )}
+                
             </div>
         </PageLayout>
     );
