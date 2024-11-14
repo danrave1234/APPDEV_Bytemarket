@@ -182,14 +182,23 @@ html, body {
 }
 
 .product-containers .add-cart-btn {
-    background: #ffcdd2;
+    background: #212850;
+    color: white;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
+.product-containers .add-cart-btn:hover {
+    background: #29466c;
+}
+
 .product-containers .buy-now-btn {
-    background: #ff9999;
+    background: #212850;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: white;
+}
+
+.product-containers .buy-now-btn:hover {
+    background: #29466c;
 }
 
 /* Reviews Section */
