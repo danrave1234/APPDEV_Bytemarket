@@ -21,9 +21,9 @@ function Store() {
 useEffect(() => {
   const fetchProducts = async () => {
     try {
-      const productResponse = await axios.get('http://localhost:8080/api/product/getAllProduct');
-      setProducts(productResponse.data);
-
+      const response = await axios.get('http://localhost:8080/api/product/getAllProduct');
+      const userProducts = response.data.filter((product) => product.seller.userid === userid);
+      setProducts(userProducts);  // Update the state with the new products
       // Verify the API URL with userid
       console.log(`Fetching seller info with userid: ${userid}`);
       const sellerResponse = await axios.get(`http://localhost:8080/api/seller/getSellerById/${userid}`);
