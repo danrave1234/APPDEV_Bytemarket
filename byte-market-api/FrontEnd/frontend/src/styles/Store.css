@@ -24,7 +24,8 @@
 }
 
 .store-container .store-header .add-product-btn {
-    background-color: #ff6b6b;
+    background-color: #212850;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: white;
     border: none;
     padding: 10px 15px;
@@ -33,10 +34,9 @@
 }
 
 .store-container .add-product-btn:hover {
-    background-color: #ff5252;
+    background-color: green;
 }
 
-/* Product Grid */
 /* Product Grid */
 .store-container .product-grid {
     display: grid;
@@ -102,7 +102,7 @@
 }
 /* Price */
 .store-container .price {
-    color: #ff6b6b;
+    color: #FFA500;
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 5px;
@@ -121,16 +121,32 @@
     justify-content: space-around;
 }
 
-.store-container .edit-btn, .delete-btn {
-    background-color: #ff6b6b;
+.store-container .edit-btn {
+    background-color: #212850;
     color: white;
     border: none;
     padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
-.store-container .edit-btn:hover, .delete-btn:hover {
-    background-color: #ff5252;
+.store-container .edit-btn:hover {
+    background-color: #3e597f;
+}
+
+.store-container .delete-btn {
+    background-color: #212850;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+}
+
+.store-container .delete-btn:hover {
+    background-color: red;
 }
