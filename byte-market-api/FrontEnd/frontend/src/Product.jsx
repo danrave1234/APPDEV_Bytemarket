@@ -3,6 +3,8 @@ import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import OrderProductModal from './components/OrderProductModal.jsx';
+
 import axios from 'axios';
 
 function Product() {
@@ -19,6 +21,29 @@ function Product() {
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
 
     const navigate = useNavigate();  // Hook for navigation
+
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [modalItems, setModalItems] = useState([]);
+
+    const openOrderModal = (item) => {
+        const formattedItems = [
+            {
+                productid: item.productid,
+                productname: item.productname,
+                price: item.price,
+                quantity: quantity,
+                image: item.image,
+                seller: item.seller,
+            },
+        ];
+        setModalItems(formattedItems);
+        setShowOrderModal(true);
+    };
+
+    const closeOrderModal = () => {
+        setShowOrderModal(false);
+        setModalItems([]);
+    };
 
     useEffect(() => {
         fetchProduct();
@@ -128,21 +153,11 @@ function Product() {
         }
     };
 
-    const handleBuyNow = async () => {
-        try {
-            const cartItem = {
-                quantity: quantity,
-                dateposted: new Date().toISOString(),
-                customer: { userid: userid },
-                product: { productid: product.productid }
-            };
-            await axios.post('http://localhost:8080/api/cart/addCart', cartItem);
-            // Redirect to the checkout page after adding the item to the cart
-            navigate('/customer/CheckOut');
-        } catch (error) {
-            console.error('Error adding to cart:', error);
-        }
+    const handleBuyNow = (product, event) => {
+        event.stopPropagation();
+        openOrderModal(product);
     };
+
 
     // Navigate to the reviews page
     const handleSeeAllReviews = () => {
@@ -222,7 +237,7 @@ function Product() {
 
                             <div className="action-buttons">
                                 <button onClick={handleAddToCart} className="add-cart-btn">Add to Cart</button>
-                                <button onClick={handleBuyNow} className="buy-now-btn">Buy Now</button>
+                                <button onClick={(e) => handleBuyNow(product, e)} className="buy-now-btn">Buy Now</button>
                             </div>
                         </div>
                     </div>
@@ -289,6 +304,15 @@ function Product() {
                     </div>
                 </div>
             )}
+
+            {showOrderModal && (
+                <OrderProductModal
+                    show={showOrderModal}
+                    selectedProducts={modalItems}
+                    onClose={closeOrderModal}
+                />
+            )}
+
         </PageLayout>
     );
 }

@@ -4,6 +4,8 @@ import './styles/ProductListing.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 import { useNavigate, useLocation } from 'react-router-dom';
+import OrderProductModal from './components/OrderProductModal.jsx';
+
 
 export default function ProductListing() {
     const { userid } = useAuth();
@@ -24,6 +26,30 @@ export default function ProductListing() {
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [modalItems, setModalItems] = useState([]);
+
+// Function to open the modal
+    const openOrderModal = (item) => {
+        const formattedItems = [
+            {
+                productid: item.productid,
+                productname: item.productname,
+                price: item.price,
+                quantity: 1, // Default quantity for Buy Now
+                image: item.image,
+                seller: item.seller, // Ensure the seller is passed
+            },
+        ];
+        setModalItems(formattedItems);
+        setShowOrderModal(true);
+    };
+
+// Function to close the modal
+    const closeOrderModal = () => {
+        setShowOrderModal(false);
+        setModalItems([]);
+    };
 
     useEffect(() => {
         fetchSellers();
@@ -150,11 +176,11 @@ export default function ProductListing() {
         }
     };
 
-    const handleBuyNow = async (product, event) => {
-        event.stopPropagation();
-        await handleAddToCart(product, event);
-        navigate('/customer/CheckOut');
+    const handleBuyNow = (product, event) => {
+        event.stopPropagation(); // Prevent parent click events
+        openOrderModal(product);
     };
+
 
     const handleCardPress = (product) => {
         navigate(`/productdetail/${product.productid}`, { state: { product } });
@@ -347,6 +373,15 @@ export default function ProductListing() {
                         </div>
                     </div>
                 )}
+
+                {showOrderModal && (
+                    <OrderProductModal
+                        show={showOrderModal}
+                        selectedProducts={modalItems}
+                        onClose={closeOrderModal}
+                    />
+                )}
+
             </div>
         </PageLayout>
     );

@@ -5,11 +5,38 @@ import { useNavigate } from 'react-router-dom';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 import './styles/StorePage.css';
+import OrderProductModal from './components/OrderProductModal.jsx';
+
 
 function StorePage() {
     const { userid: customerId } = useAuth();
     const { userid: sellerId } = useParams();
     const navigate = useNavigate();
+
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [modalItems, setModalItems] = useState([]);
+
+// Function to open the modal
+    const openOrderModal = (item) => {
+        const formattedItems = [
+            {
+                productid: item.productid,
+                productname: item.productname,
+                price: item.price,
+                quantity: 1, // Default quantity for Buy Now
+                image: item.image,
+                seller: item.seller, // Ensure the seller is passed
+            },
+        ];
+        setModalItems(formattedItems);
+        setShowOrderModal(true);
+    };
+
+// Function to close the modal
+    const closeOrderModal = () => {
+        setShowOrderModal(false);
+        setModalItems([]);
+    };
 
     // State management
     const [storeDetails, setStoreDetails] = useState(null);
@@ -169,11 +196,11 @@ function StorePage() {
         }
     };
 
-    const handleBuyNow = async (product, event) => {
-        event.stopPropagation();
-        await handleAddToCart(product, event);
-        navigate('/customer/CheckOut');
+    const handleBuyNow = (product, event) => {
+        event.stopPropagation(); // Prevent parent click events
+        openOrderModal(product);
     };
+
 
     const handleCardPress = (product) => {
         navigate(`/productdetail/${product.productid}`, { state: { product } });
@@ -379,6 +406,15 @@ function StorePage() {
                     </div>
                 )}
             </div>
+
+            {showOrderModal && (
+                <OrderProductModal
+                    show={showOrderModal}
+                    selectedProducts={modalItems}
+                    onClose={closeOrderModal}
+                />
+            )}
+
         </PageLayout>
     );
 }

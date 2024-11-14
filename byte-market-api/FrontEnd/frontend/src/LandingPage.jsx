@@ -6,6 +6,7 @@ import ph1 from './assets/placeholderDan.png';
 import ph2 from './assets/placeholder2.png';
 import ph3 from './assets/placeholder3.png';
 import PageLayout from './components/Layout.jsx';
+import OrderProductModal from './components/OrderProductModal.jsx';
 import { useAuth } from './components/AuthProvider.jsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,6 +25,30 @@ function LandingPage() {
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
     const sellersPerPage = 3;
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [modalItems, setModalItems] = useState([]);
+
+// Function to open the modal
+    const openOrderModal = (item) => {
+        const formattedItems = [
+            {
+                productid: item.productid,
+                productname: item.productname,
+                price: item.price,
+                quantity: 1, // Default quantity for Buy Now
+                image: item.image,
+                seller: item.seller, // Ensure the seller is passed
+            },
+        ];
+        setModalItems(formattedItems);
+        setShowOrderModal(true);
+    };
+
+// Function to close the modal
+    const closeOrderModal = () => {
+        setShowOrderModal(false);
+        setModalItems([]);
+    };
 
     const slides = [
         { src: ph1, alt: "Placeholder 1" },
@@ -170,11 +195,11 @@ function LandingPage() {
     };
 
 
-    const handleBuyNow = async (product, event) => {
-        event.stopPropagation();
-        await handleAddToCart(product, event);
-        navigate('/customer/CheckOut');
+    const handleBuyNow = (product, event) => {
+        event.stopPropagation(); // Prevent parent click events
+        openOrderModal(product);
     };
+
 
     const handleCardPress = (product) => {
         navigate(`/productdetail/${product.productid}`, { state: { product } });
@@ -347,6 +372,15 @@ function LandingPage() {
                         </div>
                     </div>
                 )}
+
+                {showOrderModal && (
+                    <OrderProductModal
+                        show={showOrderModal}
+                        selectedProducts={modalItems}
+                        onClose={closeOrderModal}
+                    />
+                )}
+
             </div>
         </PageLayout>
     );

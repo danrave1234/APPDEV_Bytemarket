@@ -1,0 +1,182 @@
+.orderModal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.orderModal-modal {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.orderModal-close-button {
+    background: none;
+    color: #6b7280;
+    border: none;
+    font-size: 1.75rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    line-height: 1;
+    padding: 0.5rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.orderModal-close-button:hover {
+    color: #111827;
+    transform: scale(1.1);
+}
+
+.orderModal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.orderModal-header h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-top: 0;
+}
+
+.orderModal-content {
+    margin-bottom: 2rem;
+}
+
+.orderModal-store-info {
+    margin-bottom: 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+.orderModal-products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.orderModal-product-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.25rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background-color: #f9fafb;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.orderModal-product-item:hover {
+    background-color: #f3f4f6;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.orderModal-product-image {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 0.375rem;
+    object-fit: cover;
+}
+
+.orderModal-product-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.orderModal-product-name {
+    font-weight: 600;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.orderModal-product-price,
+.orderModal-product-subtotal,
+.orderModal-product-quantity {
+    margin: 0.25rem 0;
+    font-size: 0.9375rem;
+    color: #4b5563;
+}
+
+.orderModal-summary {
+    margin-top: 2rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.orderModal-summary p {
+    font-size: 1.30rem;
+    margin:0.5rem 0;
+}
+
+.orderModal-place-order-button {
+    background: #10b981;
+    color: white;
+    border: none;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 1.2rem 1.7rem; /* Adjusted padding for a smaller button */
+    cursor: pointer;
+    font-size: 1.35rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
+    max-width: 190px; /* Ensure the button is horizontally shorter */
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.orderModal-place-order-button:hover {
+    background-color: #059669;
+}
+
+.orderModal-footer {
+    display: flex;
+    justify-content: flex-end; /* Aligns elements to the right */
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem; /* Adds spacing between total price and button */
+}
+
+.orderModal-total-price {
+    font-size: 1.75rem; /* Larger text for emphasis */
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0; /* Removes any extra margin */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+@media (max-width: 768px) {
+    .orderModal-modal {
+        width: 95%;
+        padding: 1.5rem;
+    }
+
+    .orderModal-product-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .orderModal-product-image {
+        width: 100%;
+        height: auto;
+    }
+}

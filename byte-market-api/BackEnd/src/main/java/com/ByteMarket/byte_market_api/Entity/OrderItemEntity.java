@@ -1,5 +1,6 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
@@ -25,7 +26,8 @@ public class OrderItemEntity { //Purpose of this entity, is to track how many pr
     // Relationships
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    @JsonIgnoreProperties({"orderItems", "customer"}) // Prevent recursion in OrderEntity
+//    @JsonIgnoreProperties({"orderItems", "customer"}) // Prevent recursion in OrderEntity
+    @JsonBackReference
     private OrderEntity order;
 
     @ManyToOne
