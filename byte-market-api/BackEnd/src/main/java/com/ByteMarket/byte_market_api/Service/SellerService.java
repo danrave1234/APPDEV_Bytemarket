@@ -4,6 +4,7 @@ import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
 import com.ByteMarket.byte_market_api.Entity.SellerEntity;
 import com.ByteMarket.byte_market_api.Entity.TransactionEntity;
 import com.ByteMarket.byte_market_api.Repository.SellerRepository;
+import io.jsonwebtoken.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,16 +55,21 @@ public class SellerService {
     public SellerEntity addBalanceSeller(int id, float balance){
         SellerEntity seller = sellerRepository.findById(id).get();
         seller.setBalance(seller.getBalance() + balance);
+        return sellerRepository.save(seller);
+    }
 
-        seller.setSellername(seller.getSellername());
-        seller.setStorename(seller.getStorename());
-        seller.setUsername(seller.getUsername());
-        seller.setPassword(seller.getPassword());
-        seller.setFullname(seller.getFullname());
-        seller.setEmail(seller.getEmail());
-        seller.setPhonenumber(seller.getPhonenumber());
-        seller.setAddress(seller.getAddress());
-        seller.setDateofbirth(seller.getDateofbirth());
+    public SellerEntity subtractBalanceSeller(int id, float balance) {
+        SellerEntity seller = sellerRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Seller not found"));
+
+        // Check if balance to deduct exceeds current balance
+        if (balance > seller.getBalance()) {
+            throw new RuntimeException("Insufficient balance for this transaction.");
+        }
+
+        seller.setBalance(seller.getBalance() - balance);
+
+        // Save updated seller entity
         return sellerRepository.save(seller);
     }
 

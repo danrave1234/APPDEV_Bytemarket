@@ -1,5 +1,5 @@
 /* Modal overlay */
-.modal-overlay {
+.modal-overlay-wallet {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,19 +13,21 @@
 }
 
 /* Modal box */
-.wallet-modal {
+.modal-overlay-wallet .wallet-modal {
     background: #fff;
     padding: 2rem;
     border-radius: 15px;
+    margin-top: 0;
     width: 600px; /* Increased width for better proportions */
     max-width: 90%;
     position: relative;
     text-align: center;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    color: #1a1a1a;
 }
 
 /* Close button */
-.close-button {
+.modal-overlay-wallet .close-button {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -37,13 +39,13 @@
     color: #333;
 }
 
-.wallet-content {
+.modal-overlay-wallet .wallet-content {
     display: flex; /* Enable flexbox for horizontal alignment */
     align-items: center; /* Align items vertically centered */
 }
 
 /* User card section */
-.user-card {
+.modal-overlay-wallet .user-card {
     background-color: #3b82f6; /* Blue color */
     border-radius: 10px;
     padding: 1.8rem;
@@ -53,26 +55,26 @@
     width: 50%;
 }
 
-.user-card h3 {
+.modal-overlay-wallet .user-card h3 {
     margin-top: 0;
     padding-top: 0;
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
 }
 
-.role-text {
+.modal-overlay-wallet .role-text {
     font-size: 1rem;
     font-weight: normal;
     margin-bottom: 1rem;
 }
 
-.user-card p {
+.modal-overlay-wallet .user-card p {
     font-size: 1rem;
     margin: 0.2rem 0;
 }
 
 /* Balance information */
-.balance-info {
+.modal-overlay-wallet .balance-info {
     flex: 1; /* Take up the remaining space to the right of .user-card */
     padding: 1.5rem;
     display: flex;
@@ -82,19 +84,25 @@
     margin-top: 0.5rem;
 }
 
-.balance-amount {
+.modal-overlay-wallet .balance-amount {
     font-size: 2.6rem;
     font-weight: bold;
     color: #3b82f6;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: keep-all;
+    display: inline-block;
 }
 
-.balance-label {
+.modal-overlay-wallet .balance-label {
     font-size: 1rem;
     color: #666;
 }
 
 /* Cash-in input */
-.cash-in-input {
+.modal-overlay-wallet .cash-in-input {
     margin: 1.5rem 0;
     display: flex;
     justify-content: center;
@@ -102,7 +110,7 @@
     gap: 1rem;
 }
 
-.cash-in-input input {
+.modal-overlay-wallet .cash-in-input input {
     width: 60%;
     padding: 0.8rem;
     border: 1px solid #ddd;
@@ -110,7 +118,7 @@
     font-size: 1rem;
 }
 
-.cash-in-input button {
+.modal-overlay-wallet .cash-in-input button {
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
     font-weight: bold;
@@ -121,19 +129,19 @@
     cursor: pointer;
 }
 
-.cash-in-input button:hover {
+.modal-overlay-wallet .cash-in-input button:hover {
     background-color: #10b981;
 }
 
 /* Action buttons */
-.wallet-buttons {
+.modal-overlay-wallet .wallet-buttons {
     display: flex;
     justify-content: center;
     gap: 1rem;
     margin-top: 1.5rem;
 }
 
-.wallet-buttons input{
+.modal-overlay-wallet .wallet-buttons input{
     width: 60%;
     margin-right: -1.9rem;
     padding: 0.8rem;
@@ -142,7 +150,7 @@
     font-size: 1rem;
 }
 
-.wallet-buttons button{
+.modal-overlay-wallet .wallet-buttons button{
     padding: 0.8rem 1.1rem;
         font-size: 1rem;
         font-weight: bold;
@@ -153,7 +161,7 @@
         cursor: pointer;
 }
 
-.cash-out {
+.modal-overlay-wallet .cash-out {
     padding: 0.8rem 2rem;
     font-size: 1rem;
     font-weight: bold;
@@ -164,6 +172,26 @@
     cursor: pointer;
 }
 
-.cash-out:hover {
+.modal-overlay-wallet .cash-out-input input{
+    width: 60%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.modal-overlay-wallet .cash-out-input button{
+    padding: 0.8rem 1.1rem;
+    margin-left: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #f87171;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.modal-overlay-wallet .cash-out-input button:hover {
     background-color: #ef4444;
 }
