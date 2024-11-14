@@ -4,7 +4,7 @@ html, body {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     background-color: #f8fafc;
 }
 
@@ -228,6 +228,7 @@ html, body {
     padding: 1rem 2rem;
     font-size: 1.125rem;
     font-weight: 600;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     background-color: #22c55e;
     color: white;
     border: none;
