@@ -56,6 +56,11 @@ SellerService sellerService;
         return sellerService.addBalanceSeller(id, balance);
     }
 
+    @PutMapping("/subtractBalanceSeller/{id}")
+    public SellerEntity subtractBalanceSeller(@PathVariable int id, @RequestParam float balance){
+        return sellerService.subtractBalanceSeller(id, balance);
+    }
+
     @DeleteMapping("/deleteSeller/{id}")
     public SellerEntity deleteUser(@PathVariable int id){
         return sellerService.deleteSeller(id);

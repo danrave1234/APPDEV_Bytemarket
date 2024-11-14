@@ -49,7 +49,9 @@ public class CustomerService {
 
     public CustomerEntity addBalanceCustomer(int id, float balance){
         CustomerEntity customer = customerRepository.findById(id).get();
+
         customer.setBalance(customer.getBalance() + balance);
+
         customer.setUsername(customer.getUsername());
         customer.setPassword(customer.getPassword());
         customer.setFullname(customer.getFullname());
@@ -59,6 +61,22 @@ public class CustomerService {
         customer.setDateofbirth(customer.getDateofbirth());
         return customerRepository.save(customer);
     }
+
+    public CustomerEntity subtractBalanceCustomer(int id, float balance) {
+        CustomerEntity customer = customerRepository.findById(id).orElseThrow(() ->
+                new RuntimeException("Customer not found"));
+
+        // Check if balance to deduct exceeds current balance
+        if (balance > customer.getBalance()) {
+            throw new RuntimeException("Insufficient balance for this transaction.");
+        }
+
+        customer.setBalance(customer.getBalance() - balance);
+
+        // Save updated customer entity
+        return customerRepository.save(customer);
+    }
+
     //delete
     public CustomerEntity deleteCustomer(int id){
         customerRepository.deleteById(id);

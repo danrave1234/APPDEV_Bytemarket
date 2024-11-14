@@ -234,7 +234,6 @@ function StorePage() {
                             navigate(`/store/${e.target.value}`);
                         }}
                     >
-                        <option value="">Select a Store (Testing)</option>
                         {sellers.map(seller => (
                             <option key={seller.userid} value={seller.userid}>
                                 {seller.storename}

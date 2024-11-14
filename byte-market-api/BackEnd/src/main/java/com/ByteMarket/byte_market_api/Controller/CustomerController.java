@@ -1,6 +1,7 @@
 package com.ByteMarket.byte_market_api.Controller;
 
 import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
+import com.ByteMarket.byte_market_api.Entity.SellerEntity;
 import com.ByteMarket.byte_market_api.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,11 @@ public class CustomerController {
     @PutMapping("/addBalanceCustomer/{id}")
     public CustomerEntity addBalance(@PathVariable int id, @RequestParam float balance){
         return customerService.addBalanceCustomer(id, balance);
+    }
+
+    @PutMapping("/subtractBalanceCustomer/{id}")
+    public CustomerEntity subtractBalanceSeller(@PathVariable int id, @RequestParam float balance){
+        return customerService.subtractBalanceCustomer(id, balance);
     }
 
     @DeleteMapping("/deleteCustomer/{id}")
