@@ -32,14 +32,20 @@
     flex: 1;
 }
 
+.store-page-container .store-details {
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+}
+
 .store-page-container .store-details h1 {
     font-size: 1.8rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin: 0;
     color: #333;
 }
 
 .store-page-container .store-rating {
     font-size: 1rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: #ffd700;
     margin: 0.4rem 0;
 }
@@ -47,6 +53,7 @@
 .store-page-container .store-description {
     color: #666;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 /* Store Selector Styles */
@@ -65,6 +72,7 @@
     font-weight: 500;
     color: #333;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .store-selector select {
@@ -73,6 +81,7 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     background-color: #fff;
     cursor: pointer;
     transition: border-color 0.2s ease;
@@ -103,6 +112,7 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     border-radius: 20px;
 }
 
@@ -177,6 +187,7 @@
 
 .store-page-container .product-title {
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin: 0 0 0.4rem 0;
     color: #333;
     white-space: nowrap;
@@ -199,6 +210,7 @@
 .store-page-container .product-rating {
     color: #ffd700;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin: 0.4rem 0;
 }
 
@@ -211,7 +223,7 @@
 }
 
 .store-page-container .buy-now-btn {
-    background-color: #ff9999;
+    background-color: #212850;
     color: white;
     border: none;
     padding: 0.5rem;
@@ -219,10 +231,11 @@
     cursor: pointer;
     flex-grow: 1;
     transition: background-color 0.2s ease;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .store-page-container .buy-now-btn:hover {
-    background-color: #ff8080;
+    background-color: #29466c;
 }
 
 .store-page-container .cart-btn {
