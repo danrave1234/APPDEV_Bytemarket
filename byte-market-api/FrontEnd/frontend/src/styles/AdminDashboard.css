@@ -1,94 +1,148 @@
-html, body {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-}
-
+/* General Styling */
 .admin-dashboard {
     display: flex;
+    font-family: Arial, sans-serif;
 }
 
-.admin-dashboard .sidebar {
-    border-top-right-radius: 5rem;
-    background-color: grey;
-    color: #fff;
-    width: 250px;
+/* Sidebar Styling */
+.sidebar {
+    width: 200px;
+    background-color: #2f3640;
+    color: #f5f6fa;
     padding: 20px;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
-.admin-dashboard .sidebar h2 {
-    font-size: 24px;
+.sidebar h2 {
+    font-size: 18px;
+    font-weight: bold;
     margin-bottom: 20px;
+    color: #5A9BD6;
 }
 
-.admin-dashboard .sidebar ul {
+.sidebar ul {
     list-style: none;
     padding: 0;
 }
 
-.admin-dashboard .sidebar li {
+.sidebar li {
     padding: 10px;
+    margin: 5px 0;
     cursor: pointer;
-    font-size: 18px;
-}
-
-.admin-dashboard .sidebar li.active {
-    background-color: #fff;
-    color: #5b0b0b;
     border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.admin-dashboard .main-content {
+.sidebar li.active,
+.sidebar li:hover {
+    background-color: #5A9BD6;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Main Content Styling */
+.main-content {
     flex: 1;
     padding: 20px;
+    background-color: #fff;
 }
 
 .main-content header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 }
 
-.admin-dashboard .search-bar {
+.main-content header h1 {
+    font-size: 24px;
+    color: #2f3640;
+}
+
+.search-bar {
     padding: 8px;
+    border: 1px solid #dcdde1;
     border-radius: 5px;
-    border: 1px solid #ddd;
+    width: 200px;
+    outline: none;
+    transition: border-color 0.3s, transform 0.3s;
 }
 
-.admin-dashboard .table-container {
-    margin-top: 20px;
+.search-bar:focus {
+    border-color: #5A9BD6;
+    transform: scale(1.05);
 }
 
-.admin-dashboard table {
+/* Table Styling */
+.table-container {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    table-layout: fixed; /* Ensures equal width distribution */
 }
 
-.admin-dashboard th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
+th, td {
+    padding: 15px; /* Slightly increased padding for better readability */
     text-align: left;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle; /* Ensures vertical alignment */
+    height: 20px; /* Enforces a consistent height */
+    transition: background-color 0.3s;
 }
 
-.admin-dashboard th {
-    background-color: #f2f2f2;
+th {
+    background-color: #5A9BD6;
+    color: #fff;
+    font-weight: bold;
 }
 
-.admin-dashboard td button {
-    margin: 0 5px;
-    padding: 5px 10px;
-    font-size: 14px;
+/* Row hover effect for table data */
+tr:hover td {
+    background-color: #f1f1f1;
+}
+
+
+/* General button styles */
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
 }
-.admin-dashboard .modal {
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.edit-button {
+    
+}
+/* Hover effects for Edit and Delete buttons */
+.edit-button:hover {
+    background-color: #fafa2d; /* Yellow background */
+}
+
+.delete-button:hover {
+    background-color: #fa2323de; /* Red background */
+    color: #000000; /* Black text */
+}
+
+/* Modal Styling */
+.modal {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
@@ -96,32 +150,83 @@ html, body {
     z-index: 1000;
 }
 
-.admin-dashboard .modal .modal-content {
-    background-color: white;
+.modal-content {
+    background-color: #f5f6fa;
     padding: 20px;
     border-radius: 8px;
-    max-width: 500px; /* Limits the modal's width */
-    width: 90%;
-    height: auto; /* Limits the modal's height */
-    max-height: 80vh; /* Limits height to 80% of the viewport */
-    overflow-y: auto; /* Allows scrolling only if content exceeds height */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    transition: ease-in;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
 }
-.admin-dashboard textarea{
+
+.modal-content h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #2f3640;
+    text-align: center;
     width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-    box-sizing: border-box;
 }
 
-
-.admin-dashboard .modal-content h2 {
-    margin-top: 0;
-}
-
-.admin-dashboard .modal-content input {
+/* Form Labels */
+.modal-content label {
+    color: #333;
+    font-weight: bold;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    width: 95%;
     padding: 8px;
-    margin: 10px 0;
-    box-sizing: border-box;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    resize: vertical;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus,
+.modal-content select:focus {
+    border-color: #5A9BD6;
+    transform: scale(1.02);
+}
+
+/* Action Buttons inside Modal */
+.modal-content .save-button,
+.modal-content .cancel-button {
+    padding: 8px 20px;
+    margin-top: 3px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    align-self: center;
+}
+
+.modal-content .save-button:hover {
+    background-color: #44bd32;
+    color: #000000;
+}
+
+.modal-content .cancel-button:hover {
+    background-color: #e84118;
+    color: #000000;
+}
+
+/* Aligning Save and Cancel Buttons */
+.modal-content .button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
 }
