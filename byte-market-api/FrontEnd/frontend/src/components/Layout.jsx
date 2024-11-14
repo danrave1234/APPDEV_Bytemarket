@@ -94,24 +94,31 @@ function PageLayout({ children }) {
     };
     const handleProfile = () => {
         navigate('/customer/userProfile');
+        setShowDropdown(false);
     }
     const handleHistory = () => {
         navigate('/customer/orderHistory');
+        setShowDropdown(false);
     }
     const handleStore = () => {
         navigate('/seller/store');
+        setShowDropdown(false);
     }
     const handleAdminDashboard = () => {
         navigate('/admin/dashboard');
+        setShowDropdown(false);
     }
     const handleCheckOut = () => {
         navigate('/customer/CheckOut');
+        setShowDropdown(false);
     }
     const handleAddToCart = () => {
         navigate('/customer/addToCart');
+        setShowDropdown(false);
     }
     const handleWishlist = () => {
         navigate('/customer/wishlists');
+        setShowDropdown(false);
     }
 
     const getGreetingMessage = () => {
@@ -184,33 +191,36 @@ function PageLayout({ children }) {
                             <ul>
                                 {isLoggedIn ? (
                                     <>
-                                        <li className="dropdownItem" onClick={handleProfile}>Profile</li>
+                                        <li className="dropdownItem" onClick={handleProfile}><b>Profile</b></li>
+                                        <li className="dropdownDivider"></li>
                                         {role === 'Customer' && (
                                             <>
-                                                <li className="dropdownItem" onClick={handleWishlist}>Wishlist</li>
-                                                <li className="dropdownItem" onClick={handleAddToCart}>Cart</li>
-                                                <li className="dropdownItem" onClick={handleHistory}>Order History</li>
+                                                <li className="dropdownItem" onClick={handleWishlist}><b>Wishlists</b></li>
+                                                <li className="dropdownItem" onClick={handleAddToCart}><b>Cart</b></li>
+                                                <li className="dropdownItem" onClick={handleHistory}><b>Order History</b></li>
+                                                <li className="dropdownDivider"></li>
                                             </>
                                         )}
                                         {role === 'Seller' && (
                                             <>
-                                                <li className="dropdownItem" onClick={handleStore}>Store</li>
-                                                <li className="dropdownItem" onClick={handleCheckOut}>Orders</li>
+                                                <li className="dropdownItem" onClick={handleStore}><b>Store</b></li>
+                                                <li className="dropdownItem" onClick={handleCheckOut}><b>Orders</b></li>
                                             </>
                                         )}
                                         {role === 'Admin' && (
                                             <li className="dropdownItem" onClick={handleAdminDashboard}>Dashboard</li>
                                         )}
-                                        <li className="dropdownItem" onClick={handleLogout}>Logout</li>
+                                        <li className="dropdownItem" onClick={handleLogout}><b>Log out</b></li>
                                     </>
                                 ) : (
                                     <>
                                         <li className="dropdownItemLabel">Customer</li>
-                                        <li className="dropdownItem" onClick={openModalSignUp}>Sign Up</li>
-                                        <li className="dropdownItem" onClick={openModalLogin}>Login</li>
+                                        <li className="dropdownItem" onClick={openModalSignUp}><b>Sign Up</b></li>
+                                        <li className="dropdownItem" onClick={openModalLogin}><b>Log in</b></li>
+                                        <li className="dropdownDivider"></li>
                                         <li className="dropdownItemLabel">Seller</li>
-                                        <li className="dropdownItem" onClick={openModalSignUpSeller}>Sign Up</li>
-                                        <li className="dropdownItem" onClick={openModalLoginSeller}>Login</li>
+                                        <li className="dropdownItem" onClick={openModalSignUpSeller}><b>Sign Up</b></li>
+                                        <li className="dropdownItem" onClick={openModalLoginSeller}><b>Log in</b></li>
                                     </>
                                 )}
                             </ul>

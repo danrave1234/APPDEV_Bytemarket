@@ -96,7 +96,7 @@ html, body {
     width: 0.6vw;
     min-width: 20px;
     margin-right: 0.2rem;
-    background: #38d3f1;  /* Changed from mediumvioletred to #38d3f1 */
+    background: #38d3f1;
     border-radius: 10rem;
     padding: 0.5rem;
     transition: background 0.3s ease, transform 0.3s ease;
@@ -138,9 +138,9 @@ html, body {
     align-items: center;
     cursor: pointer;
     padding: 0.5rem;
-    border: 1px solid #808080;  /* Added circular border */
-    border-radius: 50px;        /* Made it circular */
-    transition: border-color 0.3s ease;  /* Added transition for smooth hover effect */
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    transition: border-color 0.3s ease;
 }
 
 .profileBar:hover {
@@ -163,35 +163,40 @@ html, body {
 
 /* Dropdown Menu */
 .dropdown {
-    position: fixed;
-    right: 7rem;
+    position: absolute;
     top: 5rem;
+    right: 6.5rem; /* Moved the dropdown a bit to the left */
+    left: 6.5; /* Added a left property to align the dropdown to the left */
     background-color: white;
     border: 1px solid #e0e0e0;
     border-radius: 0.5rem;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 8rem;
+    width: 13rem;
     z-index: 1000;
-    text-align: left; /* Align dropdown items to the right */
+}
+
+.dropdownDivider {
+    border-top: 1px solid #e0e0e0;
+    margin: 0.5rem 0;
 }
 
 .dropdown ul {
     list-style: none;
-    padding: 0;
+    padding: 0.5rem 0;
     margin: 0;
 }
 
 .dropdownItemLabel {
-    padding: 0.5rem;
-    border-bottom: 2px solid #e0e0e0;
-    border-top: 2px solid #e0e0e0;
-    opacity: 50%;
+    padding: 0.5rem 1rem;
     font-size: 0.8rem;
+    font-weight: bold;
     text-align: center;
+    color: #888;
 }
 
 .dropdownItem {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
     transition: background-color 0.3s ease, color 0.3s ease;
     cursor: pointer;
 }
@@ -287,7 +292,7 @@ footer > .footer-div {
 
 /* Main Content */
 main {
-    min-height: calc(100vh - 80px - 300px); /* Adjust based on header and footer height */
+    min-height: calc(100vh - 80px - 300px);
     padding: 2rem 5rem;
 }
 
