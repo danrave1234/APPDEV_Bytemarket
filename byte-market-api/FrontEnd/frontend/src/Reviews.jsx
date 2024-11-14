@@ -80,10 +80,10 @@ function Reviews() {
                         </div>
                     </div>
 
-                    <hr className="divider" />
 
                     <div className="reviews-section">
-                        <h2 className="reviews-title">Reviews -------------------</h2>
+                        <h2 className="reviews-title">Reviews</h2>
+                    <hr className="divider" />
 
                         {/* Display user review first if available */}
                         {userReview && (

@@ -6,7 +6,7 @@
     margin: 0 auto;
 }
 
-.reviews-page .product-summary {
+.product-summary {
     display: flex;
     align-items: flex-start;
     gap: 2rem;
@@ -16,7 +16,7 @@
     margin-bottom: 2rem;
 }
 
-.reviews-page .product-image-container {
+.product-image-container {
     width: 200px;
     height: 200px;
     display: flex;
@@ -25,85 +25,85 @@
     overflow: hidden;
 }
 
-.reviews-page .product-image-container img {
+.product-image-container img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
-.reviews-page .product-details {
+.product-details {
     flex: 1;
 }
 
-.reviews-page .product-details h1 {
+.product-details h1 {
     margin: 0 0 1rem 0;
     font-size: 2rem;
     font-weight: bold;
     color: #333;
 }
 
-.reviews-page .average-rating {
+.average-rating {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 1.2rem;
 }
 
-.reviews-page .star {
+.star {
     color: #ffd700;
 }
 
-.reviews-page .total-reviews {
+.total-reviews {
     color: #666;
     font-size: 1rem;
 }
 
-.reviews-page .reviews-section {
+.reviews-section {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.reviews-page .divider {
+.divider {
     border: 0;
     border-top: 4px solid #333;
     margin: 2rem 0;
 }
 
-.reviews-page .reviews-title {
+.reviews-title {
     font-size: 1.8rem;
     font-weight: bold;
     text-align: center;
     margin-bottom: 1rem;
 }
 
-.reviews-page .review-card {
+.review-card {
     background: white;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.reviews-page .my-review {
+.my-review {
     border: 2px solid green;
     background-color: #e6f7e6;
 }
 
-.reviews-page .review-header {
+.review-header {
     font-size: 1.2rem;
     font-weight: bold;
     color: green;
     margin-bottom: 1rem;
 }
 
-.reviews-page .reviewer-info {
+.reviewer-info {
     display: flex;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
 }
 
-.reviews-page .reviewer-avatar {
+.reviewer-avatar {
     width: 40px;
     height: 40px;
     background: #f0f0f0;
@@ -114,36 +114,36 @@
     font-size: 1.5rem;
 }
 
-.reviews-page .reviewer-details {
+.reviewer-details {
     flex: 1;
 }
 
-.reviews-page .reviewer-name {
+.reviewer-name {
     margin: 0;
     font-weight: 700;
     color: #333;
     font-size: 1.2rem;
 }
 
-.reviews-page .review-date {
+.review-date {
     margin: 0.2rem 0 0 0;
     font-size: 0.9rem;
     color: #666;
 }
 
-.reviews-page .review-rating {
+.review-rating {
     margin-bottom: 0.8rem;
     font-size: 1.2rem;
     font-weight: bold;
 }
 
-.reviews-page .review-text {
+.review-text {
     margin: 0;
     line-height: 1.5;
     color: #444;
 }
 
-.reviews-page .pagination {
+.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -152,7 +152,7 @@
     padding: 1rem 0;
 }
 
-.reviews-page .pagination-button {
+.pagination-button {
     background: white;
     border: 1px solid #ddd;
     padding: 0.5rem 1rem;
@@ -161,28 +161,28 @@
     font-size: 1rem;
 }
 
-.reviews-page .pagination-button:disabled {
+.pagination-button:disabled {
     background: #f0f0f0;
     cursor: not-allowed;
 }
 
-.reviews-page .pagination-button:hover:not(:disabled) {
+.pagination-button:hover:not(:disabled) {
     background: #f0f0f0;
 }
 
-.reviews-page .page-number {
+.page-number {
     font-size: 1rem;
     color: #333;
 }
 
-.reviews-page .loading {
+.loading {
     text-align: center;
     padding: 2rem;
     font-size: 1.2rem;
     color: #666;
 }
 
-.reviews-page .go-back-button {
+.go-back-button {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
     padding: 10px 20px;
@@ -192,31 +192,31 @@
     border-radius: 4px;
 }
 
-.reviews-page .go-back-button:hover {
+.go-back-button:hover {
     background-color: #f0f0f0;
 }
 
 @media (max-width: 768px) {
-    .reviews-page .reviews-page {
+    .reviews-page {
         width: 95%;
         padding: 1rem;
     }
 
-    .reviews-page .product-summary {
+    .product-summary {
         flex-direction: column;
         align-items: center;
     }
 
-    .reviews-page .product-image-container {
+    .product-image-container {
         width: 150px;
         height: 150px;
     }
 
-    .reviews-page .product-details {
+    .product-details {
         text-align: center;
     }
 
-    .reviews-page .average-rating {
+    .average-rating {
         justify-content: center;
     }
 }
