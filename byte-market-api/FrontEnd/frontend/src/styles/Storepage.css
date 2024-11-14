@@ -49,16 +49,44 @@
     font-size: 0.9rem;
 }
 
-/* Dropdown Testing Section */
-.store-page-container .testing-section {
+/* Store Selector Styles */
+.store-selector {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
     margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.store-page-container .testing-section select {
+.store-selector label {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.store-selector select {
+    flex: 1;
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 0.9rem;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    max-width: 300px;
+}
+
+.store-selector select:hover {
+    border-color: #aaa;
+}
+
+.store-selector select:focus {
+    outline: none;
+    border-color: #ff9999;
+    box-shadow: 0 0 0 2px rgba(255, 153, 153, 0.2);
 }
 
 /* Sort Buttons */
@@ -75,11 +103,16 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     font-size: 0.9rem;
+    border-radius: 20px;
+}
+
+.store-page-container .sort-btn:hover {
+    background-color: #f0f0f0;
 }
 
 .store-page-container .sort-btn.active {
     background-color: #e0e0e0;
-    border-radius: 20px;
+    border-color: #ccc;
 }
 
 /* Products Grid */
@@ -93,6 +126,7 @@
     text-align: center;
     font-size: 1rem;
     color: #999;
+    padding: 2rem;
 }
 
 .store-page-container .products-grid {
@@ -110,10 +144,12 @@
     transition: transform 0.2s ease;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .store-page-container .product-card:hover {
     transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .store-page-container .product-image {
@@ -133,12 +169,17 @@
 
 .store-page-container .product-details {
     padding: 0.8rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .store-page-container .product-title {
     font-size: 1rem;
     margin: 0;
     color: #333;
+    line-height: 1.4;
+    margin-bottom: 0.4rem;
 }
 
 .store-page-container .product-price {
@@ -159,7 +200,7 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
-    margin-top: 0.8rem;
+    margin-top: auto;
 }
 
 .store-page-container .buy-now-btn {
@@ -182,7 +223,8 @@
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
-    color: #333;
+    padding: 0.2rem;
+    transition: transform 0.2s ease;
 }
 
 .store-page-container .cart-btn:hover {
@@ -192,6 +234,11 @@
 .store-page-container .wishlist-icon {
     cursor: pointer;
     font-size: 1.2rem;
+    transition: transform 0.2s ease;
+}
+
+.store-page-container .wishlist-icon:hover {
+    transform: scale(1.1);
 }
 
 .store-page-container .wishlist-icon.wishlisted {
@@ -218,7 +265,16 @@
     border-radius: 10px;
     text-align: center;
     width: 300px;
-    height: 100px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.store-page-container .modal-content h3 {
+    margin-top: 0;
+    color: #333;
 }
 
 .store-page-container .modal-buttons {
@@ -228,13 +284,15 @@
     margin-top: 1rem;
 }
 
-.store-page-container .cancel-btn, .confirm-btn {
+.store-page-container .cancel-btn,
+.store-page-container .confirm-btn {
     width: 100px;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .store-page-container .cancel-btn {
@@ -251,4 +309,44 @@
 
 .store-page-container .confirm-btn:hover {
     background-color: #a5d18c;
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .store-page-container {
+        margin: 1rem;
+        padding: 0.5rem;
+    }
+
+    .store-page-container .store-info-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .store-page-container .sort-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .store-page-container .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+
+    .store-selector {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .store-selector select {
+        max-width: none;
+    }
 }

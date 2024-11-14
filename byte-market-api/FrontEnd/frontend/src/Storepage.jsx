@@ -17,8 +17,8 @@ function StorePage() {
     const [loading, setLoading] = useState(true);
     const [sortBy, setSortBy] = useState('recent');
     const [wishlist, setWishlist] = useState([]);
-    const [sellers, setSellers] = useState([]); // For testing dropdown
-    const [selectedSeller, setSelectedSeller] = useState(''); // For testing dropdown
+    const [sellers, setSellers] = useState([]);
+    const [selectedSeller, setSelectedSeller] = useState('');
 
     // Modal states
     const [showAddToWishlistModal, setShowAddToWishlistModal] = useState(false);
@@ -37,6 +37,7 @@ function StorePage() {
                 ]);
 
                 setStoreDetails(sellerResponse.data);
+                setSelectedSeller(sellerId);
 
                 // Filter products for this store
                 const storeProducts = productsResponse.data.filter(
@@ -53,10 +54,9 @@ function StorePage() {
 
         fetchStoreData();
         fetchWishlist();
-        fetchSellers(); // For testing dropdown
+        fetchSellers();
     }, [sellerId, customerId]);
 
-    // Testing dropdown functionality
     const fetchSellers = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/seller/getAllSeller');
@@ -212,7 +212,6 @@ function StorePage() {
                 {/* Store Information Section */}
                 <div className="store-info-container">
                     <div className="store-profile-image">
-                        {/* Placeholder for store image */}
                         <div className="image-placeholder">Store Image</div>
                     </div>
                     <div className="store-details">
@@ -225,8 +224,9 @@ function StorePage() {
                     </div>
                 </div>
 
-                {/* Testing Section - Can be commented out later */}
-                <div className="testing-section">
+                {/* Store Selector Section */}
+                <div className="store-selector">
+                    <label>Visit Other Stores:</label>
                     <select
                         value={selectedSeller}
                         onChange={(e) => {

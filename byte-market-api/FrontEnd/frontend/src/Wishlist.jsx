@@ -209,7 +209,9 @@ function Wishlist() {
                                             </h3>
                                             <p className="product-price">${product.price?.toFixed(2)}</p>
                                             <div className="product-rating">
-                                                ⭐ {product.rating}
+                                                ⭐ {product.ratings?.length > 0
+                                                    ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
+                                                    : 'No ratings'}
                                             </div>
                                             <div className="product-actions">
                                                 <button
