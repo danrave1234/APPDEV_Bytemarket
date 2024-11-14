@@ -190,7 +190,7 @@ html, body {
     padding: 0.5rem 1rem;
     font-size: 0.8rem;
     font-weight: bold;
-    text-align: center;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: #888;
 }
 
@@ -226,8 +226,9 @@ html, body {
 
 /* Greeting Message */
 .greeting-message {
-    font-size: 1.2rem;
-    color: #38d3f1;
+    font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+    color: #1f244e;
     margin-right: auto;
     padding-left: 1rem;
     font-weight: bold;
