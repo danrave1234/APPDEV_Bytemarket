@@ -4,6 +4,7 @@
     border-radius: 12px;
     width: 80%;
     margin: 0 auto;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .reviews-page .product-summary {
@@ -39,6 +40,7 @@
     margin: 0 0 1rem 0;
     font-size: 2rem;
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: #333;
 }
 
@@ -183,17 +185,19 @@
 }
 
 .reviews-page .go-back-button {
-    background-color: #f5f5f5;
+    background-color: #212850;
     border: 1px solid #ddd;
     padding: 10px 20px;
     font-size: 1rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     cursor: pointer;
     margin-top: 1rem;
     border-radius: 4px;
+    color: white;
 }
 
 .reviews-page .go-back-button:hover {
-    background-color: #f0f0f0;
+    background-color: #3e597f;
 }
 
 @media (max-width: 768px) {
