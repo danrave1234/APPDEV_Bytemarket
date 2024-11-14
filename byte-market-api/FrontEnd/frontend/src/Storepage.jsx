@@ -84,7 +84,7 @@ function StorePage() {
 
         products.forEach(product => {
             if (product.ratings && product.ratings.length > 0) {
-                totalRating += product.ratings.reduce((acc, curr) => acc + curr.rating, 0) / product.ratings.length;
+                totalRating += product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length;
                 ratedProducts++;
             }
         });
