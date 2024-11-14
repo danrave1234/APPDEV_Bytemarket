@@ -38,9 +38,15 @@ public class OrderController {
     public OrderEntity updateOrder(@PathVariable int id, @RequestBody OrderEntity newOrder) {
         return orderService.updateOrder(id, newOrder);
     }
+
     @PutMapping("/orderItem/{orderItemId}/isRated")
     public OrderItemEntity updateIsRated(@PathVariable int orderItemId, @RequestParam boolean isRated) {
         return orderService.updateIsRatedStatus(orderItemId, isRated);
     }
+    @DeleteMapping("/deleteOrder/{id}")
+    public void deleteOrder(@PathVariable int id) {
+        orderService.deleteOrder(id);
+    }
+
 
 }
