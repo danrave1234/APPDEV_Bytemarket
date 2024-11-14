@@ -128,7 +128,7 @@
 }
 
 .orderModal-place-order-button {
-    background: #10b981;
+    background: #22c55e;
     color: white;
     border: none;
     margin-left: 1rem;
@@ -144,7 +144,7 @@
 }
 
 .orderModal-place-order-button:hover {
-    background-color: #059669;
+    background-color: #16a34a;
 }
 
 .orderModal-footer {
