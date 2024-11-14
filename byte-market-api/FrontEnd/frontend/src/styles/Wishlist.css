@@ -41,8 +41,8 @@
 }
 .wishlist-container .sort-buttons {
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 1.6rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 5px;
 }
 
 .wishlist-container .sort-btn {
