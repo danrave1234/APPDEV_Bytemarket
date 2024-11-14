@@ -5,6 +5,13 @@
     padding: 0.8rem;
 }
 
+.wishlist-container h1 {
+    text-align: left;
+    margin-bottom: 1.6rem;
+}
+
+
+
 .wishlist-container .top-section {
     display: flex;
     justify-content: space-between;
