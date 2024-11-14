@@ -9,14 +9,6 @@ html, body {
 }
 
 /* Header Styles */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: white;
-}
-
 .containerLayout1 {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
@@ -27,17 +19,51 @@ html, body {
     top: 0;
     background-color: white;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    height: 80px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.search-container {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Logo Styles */
 .logoAndName {
     display: flex;
     align-items: center;
 }
+
 .logoAndName h1 {
-    /*margin-left: 0.5rem;*/
     font-size: 1.2rem;
 }
+
 .logoAndName a {
     cursor: pointer;
 }
+
 .logo {
     width: 4vw;
     min-width: 50px;
@@ -45,13 +71,81 @@ html, body {
     max-width: 100%;
 }
 
+/* Search Bar Styles */
+.searchBar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 5rem;
+    padding: 0.3rem;
+    width: 100%;
+    max-width: 500px;
+    background-color: white;
+}
+
+.searchBar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0.5rem 1rem;
+    background: none;
+    font-size: 1rem;
+}
+
+.searchIcon {
+    width: 0.6vw;
+    min-width: 20px;
+    margin-right: 0.2rem;
+    background: #38d3f1;
+    border-radius: 10rem;
+    padding: 0.5rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.searchIcon:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.searchButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.clearButton {
+    opacity: 80%;
+    background: none;
+    border-radius: 5rem;
+    border: none;
+    margin-left: 0.5rem;
+    width: 25px;
+    height: 25px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.clearButton:hover {
+    border-radius: 5rem;
+    transform: scale(1.05);
+}
+
+/* Profile Bar Styles */
 .profileBar {
     position: relative;
     display: flex;
     align-items: center;
     cursor: pointer;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    transition: border-color 0.3s ease;
 }
 
+.profileBar:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
 .profileIcon {
     width: 30px;
@@ -67,112 +161,78 @@ html, body {
     min-width: 20px;
 }
 
-.profileBar:hover .profileIcon {
-    transform: scale(1.1);
-}
-
 /* Dropdown Menu */
 .dropdown {
-    position: fixed;
-    right: 7rem;
+    position: absolute;
     top: 5rem;
+    right: 6.5rem; /* Moved the dropdown a bit to the left */
+    left: 6.5; /* Added a left property to align the dropdown to the left */
     background-color: white;
     border: 1px solid #e0e0e0;
     border-radius: 0.5rem;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 8rem;
+    width: 15rem;
+    z-index: 1000;
+}
+
+.dropdownDivider {
+    border-top: 1px solid #e0e0e0;
+    margin: 0.5rem 0;
 }
 
 .dropdown ul {
     list-style: none;
-    padding: 0;
+    padding: 0.5rem 0;
     margin: 0;
 }
+
 .dropdownItemLabel {
-    padding: 0.5rem;
-    text-align: center;
-    border-bottom: 2px solid #e0e0e0;
-    border-top: 2px solid #e0e0e0;
-    opacity: 50%;
+    padding: 0.5rem 1rem;
     font-size: 0.8rem;
-}
-.dropdownItem {
-    padding: 1rem;
+    font-weight: bold;
     text-align: center;
+    color: #888;
+}
+
+.dropdownItem {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
     transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
 }
 
 .dropdownItem:hover {
     background-color: #f0f0f0;
-    cursor: pointer;
 }
 
-/* Search Bar */
-.containerLayout2 {
-    margin-top: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
-    margin-right: 20vw;
-    margin-left: 20vw;
+/* Wallet Button Styling */
+.wallet-button {
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: sticky;
-    z-index: 999;
-    top: 1.5rem;
-}
-.containerLayout2 input{
-    border: none;
-    background: none;
-    outline: none;
-}
-.searchBar {
-    display: flex;
-    border: 1px solid #e0e0e0;
-    border-radius: 5rem;
-    padding: 0.3rem;
-    justify-content: center;
-    align-items: center;
-    width: 40vw;
-    min-width: 20vw;
-    background-color: white;
-}
-
-.searchIcon {
-    width: 0.6vw;
-    min-width: 20px;
-    margin-right: 0.2rem;
-    background: mediumvioletred;
-    border-radius: 10rem;
-    padding: 0.5rem;
-    transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.searchIcon:hover {
     cursor: pointer;
-    background: #535bf2;
-    transform: scale(1.05);
 }
 
-.searchButton {
-    background: none;
-    border: none;
+.wallet-button img {
+    width: auto;
+    height: 4vh;
+    margin-right: 1.5rem;
+    transition: transform 0.2s;
 }
-.clearButton:hover{
-    cursor: pointer;
-    background: #535bf2;
-    border-radius: 5rem;
-    transform: scale(1.05);
+
+.wallet-button img:hover {
+    transform: scale(1.1);
 }
-.clearButton{
-    opacity: 80%;
-    background: none;
-    border-radius: 5rem;
-    border: none;
-    margin-left: 0.5rem;
-    width: 25px;
-    height: 25px;
-    transition: background 0.3s ease, transform 0.3s ease;
+
+/* Greeting Message */
+.greeting-message {
+    font-size: 1.2rem;
+    color: #38d3f1;
+    margin-right: auto;
+    padding-left: 1rem;
+    font-weight: bold;
 }
+
+/* Footer Styles */
 footer {
     display: flex;
     justify-content: space-between;
@@ -223,35 +283,49 @@ footer > .footer-div {
     color: lightgray;
     text-decoration: none;
     transition: color 0.3s;
+    cursor: pointer;
 }
 
 .footer-div li a:hover {
     color: #ff6f61;
 }
 
-/* Wallet Button Styling */
-.wallet-button {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+/* Main Content */
+main {
+    min-height: calc(100vh - 80px - 300px);
+    padding: 2rem 5rem;
 }
 
-.wallet-button img {
-    width: auto; /* Adjust the size as needed */
-    height: 4vh;
-    margin-right: 1.5rem;
-    transition: transform 0.2s;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .containerLayout1 {
+        padding: 0 1rem;
+    }
 
-.wallet-button img:hover {
-    transform: scale(1.1);
-}
+    .header {
+        flex-wrap: wrap;
+        height: auto;
+    }
 
-/* Greeting Message */
-.greeting-message {
-    font-size: 1.2rem;
-    color: #ffcccb;
-    margin-right: auto;
-    padding-left: 1rem;
-    font-weight: bold;
+    .search-container {
+        order: 3;
+        flex: 100%;
+        margin-top: 1rem;
+    }
+
+    .header-left, .header-right {
+        flex: auto;
+    }
+
+    .dropdown {
+        right: 1rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    .footer-div > div {
+        min-width: 150px;
+    }
 }

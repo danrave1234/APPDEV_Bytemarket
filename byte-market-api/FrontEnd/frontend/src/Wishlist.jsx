@@ -207,7 +207,7 @@ function Wishlist() {
                                                     ? `${product.productname.slice(0, 30)}...`
                                                     : product.productname}
                                             </h3>
-                                            <p className="product-price">${product.price?.toFixed(2)}</p>
+                                            <p className="product-price">₱{product.price?.toFixed(2)}</p>
                                             <div className="product-rating">
                                                 ⭐ {product.ratings?.length > 0
                                                     ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)

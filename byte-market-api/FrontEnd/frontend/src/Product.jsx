@@ -4,6 +4,7 @@ import { useAuth } from "./components/AuthProvider.jsx";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import LoginModal from './components/LoginModal.jsx'; // Import the LoginModal component
 
 function Product() {
     const { userid } = useAuth();
@@ -17,6 +18,7 @@ function Product() {
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [showRemoveModal, setShowRemoveModal] = useState(false);
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false); // State for login modal
 
     const navigate = useNavigate();  // Hook for navigation
 
@@ -50,6 +52,10 @@ function Product() {
     };
 
     const handleAddToCart = async () => {
+        if (!userid) { // Check if user is logged in
+            setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
         try {
             // Fetch existing cart items
             const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
@@ -78,7 +84,6 @@ function Product() {
         }
     };
 
-
     const handleQuantityChange = (change) => {
         const newQuantity = quantity + change;
         if (newQuantity >= 1 && newQuantity <= product?.quantity) {
@@ -87,6 +92,10 @@ function Product() {
     };
 
     const toggleWishlist = async () => {
+        if (!userid) { // Check if user is logged in
+            setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
         if (isWishlisted) {
             setShowWishlistModal(true);  // Show confirmation modal for removal
         } else {
@@ -129,6 +138,10 @@ function Product() {
     };
 
     const handleBuyNow = async () => {
+        if (!userid) { // Check if user is logged in
+            setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
         try {
             const cartItem = {
                 quantity: quantity,
@@ -288,6 +301,11 @@ function Product() {
                         <p>Item Removed from Wishlist!</p>
                     </div>
                 </div>
+            )}
+
+            {/* Login Modal */}
+            {showLoginModal && (
+                <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} />
             )}
         </PageLayout>
     );

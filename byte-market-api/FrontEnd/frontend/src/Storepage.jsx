@@ -293,7 +293,14 @@ function StorePage() {
                                         )}
                                     </div>
                                     <div className="product-details">
-                                        <h3 className="product-title">{product.productname}</h3>
+                                        <h3
+                                            className="product-title"
+                                            title={product.productname}
+                                        >
+                                            {product.productname.length > 30
+                                                ? `${product.productname.slice(0, 30)}...`
+                                                : product.productname}
+                                        </h3>
                                         <p className="product-price">₱{product.price?.toFixed(2)}</p>
                                         <div className="product-rating">
                                             ⭐ {product.ratings?.length > 0
