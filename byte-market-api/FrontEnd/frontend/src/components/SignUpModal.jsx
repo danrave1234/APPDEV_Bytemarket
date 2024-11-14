@@ -125,7 +125,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
       <div className="modal-box">
         {step === 2 && (
           <button className="back-arrow" onClick={handleBackStep}>
-            ←
+            Go back
           </button>
         )}
 
@@ -240,7 +240,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               max={formattedToday}
               required
             />
-            <button type="submit">Submit</button>
+            <button class="submit">Submit</button>
           </form>
         )}
       </div>
