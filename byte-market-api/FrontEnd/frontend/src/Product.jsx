@@ -3,6 +3,8 @@ import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import OrderProductModal from './components/OrderProductModal.jsx';
+
 import axios from 'axios';
 import LoginModal from './components/LoginModal.jsx'; // Import the LoginModal component
 
@@ -21,6 +23,29 @@ function Product() {
     const [showLoginModal, setShowLoginModal] = useState(false); // State for login modal
 
     const navigate = useNavigate();  // Hook for navigation
+
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [modalItems, setModalItems] = useState([]);
+
+    const openOrderModal = (item) => {
+        const formattedItems = [
+            {
+                productid: item.productid,
+                productname: item.productname,
+                price: item.price,
+                quantity: quantity,
+                image: item.image,
+                seller: item.seller,
+            },
+        ];
+        setModalItems(formattedItems);
+        setShowOrderModal(true);
+    };
+
+    const closeOrderModal = () => {
+        setShowOrderModal(false);
+        setModalItems([]);
+    };
 
     useEffect(() => {
         fetchProduct();
@@ -84,6 +109,7 @@ function Product() {
         }
     };
 
+
     const handleQuantityChange = (change) => {
         const newQuantity = quantity + change;
         if (newQuantity >= 1 && newQuantity <= product?.quantity) {
@@ -137,25 +163,11 @@ function Product() {
         }
     };
 
-    const handleBuyNow = async () => {
-        if (!userid) { // Check if user is logged in
-            setShowLoginModal(true); // Show login modal if not logged in
-            return;
-        }
-        try {
-            const cartItem = {
-                quantity: quantity,
-                dateposted: new Date().toISOString(),
-                customer: { userid: userid },
-                product: { productid: product.productid }
-            };
-            await axios.post('http://localhost:8080/api/cart/addCart', cartItem);
-            // Redirect to the checkout page after adding the item to the cart
-            navigate('/customer/CheckOut');
-        } catch (error) {
-            console.error('Error adding to cart:', error);
-        }
+    const handleBuyNow = (product, event) => {
+        event.stopPropagation();
+        openOrderModal(product);
     };
+
 
     // Navigate to the reviews page
     const handleSeeAllReviews = () => {
@@ -235,7 +247,7 @@ function Product() {
 
                             <div className="action-buttons">
                                 <button onClick={handleAddToCart} className="add-cart-btn">Add to Cart</button>
-                                <button onClick={handleBuyNow} className="buy-now-btn">Buy Now</button>
+                                <button onClick={(e) => handleBuyNow(product, e)} className="buy-now-btn">Buy Now</button>
                             </div>
                         </div>
                     </div>
@@ -302,6 +314,15 @@ function Product() {
                     </div>
                 </div>
             )}
+
+            {showOrderModal && (
+                <OrderProductModal
+                    show={showOrderModal}
+                    selectedProducts={modalItems}
+                    onClose={closeOrderModal}
+                />
+            )}
+
 
             {/* Login Modal */}
             {showLoginModal && (

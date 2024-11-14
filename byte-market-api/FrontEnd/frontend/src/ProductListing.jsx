@@ -5,9 +5,11 @@ import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 import { useNavigate, useLocation } from 'react-router-dom';
 import LoginModal from './components/LoginModal.jsx'; // Import the LoginModal component
+import OrderProductModal from './components/OrderProductModal.jsx';
+
 
 export default function ProductListing() {
-    const { userid } = useAuth(); // Get userid from auth context
+    const { userid } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const [products, setProducts] = useState([]);
@@ -25,9 +27,33 @@ export default function ProductListing() {
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
-    
+
     // Login modal state
     const [showLoginModal, setShowLoginModal] = useState(false);
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [modalItems, setModalItems] = useState([]);
+
+// Function to open the modal
+    const openOrderModal = (item) => {
+        const formattedItems = [
+            {
+                productid: item.productid,
+                productname: item.productname,
+                price: item.price,
+                quantity: 1, // Default quantity for Buy Now
+                image: item.image,
+                seller: item.seller, // Ensure the seller is passed
+            },
+        ];
+        setModalItems(formattedItems);
+        setShowOrderModal(true);
+    };
+
+// Function to close the modal
+    const closeOrderModal = () => {
+        setShowOrderModal(false);
+        setModalItems([]);
+    };
 
     useEffect(() => {
         fetchSellers();
@@ -116,10 +142,10 @@ export default function ProductListing() {
             // Fetch existing cart items to check for duplicates
             const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
             const userCartItems = response.data.filter(item => item.customer.userid === parseInt(userid));
-            
+
             // Check if the product already exists in the cart
             const isProductInCart = userCartItems.some(cartItem => cartItem.product.productid === parseInt(product.productid));
-            
+
             if (isProductInCart) {
                 alert("This product is already in your cart!");
                 return;
@@ -135,15 +161,11 @@ export default function ProductListing() {
         }
     };
 
-    const handleBuyNow = async (product, event) => {
-        event.stopPropagation();
-        if (!userid) { // Check if user is logged in
-            setShowLoginModal(true); // Show login modal if not logged in
-            return;
-        }
-        await handleAddToCart(product, event);
-        navigate('/customer/CheckOut');
+    const handleBuyNow = (product, event) => {
+        event.stopPropagation(); // Prevent parent click events
+        openOrderModal(product);
     };
+
 
     const handleCardPress = (product) => {
         navigate(`/productdetail/${product.productid}`, { state: { product } });
@@ -177,9 +199,9 @@ export default function ProductListing() {
             <div className="product-listing-container">
                 <div className="top-section">
                     <div className="store-dropdown">
-                        <select value={selectedSeller} onChange={(e) => { 
-                            setSelectedSeller(e.target.value); 
-                            setLoading(true); 
+                        <select value={selectedSeller} onChange={(e) => {
+                            setSelectedSeller(e.target.value);
+                            setLoading(true);
                         }}>
                             <option value="">All Stores</option>
                             {sellers.map(seller => (
@@ -195,6 +217,7 @@ export default function ProductListing() {
                         <button className={`sort-btn ${sortBy === 'rating' ? 'active' : ''}`} onClick={() => setSortBy('rating')}>Highest Rated</button>
                     </div>
                 </div>
+
                 <div className="products-outer-container">
                     {products.length === 0 ? (
                         <p className="no-products">No products available. Start browsing!</p>
@@ -218,14 +241,14 @@ export default function ProductListing() {
                                         <div className="product-actions">
                                             <button className="buy-now-btn" onClick={(e) => handleBuyNow(product, e)}>Buy Now</button>
                                             <button className="cart-btn" onClick={(e) => handleAddToCart(product, e)} title="Add to cart">🛒</button>
-                                            <span className={`wishlist-icon ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`} onClick={(e) => { 
-                                                e.stopPropagation(); 
-                                                if (isProductInWishlist(product.productid)) { 
-                                                    setSelectedItemId(product.productid); 
-                                                    setShowRemoveWishlistModal(true); 
-                                                } else { 
-                                                    handleAddToWishlist(product.productid); 
-                                                } 
+                                            <span className={`wishlist-icon ${isProductInWishlist(product.productid) ? 'wishlisted' : ''}`} onClick={(e) => {
+                                                e.stopPropagation();
+                                                if (isProductInWishlist(product.productid)) {
+                                                    setSelectedItemId(product.productid);
+                                                    setShowRemoveWishlistModal(true);
+                                                } else {
+                                                    handleAddToWishlist(product.productid);
+                                                }
                                             }} title={isProductInWishlist(product.productid) ? "Remove from wishlist" : "Add to wishlist"}>
                                                 {isProductInWishlist(product.productid) ? '❤️' : '🤍'}
                                             </span>
@@ -249,7 +272,7 @@ export default function ProductListing() {
                         </div>
                     </div>
                 )}
-                
+
                 {showAddToWishlistModal && (
                     <div className="modal-overlay" onClick={() => setShowAddToWishlistModal(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -257,7 +280,7 @@ export default function ProductListing() {
                         </div>
                     </div>
                 )}
-                
+
                 {showRemoveConfirmModal && (
                     <div className="modal-overlay" onClick={() => setShowRemoveConfirmModal(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -265,7 +288,7 @@ export default function ProductListing() {
                         </div>
                     </div>
                 )}
-                
+
                 {showAddToCartModal && (
                     <div className="modal-overlay" onClick={() => setShowAddToCartModal(false)}>
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -278,7 +301,16 @@ export default function ProductListing() {
                 {showLoginModal && (
                     <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} toggleDropdown={() => {/* Handle dropdown toggle */}} />
                 )}
-                
+
+
+                {showOrderModal && (
+                    <OrderProductModal
+                        show={showOrderModal}
+                        selectedProducts={modalItems}
+                        onClose={closeOrderModal}
+                    />
+                )}
+
             </div>
         </PageLayout>
     );
