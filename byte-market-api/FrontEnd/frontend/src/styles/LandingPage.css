@@ -103,6 +103,7 @@ html, body {
 .landing-container .store-name {
     font-size: 1.2rem;
     color: #333;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     cursor: pointer;
     transition: color 0.3s;
 }
@@ -168,6 +169,7 @@ html, body {
     margin: 0 0 0.4rem 0;
     color: #333;
     white-space: nowrap;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     overflow: hidden;
     text-overflow: ellipsis;
 }
