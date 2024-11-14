@@ -118,19 +118,6 @@
     cursor: help;
 }
 
-.wishlist-container .product-title[title]:hover::before {
-    content: attr(title);
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    max-width: 200px;
-    white-space: normal;
-    z-index: 1;
-}
-
 .wishlist-container .product-price {
     font-size: 1rem;
     font-weight: 700;
@@ -176,20 +163,6 @@
     cursor: pointer;
     padding: 0.4rem;
     position: relative;
-}
-
-.wishlist-container .cart-btn:hover::after, .wishlist-container .remove-btn:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0,0,0,0.8);
-    color: white;
-    padding: 0.4rem;
-    border-radius: 3px;
-    font-size: 0.7rem;
-    white-space: nowrap;
 }
 
 .wishlist-container .buy-now-btn:hover {

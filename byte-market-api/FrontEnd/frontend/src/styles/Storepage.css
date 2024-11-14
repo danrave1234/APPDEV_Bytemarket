@@ -185,6 +185,10 @@
     text-overflow: ellipsis;
 }
 
+.store-page-container .product-title[title] {
+    cursor: help;
+}
+
 .store-page-container .product-price {
     font-size: 1.1rem;
     font-weight: bold;
