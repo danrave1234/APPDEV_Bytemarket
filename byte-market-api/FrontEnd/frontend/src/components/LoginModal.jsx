@@ -51,7 +51,7 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
         <div className="modal-overlay">
             <div className="modal-box">
                 <button className="close-button" onClick={closeModal}>X</button>
-                <h2>LOGIN | ByteMarket Client</h2>
+                <h2>LOGIN | ByteMarket</h2>
                 <form onSubmit={handleLogin}>
                     <input className="credential-fields"
                         type="text"
