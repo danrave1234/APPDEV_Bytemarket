@@ -103,6 +103,7 @@ html, body {
 .product-containers .product-price {
     font-size: 1.8rem;
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: #FFA500;
     margin-bottom: 1rem;
 }
