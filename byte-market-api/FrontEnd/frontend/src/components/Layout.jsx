@@ -6,7 +6,7 @@ import VincentLogo from '../assets/VincentLogo3.png';
 import profileIcon from '../assets/profileIcon.png';
 import walletLogoBlack from '../assets/walletLogo-black.png';
 import arrow from '../assets/Arrow.png';
-import searchIcon from '../assets/searchIcon.png';
+import searchIcon from '../assets/searchiconwhite2.png';
 import './Layout.css';
 import { useAuth } from "./AuthProvider.jsx";
 import LoginModalSeller from "./LoginModalSeller.jsx";

@@ -197,7 +197,7 @@ html, body {
 }
 
 .landing-container .buy-now-btn {
-    background: #ff9999;
+    background: #212850;
     color: white;
     border: none;
     padding: 0.4rem 0.8rem;
@@ -223,7 +223,7 @@ html, body {
 }
 
 .landing-container .buy-now-btn:hover {
-    background: #ff8080;
+    background: #29466c;
 }
 
 .landing-container .cart-btn:hover, .wishlist-icon:hover {
@@ -231,19 +231,20 @@ html, body {
 }
 
 .landing-container .show-more-btn {
-    background: #98DFD6;
+    background: #212850;
     color: white;
     border: none;
     padding: 0.6rem 1.2rem;
     border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     display: block;
     margin: 2rem auto 0;
 }
 
 .landing-container .show-more-btn:hover {
-    background: #76b8b0;
+    background: #29466c;
 }
 
 /* Grid for Other Sections */
