@@ -185,23 +185,6 @@
     text-overflow: ellipsis;
 }
 
-.store-page-container .product-title[title] {
-    cursor: help;
-}
-
-.store-page-container .product-title[title]:hover::before {
-    content: attr(title);
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    max-width: 200px;
-    white-space: normal;
-    z-index: 1;
-}
-
 .store-page-container .product-price {
     font-size: 1.1rem;
     font-weight: bold;
