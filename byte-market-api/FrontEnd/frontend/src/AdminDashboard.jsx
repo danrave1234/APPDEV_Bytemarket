@@ -263,8 +263,8 @@ const renderTableRows = () => {
                 </>
             )}
             <td>
-                <button onClick={() => handleEdit(item)}>Edit</button>
-                <button onClick={() => handleDelete(item.id)}>Delete</button>
+                <button className="edit-button" onClick={() => handleEdit(item)}>EDIT</button>
+                <button className="delete-button" onClick={() => handleDelete(item.id)}>DELETE</button>
             </td>
         </tr>
     ));
@@ -274,7 +274,7 @@ return (
     <PageLayout>
         <div className="admin-dashboard">
             <div className="sidebar">
-                <h2>Menu</h2>
+                <h2>Main Menu</h2>
                 <ul>
                     {['Products', 'Customers', 'Sellers', 'Orders'].map(option => (
                         <li
@@ -311,8 +311,8 @@ return (
                         <div className="modal-content">
                             <h2>Edit {selectedOption.slice(0, -1)}</h2>
                             {renderEditFields()}
-                            <button onClick={handleUpdate}>Save</button>
-                            <button onClick={() => setShowModal(false)}>Cancel</button>
+                            <button className="save-button" onClick={handleUpdate}>SAVE</button>
+                            <button className="cancel-button" onClick={() => setShowModal(false)}>CANCEL</button>
                         </div>
                     </div>
                 )}

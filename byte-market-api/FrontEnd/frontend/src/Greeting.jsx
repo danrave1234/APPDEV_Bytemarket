@@ -1,4 +1,3 @@
-// Greeting.jsx
 import React from 'react';
 import './Layout.css'; // Use Layout.css to style the greeting as part of the overall layout
 
@@ -6,7 +5,7 @@ const Greeting = ({ name, role }) => {
     let greetingMessage = '';
 
     if (role === 'Admin') {
-        greetingMessage = `Greetings, ${name}!`;
+        greetingMessage = `Greetings!`;
     } else if (role === 'Customer') {
         greetingMessage = `Welcome, ${name}!`;
     } else if (role === 'Seller') {
