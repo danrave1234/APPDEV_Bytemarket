@@ -98,21 +98,25 @@ html, body {
     margin-right: 0.2rem;
     background: #212850;
     border-radius: 10rem;
-    padding: 0.5rem;
+    padding: 0.4rem;
     transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .searchIcon:hover {
     cursor: pointer;
-    transform: scale(1.05);
     background: #29466c;
 }
 
 .searchButton {
     background: none;
     border: none;
-    padding: 0;
+    padding: 0.3rem;
     cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.searchButton:hover {
+    color: #29466c;
 }
 
 .clearButton {
