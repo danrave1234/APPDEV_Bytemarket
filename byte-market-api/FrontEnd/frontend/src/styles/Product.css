@@ -74,6 +74,7 @@ html, body {
 .product-containers .product-title {
     font-size: 1.5rem;
     font-size: 100px;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     font-weight: bold;
     color: #333;
     margin: 0;
@@ -92,6 +93,7 @@ html, body {
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 1rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .product-containers .star {
@@ -108,6 +110,7 @@ html, body {
 .product-containers .product-meta {
     color: #666;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin-bottom: 1rem;
 }
 
@@ -121,12 +124,14 @@ html, body {
 
 .product-containers .product-description h3 {
     font-weight: 600;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin-bottom: 0.5rem;
 }
 
 .product-containers .product-description p {
     color: #666;
     line-height: 1.5;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     overflow: auto;
 }
 
@@ -145,6 +150,7 @@ html, body {
     align-items: center;
     gap: 1rem;
     margin-right: 50px;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .product-containers .quantity-controls button {
@@ -157,6 +163,7 @@ html, body {
 
 .product-containers .total-price {
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 /* Action Buttons */
@@ -176,10 +183,12 @@ html, body {
 
 .product-containers .add-cart-btn {
     background: #ffcdd2;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .product-containers .buy-now-btn {
     background: #ff9999;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: white;
 }
 
@@ -195,11 +204,13 @@ html, body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .product-containers .reviews-header h2 {
     font-size: 1.25rem;
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin: 0;
 }
 
@@ -209,6 +220,7 @@ html, body {
     border: none;
     cursor: pointer;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .product-containers .reviews-grid {
@@ -238,10 +250,12 @@ html, body {
 
 .product-containers .reviewer-details {
     flex: 1;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .product-containers .reviewer-name {
     font-weight: 600;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin: 0;
     display: flex;
     justify-content: space-between;
@@ -252,6 +266,7 @@ html, body {
 .product-containers .review-rating {
     display: flex;
     align-items: center;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     gap: 0.3rem;
 }
 
@@ -259,6 +274,7 @@ html, body {
     color: #666;
     margin: 0;
     line-height: 1.4;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 /* Responsive Design */
@@ -306,6 +322,7 @@ html, body {
 .product-containers .store-name {
     font-size: 18px;
     font-weight: bold;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     cursor: pointer;
 }
 
