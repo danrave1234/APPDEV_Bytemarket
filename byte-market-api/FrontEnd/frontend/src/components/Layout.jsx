@@ -182,8 +182,12 @@ function PageLayout({ children }) {
                                     </>
                                 ) : (
                                     <>
+                                        <li className="dropdownItemLabel">Customer</li>
                                         <li className="dropdownItem" onClick={openModalSignUp}>Sign Up</li>
                                         <li className="dropdownItem" onClick={openModalLogin}>Login</li>
+                                        <li className="dropdownItemLabel">Seller</li>
+                                        <li className="dropdownItem" onClick={openModalSignUpSeller}>Sign Up</li>
+                                        <li className="dropdownItem" onClick={openModalLoginSeller}>Login</li>
                                     </>
                                 )}
                             </ul>
@@ -191,7 +195,7 @@ function PageLayout({ children }) {
                     )}
                 </header>
             </div>
-            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp} toggleDropdown={toggleDropdown} />
+            <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp} toggleDropdown={toggleDropdown}/>
             <LoginModal show={showModalLogin} closeModal={closeModalLogin} toggleDropdown={toggleDropdown} />
 
             <div className="containerLayout2">

@@ -14,7 +14,7 @@ html, body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background: linear-gradient(to top, #7AB2D3, #4C9DC5);
+    background-color: white;
 }
 
 .containerLayout1 {
@@ -25,7 +25,7 @@ html, body {
     position: sticky;
     z-index: 999;
     top: 0;
-    background: linear-gradient(to top, #7AB2D3, #4C9DC5);
+    background-color: white;
 }
 .logoAndName {
     display: flex;
@@ -88,7 +88,14 @@ html, body {
     padding: 0;
     margin: 0;
 }
-
+.dropdownItemLabel {
+    padding: 0.5rem;
+    text-align: center;
+    border-bottom: 2px solid #e0e0e0;
+    border-top: 2px solid #e0e0e0;
+    opacity: 50%;
+    font-size: 0.8rem;
+}
 .dropdownItem {
     padding: 1rem;
     text-align: center;
