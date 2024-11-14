@@ -177,6 +177,7 @@ html, body {
 .landing-container .product-price {
     font-size: 1rem;
     font-weight: 700;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: #FFA500;
     margin: 0.4rem 0;
 }
@@ -184,6 +185,7 @@ html, body {
 .landing-container .product-rating {
     color: #ffd700;
     margin: 0.4rem 0;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     font-size: 0.9rem;
 }
 
