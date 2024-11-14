@@ -166,7 +166,66 @@ function AdminDashboard() {
                         </label>
                     </>
                 );
-            // Add similar fields for 'Sellers' and 'Orders' based on the attributes.
+                case 'Sellers':
+                return (
+                    <>
+                        <label>
+                            Seller Name:
+                            <input
+                                type="text"
+                                value={currentItem.sellername || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({...currentItem, sellername: e.target.value})
+                                }
+                            />
+                        </label>
+                        <label>
+                            Store Name:
+                            <input
+                                type="text"
+                                value={currentItem.storename || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({...currentItem, storename: e.target.value})
+                                }
+                            />
+                        </label>
+                        <label>
+                            Email:
+                            <input
+                                type="email"
+                                value={currentItem.email || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({...currentItem, email: e.target.value})
+                                }
+                            />
+                        </label>
+                    </>
+                );
+            case 'Orders':
+                return (
+                    <>
+                        <label>
+                            Customer Name:
+                            <input
+                                type="text"
+                                value={currentItem.customer.fullname || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({...currentItem, fullname: e.target.value })
+                                }
+                            />
+                        </label>
+                        <label>
+                            Status:
+                            <input
+                                type="text"
+                                value={currentItem.status || ''}
+                                onChange={(e) =>
+                                    setCurrentItem({ ...currentItem, status: e.target.value })
+                                }
+                            />
+                        </label>
+                    </>
+                );
             default:
                 return null;
         }

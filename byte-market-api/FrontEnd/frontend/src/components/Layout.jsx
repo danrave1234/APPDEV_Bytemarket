@@ -80,6 +80,7 @@ function PageLayout({ children }) {
         setShowModalLoginAdmin(false);
         document.body.style.overflow = 'auto';
     };
+
     const handleLogout = () => {
         logout();
         navigate("/");
@@ -122,6 +123,7 @@ function PageLayout({ children }) {
         }
         return '';
     };
+
     const handleSearch = () => {
         if (searchQuery.trim()) {
             navigate(`/productlisting?search=${encodeURIComponent(searchQuery)}`);
@@ -211,8 +213,6 @@ function PageLayout({ children }) {
                     <button className="searchButton" onClick={handleSearch}>
                         <img src={searchIcon} alt="Search Icon" className="searchIcon"/>
                     </button>
-
-
                 </div>
             </div>
             <main>{children}</main>

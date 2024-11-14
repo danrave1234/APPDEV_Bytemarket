@@ -11,7 +11,7 @@ const OrderHistory = () => {
     const [loading, setLoading] = useState(true);
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
-    const [tab, setTab] = useState('all');  // Tab to filter orders: 'all', 'pending', or 'completed'
+    const [tab, setTab] = useState('all');
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -86,7 +86,6 @@ const OrderHistory = () => {
 
 
     if (loading) return <p>Loading orders...</p>;
-    if (filteredOrders.length === 0) return <p>No order history available.</p>;
 
     return (
         <PageLayout>
@@ -101,56 +100,60 @@ const OrderHistory = () => {
                 </div>
 
                 {/* Single Card Layout for Orders */}
-                <div className="orders-list">
-                    {filteredOrders.map(order => (
+            <div className="orders-list">
+                {filteredOrders.length === 0 ? (
+                    <p>No orders found.</p>
+                ) : (
+                    filteredOrders.map(order => (
                         <div key={order.orderid} className="order-card">
                             <div className="order-header">
                                 <p className="order-id">Order ID: {order.orderid}</p>
                                 <p className="order-status">Status: {order.orderstatus}</p>
                                 <p className="order-total">Total: ${order.totalprice.toFixed(2)}</p>
                             </div>
-                            <div className="order-items">
-                                {order.orderItems.map(item => (
-                                    <div key={item.orderitemid} className="order-item">
-                                        <div className="item-left">
-                                            <img
-                                                className="item-image"
-                                                src={`data:image/jpeg;base64,${item.product.image}` || '/path/to/placeholder.jpg'} // Placeholder image path
-                                                alt={item.product.productname}
-                                            />
+                                <div className="order-items">
+                                    {order.orderItems.map(item => (
+                                        <div key={item.orderitemid} className="order-item">
+                                            <div className="item-left">
+                                                <img
+                                                    className="item-image"
+                                                    src={`data:image/jpeg;base64,${item.product.image}` || '/path/to/placeholder.jpg'} // Placeholder image path
+                                                    alt={item.product.productname}
+                                                />
+                                            </div>
+                                            <div className="item-middle">
+                                                <p className="item-name">{item.product.productname}</p>
+                                                <p className="item-details">Qty: {item.quantity} | ${item.price.toFixed(2)} each</p>
+                                                <p className="item-seller">Seller: {item.product.seller.sellername} ({item.product.seller.storename})</p>
+                                            </div>
+                                            <div className="item-right">
+                                                {hasRatedProduct(item) ? (
+                                                    <p className="rating-message">Thanks for your rating!</p>
+                                                ) : (
+                                                    (order.orderstatus === 'Paid' || order.orderstatus === 'Completed') && (
+                                                        <button
+                                                            className="rate-button"
+                                                            onClick={() =>
+                                                                handleRatingClick(
+                                                                    item.orderitemid,
+                                                                    item.product.productid,
+                                                                    item.product.productname,
+                                                                    order.orderid
+                                                                )
+                                                            }
+                                                        >
+                                                            Rate this product
+                                                        </button>
+                                                    )
+                                                )}
+                                            </div>
                                         </div>
-                                        <div className="item-middle">
-                                            <p className="item-name">{item.product.productname}</p>
-                                            <p className="item-details">Qty: {item.quantity} | ${item.price.toFixed(2)} each</p>
-                                            <p className="item-seller">Seller: {item.product.seller.sellername} ({item.product.seller.storename})</p>
-                                        </div>
-                                        <div className="item-right">
-                                            {hasRatedProduct(item) ? (
-                                                <p className="rating-message">Thanks for your rating!</p>
-                                            ) : (
-                                                (order.orderstatus === 'Paid' || order.orderstatus === 'Completed') && (
-                                                    <button
-                                                        className="rate-button"
-                                                        onClick={() =>
-                                                            handleRatingClick(
-                                                                item.orderitemid,
-                                                                item.product.productid,
-                                                                item.product.productname,
-                                                                order.orderid
-                                                            )
-                                                        }
-                                                    >
-                                                        Rate this product
-                                                    </button>
-                                                )
-                                            )}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
                         </div>
-                    ))}
-                </div>
+                    ))
+                )}
+            </div>
             </div>
 
             {showRatingModal && (

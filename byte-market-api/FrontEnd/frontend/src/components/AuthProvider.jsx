@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [userid, setUserId] = useState(localStorage.getItem('userId'));
     const [role, setRole] = useState(localStorage.getItem('role'));
 
-    console.log(role)
+    console.log("Role: ",role)
     useEffect(() => {
         const token = localStorage.getItem('token');
         const storedUserId = localStorage.getItem('userId');
@@ -18,9 +18,9 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userId, token, userRole) => {
-        console.log("userId:", userId); // Check if this is defined
-        console.log("token:", token); // Check if this is defined
-        console.log("role:", userRole); // Check if this is defined
+        console.log("userId:", userId);
+        console.log("token:", token);
+        console.log("role:", userRole);
 
         if (token && userId && userRole) { // Only save if defined
             localStorage.setItem("token", token);
@@ -38,10 +38,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('role');
-        localStorage.removeItem('cartItems');
-        localStorage.removeItem('userOrders');
-        localStorage.removeItem('pendingOrders');
-        localStorage.removeItem('completedOrders');
         setIsLoggedIn(false);
         setUserId(null);
         setRole(null);
