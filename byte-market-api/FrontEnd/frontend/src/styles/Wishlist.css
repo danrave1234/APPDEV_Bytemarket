@@ -14,7 +14,7 @@
 
 .wishlist-container .top-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 1.6rem;
 }
@@ -39,27 +39,31 @@
     cursor: pointer;
     font-size: 0.9rem;
 }
-
 .wishlist-container .sort-buttons {
     display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.6rem;
 }
 
 .wishlist-container .sort-btn {
-    padding: 0.5rem 1.2rem;
-    border: none;
-    background: white;
-    width: 180px;
+    padding: 0.5rem 1rem;
+    background-color: #fff;
     cursor: pointer;
-    transition: all 0.1s ease;
+    transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
     font-size: 0.9rem;
-    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
-    border-bottom: 1px solid;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    border-radius: 0;
+}
+
+.wishlist-container .sort-btn:hover {
+    background-color: #f9f9f9;
 }
 
 .wishlist-container .sort-btn.active {
-    background: #e0e0e0;
-    border-radius: 20px;
-    border-bottom: 0px;
+    border-bottom: 3px solid;
+    background-color: #fff;
+    border-radius: 0;
 }
 
 .wishlist-container .products-outer-container {
@@ -222,7 +226,7 @@
 }
 
 .wishlist-container .cancel-btn:hover {
-    background: #f57d7d;
+    background: #d1e6eb;
     color: white;
 }
 

@@ -198,17 +198,17 @@ export default function ProductListing() {
         <PageLayout>
             <div className="product-listing-container">
                 <div className="top-section">
-                    <div className="store-dropdown">
-                        <select value={selectedSeller} onChange={(e) => {
-                            setSelectedSeller(e.target.value);
-                            setLoading(true);
-                        }}>
-                            <option value="">All Stores</option>
-                            {sellers.map(seller => (
-                                <option key={seller.userid} value={seller.userid}>{seller.storename}</option>
-                            ))}
-                        </select>
-                    </div>
+{/*                     <div className="store-dropdown"> */}
+{/*                         <select value={selectedSeller} onChange={(e) => { */}
+{/*                             setSelectedSeller(e.target.value); */}
+{/*                             setLoading(true); */}
+{/*                         }}> */}
+{/*                             <option value="">All Stores</option> */}
+{/*                             {sellers.map(seller => ( */}
+{/*                                 <option key={seller.userid} value={seller.userid}>{seller.storename}</option> */}
+{/*                             ))} */}
+{/*                         </select> */}
+{/*                     </div> */}
                     <div className="sort-buttons">
                         <button className={`sort-btn ${sortBy === 'recent' ? 'active' : ''}`} onClick={() => setSortBy('recent')}>Most Recent</button>
                         <button className={`sort-btn ${sortBy === 'priceLow' ? 'active' : ''}`} onClick={() => setSortBy('priceLow')}>Price: Low to High</button>

@@ -148,7 +148,7 @@ function Wishlist() {
     return (
         <PageLayout>
             <div className="wishlist-container">
-                <h1>Your Wishlist/s</h1>
+                <h1>My Wishlist/s</h1>
                 {/* Top section with input and sort buttons */}
                 <div className="top-section">
                     {/*Test Area add products =========================*/}
