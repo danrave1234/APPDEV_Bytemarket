@@ -206,6 +206,7 @@ html, body {
     flex-grow: 1;
     margin-right: 0.4rem;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .landing-container .cart-btn, .wishlist-icon {
