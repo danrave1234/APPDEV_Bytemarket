@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles/LandingPage.css';
-import logoNiAndri from './assets/logoNiAndri.png';
-import ph1 from './assets/placeholderDan.png';
-import ph2 from './assets/placeholder2.png';
-import ph3 from './assets/placeholder3.png';
+import logoNiAndri from './assets/ByteMarketBanner4.png';
+import ph1 from './assets/ByteMarketBannerWhite.png';
+import ph2 from './assets/ByteMarketBanner2.png';
+import ph3 from './assets/ByteMarketBanner3.png';
 import PageLayout from './components/Layout.jsx';
 import OrderProductModal from './components/OrderProductModal.jsx';
 import { useAuth } from './components/AuthProvider.jsx';
