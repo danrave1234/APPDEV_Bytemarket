@@ -43,12 +43,24 @@ html, body {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
+    text-decoration: underline;
+    cursor: pointer;
+    display: inline-block;
     color: #1e293b;
     border-bottom: 2px solid #e2e8f0;
     padding-bottom: 1rem;
-    display: flex;
     align-items: center;
     gap: 1rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.store-name:hover {
+    transform: translateY(-5px); /* Vertical translation */
+    color: #3b82f6; /* Change color on hover for additional emphasis */
+}
+
+.store-name h3:hover {
+    transform: translateY(-4px);
 }
 
 .store-name input[type="checkbox"] {
@@ -75,11 +87,12 @@ html, body {
     background-color: white;
     gap: 1.5rem;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .cart-item:hover {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
+    transform: translateY(-6px);
     border-color: #cbd5e1;
 }
 
