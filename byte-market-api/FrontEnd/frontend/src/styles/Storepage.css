@@ -57,7 +57,7 @@
 }
 
 /* Store Selector Styles */
-.store-selector {
+.store-page-container .store-selector {
     background-color: white;
     padding: 1rem;
     border-radius: 8px;
@@ -68,14 +68,14 @@
     gap: 1rem;
 }
 
-.store-selector label {
+.store-page-container .store-selector label {
     font-weight: 500;
     color: #333;
     font-size: 0.9rem;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
-.store-selector select {
+.store-page-container .store-selector select {
     flex: 1;
     padding: 0.5rem;
     border: 1px solid #ddd;
@@ -88,31 +88,32 @@
     max-width: 300px;
 }
 
-.store-selector select:hover {
-    border-color: #aaa;
+.store-page-container .store-selector select:hover {
+    border-color: #212850;
 }
 
-.store-selector select:focus {
+.store-page-container .store-selector select:focus {
     outline: none;
-    border-color: #ff9999;
-    box-shadow: 0 0 0 2px rgba(255, 153, 153, 0.2);
+    border-color: #212850;
+    box-shadow: 0 0 0 2px rgba(41, 70, 108, 0.2);
 }
 
 /* Sort Buttons */
 .store-page-container .sort-buttons {
     display: flex;
     margin-bottom: 1.6rem;
-     justify-content: flex-end;
+    justify-content: flex-end;
 }
 
 .store-page-container .sort-btn {
     padding: 0.5rem 1rem;
-    background-color: #fff;
+    background-color: white;
     cursor: pointer;
     transition: background-color 0.3s ease, border-bottom-color 0.3s ease; /* Transition effect */
     font-size: 0.9rem;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600; /* Make text bolder */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border-radius: 0;
 }
 
@@ -128,8 +129,9 @@
 /* Products Grid */
 .store-page-container .products-container {
     padding: 1.6rem;
-    background-color: #edf9fc;
-    border-radius: 12px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 .store-page-container .no-products {
@@ -361,12 +363,12 @@
         gap: 1rem;
     }
 
-    .store-selector {
+    .store-page-container .store-selector {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .store-selector select {
+    .store-page-container .store-selector select {
         max-width: none;
     }
 }
