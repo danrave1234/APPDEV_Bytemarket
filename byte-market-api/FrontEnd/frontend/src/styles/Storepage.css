@@ -27,7 +27,12 @@
     font-size: 0.9rem;
     color: #666;
 }
-
+.store-page-container .store-profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
 .store-page-container .store-details {
     flex: 1;
 }

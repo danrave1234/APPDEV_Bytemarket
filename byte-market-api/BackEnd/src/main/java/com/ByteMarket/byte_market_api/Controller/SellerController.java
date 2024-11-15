@@ -50,7 +50,10 @@ SellerService sellerService;
     public SellerEntity updateSeller(@PathVariable int id, @RequestBody SellerEntity newSeller ){
         return sellerService.updateSeller(id, newSeller);
     }
-
+    @PutMapping("/updateSellerStoreImage/{id}")
+    public SellerEntity updateSellerStoreImage(@PathVariable int id, @RequestBody SellerEntity storeImage){
+        return sellerService.updateSellerStoreImage(id, storeImage);
+    }
     @PutMapping("/addBalanceSeller/{id}")
     public SellerEntity addBalanceSeller(@PathVariable int id, @RequestParam float balance){
         return sellerService.addBalanceSeller(id, balance);

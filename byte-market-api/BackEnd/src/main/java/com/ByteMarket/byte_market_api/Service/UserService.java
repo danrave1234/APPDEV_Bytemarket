@@ -41,7 +41,12 @@ public class UserService {
 
         return userRepository.save(userEntity);
     }
+    public UserEntity updateUserProfile(int id, UserEntity newUserProfile){
+        UserEntity userEntity = userRepository.findById(id).get();
+        userEntity.setProfilepic(newUserProfile.getProfilepic());
 
+        return userRepository.save(userEntity);
+    }
     //Delete User
     public UserEntity deleteUser(int id){
         userRepository.deleteById(id);

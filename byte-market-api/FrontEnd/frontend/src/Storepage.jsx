@@ -239,7 +239,8 @@ function StorePage() {
                 {/* Store Information Section */}
                 <div className="store-info-container">
                     <div className="store-profile-image">
-                        <div className="image-placeholder">Store Image</div>
+                        <img
+                            src={`data:image/jpeg;base64,${storeDetails?.storeimage}`} alt={storeDetails?.storename}/>
                     </div>
                     <div className="store-details">
                         <h1>{storeDetails?.storename}</h1>

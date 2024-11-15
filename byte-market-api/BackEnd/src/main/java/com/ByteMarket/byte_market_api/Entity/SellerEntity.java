@@ -14,6 +14,9 @@
         @Column(unique = true)
         private String storename;
         private double balance;
+        @Lob
+        @Column(columnDefinition = "LONGBLOB")
+        private byte[] storeimage;
 
         public SellerEntity() {
             super();
@@ -61,4 +64,11 @@
             this.products = products;
         }
 
+        public byte[] getStoreimage() {
+            return storeimage;
+        }
+
+        public void setStoreimage(byte[] storeimage) {
+            this.storeimage = storeimage;
+        }
     }

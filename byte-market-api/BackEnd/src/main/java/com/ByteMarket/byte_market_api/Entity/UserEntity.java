@@ -25,7 +25,9 @@ public class UserEntity {
     private String address; //Kuan rani kanang like street, barangay
     private LocalDate dateofbirth; //LocalDate datatype
     private LocalDate registration;
-
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] profilepic;
 
 
     public UserEntity() {
@@ -120,4 +122,11 @@ public class UserEntity {
         this.dateofbirth = dateofbirth;
     }
 
+    public byte[] getProfilepic() {
+        return profilepic;
+    }
+
+    public void setProfilepic(byte[] profilepic) {
+        this.profilepic = profilepic;
+    }
 }

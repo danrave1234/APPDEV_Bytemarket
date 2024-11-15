@@ -12,7 +12,10 @@ function UserProfile() {
     const [showPassword, setShowPassword] = useState(false);
     const { userid, role, logout } = useAuth();
     const navigate = useNavigate();
-
+    const [isHovered, setIsHovered] = useState(false); // State to manage hover
+    const [profilePic, setProfilePic] = useState({
+        profilepic: ""
+    });
     useEffect(() => {
         console.log("UserProfile component mounted.");
         if (userid) {
@@ -52,7 +55,7 @@ function UserProfile() {
         setUser({ ...user, [name]: value });
     };
 
-const handleSave = async () => {
+    const handleSave = async () => {
     console.log("Saving profile for userId:", userid, "with role:", role);
     try {
         console.log("Payload being sent:", user);
@@ -76,7 +79,6 @@ const handleSave = async () => {
         }
     }
 };
-
 
     const handleDelete = async () => {
         const deleteApiUrl = role === 'Admin'
@@ -123,13 +125,86 @@ const handleSave = async () => {
         return <p>No user data available.</p>;
     }
 
+
     const today = new Date();
     today.setDate(today.getDate() - 1);
     const formattedToday = today.toISOString().split('T')[0];
+
+const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        console.log("Selected file for upload:", file);
+        const reader = new FileReader();
+
+        reader.onloadend = async () => {
+            try {
+                const image = reader.result; // base64 string of the image
+                console.log("Base64 Image Data:", image);
+
+                // Send the base64 image to the server to update the profile
+                const cleanedImage = image.replace(/^data:image\/[a-z]+;base64,/, ""); // Clean the base64 string
+
+                // Update the profile picture state
+                setProfilePic({
+                    profilepic: cleanedImage,
+                });
+
+                // Make the API request to update the profile picture
+                const response = await axios.put(
+                    `http://localhost:8080/api/user/updateUserProfile/${userid}`,
+                    { profilepic: cleanedImage }
+                );
+
+                console.log("Profile image updated successfully:", response.data);
+
+                // Update the user state to reflect the new profile picture
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    profilepic: cleanedImage, // Assuming the response contains the updated image data
+                }));
+
+                alert('Profile image updated successfully!');
+            } catch (error) {
+                console.error("Error uploading profile image:", error);
+                alert('Failed to upload profile image.');
+            }
+        };
+
+        // Start reading the file as a base64 string
+        reader.readAsDataURL(file);
+    }
+};
+
     return (
         <PageLayout>
             <div className="profile-container">
                 <h2 className="profile-title">User {role} Profile</h2>
+                <div className="profile-image"
+                     onMouseEnter={() => setIsHovered(true)}
+                     onMouseLeave={() => setIsHovered(false)}
+                >
+                    {user?.profilepic ? (
+                        <img src={`data:image/jpeg;base64,${user.profilepic}`} alt={user.fullname}/>
+                    ) : (
+                        <div className="profile-placeholder-image">No image available</div>
+                    )}
+                    {isHovered && (
+                        <div className="edit-overlay">
+                            <button
+                                className="edit-profileimage-btn"
+                                onClick={() => document.getElementById("profile-image-input").click()}
+                            >
+                                Edit Image
+                            </button>
+                        </div>
+                    )}
+                    <input
+                        id="profile-image-input"
+                        type="file"
+                        style={{display: "none"}}
+                        onChange={handleImageChange}
+                    />
+                </div>
                 <section className="profile-details">
                     <div className="profile-field">
                         <label>Full Name:</label>

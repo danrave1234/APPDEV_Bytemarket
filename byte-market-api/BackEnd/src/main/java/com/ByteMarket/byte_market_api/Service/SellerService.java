@@ -49,9 +49,15 @@ public class SellerService {
         seller.setPhonenumber(newSeller.getPhonenumber());
         seller.setAddress(newSeller.getAddress());
         seller.setDateofbirth(newSeller.getDateofbirth());
+        seller.setStoreimage(newSeller.getStoreimage());
+
         return sellerRepository.save(seller);
     }
-
+    public SellerEntity updateSellerStoreImage(int id, SellerEntity storeImage) {
+        SellerEntity seller = sellerRepository.findById(id).get();
+        seller.setStoreimage(storeImage.getStoreimage());
+        return sellerRepository.save(seller);
+    }
     public SellerEntity addBalanceSeller(int id, float balance){
         SellerEntity seller = sellerRepository.findById(id).get();
         seller.setBalance(seller.getBalance() + balance);

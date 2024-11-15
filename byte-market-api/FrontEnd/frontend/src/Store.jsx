@@ -16,14 +16,20 @@ function Store() {
   const [productToEdit, setProductToEdit] = useState(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
-  const [seller, setSeller] = useState(null);
+  const [seller, setSeller] = useState();
+  const [isHovered, setIsHovered] = useState(false); // State to manage hover
+  const [storeImage, setStoreImage] = useState({
+    storeimage: ""
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/product/getAllProduct');
-        const userProducts = response.data.filter((product) => product.seller.userid === userid);
+        const productResponse = await axios.get('http://localhost:8080/api/product/getAllProduct');
+        const userProducts = productResponse.data.filter((product) => product.seller.userid === parseInt(userid));
         setProducts(userProducts);
+
+        // Verify the API URL with userid
         console.log(`Fetching seller info with userid: ${userid}`);
         const sellerResponse = await axios.get(`http://localhost:8080/api/seller/getSellerById/${userid}`);
         setSeller(sellerResponse.data);
@@ -31,8 +37,7 @@ function Store() {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
-      }
-    };
+      }};
     if (userid) {
       fetchProducts();
     } else {
@@ -109,24 +114,81 @@ function Store() {
     }
   };
 
+const handleStoreImageUpload = async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    console.log("Selected file for upload:", file);
+    const reader = new FileReader();
+
+    reader.onloadend = async () => {
+      try {
+        let image = reader.result;
+        console.log("Uncleaned Image:", image);
+        let cleanedImage = image.replace(/^data:image\/[a-z]+;base64,/, "");
+        console.log("Cleaned image:", cleanedImage);
+        setStoreImage({
+            storeimage: cleanedImage,
+        });
+        const response = await axios.put(
+          `http://localhost:8080/api/seller/updateSellerStoreImage/${userid}`, {storeimage: cleanedImage});
+        setSeller((prevSeller) => ({
+          ...prevSeller,
+          storeimage: cleanedImage,
+        }));
+      } catch (error) {
+        console.error("Error response:", error.response?.data);
+        console.error("Error uploading store image:", error);
+      }
+    };
+    reader.readAsDataURL(file); // Read as Base64
+  }
+};
+
   if (loading) return <div className="loading">Loading products...</div>;
 
   return (
     <PageLayout>
       <div className="stores-container">
         <div className="store-info-container">
-          <div className="store-profile-image">Store Image</div>
+          <div
+              className="store-profile-image"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+          >
+            {seller?.storeimage ? (
+                // console.log("Seller store image:", seller.storeimage),
+                <img src={`data:image/jpeg;base64,${seller.storeimage}`} alt={seller.storename}/>
+            ) : (
+                <div className="store-placeholder-image">No image available</div>
+            )}
+            {isHovered && (
+                <div className="edit-overlay">
+                  <button
+                      className="edit-image-btn"
+                      onClick={() => document.getElementById("store-image-input").click()}
+                  >
+                    Edit Image
+                  </button>
+                </div>
+            )}
+            <input
+                id="store-image-input"
+                type="file"
+                style={{display: "none"}}
+                onChange={handleStoreImageUpload}
+            />
+          </div>
           <div className="store-details">
             {seller ? (
-              <>
-                <h1>{seller.storename}</h1>
-                <div className="store-description">Seller: {seller.sellername}</div>
-              </>
+                <>
+                  <h1>{seller.storename}</h1>
+                  <div className="store-description">Seller: {seller.sellername}</div>
+                </>
             ) : (
-              <>
-                <h1>Loading store...</h1>
-                <div className="store-description">Please wait while we fetch the seller details.</div>
-              </>
+                <>
+                  <h1>Loading store...</h1>
+                  <div className="store-description">Please wait while we fetch the seller details.</div>
+                </>
             )}
           </div>
           <button className="add-product-btn" onClick={openAddModal}>Add Product</button>
@@ -135,18 +197,18 @@ function Store() {
         <div className="products-container">
           <div className="products-grid">
             {products.map((product) => (
-              <div key={product.productid} className="product-card">
-                <div className="product-image">
-                  <img src={`data:image/jpeg;base64,${product.image}`} alt={product.productname} />
-                </div>
-                <div className="product-details">
-                  <h3 className="product-title" title={product.productname}>{product.productname}</h3>
-                  <div className="product-price">₱{product.price}</div>
-                  <div><b>Stock:</b> {product.quantity}</div>
-                  <div><b>Category:</b> {product.category}</div>
-                  <div className="product-actions">
-                    <button className="buy-now-btn" onClick={() => openEditModal(product)}>Edit</button>
-                    <button className="cart-btn" onClick={() => openDeleteModal(product)}>Delete</button>
+                <div key={product.productid} className="product-card">
+                  <div className="product-image">
+                    <img src={`data:image/jpeg;base64,${product.image}`} alt={product.productname}/>
+                  </div>
+                  <div className="product-details">
+                    <h3 className="product-title" title={product.productname}>{product.productname}</h3>
+                    <div className="product-price">₱{product.price}</div>
+                    <div><b>Stock:</b> {product.quantity}</div>
+                    <div><b>Category:</b> {product.category}</div>
+                    <div className="product-actions">
+                      <button className="buy-now-btn" onClick={() => openEditModal(product)}>Edit</button>
+                      <button className="cart-btn" onClick={() => openDeleteModal(product)}>Delete</button>
                   </div>
                 </div>
               </div>
