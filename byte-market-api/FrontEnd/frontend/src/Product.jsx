@@ -21,6 +21,8 @@ function Product() {
     const [showRemoveModal, setShowRemoveModal] = useState(false);
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false); // State for login modal
+    const toggleDropdown = () => setShowDropdown(!showDropdown);
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const navigate = useNavigate();  // Hook for navigation
 
@@ -164,6 +166,10 @@ function Product() {
     };
 
     const handleBuyNow = (product, event) => {
+        if (!userid) { // Check if user is logged in
+            setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
         event.stopPropagation();
         openOrderModal(product);
     };
@@ -326,7 +332,7 @@ function Product() {
 
             {/* Login Modal */}
             {showLoginModal && (
-                <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} />
+                <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} toggleDropdown={toggleDropdown} />
             )}
         </PageLayout>
     );
