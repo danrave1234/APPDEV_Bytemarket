@@ -164,13 +164,29 @@ function PageLayout({ children }) {
                         <div className="searchBar">
                             <input
                                 type="text"
-                                placeholder="Search..."
+                                placeholder="70% Off Xmas Festive Fits"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            <button className="clearButton" onClick={clearSearch}>X</button>
-                            <button className="searchButton" onClick={handleSearch}>
-                                <img src={searchIcon} alt="Search Icon" className="searchIcon"/>
+                            {searchQuery && (
+                                <button
+                                    className="clearButton"
+                                    onClick={clearSearch}
+                                    aria-label="Clear search"
+                                >
+                                    ×
+                                </button>
+                            )}
+                            <button
+                                className="searchButton"
+                                onClick={handleSearch}
+                                aria-label="Search"
+                            >
+                                <img
+                                    src={searchIcon}
+                                    alt="Search"
+                                    className="searchIcon"
+                                />
                             </button>
                         </div>
                     </div>
