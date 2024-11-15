@@ -122,13 +122,14 @@ function PageLayout({ children }) {
         setShowDropdown(false);
     }
 
+    /*in-line greeting message*/
     const getGreetingMessage = () => {
         if (role === 'Admin') {
-            return `Greetings, ${name}!`;
+            return `Greetings, Admin!`;
         } else if (role === 'Customer') {
-            return `Welcome, ${name}!`;
+            return `Welcome, Valued Customer!`;
         } else if (role === 'Seller') {
-            return `It's sales time, ${name}!`;
+            return `It's sales time, Seller!`;
         }
         return '';
     };

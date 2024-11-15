@@ -12,23 +12,28 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         const storedUserId = localStorage.getItem('userId');
         const storedRole = localStorage.getItem('role');
+        const storedName = localStorage.getItem('name'); // Retrieve name from localStorage
         if (token) setIsLoggedIn(true);
         if (storedUserId) setUserId(storedUserId);
         if (storedRole) setRole(storedRole);
+        if (storedName) setName(storedName); // Set name in state
     }, []);
 
     const login = (userId, token, userRole) => {
         console.log("userId:", userId);
         console.log("token:", token);
         console.log("role:", userRole);
+        console.log("name:", userName);
 
         if (token && userId && userRole) { // Only save if defined
             localStorage.setItem("token", token);
             localStorage.setItem("userId", userId);
             localStorage.setItem("role", userRole);
+            localStorage.setItem("name", userName); // Store name in localStorage
             setIsLoggedIn(true);
             setUserId(userId);
             setRole(userRole);
+            setName(userName); // Set name in state
         } else {
             console.warn("Invalid login details provided.");
         }
