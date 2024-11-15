@@ -7,7 +7,7 @@ html, body {
 }
 
 .profile-container {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     max-width: 600px;
     padding: 2rem;
     justify-content: center;
@@ -60,6 +60,7 @@ html, body {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     transition: background-color 0.3s;
 }
 
@@ -69,17 +70,24 @@ html, body {
 }
 
 .profile-container .edit-button {
-    background-color: #007bff;
+    margin-right: 1rem;
+    background-color: #212850;
     color: white;
 }
 
 .profile-container .save-button {
-    background-color: #28a745;
+    margin-right: 1rem;
+    background-color: #212850;
     color: white;
 }
 
 .profile-container .cancel-button {
-    background-color: #ffc107;
+    background-color: #212850;
+    color: white;
+}
+
+.profile-container .cancel-button:hover {
+    background-color: #29466c;
     color: white;
 }
 
@@ -88,11 +96,14 @@ html, body {
     color: white;
 }
 
-.profile-container .edit-button:hover,
-.profile-container .save-button:hover,
-.profile-container .cancel-button:hover,
 .profile-container .delete-button:hover {
-    opacity: 0.9; /* Reduce opacity for hover effect */
+    background-color: #dc3545;
+    color: white;
+}
+
+.profile-container .edit-button:hover,
+.profile-container .save-button:hover {
+    background-color: #29466c;
 }
 
 @media (max-width: 600px) {
