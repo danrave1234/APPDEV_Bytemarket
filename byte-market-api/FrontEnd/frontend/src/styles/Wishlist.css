@@ -1,12 +1,20 @@
 .wishlist-container {
     max-width: 1200px;
     margin: 1.6rem auto;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     padding: 0.8rem;
 }
 
+.wishlist-container h1 {
+    text-align: left;
+    margin-bottom: 1.6rem;
+}
+
+
+
 .wishlist-container .top-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 1.6rem;
 }
@@ -31,32 +39,39 @@
     cursor: pointer;
     font-size: 0.9rem;
 }
-
 .wishlist-container .sort-buttons {
     display: flex;
+    border: 2px solid #e0e0e0;
+    border-radius: 5px;
 }
 
 .wishlist-container .sort-btn {
-    padding: 0.5rem 1.2rem;
-    border: none;
-    background: white;
-    width: 150px;
+    padding: 0.5rem 1rem;
+    background-color: #fff;
     cursor: pointer;
-    transition: all 0.1s ease;
+    transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
     font-size: 0.9rem;
-    border-bottom: 1px solid;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    border-radius: 0;
+}
+
+.wishlist-container .sort-btn:hover {
+    background-color: #f9f9f9;
 }
 
 .wishlist-container .sort-btn.active {
-    background: #e0e0e0;
-    border-radius: 20px;
-    border-bottom: 0px;
+    border-bottom: 3px solid;
+    background-color: #fff;
+    border-radius: 0;
 }
 
 .wishlist-container .products-outer-container {
     background: #edf9fc;
     padding: 1.6rem;
     border-radius: 12px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .wishlist-grid {
@@ -145,7 +160,7 @@
 }
 
 .wishlist-container .buy-now-btn {
-    background: #ff9999;
+    background: #212850;
     color: white;
     border: none;
     padding: 0.4rem 0.8rem;
@@ -154,6 +169,7 @@
     flex-grow: 1;
     margin-right: 0.4rem;
     font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 .wishlist-container .cart-btn, .wishlist-container .remove-btn {
@@ -166,7 +182,7 @@
 }
 
 .wishlist-container .buy-now-btn:hover {
-    background: #ff8080;
+    background: #3e597f;
 }
 
 .wishlist-container .cart-btn:hover, .remove-btn:hover {
@@ -212,7 +228,7 @@
 }
 
 .wishlist-container .cancel-btn:hover {
-    background: #f57d7d;
+    background: #d1e6eb;
     color: white;
 }
 

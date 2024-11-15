@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import './styles/AddToCart.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
+import OrderProductModal from './components/OrderProductModal.jsx';
+
 
 function AddToCart() {
     const { userid, isLoggedIn } = useAuth();
@@ -15,7 +17,25 @@ function AddToCart() {
     const [selectedItems, setSelectedItems] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0); // Total price state
     const [selectedCount, setSelectedCount] = useState(0); // Selected items count
+    const [showOrderModal, setShowOrderModal] = useState(false);
+    const [modalItems, setModalItems] = useState([]);
+
     const navigate = useNavigate();
+
+    const openOrderModal = (items) => {
+        console.log('Opening Order Modal with items:', items);
+        setModalItems(items);
+        setShowOrderModal(true);
+    };
+
+    const closeOrderModal = () => {
+        setShowOrderModal(false);
+        setModalItems([]);
+    };
+
+    useEffect(() => {
+        console.log('OrderProductModal items:', modalItems);
+    }, [modalItems]);
 
     useEffect(() => {
         if (isLoggedIn && userid) {
@@ -160,9 +180,19 @@ function AddToCart() {
 
     const handleCheckOut = () => {
         if (selectedItems.length > 0) {
-            navigate('/customer/orderHistory');
+            const formattedItems = selectedItems.map((item) => ({
+                productid: item.product.productid,
+                quantity: item.quantity,
+                price: item.product.price,
+                productname: item.product.productname,
+                image: item.product.image,
+                seller: item.product.seller, // Ensure seller is passed
+            }));
+            console.log('Formatted items:', formattedItems);
+            openOrderModal(formattedItems); // Trigger the modal with selected cart items
         }
     };
+
 
     if (loading) return <p>Loading your cart...</p>;
 
@@ -226,8 +256,18 @@ function AddToCart() {
                     </button>
                 </div>
             </div>
+
+            {showOrderModal && (
+                <OrderProductModal
+                    show={showOrderModal}
+                    selectedProducts={modalItems}
+                    onClose={closeOrderModal}
+                />
+            )}
+
         </PageLayout>
-    );
+
+);
 }
 
 export default AddToCart;

@@ -107,9 +107,8 @@ const OrderHistory = () => {
                     filteredOrders.map(order => (
                         <div key={order.orderid} className="order-card">
                             <div className="order-header">
-                                <p className="order-id">Order ID: {order.orderid}</p>
                                 <p className="order-status">Status: {order.orderstatus}</p>
-                                <p className="order-total">Total: ${order.totalprice.toFixed(2)}</p>
+                                <p className="order-total">Total: ₱{order.totalprice.toFixed(2)}</p>
                             </div>
                                 <div className="order-items">
                                     {order.orderItems.map(item => (
@@ -123,7 +122,7 @@ const OrderHistory = () => {
                                             </div>
                                             <div className="item-middle">
                                                 <p className="item-name">{item.product.productname}</p>
-                                                <p className="item-details">Qty: {item.quantity} | ${item.price.toFixed(2)} each</p>
+                                                <p className="item-details">Qty: {item.quantity} | ₱{item.price.toFixed(2)} each</p>
                                                 <p className="item-seller">Seller: {item.product.seller.sellername} ({item.product.seller.storename})</p>
                                             </div>
                                             <div className="item-right">

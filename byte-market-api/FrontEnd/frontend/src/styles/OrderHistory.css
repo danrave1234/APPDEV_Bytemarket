@@ -4,6 +4,7 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin: 10px 15vw 20px 15vw; /* Center container */
     max-width: 90vw;
 }
@@ -34,8 +35,13 @@
 }
 
 .order-history-container .tab.active {
-    background-color: #4CAF50;
+    background-color: #212850;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: white;
+}
+
+.order-history-container .tab.active:hover {
+    background-color: #3e597f;
 }
 
 /* Orders List */
@@ -124,18 +130,19 @@
 
 /* Rate Button */
 .order-history-container .rate-button {
-    background-color: #4CAF50;
+    background-color: #212850;
     color: white;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     transition: background-color 0.3s ease;
 }
 
 .order-history-container .rate-button:hover {
-    background-color: #45a049;
+    background-color: #3e597f;
 }
 
 /* Responsive Adjustments */

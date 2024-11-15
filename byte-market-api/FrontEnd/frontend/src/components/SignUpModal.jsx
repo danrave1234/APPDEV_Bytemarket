@@ -125,13 +125,13 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
       <div className="modal-box">
         {step === 2 && (
           <button className="back-arrow" onClick={handleBackStep}>
-            ←
+            Go back
           </button>
         )}
 
         <button className="close-button" onClick={closeModal}>X</button>
 
-        <h2>SIGN UP NOW AS OUR CLIENT!</h2>
+        <h2>SIGN UP</h2>
         {step === 1 ? (
           <form>
             <input className = "sign-up-credentials"
@@ -240,7 +240,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               max={formattedToday}
               required
             />
-            <button type="submit">Submit</button>
+            <button class="submit">Submit</button>
           </form>
         )}
       </div>
