@@ -259,8 +259,8 @@ function PageLayout({ children }) {
                     <div style={{flex: 1, minWidth: "200px", padding: "10px"}}>
                         <h4>Quick Links</h4>
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Shop</a></li>
+                            <li><a onClick={handleHome}>Home</a></li>
+                            <li><a onClick={handleStore}>Shop</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
@@ -269,8 +269,6 @@ function PageLayout({ children }) {
                         <h4>Customer Service</h4>
                         <ul>
                             <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Order Tracking</a></li>
-                            <li><a href="#">Shipping & Returns</a></li>
                             <li><a href="#">FAQs</a></li>
                         </ul>
                     </div>

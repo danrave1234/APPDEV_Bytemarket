@@ -218,10 +218,10 @@ function StorePage() {
             case 'rating':
                 return sortedProducts.sort((a, b) => {
                     const aRating = a.ratings?.length > 0
-                        ? a.ratings.reduce((acc, curr) => acc + curr.rating, 0) / a.ratings.length
+                        ? a.ratings.reduce((acc, curr) => acc + curr.score, 0) / a.ratings.length
                         : 0;
                     const bRating = b.ratings?.length > 0
-                        ? b.ratings.reduce((acc, curr) => acc + curr.rating, 0) / b.ratings.length
+                        ? b.ratings.reduce((acc, curr) => acc + curr.score, 0) / b.ratings.length
                         : 0;
                     return bRating - aRating;
                 });
@@ -331,7 +331,7 @@ function StorePage() {
                                         <p className="product-price">₱{product.price?.toFixed(2)}</p>
                                         <div className="product-rating">
                                             ⭐ {product.ratings?.length > 0
-                                                ? (product.ratings.reduce((acc, curr) => acc + curr.rating, 0) / product.ratings.length).toFixed(1)
+                                                ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1)
                                                 : 'No ratings'}
                                         </div>
                                         <div className="product-actions">
