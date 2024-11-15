@@ -164,7 +164,7 @@ function PageLayout({ children }) {
                         <div className="searchBar">
                             <input
                                 type="text"
-                                placeholder="70% Off Xmas Festive Fits"
+                                placeholder="Search products here..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
