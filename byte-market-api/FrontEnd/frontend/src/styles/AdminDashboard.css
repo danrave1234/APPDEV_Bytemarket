@@ -123,9 +123,6 @@ button:hover {
     transform: scale(1.05);
 }
 
-.edit-button {
-    
-}
 /* Hover effects for Edit and Delete buttons */
 .edit-button:hover {
     background-color: #fafa2d; /* Yellow background */
