@@ -131,7 +131,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
 
         <button className="close-button" onClick={closeModal}>X</button>
 
-        <h2>SIGN UP NOW AS OUR CLIENT!</h2>
+        <h2>SIGN UP</h2>
         {step === 1 ? (
           <form>
             <input className = "sign-up-credentials"
