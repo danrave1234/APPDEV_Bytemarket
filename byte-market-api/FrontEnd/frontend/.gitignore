@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 # Vite configuration
 vite.config.js
+
+package-lock.json
+package.json
