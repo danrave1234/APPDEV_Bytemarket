@@ -5,7 +5,7 @@ const Greeting = ({ name, role }) => {
     let greetingMessage = '';
 
     if (role === 'Admin') {
-        greetingMessage = `Greetings!`;
+        greetingMessage = `Greetings!, `;
     } else if (role === 'Customer') {
         greetingMessage = `Welcome, ${name}!`;
     } else if (role === 'Seller') {
