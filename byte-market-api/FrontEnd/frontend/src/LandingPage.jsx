@@ -228,7 +228,6 @@ function LandingPage() {
                             aria-label={slide.alt}
                         />
                     ))}
-                    <button className="next" onClick={nextSlide}>›</button>
                     <div className="dots-container">
                         {slides.map((_, index) => (
                             <span
