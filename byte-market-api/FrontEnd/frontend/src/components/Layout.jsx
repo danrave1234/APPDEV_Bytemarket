@@ -110,7 +110,7 @@ function PageLayout({ children }) {
         setShowDropdown(false);
     }
     const handleCheckOut = () => {
-        navigate('/customer/CheckOut');
+        navigate('/seller/CheckOut');
         setShowDropdown(false);
     }
     const handleAddToCart = () => {

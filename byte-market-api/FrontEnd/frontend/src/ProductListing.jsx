@@ -20,6 +20,8 @@ export default function ProductListing() {
     const [selectedSeller, setSelectedSeller] = useState('');
     const searchParams = new URLSearchParams(location.search);
     const searchQuery = searchParams.get('search') || '';
+    const toggleDropdown = () => setShowDropdown(!showDropdown);
+    const [showDropdown, setShowDropdown] = useState(false);
 
     // Modal states
     const [showAddToWishlistModal, setShowAddToWishlistModal] = useState(false);
@@ -299,7 +301,7 @@ export default function ProductListing() {
 
                 {/* Login Modal */}
                 {showLoginModal && (
-                    <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} toggleDropdown={() => {/* Handle dropdown toggle */}} />
+                    <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} toggleDropdown={toggleDropdown} />
                 )}
 
 
