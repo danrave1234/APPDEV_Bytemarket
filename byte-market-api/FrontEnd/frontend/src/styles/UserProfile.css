@@ -63,6 +63,11 @@ html, body {
     transition: background-color 0.3s;
 }
 
+.button .button-group {
+    display: flex;
+    align-items: center;
+}
+
 .profile-container .edit-button {
     background-color: #007bff;
     color: white;

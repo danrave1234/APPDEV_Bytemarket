@@ -33,6 +33,12 @@
     color: #000000;
 }
 
+.modal-box .back-arrow {
+    background-color: #212850;
+    color: white;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+}
+
 .modal-header {
     margin-bottom: 1.5rem;
 }
@@ -75,22 +81,41 @@ form input:focus {
     margin-top: 1rem;
 }
 
-.next-button, .submit-button {
-    background-color: #007bff;
+.next-button{
+    background-color: #212850;
     color: white;
     padding: 0.8rem;
     border: none;
     border-radius: 8px;
     font-size: 1rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     cursor: pointer;
     width: 100%;
     transition: background-color 0.3s ease;
     margin-top: 1rem;
 }
 
-.next-button:hover, .submit-button:hover {
-    background-color: #0056b3;
+.next-button:hover {
+    background-color: #29466c;
     transform: translateY(-2px);
+}
+
+.submit-button {
+    background-color: #212850;
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.submit-button:hover {
+    background-color: #3e597f;
 }
 
 .error-message {
@@ -114,4 +139,3 @@ form input:focus {
   color: red;
   text-align: left;
 }
-

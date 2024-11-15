@@ -100,7 +100,7 @@ const WalletModal = ({ show, closeModal }) => {
         <div className="modal-overlay-wallet">
             <div className="wallet-modal">
                 <button className="close-button" onClick={closeModal}>X</button>
-                <h2>Wallet</h2>
+                <h2>ByteWallet</h2>
                 <div className="wallet-content">
                     <div className="user-card">
                         <h3>{userData.fullname}</h3>
@@ -119,7 +119,7 @@ const WalletModal = ({ show, closeModal }) => {
                         <p className="balance-amount" title={`₱${Number(userData.balance).toFixed(2)}`}>
                             ₱{Number(userData.balance).toFixed(2)}
                         </p>
-                        <p className="balance-label">Current Balance</p>
+                        <p className="balance-label">EXISTING BALANCE</p>
                     </div>
                 </div>
                 <div className="cash-in-input">
@@ -134,7 +134,7 @@ const WalletModal = ({ show, closeModal }) => {
                             }
                         }}
                     />
-                    <button onClick={handleCashIn} className="cash-in">Cash In</button>
+                    <button onClick={handleCashIn} className="cash-in">CASH IN</button>
                 </div>
                 <div className="cash-out-input">
                     <input
@@ -148,7 +148,7 @@ const WalletModal = ({ show, closeModal }) => {
                             }
                         }}
                     />
-                    <button onClick={handleCashOut} className="cash-out">Cash Out</button>
+                    <button onClick={handleCashOut} className="cash-out">CASH OUT</button>
                 </div>
             </div>
         </div>
