@@ -261,7 +261,7 @@ function PageLayout({ children }) {
                         <h4>Quick Links</h4>
                         <ul>
                             <li><a onClick={handleHome}>Home</a></li>
-                            <li><a onClick={handleStore}>Shop</a></li>
+                            <li><a onClick={handleStore}>Stores</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
