@@ -56,7 +56,6 @@ html, body {
 
 .store-name:hover {
     transform: translateY(-5px); /* Vertical translation */
-    color: #3b82f6; /* Change color on hover for additional emphasis */
 }
 
 .store-name h3:hover {
