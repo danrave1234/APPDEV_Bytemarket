@@ -258,7 +258,7 @@ function LandingPage() {
                                 return (
                                     <div key={seller.userid} className="store-container">
                                         <h2 className="store-name" onClick={() => navigateToStore(seller.userid)}>
-                                            {seller.storename}
+                                            <u>{seller.storename}</u>
                                         </h2>
                                         <div className="store-products">
                                             {products.map((product) => (

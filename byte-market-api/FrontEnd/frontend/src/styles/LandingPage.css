@@ -116,6 +116,7 @@ html, body {
 
 .landing-container .store-name:hover {
     color: #666;
+    font-size: 1.3rem;
 }
 
 .landing-container .store-products {
