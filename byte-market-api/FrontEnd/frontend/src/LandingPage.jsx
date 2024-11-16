@@ -75,13 +75,20 @@ function LandingPage() {
             setSellers(shuffledSellers);
             setDisplayedSellers(shuffledSellers.slice(0, sellersPerPage));
 
-            // Fetch products for each seller
-            const productsMap = {};
-            for (const seller of shuffledSellers) {
-                const products = await fetchSellerProducts(seller.userid);
-                productsMap[seller.userid] = products;
-            }
-            setSellerProducts(productsMap);
+            // Fetch all products in parallel
+            const productsMap = await Promise.all(
+                shuffledSellers.map(async (seller) => {
+                    const products = await fetchSellerProducts(seller.userid);
+                    return { sellerId: seller.userid, products };
+                })
+            );
+
+            // Transform result into a seller-products map
+            const productsBySeller = productsMap.reduce((acc, { sellerId, products }) => {
+                acc[sellerId] = products;
+                return acc;
+            }, {});
+            setSellerProducts(productsBySeller);
         } catch (error) {
             console.error('Error fetching sellers:', error);
         } finally {
