@@ -243,7 +243,6 @@ function Product() {
 
                             <div className="store-info">
                                 <div className="profile-icon-container">
-                                    <span className="profile-icon">👤</span>
                                     <span className="store-name-container">
                                         <span className="store-name">
                                             <a href={`/store/${product?.seller.userid}`}>
