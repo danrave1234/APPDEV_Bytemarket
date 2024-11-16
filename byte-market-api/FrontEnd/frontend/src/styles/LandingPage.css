@@ -114,8 +114,9 @@ html, body {
     transform: translateY(-4px);
 }
 
-.landing-container .store-name:hover {
+.landing-container .store-name-text:hover {
     color: #666;
+    cursor: pointer;
     font-size: 1.3rem;
 }
 

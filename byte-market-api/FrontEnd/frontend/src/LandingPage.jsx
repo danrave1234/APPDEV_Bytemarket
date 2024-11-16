@@ -257,8 +257,8 @@ function LandingPage() {
                                 if (products.length === 0) return null; // Don't display store if no products
                                 return (
                                     <div key={seller.userid} className="store-container">
-                                        <h2 className="store-name" onClick={() => navigateToStore(seller.userid)}>
-                                            <u>{seller.storename}</u>
+                                        <h2 className="store-name">
+                                            <u className="store-name-text" onClick={() => navigateToStore(seller.userid)}>{seller.storename}</u>
                                         </h2>
                                         <div className="store-products">
                                             {products.map((product) => (
