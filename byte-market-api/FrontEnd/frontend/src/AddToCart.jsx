@@ -205,13 +205,14 @@ function AddToCart() {
                 ) : (
                     Object.entries(groupedCartItems).map(([storeName, products]) => (
                         <div key={storeName} className="store-group">
-                            <h3 className="store-name">
+                            <h3 className="store-name-cart">
                                 <input
                                     type="checkbox"
                                     onChange={() => handleSelectStore(storeName, products)}
                                     checked={products.every(item => selectedItems.some(selected => selected.cartid === item.cartid))}
                                 />
-                                {storeName}
+                                {/*<a href={`/store/${item?.product.seller.userid}`}>{storeName || 'No Store Name Available'}</a>*/}
+                                <a>{storeName}</a>
                             </h3>
                             <div className="store-products">
                                 {products.map((item) => (

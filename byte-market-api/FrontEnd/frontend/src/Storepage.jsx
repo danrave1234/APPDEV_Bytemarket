@@ -248,7 +248,7 @@ function StorePage() {
                             ⭐ {calculateStoreRating()}
                         </div>
                         <p>Products Listed: {products.length}</p>
-                        <p className="store-description">About shop: Store description goes here</p>
+                        <p className="store-description">Seller: {storeDetails.sellername}</p>
                     </div>
                 </div>
 
