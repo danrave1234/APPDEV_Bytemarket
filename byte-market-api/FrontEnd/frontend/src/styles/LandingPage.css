@@ -102,6 +102,12 @@ html, body {
     margin-bottom: 2rem;
 }
 
+.landing-container .section-store-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .landing-container .store-name {
     font-size: 1.2rem;
     color: #333;
