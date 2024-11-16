@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import './styles/LandingPage.css';
 import logoNiAndri from './assets/ByteMarketBanner4.png';
@@ -27,24 +27,23 @@ function LandingPage() {
     const sellersPerPage = 3;
     const [showOrderModal, setShowOrderModal] = useState(false);
     const [modalItems, setModalItems] = useState([]);
+    const storesRef = useRef(null);
 
-// Function to open the modal
     const openOrderModal = (item) => {
         const formattedItems = [
             {
                 productid: item.productid,
                 productname: item.productname,
                 price: item.price,
-                quantity: 1, // Default quantity for Buy Now
+                quantity: 1,
                 image: item.image,
-                seller: item.seller, // Ensure the seller is passed
+                seller: item.seller,
             },
         ];
         setModalItems(formattedItems);
         setShowOrderModal(true);
     };
 
-// Function to close the modal
     const closeOrderModal = () => {
         setShowOrderModal(false);
         setModalItems([]);
@@ -75,7 +74,6 @@ function LandingPage() {
             setSellers(shuffledSellers);
             setDisplayedSellers(shuffledSellers.slice(0, sellersPerPage));
 
-            // Fetch products for each seller
             const productsMap = {};
             for (const seller of shuffledSellers) {
                 const products = await fetchSellerProducts(seller.userid);
@@ -95,7 +93,6 @@ function LandingPage() {
             const sellerProducts = response.data.filter(product =>
                 product.seller && product.seller.userid === sellerId
             );
-            // Shuffle and get only 4 products
             return sellerProducts.sort(() => 0.5 - Math.random()).slice(0, 4);
         } catch (error) {
             console.error('Error fetching seller products:', error);
@@ -164,10 +161,9 @@ function LandingPage() {
     };
 
     const handleAddToCart = async (product, event) => {
-        event.stopPropagation(); // Prevent the card click handler from being triggered
+        event.stopPropagation();
 
         try {
-            // Fetch existing cart items to check for duplicates
             const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
             const userCartItems = response.data.filter(item => item.customer.userid === parseInt(userid));
 
@@ -178,7 +174,6 @@ function LandingPage() {
                 return;
             }
 
-            // Add the product to the cart if it's not a duplicate
             const cartItem = {
                 quantity: 1,
                 dateposted: new Date().toISOString(),
@@ -194,12 +189,10 @@ function LandingPage() {
         }
     };
 
-
     const handleBuyNow = (product, event) => {
-        event.stopPropagation(); // Prevent parent click events
+        event.stopPropagation();
         openOrderModal(product);
     };
-
 
     const handleCardPress = (product) => {
         navigate(`/productdetail/${product.productid}`, { state: { product } });
@@ -240,14 +233,14 @@ function LandingPage() {
                 </div>
 
                 {/* Stores Section */}
-                <div className="stores-section">
+                <div className="stores-section" ref={storesRef} id="stores-section">
                     {loading ? (
                         <div className="loading">Loading stores...</div>
                     ) : (
                         <>
                             {displayedSellers.map((seller) => {
                                 const products = sellerProducts[seller.userid] || [];
-                                if (products.length === 0) return null; // Don't display store if no products
+                                if (products.length === 0) return null;
                                 return (
                                     <div key={seller.userid} className="store-container">
                                         <h2 className="store-name" onClick={() => navigateToStore(seller.userid)}>
@@ -379,7 +372,6 @@ function LandingPage() {
                         onClose={closeOrderModal}
                     />
                 )}
-
             </div>
         </PageLayout>
     );
