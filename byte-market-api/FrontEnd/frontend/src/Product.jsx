@@ -28,7 +28,7 @@ function Product() {
 
     const [showOrderModal, setShowOrderModal] = useState(false);
     const [modalItems, setModalItems] = useState([]);
-
+    const [isDescriptionExpanded, setDescriptionExpanded] = useState(false);
     const openOrderModal = (item) => {
         const formattedItems = [
             {
@@ -226,7 +226,19 @@ function Product() {
 
                             <div className="product-description">
                                 <h3>Description:</h3>
-                                <p>{product?.description}</p>
+                                    <p>
+                                        {isDescriptionExpanded
+                                            ? product?.description
+                                            : product?.description?.slice(0, 150) + (product?.description?.length > 150 ? "..." : "")}
+                                    </p>
+                                    {product?.description?.length > 150 && (
+                                        <button
+                                            onClick={() => setDescriptionExpanded(!isDescriptionExpanded)}
+                                            className="show-more-btn"
+                                        >
+                                            {isDescriptionExpanded ? "Show Less" : "Show More"}
+                                        </button>
+                                    )}
                             </div>
 
                             <div className="store-info">
@@ -270,7 +282,9 @@ function Product() {
                             {product?.ratings?.slice(0, 2).map((rating, index) => (
                                 <div key={index} className="review-card">
                                     <div className="reviewer-info">
-                                        <div className="reviewer-avatar"></div>
+                                        <div className="reviewer-avatar">
+                                            <img src={`data:image/jpeg;base64,${rating.customer.profilepic}`} alt={rating.customer.username} />
+                                        </div>
                                         <div className="reviewer-details">
                                             <p className="reviewer-name">{rating.customer.username}</p>
                                             <p>{rating.ratingdate}</p>
