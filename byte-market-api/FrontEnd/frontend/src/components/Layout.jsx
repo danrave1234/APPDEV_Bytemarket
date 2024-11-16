@@ -27,7 +27,6 @@ function PageLayout({ children }) {
     const navigate = useNavigate();
     const { isLoggedIn, logout, role, name } = useAuth();
 
-
     // All modal handlers remain the same...
     const openModalWallet = () => {
         setShowModalWallet(true);
@@ -83,46 +82,66 @@ function PageLayout({ children }) {
         document.body.style.overflow = 'auto';
     };
 
-    // Navigation handlers remain the same...
+    // Navigation handlers...
     const handleLogout = () => {
         logout();
         navigate("/");
         setShowDropdown(false);
     };
+
     const handleHome = () => {
         navigate("/");
         setShowDropdown(false);
     };
+
+    // Modified store handler for the footer link
+    const handleStoresLink = () => {
+        navigate('/', { state: { scrollToStores: true } });
+        // Add a small delay to ensure navigation is complete before scrolling
+        setTimeout(() => {
+            const storesSection = document.getElementById('stores-section');
+            if (storesSection) {
+                storesSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 100);
+    };
+
+    // Original store handler for the dropdown menu
+    const handleStore = () => {
+        navigate('/seller/store');
+        setShowDropdown(false);
+    };
+
     const handleProfile = () => {
         navigate('/customer/userProfile');
         setShowDropdown(false);
     }
+
     const handleHistory = () => {
         navigate('/customer/orderHistory');
         setShowDropdown(false);
     }
-    const handleStore = () => {
-        navigate('/seller/store');
-        setShowDropdown(false);
-    }
+
     const handleAdminDashboard = () => {
         navigate('/admin/dashboard');
         setShowDropdown(false);
     }
+
     const handleCheckOut = () => {
         navigate('/seller/CheckOut');
         setShowDropdown(false);
     }
+
     const handleAddToCart = () => {
         navigate('/customer/addToCart');
         setShowDropdown(false);
     }
+
     const handleWishlist = () => {
         navigate('/customer/wishlists');
         setShowDropdown(false);
     }
 
-    /*in-line greeting message*/
     const getGreetingMessage = () => {
         if (role === 'Admin') {
             return `Greetings, Admin!`;
@@ -261,7 +280,7 @@ function PageLayout({ children }) {
                         <h4>Quick Links</h4>
                         <ul>
                             <li><a onClick={handleHome}>Home</a></li>
-                            <li><a onClick={handleStore}>Stores</a></li>
+                            <li><a onClick={handleStoresLink}>Stores</a></li>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
