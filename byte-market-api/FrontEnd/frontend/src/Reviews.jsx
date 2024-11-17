@@ -92,7 +92,9 @@ function Reviews() {
                                     <span className="my-review-label">My Review</span>
                                 </div>
                                 <div className="reviewer-info">
-                                    <div className="reviewer-avatar">👤</div>
+                                    <div className="reviewer-avatar">
+                                        <img src={`data:image/jpeg;base64,${userReview.customer.profilepic}`} alt="avatar" />
+                                    </div>
                                     <div className="reviewer-details">
                                         <p className="reviewer-name">{userReview.customer.username}</p>
                                         <p className="review-date">{userReview.ratingdate}</p>
@@ -105,14 +107,15 @@ function Reviews() {
                             </div>
                         )}
 
-                        {/* If there are no reviews */}
                         {totalReviews === 0 ? (
                             <div className="no-reviews">No reviews yet.</div>
                         ) : (
                             currentReviews.map((rating, index) => (
                                 <div key={index} className="review-card">
                                     <div className="reviewer-info">
-                                        <div className="reviewer-avatar">👤</div>
+                                        <div className="reviewer-avatar">
+                                            <img src={`data:image/jpeg;base64,${rating.customer.profilepic}`} alt="avatar" />
+                                        </div>
                                         <div className="reviewer-details">
                                             <p className="reviewer-name">{rating.customer.username}</p>
                                             <p className="review-date">{rating.ratingdate}</p>

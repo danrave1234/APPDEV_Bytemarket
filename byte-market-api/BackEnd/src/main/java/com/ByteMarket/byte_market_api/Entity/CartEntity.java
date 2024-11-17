@@ -33,7 +33,7 @@ public class CartEntity {
     private CustomerEntity customer;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false) // Change to ManyToOne
+    @JoinColumn(name = "product_id") // Change to ManyToOne
     @JsonIgnoreProperties({"orderItems","carts", "wishlists", "ratings"})
     private ProductEntity product;
 
@@ -73,4 +73,5 @@ public class CartEntity {
     public void setProduct(ProductEntity product) {
         this.product = product;
     }
+
 }

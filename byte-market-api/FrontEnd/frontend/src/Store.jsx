@@ -140,11 +140,10 @@ const handleStoreImageUpload = async (event) => {
         console.error("Error uploading store image:", error);
       }
     };
-    reader.readAsDataURL(file); // Read as Base64
+    reader.readAsDataURL(file);
   }
 };
 
-  if (loading) return <div className="loading">Loading products...</div>;
 
   return (
     <PageLayout>

@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 function LandingPage() {
     const [slideIndex, setSlideIndex] = useState(0);
-    const { userid } = useAuth();
+    const { userid, role } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [wishlist, setWishlist] = useState([]);
@@ -27,6 +27,8 @@ function LandingPage() {
     const sellersPerPage = 3;
     const [showOrderModal, setShowOrderModal] = useState(false);
     const [modalItems, setModalItems] = useState([]);
+    const [showRoleMismatchModal, setShowRoleMismatchModal] = useState(false);
+
 
 // Function to open the modal
     const openOrderModal = (item) => {
@@ -56,6 +58,7 @@ function LandingPage() {
         { src: ph3, alt: "Placeholder 3" },
         { src: logoNiAndri, alt: "Logo Ni Andri" },
     ];
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -119,6 +122,10 @@ function LandingPage() {
         }
     };
 
+    const handleRoleMismatch = (event) => {
+        event.stopPropagation();
+        setShowRoleMismatchModal(true);
+    }
     const loadMoreSellers = () => {
         const currentLength = displayedSellers.length;
         const nextSellers = sellers.slice(currentLength, currentLength + sellersPerPage);
@@ -134,6 +141,10 @@ function LandingPage() {
     };
 
     const handleAddToWishlist = async (productId) => {
+        if(role!=="Customer"){
+            handleRoleMismatch(event);
+            return;
+        }
         try {
             const wishlistItem = {
                 wishlistdate: new Date().toISOString(),
@@ -172,7 +183,10 @@ function LandingPage() {
 
     const handleAddToCart = async (product, event) => {
         event.stopPropagation(); // Prevent the card click handler from being triggered
-
+        if(role!=="Customer"){
+            handleRoleMismatch(event);
+            return;
+        }
         try {
             // Fetch existing cart items to check for duplicates
             const response = await axios.get('http://localhost:8080/api/cart/getAllCart');
@@ -204,6 +218,10 @@ function LandingPage() {
 
     const handleBuyNow = (product, event) => {
         event.stopPropagation(); // Prevent parent click events
+        if(role!=="Customer"){
+            handleRoleMismatch(event);
+            return
+        }
         openOrderModal(product);
     };
 
@@ -347,11 +365,11 @@ function LandingPage() {
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
                             <h3>Remove from Wishlist?</h3>
                             <div className="modal-buttons">
-                                <button onClick={() => setShowRemoveWishlistModal(false)} className="cancel-btn">
-                                    Cancel
-                                </button>
                                 <button onClick={handleRemoveFromWishlist} className="confirm-btn">
                                     Confirm
+                                </button>
+                                <button onClick={() => setShowRemoveWishlistModal(false)} className="cancel-btn">
+                                    Cancel
                                 </button>
                             </div>
                         </div>
@@ -388,6 +406,17 @@ function LandingPage() {
                         selectedProducts={modalItems}
                         onClose={closeOrderModal}
                     />
+                )}
+                {showRoleMismatchModal && (
+                    <div className="modal-overlay-role-mismatch" onClick={() => setShowRoleMismatchModal(false)}>
+                        <div className="modal-content-role-mismatch" onClick={(e) => e.stopPropagation()}>
+                            <h3>Action Not Allowed</h3>
+                            <p>Only customers can perform this action.</p>
+                            <button onClick={() => setShowRoleMismatchModal(false)} className="close-btn-role-mismatch">
+                                Close
+                            </button>
+                        </div>
+                    </div>
                 )}
 
             </div>

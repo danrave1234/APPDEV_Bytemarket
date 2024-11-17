@@ -16,8 +16,10 @@ const WalletModal = ({ show, closeModal }) => {
                     let response;
                     if (role === 'Seller') {
                         response = await axios.get(`http://localhost:8080/api/seller/getSellerById/${userid}`);
-                    } else {
+                    } else if (role === 'Customer') {
                         response = await axios.get(`http://localhost:8080/api/customer/getCustomerById/${userid}`);
+                    }else {
+                        console.log('NI ARI SA WALLET ANG ADMIN! REPORTED');
                     }
                     // Ensure balance is a number
                     const data = { ...response.data, balance: Number(response.data.balance || 0) };
