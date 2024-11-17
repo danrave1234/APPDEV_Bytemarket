@@ -86,26 +86,26 @@ function Reviews() {
                     <hr className="divider" />
 
                         {/* Display user review first if available */}
-                        {userReview && (
-                            <div className="review-card my-review">
-                                <div className="review-header">
-                                    <span className="my-review-label">My Review</span>
-                                </div>
-                                <div className="reviewer-info">
-                                    <div className="reviewer-avatar">
-                                        <img src={`data:image/jpeg;base64,${userReview.customer.profilepic}`} alt="avatar" />
-                                    </div>
-                                    <div className="reviewer-details">
-                                        <p className="reviewer-name">{userReview.customer.username}</p>
-                                        <p className="review-date">{userReview.ratingdate}</p>
-                                    </div>
-                                </div>
-                                <div className="review-rating">
-                                    <span className="star">⭐ {userReview.score.toFixed(1)}</span>
-                                </div>
-                                <p className="review-text">{userReview.ratingtext || 'No comment provided'}</p>
-                            </div>
-                        )}
+{/*                         {userReview && ( */}
+{/*                             <div className="review-card my-review"> */}
+{/*                                 <div className="review-header"> */}
+{/*                                     <span className="my-review-label">My Review</span> */}
+{/*                                 </div> */}
+{/*                                 <div className="reviewer-info"> */}
+{/*                                     <div className="reviewer-avatar"> */}
+{/*                                         <img src={`data:image/jpeg;base64,${userReview.customer.profilepic}`} alt="avatar" /> */}
+{/*                                     </div> */}
+{/*                                     <div className="reviewer-details"> */}
+{/*                                         <p className="reviewer-name">{userReview.customer.username}</p> */}
+{/*                                         <p className="review-date">{userReview.ratingdate}</p> */}
+{/*                                     </div> */}
+{/*                                 </div> */}
+{/*                                 <div className="review-rating"> */}
+{/*                                     <span className="star">⭐ {userReview.score.toFixed(1)}</span> */}
+{/*                                 </div> */}
+{/*                                 <p className="review-text">{userReview.ratingtext || 'No comment provided'}</p> */}
+{/*                             </div> */}
+{/*                         )} */}
 
                         {totalReviews === 0 ? (
                             <div className="no-reviews">No reviews yet.</div>
