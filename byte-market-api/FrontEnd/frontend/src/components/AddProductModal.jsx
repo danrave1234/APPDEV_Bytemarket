@@ -78,7 +78,7 @@ const AddProductModal = ({ isOpen, onClose, onProductAdded }) => {
   return (
     <div className="addProduct-modal-overlay">
       <div className="modal-content">
-        <h3 className="modal-title">Add New Product</h3>
+        <h3 className="modal-title">Add a New Product</h3>
         <form onSubmit={handleSubmit} className="form-container">
           <div className="image-section">
             <div className="image-preview">

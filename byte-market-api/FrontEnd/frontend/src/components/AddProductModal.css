@@ -94,6 +94,7 @@
 .addProduct-modal-overlay button {
   padding: 10px 15px;
   margin-right: 10px;
+  font-family: 'Montserrat', sans-serif; /* Change the font-family value */
   background-color: #212850;
   color: white;
   border: none;
