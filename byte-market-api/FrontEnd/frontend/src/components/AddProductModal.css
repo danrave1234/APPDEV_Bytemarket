@@ -32,6 +32,8 @@
 .addProduct-modal-overlay .form-container {
   display: flex;
   gap: 20px;
+  margin-right: 5.8rem;
+  margin-left: 5rem;
   width: 100%;
 }
 
@@ -92,13 +94,13 @@
 .addProduct-modal-overlay button {
   padding: 10px 15px;
   margin-right: 10px;
-  background-color: #007bff;
+  background-color: #212850;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 .addProduct-modal-overlay button:hover {
-  background-color: #0056b3;
+  background-color: #29466c;
 }
 
