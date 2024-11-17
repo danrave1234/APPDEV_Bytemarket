@@ -338,12 +338,14 @@ html, body {
 .product-containers .store-name {
     font-size: 18px;
     font-weight: bold;
+    color: #333;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     cursor: pointer;
 }
 
 .product-containers .store-name:hover {
     text-decoration: underline;
+    font-size: 1.3rem;
 }
 
 .product-containers .visit-store-link {
