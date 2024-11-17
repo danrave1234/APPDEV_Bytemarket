@@ -92,7 +92,7 @@
     justify-content: center;
     display: flex;
     align-items: center;
-    width: 15vw; /* Responsive width */
+    width: auto; /* Responsive width */
     min-width: 80px; /* Minimum width for smaller screens */
     height: auto;
 }
