@@ -227,9 +227,9 @@ function AddToCart() {
                                         </div>
                                         <div className="product-info">
                                             <h3 className="product-name">{item.product.productname}</h3>
-                                            <p className="product-category">Category: {item.product.category}</p>
-                                            <p className="product-stock">Stock: {item.product.quantity}</p>
-                                            <p className="product-price">Price: ₱{item.product.price.toFixed(2)}</p>
+                                            <p className="product-category"><b className="prod-cat">Category: </b>{item.product.category}</p>
+                                            <p className="product-stock"><b className="prod-st">Stock: </b>{item.product.quantity}</p>
+                                            <p className="product-price"><b className="prod-pr">Price: </b>₱{item.product.price.toFixed(2)}</p>
                                             {selectedItems.some(selected => selected.cartid === item.cartid) && (
                                                 <p className="product-subprice">Sub-total: ₱{(item.quantity * item.product.price).toFixed(2)}</p>
                                             )}

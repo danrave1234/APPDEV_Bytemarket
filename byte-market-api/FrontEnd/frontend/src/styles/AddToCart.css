@@ -152,15 +152,16 @@ html, body {
     margin: 0;
 }
 
-.cart-container .product-price {
-    font-weight: 600;
-    color: #0f172a;
+.cart-container .product-category .prod-cat,
+.cart-container .product-stock .prod-st,
+.cart-container .product-price .prod-pr {
+    color: black;
 }
 
 .cart-container .product-subprice {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #3b82f6;
+    color: #FFA500;
     margin: 0.5rem 0 0 0;
 }
 
@@ -177,12 +178,13 @@ html, body {
 .cart-container .quantity-box button {
     width: 2rem;
     height: 2rem;
-    background-color: #3b82f6;
+    background-color: #212850;
     color: white;
     border: none;
     border-radius: 0.375rem;
     cursor: pointer;
     font-size: 1rem;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,7 +192,7 @@ html, body {
 }
 
 .cart-container .quantity-box button:hover {
-    background-color: #2563eb;
+    background-color: #29466c;
 }
 
 .cart-container .quantity-box input {
@@ -206,13 +208,14 @@ html, body {
 
 .cart-container .remove-button {
     padding: 0.75rem 1.25rem;
-    background-color: #ef4444;
+    background-color: #212850;
     color: white;
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
     font-size: 0.875rem;
     font-weight: 500;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     transition: background-color 0.2s ease;
 }
 
@@ -242,7 +245,7 @@ html, body {
     font-size: 1.125rem;
     font-weight: 600;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
-    background-color: #22c55e;
+    background-color: #212850;
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -251,7 +254,7 @@ html, body {
 }
 
 .cart-container .checkout-button:hover:not(:disabled) {
-    background-color: #16a34a;
+    background-color: #29466c;
     transform: translateY(-1px);
 }
 
