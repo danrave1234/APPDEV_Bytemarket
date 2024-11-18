@@ -290,12 +290,7 @@ html, body {
     color: #666;
     margin: 0;
     line-height: 1.4;
-    font-family: 'Montserrat', sans-serif;
-    /* Update these properties */
-    white-space: normal;      /* Changed from pre-wrap to normal */
-    overflow-wrap: break-word;
-    width: 100%;             /* Ensure text takes full width */
-    display: block;          /* Ensures block-level display */
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
 /* Responsive Design */
