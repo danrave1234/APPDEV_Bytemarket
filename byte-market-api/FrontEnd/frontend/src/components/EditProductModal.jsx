@@ -135,8 +135,8 @@ const EditProductModal = ({ isOpen, onClose, onSave, product }) => {
               />
             </label>
             <div>
-              <button type="submit">Save</button>
-              <button type="button" onClick={onClose}>Close</button>
+              <button className="save-button" type="submit">Save</button>
+              <button className="cancel-button" type="button" onClick={onClose}>Close</button>
             </div>
           </div>
         </form>
