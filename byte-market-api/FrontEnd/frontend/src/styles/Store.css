@@ -203,7 +203,7 @@
 }
 
 .stores-container .cart-btn {
-    background-color: #212850;
+    background-color: #dc2626;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
@@ -214,7 +214,7 @@
 }
 
 .stores-container .cart-btn:hover {
-    background-color: red;
+    background-color: #dc2626;
 }
 
 /* Loading State */

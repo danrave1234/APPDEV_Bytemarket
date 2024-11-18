@@ -133,17 +133,23 @@ html, body {
 
 .profile-container .save-button {
     margin-right: 1rem;
-    background-color: #212850;
+    background-color: #228B22;
+    color: white;
+}
+
+.profile-container .save-button:hover {
+    margin-right: 1rem;
+    background-color: #228B22;
     color: white;
 }
 
 .profile-container .cancel-button {
-    background-color: #212850;
+    background-color: #dc2626;
     color: white;
 }
 
 .profile-container .cancel-button:hover {
-    background-color: #29466c;
+    background-color: #dc2626;
     color: white;
 }
 
@@ -157,8 +163,7 @@ html, body {
     color: white;
 }
 
-.profile-container .edit-button:hover,
-.profile-container .save-button:hover {
+.profile-container .edit-button:hover {
     background-color: #29466c;
 }
 
