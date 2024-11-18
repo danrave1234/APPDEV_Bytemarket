@@ -184,8 +184,8 @@ export default function ProductListing() {
                 return sortedProducts.sort((a, b) => a.productname.localeCompare(b.productname));
             case 'rating':
                 return sortedProducts.sort((a, b) => {
-                    const aRating = a.ratings?.length > 0 ? a.ratings.reduce((acc, curr) => acc + curr.rating, 0) / a.ratings.length : 0;
-                    const bRating = b.ratings?.length > 0 ? b.ratings.reduce((acc, curr) => acc + curr.rating, 0) / b.ratings.length : 0;
+                    const aRating = a.ratings?.length > 0 ? a.ratings.reduce((acc, curr) => acc + curr.score, 0) / a.ratings.length : 0;
+                    const bRating = b.ratings?.length > 0 ? b.ratings.reduce((acc, curr) => acc + curr.score, 0) / b.ratings.length : 0;
                     return bRating - aRating;
                 });
             case 'recent':
@@ -238,7 +238,7 @@ export default function ProductListing() {
                                         <h3 className="product-title">{product.productname}</h3>
                                         <p className="product-price">₱{product.price?.toFixed(2)}</p>
                                         <div className="product-rating">
-                                            ⭐ {product.ratings?.length > 0 ? (product.ratings.reduce((acc, curr) => acc + curr.rating, 0) / product.ratings.length).toFixed(1) : 'No ratings'}
+                                            ⭐ {product.ratings?.length > 0 ? (product.ratings.reduce((acc, curr) => acc + curr.score, 0) / product.ratings.length).toFixed(1) : 'No ratings'}
                                         </div>
                                         <div className="product-actions">
                                             <button className="buy-now-btn" onClick={(e) => handleBuyNow(product, e)}>Buy Now</button>
