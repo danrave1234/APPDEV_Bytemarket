@@ -180,10 +180,6 @@ function Product() {
         navigate(`/productdetail/${productid}/reviews`);
     };
 
-    const navigateToStore = (sellerId) => {
-            navigate(`/store/${sellerId}`);
-    };
-
     if (loading) return (
         <PageLayout>
             <div className="container">

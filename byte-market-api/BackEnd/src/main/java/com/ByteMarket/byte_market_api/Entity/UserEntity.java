@@ -17,9 +17,11 @@ public class UserEntity {
     private int userid;
 
     private String role; //Customer, Seller, Admin
+    @Column(unique = true)
     private String username;
     private String password;
     private String fullname;
+    @Column(unique = true)
     private String email;
     private String phonenumber;
     private String address; //Kuan rani kanang like street, barangay
