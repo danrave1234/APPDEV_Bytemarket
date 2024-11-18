@@ -13,6 +13,7 @@ import ProductListing from "./ProductListing.jsx"
 import Reviews from "./Reviews.jsx"
 import Storepage from"./Storepage.jsx"
 import {useAuth} from "./components/AuthProvider.jsx";
+import ContactUs from "./ContactUs.jsx";
 
 function ProtectedRoute({ children, allowedRoles }) {
         const { role } = useAuth(); // Get the role from the context
@@ -23,6 +24,7 @@ export default function TheRoutes() {
     return (
         <Routes>
             <Route path="/" element={<LandingPage />}/>
+            <Route path="/contactUs" element={<ContactUs />}/>
             <Route path="/customer/userProfile" element={
                     <ProtectedRoute allowedRoles={["Customer" , "Seller", "Admin"]}>
                         <UserProfile />

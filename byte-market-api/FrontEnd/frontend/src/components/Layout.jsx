@@ -13,6 +13,7 @@ import LoginModalSeller from "./LoginModalSeller.jsx";
 import LoginModalAdmin from "./LoginModalAdmin.jsx";
 import SignUpModalSeller from "./SignUpModalSeller.jsx";
 import WalletModal from "./WalletModal.jsx";
+import ContactUs from "../ContactUs.jsx";
 
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -93,6 +94,10 @@ function PageLayout({ children }) {
         navigate("/");
         setShowDropdown(false);
     };
+
+    const handleContactUs = () => {
+        navigate("/contactUs")
+    }
 
     // Modified store handler for the footer link
     const handleStoresLink = () => {
@@ -287,7 +292,7 @@ function PageLayout({ children }) {
                             <li><a onClick={handleHome}>Home</a></li>
                             <li><a onClick={handleStoresLink}>Stores</a></li>
                             <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a onClick={handleContactUs}>Contact</a></li>
                         </ul>
                     </div>
                     <div>
