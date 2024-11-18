@@ -35,7 +35,22 @@ public class UserService {
     public List<UserEntity> getAllUser(){
         return userRepository.findAll();
     }
-
+    public boolean validateUniqueUsername(String username){
+        try {
+            UserEntity user = userRepository.findByUsername(username);
+            return user == null;
+        }catch (Exception e){
+            return false;
+        }
+    }
+    public boolean validateUniqueEmail(String email){
+        try {
+            UserEntity user = userRepository.findByEmail(email);
+            return user == null;
+        }catch (Exception e){
+            return false;
+        }
+    }
     //Get User By ID / Find User By ID
     public UserEntity getUserById(int id){
         return userRepository.findById(id).get();

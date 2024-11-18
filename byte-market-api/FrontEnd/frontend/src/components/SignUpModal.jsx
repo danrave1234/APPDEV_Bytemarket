@@ -74,8 +74,6 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
         .finally(() => setIsValidating(false));
     }
   };
-  {isValidating && <p>Validating...</p>}
-
 
   const updatePasswordValidations = (password) => {
     setPasswordValidations({
@@ -240,10 +238,10 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               onClick={handleNextStep}
               className="next-button"
               disabled={
-              !formData.username || !formData.password ||
-              !Object.values(passwordValidations).every(Boolean) ||
-              validationStatus.username === false ||
-              validationStatus.email === false
+                !formData.username || !formData.password ||
+                !Object.values(passwordValidations).every(Boolean) ||
+                validationStatus.username === false ||
+                validationStatus.email === false
               }
             >
               Next
@@ -301,13 +299,15 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               required
             />
             <button className="submit"
-                    disabled={
-              !formData.username || !formData.password ||
-              !Object.values(passwordValidations).every(Boolean) ||
-              validationStatus.username === false ||
-              validationStatus.email === false
+              disabled={
+                !formData.username || !formData.password ||
+                !Object.values(passwordValidations).every(Boolean) ||
+                validationStatus.username === false ||
+                validationStatus.email === false
               }
-            >Submit</button>
+            >
+              Submit
+            </button>
           </form>
         )}
       </div>

@@ -28,25 +28,12 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
     username: null,
     email: null,
   });
-
   useEffect(() => {
     if (show) {
       setStep(1);
       setErrorMessage('');
     }
   }, [show]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-
-    if (name === 'password') {
-      updatePasswordValidations(value);
-    }
-    if (name === 'username' || name === 'email') {
-      validateUnique(name, value);
-    }
-  };
   const validateUnique = (field, value) => {
     const endpoint = field === 'username' ? 'validateUniqueUsername' : 'validateUniqueEmail';
     const url = `http://localhost:8080/api/user/${endpoint}?${field}=${encodeURIComponent(value)}`;
@@ -74,7 +61,21 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
         .finally(() => setIsValidating(false));
     }
   };
-  {isValidating && <p>Validating...</p>}
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === 'password') {
+      updatePasswordValidations(value);
+    }
+    if (name === 'password') {
+      updatePasswordValidations(value);
+    }
+
+    if (name === 'username' || name === 'email') {
+      validateUnique(name, value);
+    }
+  };
 
   const updatePasswordValidations = (password) => {
     setPasswordValidations({
@@ -238,11 +239,11 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               type="button"
               onClick={handleNextStep}
               className="next-button"
-              disabled={
-              !formData.username || !formData.password ||
-              !Object.values(passwordValidations).every(Boolean) ||
-              validationStatus.username === false ||
-              validationStatus.email === false
+                disabled={
+                !formData.username || !formData.password ||
+                !Object.values(passwordValidations).every(Boolean) ||
+                validationStatus.username === false ||
+                validationStatus.email === false
               }
             >
               Next
@@ -318,12 +319,13 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
             />
             <button type="submit"
                     disabled={
-              !formData.username || !formData.password ||
-              !Object.values(passwordValidations).every(Boolean) ||
-              validationStatus.username === false ||
-              validationStatus.email === false
+                !formData.username || !formData.password ||
+                !Object.values(passwordValidations).every(Boolean) ||
+                validationStatus.username === false ||
+                validationStatus.email === false
               }
-            >Submit</button>
+            >
+              Submit</button>
           </form>
         )}
       </div>

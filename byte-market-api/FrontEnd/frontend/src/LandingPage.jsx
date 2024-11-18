@@ -9,10 +9,11 @@ import PageLayout from './components/Layout.jsx';
 import OrderProductModal from './components/OrderProductModal.jsx';
 import { useAuth } from './components/AuthProvider.jsx';
 import { useNavigate } from 'react-router-dom';
+import LoginModal from "./components/LoginModal.jsx";
 
 function LandingPage() {
     const [slideIndex, setSlideIndex] = useState(0);
-    const { userid, role } = useAuth();
+    const { userid, role, isLoggedIn } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [wishlist, setWishlist] = useState([]);
@@ -28,7 +29,9 @@ function LandingPage() {
     const [showOrderModal, setShowOrderModal] = useState(false);
     const [modalItems, setModalItems] = useState([]);
     const [showRoleMismatchModal, setShowRoleMismatchModal] = useState(false);
-
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const toggleDropdown = () => setShowDropdown(!showDropdown);
 
 // Function to open the modal
     const openOrderModal = (item) => {
@@ -141,7 +144,11 @@ function LandingPage() {
     };
 
     const handleAddToWishlist = async (productId) => {
-        if(role!=="Customer"){
+        if(isLoggedIn === false){
+            setShowLoginModal(true);
+            return;
+        }
+        if(role!=="Customer" && isLoggedIn === true){
             handleRoleMismatch(event);
             return;
         }
@@ -183,7 +190,11 @@ function LandingPage() {
 
     const handleAddToCart = async (product, event) => {
         event.stopPropagation(); // Prevent the card click handler from being triggered
-        if(role!=="Customer"){
+        if(isLoggedIn === false){
+            setShowLoginModal(true);
+            return;
+        }
+        if(role!=="Customer" && isLoggedIn === true){
             handleRoleMismatch(event);
             return;
         }
@@ -218,7 +229,11 @@ function LandingPage() {
 
     const handleBuyNow = (product, event) => {
         event.stopPropagation(); // Prevent parent click events
-        if(role!=="Customer"){
+        if(isLoggedIn === false){
+            setShowLoginModal(true);
+            return;
+        }
+        if(role!=="Customer" && isLoggedIn === true){
             handleRoleMismatch(event);
             return
         }
@@ -417,7 +432,9 @@ function LandingPage() {
                         </div>
                     </div>
                 )}
-
+            {showLoginModal && (
+                <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} toggleDropdown={toggleDropdown} />
+            )}
             </div>
         </PageLayout>
     );

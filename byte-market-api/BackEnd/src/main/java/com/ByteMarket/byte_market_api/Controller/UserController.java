@@ -15,6 +15,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
     @GetMapping("/validateUniqueUsername")
     public boolean validateUsernameUnique(@RequestParam String username){
         return userService.validateUniqueUsername(username);
