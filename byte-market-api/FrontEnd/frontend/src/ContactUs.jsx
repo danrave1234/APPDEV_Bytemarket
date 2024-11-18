@@ -33,6 +33,7 @@ const ContactUs = () => {
                 <form className="contact-us-form" onSubmit={handleSubmit}>
                     <label htmlFor="email">Email:</label>
                     <input
+                        className="email-input"
                         type="email"
                         id="email"
                         value={email}
@@ -43,6 +44,7 @@ const ContactUs = () => {
 
                     <label htmlFor="subject">Subject:</label>
                     <input
+                        className="subject-input"
                         type="text"
                         id="subject"
                         value={subject}
@@ -53,6 +55,7 @@ const ContactUs = () => {
 
                     <label htmlFor="message">Message:</label>
                     <textarea
+                        className="message-input"
                         id="message"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
