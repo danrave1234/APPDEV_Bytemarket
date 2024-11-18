@@ -291,19 +291,10 @@ function PageLayout({ children }) {
                         </ul>
                     </div>
                     <div>
-                        <h4>Customer Service</h4>
-                        <ul>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">FAQs</a></li>
-                        </ul>
-                    </div>
-                    <div>
                         <h4>Seller Resources</h4>
                         <ul>
                             <li><a onClick={openModalLoginSeller}>Seller Login</a></li>
                             <li><a onClick={openModalSignUpSeller}>Become a Seller</a></li>
-                            <li><a href="#">Seller Policies</a></li>
-                            <li><a href="#">Account Support</a></li>
                         </ul>
                     </div>
                     <div>

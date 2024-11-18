@@ -136,7 +136,7 @@ const WalletModal = ({ show, closeModal }) => {
                             }
                         }}
                     />
-                    <button onClick={handleCashIn} className="cash-in">CASH IN</button>
+                    <button onClick={handleCashIn} className="cash-in">Cash In</button>
                 </div>
                 <div className="cash-out-input">
                     <input
@@ -150,7 +150,7 @@ const WalletModal = ({ show, closeModal }) => {
                             }
                         }}
                     />
-                    <button onClick={handleCashOut} className="cash-out">CASH OUT</button>
+                    <button onClick={handleCashOut} className="cash-out">Cash Out</button>
                 </div>
             </div>
         </div>
