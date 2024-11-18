@@ -148,9 +148,7 @@
     margin-right: 0.4rem;
     font-size: 0.9rem;
 }
-body main{
-background: #caf0f8;
-}
+
 .product-listing-container .cart-btn, .remove-btn {
     background: none;
     border: none;
