@@ -38,13 +38,12 @@
 
 .product-listing-container .sort-btn {
     padding: 0.5rem 1rem;
-    background-color: white;
+    background-color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease, border-bottom-color 0.3s ease; /* Transition effect */
     font-size: 0.9rem;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600; /* Make text bolder */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border-radius: 0;
 }
 
@@ -54,10 +53,9 @@
 }
 
 .product-listing-container .products-outer-container {
-    background: #f9f9f9;
+    background:#d1e6eb;
     padding: 1.6rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
 .product-listing-container .product-listing-grid {
@@ -76,14 +74,9 @@
     height: 450px;
     display: flex;
     flex-direction: column;
-    cursor: pointer;
 }
 
 .product-listing-container .product-listing-container .product-card:hover {
-    transform: translateY(-4px);
-}
-
-.product-listing-container .product-card:hover {
     transform: translateY(-4px);
 }
 
@@ -116,16 +109,11 @@
     font-size: 0.9rem;
     margin: 0 0 0.4rem 0;
     color: #333;
-    white-space: nowrap;
-    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .product-listing-container .product-price {
     font-size: 1rem;
     font-weight: 700;
-    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: #FFA500;
     margin: 0.4rem 0;
 }
@@ -133,7 +121,6 @@
 .product-listing-container .product-rating {
     color: #ffd700;
     margin: 0.4rem 0;
-    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     font-size: 0.9rem;
 }
 
@@ -151,7 +138,7 @@
 }
 
 .product-listing-container .buy-now-btn {
-    background: #212850;
+    background: #ff9999;
     color: white;
     border: none;
     padding: 0.4rem 0.8rem;
@@ -160,9 +147,10 @@
     flex-grow: 1;
     margin-right: 0.4rem;
     font-size: 0.9rem;
-    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
-
+body main{
+background: #caf0f8;
+}
 .product-listing-container .cart-btn, .remove-btn {
     background: none;
     border: none;
@@ -186,8 +174,8 @@
     white-space: nowrap;
 }
 
-.landing-container .buy-now-btn:hover {
-    background: #29466c;
+.product-listing-container .buy-now-btn:hover {
+    background: #ff8080;
 }
 
 .product-listing-container .cart-btn:hover, .remove-btn:hover {
