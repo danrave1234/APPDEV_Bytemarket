@@ -350,8 +350,15 @@ cance-btn{
     cursor: pointer;
 }
 
+a, a:visited, a:active, a:hover {
+    color: inherit !important;        /* Ensures link color is inherited */
+    text-decoration: none !important;  /* Removes the underline */
+}
+
+
 .product-containers .store-name:hover {
     text-decoration: underline;
+    font-size: 20px;
 }
 
 .product-containers .visit-store-link {
