@@ -242,7 +242,6 @@ function LandingPage() {
         <PageLayout>
             <div className="landing-container">
                 <div className="slideshow-container">
-                    <button className="previous" onClick={prevSlide}>‹</button>
                     {slides.map((slide, index) => (
                         <div
                             key={index}
