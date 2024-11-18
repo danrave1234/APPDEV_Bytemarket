@@ -294,7 +294,6 @@ html, body {
     /* Update these properties */
     white-space: normal;      /* Changed from pre-wrap to normal */
     overflow-wrap: break-word;
-    word-break: break-all;    /* Forces breaks within words if necessary */
     width: 100%;             /* Ensure text takes full width */
     display: block;          /* Ensures block-level display */
 }
