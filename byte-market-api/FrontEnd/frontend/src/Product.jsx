@@ -111,7 +111,6 @@ function Product() {
         }
     };
 
-
     const handleQuantityChange = (change) => {
         const newQuantity = quantity + change;
         if (newQuantity >= 1 && newQuantity <= product?.quantity) {
@@ -174,7 +173,6 @@ function Product() {
         openOrderModal(product);
     };
 
-
     // Navigate to the reviews page
     const handleSeeAllReviews = () => {
         navigate(`/productdetail/${productid}/reviews`);
@@ -225,7 +223,6 @@ function Product() {
 
                             <div className="product-meta">
                                 <p>Stock/s left: {product?.quantity}</p>
-                                <p>Seller: {product?.seller?.sellername}</p>
                             </div>
 
                             <div className="product-description">
@@ -345,7 +342,6 @@ function Product() {
                     onClose={closeOrderModal}
                 />
             )}
-
 
             {/* Login Modal */}
             {showLoginModal && (

@@ -29,22 +29,28 @@ html, body {
 }
 
 /* Image Section */
+/* Image Section */
 .product-containers .product-image-section {
     flex: 1;
     min-width: 300px;
 }
+
 .product-containers .product-image-section img {
-    height: 100%;
-    width: 100%;
+    width: 100%;  /* Ensure the image fills the width of the container */
+    height: 100%; /* Ensure the image fills the height of the container */
+    object-fit: cover; /* Fills the container and preserves the image aspect ratio */
+    display: block; /* Removes any unwanted space below the image */
 }
+
 .product-containers .image-container {
     background: white;
     border-radius: 8px;
     padding: 1rem;
-    aspect-ratio: 1;
+    aspect-ratio: 1; /* Ensure the container keeps a square aspect ratio */
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden; /* Prevent any overflow if the image is larger than the container */
 }
 
 .product-containers .image-placeholder {
@@ -223,7 +229,9 @@ html, body {
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     margin: 0;
 }
-
+cance-btn{
+    background-color: tomato;
+}
 .product-containers .see-all-btn {
     color: #1976d2;
     background: none;

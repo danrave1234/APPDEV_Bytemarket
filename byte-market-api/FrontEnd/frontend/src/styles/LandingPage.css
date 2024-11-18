@@ -109,7 +109,8 @@ html, body {
 }
 
 .landing-container .store-name {
-    font-size: 1.2rem;
+    font-size: 28px;
+    font-weight: bold;
     color: #333;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     cursor: pointer;
