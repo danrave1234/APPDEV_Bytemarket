@@ -63,7 +63,9 @@ function UserProfile() {
         if (role === 'Admin') {
             response = await axios.put(`http://localhost:8080/api/admin/updateAdmin/${userid}`, user);
         } else if (role === 'Seller') {
-            response = await axios.put(`http://localhost:8080/api/seller/updateSeller/${userid}`, user);
+            const { products, ...updatedUser } = user;
+            response = await axios.put(`http://localhost:8080/api/seller/updateSeller/${userid}`, updatedUser);
+            console.log("seller updated success")
         } else {
             response = await axios.put(`http://localhost:8080/api/customer/updateCustomer/${userid}`, user);
         }
