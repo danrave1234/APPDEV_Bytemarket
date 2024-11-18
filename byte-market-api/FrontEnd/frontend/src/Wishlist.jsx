@@ -116,11 +116,10 @@ function Wishlist() {
 
     const getSortedItems = () => {
         let sortedProducts = [...wishlistItems];
-
         switch(sortBy) {
             case 'priceLow':
                 return sortedProducts.sort((a, b) =>
-                        console.log("Sorted Products Price", sortedProducts[0].price)
+                    a.wishlistProducts[0].price - b.wishlistProducts[0].price
                 );
             case 'priceHigh':
                 return sortedProducts.sort((a, b) =>
