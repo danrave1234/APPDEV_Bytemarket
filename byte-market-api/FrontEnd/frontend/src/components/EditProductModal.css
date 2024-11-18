@@ -96,17 +96,35 @@
 }
 
 /* Buttons */
-.editProduct-modal-overlay .modal-content button {
-  padding: 10px 15px;
-  background-color: #212850;
-  font-family: 'Montserrat', sans-serif; /* Change the font-family value */
-  margin-right: 10px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
+
+.editProduct-modal-overlay .save-button {
+   padding: 10px 15px;
+   background-color: #228B22;
+   font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+   margin-right: 10px;
+   color: white;
+   border: none;
+   cursor: pointer;
+   border-radius: 4px;
 }
 
-.editProduct-modal-overlay .modal-content button:hover {
-  background-color: #29466c;
+.editProduct-modal-overlay .save-button:hover {
+  background-color: #228B22;
+  color: white;
+}
+
+.editProduct-modal-overlay .cancel-button {
+   padding: 10px 15px;
+   background-color: #dc2626;
+   font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+   margin-right: 10px;
+   color: white;
+   border: none;
+   cursor: pointer;
+   border-radius: 4px;
+}
+
+.editProduct-modal-overlay .cancel-button:hover {
+  background-color: #dc2626;
+  color: white;
 }
