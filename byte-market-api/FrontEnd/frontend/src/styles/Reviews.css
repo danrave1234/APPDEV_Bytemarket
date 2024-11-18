@@ -2,8 +2,8 @@
     background: #edf9fc;
     padding: 2rem;
     border-radius: 12px;
-    margin: 0 auto;
     width: 80%;
+    margin: 0 auto;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
@@ -143,10 +143,6 @@
     margin: 0;
     line-height: 1.5;
     color: #444;
-    white-space: normal;      /* Changed from pre-wrap to normal */
-    overflow-wrap: break-word;
-    width: 100%;             /* Ensure text takes full width */
-    display: block;          /* Ensures block-level display */
 }
 
 .reviews-page .pagination {

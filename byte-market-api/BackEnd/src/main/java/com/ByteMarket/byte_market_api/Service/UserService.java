@@ -13,6 +13,24 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+
+    //validate unique username and email
+    public boolean validateUniqueUsername(String username){
+        try {
+            UserEntity user = userRepository.findByUsername(username);
+            return user == null;
+        }catch (Exception e){
+            return false;
+        }
+    }
+    public boolean validateUniqueEmail(String email){
+        try {
+            UserEntity user = userRepository.findByEmail(email);
+            return user == null;
+        }catch (Exception e){
+            return false;
+        }
+    }
     //Get ALL User
     public List<UserEntity> getAllUser(){
         return userRepository.findAll();
