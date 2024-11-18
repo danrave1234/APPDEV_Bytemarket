@@ -14,7 +14,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
     sellername: '',
     storename: '',
   });
-
+  const [isValidating, setIsValidating] = useState(false);
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,20 +24,56 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
     number: false,
     specialChar: false,
   });
-
+  const [validationStatus, setValidationStatus] = useState({
+    username: null,
+    email: null,
+  });
   useEffect(() => {
     if (show) {
       setStep(1);
       setErrorMessage('');
     }
   }, [show]);
+  const validateUnique = (field, value) => {
+    const endpoint = field === 'username' ? 'validateUniqueUsername' : 'validateUniqueEmail';
+    const url = `http://localhost:8080/api/user/${endpoint}?${field}=${encodeURIComponent(value)}`;
 
+    if (value) {
+      setIsValidating(true);
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) throw new Error('Failed to validate uniqueness');
+          return response.json();
+        })
+        .then((isUnique) => {
+          setValidationStatus((prev) => ({
+            ...prev,
+            [field]: isUnique,
+          }));
+        })
+        .catch((err) => {
+          console.error(err);
+          setValidationStatus((prev) => ({
+            ...prev,
+            [field]: false,
+          }));
+        })
+        .finally(() => setIsValidating(false));
+    }
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
     if (name === 'password') {
       updatePasswordValidations(value);
+    }
+    if (name === 'password') {
+      updatePasswordValidations(value);
+    }
+
+    if (name === 'username' || name === 'email') {
+      validateUnique(name, value);
     }
   };
 
@@ -61,6 +97,14 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
     }
     if (!Object.values(passwordValidations).every(Boolean)) {
       setErrorMessage('Please ensure all password criteria are met.');
+      return;
+    }
+    if (validationStatus.username === false) {
+      setErrorMessage('Username is already taken!');
+      return;
+    }
+    if (validationStatus.email === false) {
+      setErrorMessage('Email is already in use!');
       return;
     }
     setErrorMessage('');
@@ -146,6 +190,9 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               onChange={handleChange}
               required
             />
+            {validationStatus.username === false && (
+              <p className="validation-error">Username is already taken!</p>
+            )}
             <input className="sign-up-credentials"
               type={showPassword ? "text" : "password"}
               name="password"
@@ -192,6 +239,12 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               type="button"
               onClick={handleNextStep}
               className="next-button"
+                disabled={
+                !formData.username || !formData.password ||
+                !Object.values(passwordValidations).every(Boolean) ||
+                validationStatus.username === false ||
+                validationStatus.email === false
+              }
             >
               Next
             </button>
@@ -220,6 +273,9 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               onChange={handleChange}
               required
             />
+            {validationStatus.email === false && (
+              <p className="validation-error">Email is already in use!</p>
+            )}
             <input
               type="text"
               name="phonenumber"
@@ -261,7 +317,15 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               onChange={handleChange}
               required
             />
-            <button type="submit">Submit</button>
+            <button type="submit"
+                    disabled={
+                !formData.username || !formData.password ||
+                !Object.values(passwordValidations).every(Boolean) ||
+                validationStatus.username === false ||
+                validationStatus.email === false
+              }
+            >
+              Submit</button>
           </form>
         )}
       </div>

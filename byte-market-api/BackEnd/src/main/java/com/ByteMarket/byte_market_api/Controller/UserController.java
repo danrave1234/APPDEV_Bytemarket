@@ -16,7 +16,14 @@ public class UserController {
     UserService userService;
 
 
-
+    @GetMapping("/validateUniqueUsername")
+    public boolean validateUsernameUnique(@RequestParam String username){
+        return userService.validateUniqueUsername(username);
+    }
+    @GetMapping("/validateUniqueEmail")
+    public boolean validateEmailUnique(@RequestParam String email){
+        return userService.validateUniqueEmail(email);
+    }
     @GetMapping("/getAllUser")
     public List<UserEntity> getAllUser(){
         return userService.getAllUser();
