@@ -13,65 +13,61 @@ import ProductListing from "./ProductListing.jsx"
 import Reviews from "./Reviews.jsx"
 import Storepage from"./Storepage.jsx"
 import {useAuth} from "./components/AuthProvider.jsx";
-import ContactUs from "./ContactUs.jsx";
-// import Error404Page from "./components/Error404Page.jsx";
-// import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
+import AboutUs from "./AboutUs.jsx";
 
 function ProtectedRoute({ children, allowedRoles }) {
-        const { role } = useAuth(); // Get the role from the context
+    const { role } = useAuth(); // Get the role from the context
     return allowedRoles.includes(role) ? children : <Navigate to="/" />; // Redirect if not authorized
 }
 
 export default function TheRoutes() {
     return (
         <Routes>
+
             <Route path="/" element={<LandingPage />}/>
-            <Route path="/contactUs" element={<ContactUs />}/>
-{/*             <Route path="/access-denied" element={<ErrorAccessDeniedPage />} /> */}
-            {/* Error 404 */}
-{/*             <Route path="*" element={<Error404Page />} /> */}
+            <Route path="/about-us" element={<AboutUs />}/>
             <Route path="/customer/userProfile" element={
-                    <ProtectedRoute allowedRoles={["Customer" , "Seller", "Admin"]}>
-                        <UserProfile />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Customer" , "Seller", "Admin"]}>
+                    <UserProfile />
+                </ProtectedRoute>}/>
             <Route path="/customer/orderHistory" element={
-                    <ProtectedRoute allowedRoles={["Customer"]}>
-                                <OrderHistory />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Customer"]}>
+                    <OrderHistory />
+                </ProtectedRoute>}/>
             <Route path="/admin/dashboard" element={
-                    <ProtectedRoute allowedRoles={["Admin"]}>
-                        <AdminDashboard />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                    <AdminDashboard />
+                </ProtectedRoute>}/>
             <Route path="/seller/store" element={
-                    <ProtectedRoute allowedRoles={["Seller"]}>
-                        <Store />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Seller"]}>
+                    <Store />
+                </ProtectedRoute>}/>
             <Route path="seller/CheckOut" element={
-                    <ProtectedRoute allowedRoles={["Seller"]}>
-                        <CheckOut />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Seller"]}>
+                    <CheckOut />
+                </ProtectedRoute>}/>
             <Route path="/customer/addToCart" element={
-                    <ProtectedRoute allowedRoles={["Customer"]}>
-                        <AddToCart />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Customer"]}>
+                    <AddToCart />
+                </ProtectedRoute>}/>
             <Route path="/customer/wishlists" element={
-                    <ProtectedRoute allowedRoles={["Customer"]}>
-                        <Wishlist />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Customer"]}>
+                    <Wishlist />
+                </ProtectedRoute>}/>
             <Route path="/customer/rating" element={
-                    <ProtectedRoute allowedRoles={["Customer"]}>
-                        <Rating />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Customer"]}>
+                    <Rating />
+                </ProtectedRoute>}/>
             <Route path="/productdetail/:productid" element={<Product />}/>
             <Route path="/productdetail/:productid/reviews" element={
-                    <ProtectedRoute allowedRoles={["Customer", "Seller", "Admin"]}>
-                        <Reviews/>
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Customer", "Seller", "Admin"]}>
+                    <Reviews/>
+                </ProtectedRoute>}/>
             <Route path="/productlisting" element={<ProductListing />}/>
             <Route path="/store/:userid" element={
-                    <ProtectedRoute allowedRoles={["Customer", "Seller", "Admin"]}>
-                        <Storepage />
-                    </ProtectedRoute>}/>
+                <ProtectedRoute allowedRoles={["Customer", "Seller", "Admin"]}>
+                    <Storepage />
+                </ProtectedRoute>}/>
         </Routes>
     )
 
