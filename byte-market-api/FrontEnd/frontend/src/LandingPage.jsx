@@ -45,12 +45,14 @@ function LandingPage() {
                 seller: item.seller, // Ensure the seller is passed
             },
         ];
+        document.body.style.overflow = 'hidden';
         setModalItems(formattedItems);
         setShowOrderModal(true);
     };
 
 // Function to close the modal
     const closeOrderModal = () => {
+        document.body.style.overflow = 'auto';
         setShowOrderModal(false);
         setModalItems([]);
     };
@@ -73,7 +75,13 @@ function LandingPage() {
         }
         return () => clearInterval(interval);
     }, [slides.length, userid]);
-
+    useEffect(() => {
+        if (showRoleMismatchModal) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = 'auto';
+        }
+    }, [showRoleMismatchModal]);
     const fetchSellers = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/seller/getAllSeller');

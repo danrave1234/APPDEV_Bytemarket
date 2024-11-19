@@ -1,7 +1,7 @@
 import './styles/Product.css';
 import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import OrderProductModal from './components/OrderProductModal.jsx';
 
@@ -9,7 +9,7 @@ import axios from 'axios';
 import LoginModal from './components/LoginModal.jsx'; // Import the LoginModal component
 
 function Product() {
-    const { userid } = useAuth();
+    const { userid, role, isLoggedIn} = useAuth();
     const { productid } = useParams();
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
@@ -23,12 +23,14 @@ function Product() {
     const [showLoginModal, setShowLoginModal] = useState(false); // State for login modal
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [showRoleMismatchModal, setShowRoleMismatchModal] = useState(false);
 
     const navigate = useNavigate();  // Hook for navigation
 
     const [showOrderModal, setShowOrderModal] = useState(false);
     const [modalItems, setModalItems] = useState([]);
     const [isDescriptionExpanded, setDescriptionExpanded] = useState(false);
+
     const openOrderModal = (item) => {
         const formattedItems = [
             {
@@ -40,11 +42,13 @@ function Product() {
                 seller: item.seller,
             },
         ];
+        document.body.style.overflow = 'hidden';
         setModalItems(formattedItems);
         setShowOrderModal(true);
     };
 
     const closeOrderModal = () => {
+        document.body.style.overflow = 'auto';
         setShowOrderModal(false);
         setModalItems([]);
     };
@@ -52,8 +56,21 @@ function Product() {
     useEffect(() => {
         fetchProduct();
         checkIfProductInWishlist();
-    }, [productid, userid]);
 
+    }, [productid, userid]);
+    useEffect(() => {
+        if (showRoleMismatchModal) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = 'auto';
+        }
+    }, [showRoleMismatchModal]);
+
+    const handleRoleMismatch = (event) => {
+        event.stopPropagation();
+        setShowRoleMismatchModal(true);
+        document.body.style.overflow = 'hidden';
+    }
     const fetchProduct = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/api/product/getProductById/${productid}`);
@@ -81,6 +98,10 @@ function Product() {
     const handleAddToCart = async () => {
         if (!userid) { // Check if user is logged in
             setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
+        if(role!=="Customer" && isLoggedIn === true){
+            handleRoleMismatch(event);
             return;
         }
         try {
@@ -122,6 +143,10 @@ function Product() {
     const toggleWishlist = async () => {
         if (!userid) { // Check if user is logged in
             setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
+        if(role!=="Customer" && isLoggedIn === true){
+            handleRoleMismatch(event);
             return;
         }
         if (isWishlisted) {
@@ -168,6 +193,10 @@ function Product() {
     const handleBuyNow = (product, event) => {
         if (!userid) { // Check if user is logged in
             setShowLoginModal(true); // Show login modal if not logged in
+            return;
+        }
+        if(role!=="Customer" && isLoggedIn === true){
+            handleRoleMismatch(event);
             return;
         }
         event.stopPropagation();
@@ -346,11 +375,22 @@ function Product() {
                 />
             )}
 
-
             {/* Login Modal */}
             {showLoginModal && (
                 <LoginModal show={showLoginModal} closeModal={() => setShowLoginModal(false)} toggleDropdown={toggleDropdown} />
             )}
+
+            {showRoleMismatchModal && (
+                    <div className="modal-overlay-role-mismatch" onClick={() => setShowRoleMismatchModal(false)}>
+                        <div className="modal-content-role-mismatch" onClick={(e) => e.stopPropagation()}>
+                            <h3>Action Not Allowed</h3>
+                            <p>Only customers can perform this action.</p>
+                            <button onClick={() => setShowRoleMismatchModal(false)} className="close-btn-role-mismatch" >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
         </PageLayout>
     );
 }
