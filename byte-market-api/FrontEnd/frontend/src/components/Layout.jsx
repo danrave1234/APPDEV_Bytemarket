@@ -196,6 +196,11 @@ function PageLayout({ children }) {
                                 placeholder="Search products here..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleSearch();
+                                    }
+                                }}
                             />
                             {searchQuery && (
                                 <button
@@ -221,7 +226,7 @@ function PageLayout({ children }) {
                     </div>
 
                     <div className="header-right">
-                        {isLoggedIn && (
+                        {isLoggedIn && role !== "Admin" && (
                             <div className="wallet-button">
                                 <img src={walletLogoBlack} alt="Wallet" onClick={openModalWallet} />
                             </div>
@@ -285,7 +290,7 @@ function PageLayout({ children }) {
                         <p>Your one-stop marketplace for quality products. Discover, shop, and enjoy fast, secure
                             transactions.</p>
                     </div>
-                    <div style={{flex: 1, padding: "15px"}}>
+                    <div>
                         <h4>Quick Links</h4>
                         <ul>
                             <li><a onClick={handleHome}>Home</a></li>
@@ -300,6 +305,8 @@ function PageLayout({ children }) {
                         <ul>
                             <li><a onClick={openModalLoginSeller}>Seller Login</a></li>
                             <li><a onClick={openModalSignUpSeller}>Become a Seller</a></li>
+                            <li><a href="#">Seller Policies</a></li>
+                            <li><a href="#">Account Support</a></li>
                         </ul>
                     </div>
                     <div>
@@ -316,7 +323,9 @@ function PageLayout({ children }) {
             <SignUpModalSeller show={showModalSignUpSeller} closeModal={closeModalSignUpSeller} toggleDropdown={toggleDropdown} />
             <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller} toggleDropdown={toggleDropdown} />
             <LoginModalAdmin show={showModalLoginAdmin} closeModal={closeModalLoginAdmin} toggleDropdown={toggleDropdown} />
-            <WalletModal show={showModalWallet} closeModal={closeModalWallet} />
+            {role !== "Admin" && (
+                <WalletModal show={showModalWallet} closeModal={closeModalWallet} />
+            ) }
         </>
     );
 }
