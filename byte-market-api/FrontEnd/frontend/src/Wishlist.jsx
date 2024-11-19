@@ -254,12 +254,13 @@ function Wishlist() {
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
                             <h3>Remove from Wishlist?</h3>
                             <div className="modal-buttons">
+                                <button onClick={handleRemoveFromWishlist} className="confirm-btn">
+                                    Confirm
+                                 </button>
                                 <button onClick={() => setShowRemoveModal(false)} className="cancel-btn">
                                     Cancel
                                 </button>
-                                <button onClick={handleRemoveFromWishlist} className="confirm-btn">
-                                    Confirm
-                                </button>
+
                             </div>
                         </div>
                     </div>

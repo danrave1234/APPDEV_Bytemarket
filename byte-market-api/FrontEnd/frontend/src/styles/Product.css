@@ -239,6 +239,75 @@ html, body {
     gap: 1.5rem;
 }
 
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;  /* Fixed width for consistency */
+    min-height: 120px;  /* Fixed minimum height for consistency */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.modal-content p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 8px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.modal-buttons button:hover {
+    opacity: 0.8;
+}
+
+.confirm-btn {
+    background-color: #4CD964;  /* Green color from the image */
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #FFE1E1;  /* Light pink color from the image */
+    color: #FF3B30;  /* Red text color */
+}
+
 .product-containers .review-card {
     background: white;
     padding: 1rem;

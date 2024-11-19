@@ -311,12 +311,13 @@ function Product() {
                     <div className="modal-content" onClick={e => e.stopPropagation()}>
                         <h3>Remove from Wishlist?</h3>
                         <div className="modal-buttons">
+                            <button onClick={removeFromWishlist} className="confirm-btn">
+                                                            Confirm
+                            </button>
                             <button onClick={() => setShowWishlistModal(false)} className="cancel-btn">
                                 Cancel
                             </button>
-                            <button onClick={removeFromWishlist} className="confirm-btn">
-                                Confirm
-                            </button>
+
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 .wishlist-container {
     max-width: 1200px;
     margin: 1.6rem auto;
-    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+    font-family: 'Montserrat', sans-serif;
     padding: 0.8rem;
 }
 
@@ -9,8 +9,6 @@
     text-align: left;
     margin-bottom: 1.6rem;
 }
-
-
 
 .wishlist-container .top-section {
     display: flex;
@@ -39,6 +37,7 @@
     cursor: pointer;
     font-size: 0.9rem;
 }
+
 .wishlist-container .sort-buttons {
     display: flex;
     border: 2px solid #e0e0e0;
@@ -101,10 +100,12 @@
     height: 100%;
     overflow: hidden;
 }
-.wishlist-container .product-image img{
+
+.wishlist-container .product-image img {
     height: 100%;
     width: 100%;
 }
+
 .wishlist-container .image-placeholder {
     width: 100%;
     height: 100%;
@@ -169,10 +170,11 @@
     flex-grow: 1;
     margin-right: 0.4rem;
     font-size: 0.9rem;
-    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+    font-family: 'Montserrat', sans-serif;
 }
 
-.wishlist-container .cart-btn, .wishlist-container .remove-btn {
+.wishlist-container .cart-btn,
+.wishlist-container .remove-btn {
     background: none;
     border: none;
     font-size: 1.2rem;
@@ -185,63 +187,91 @@
     background: #3e597f;
 }
 
-.wishlist-container .cart-btn:hover, .remove-btn:hover {
+.wishlist-container .cart-btn:hover,
+.remove-btn:hover {
     transform: scale(1.1);
 }
 
-.wishlist-container .modal-overlay {
+/* Modal Styles */
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
-.wishlist-container .modal-content {
-    background: white;
-    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
-    padding: 2rem;
-    border-radius: 10px;
-    text-align: center;
-    align-items: center;
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
     width: 300px;
-    height: 100px;
-}
-
-.wishlist-container .modal-buttons {
+    min-height: 120px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.2s ease-out;
 }
-.wishlist-container .cancel-btn {
-    background: #dc2626;
-    color: white;
+
+.modal-content h3 {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.modal-content p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 8px 24px;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 14px;
     cursor: pointer;
+    transition: opacity 0.2s ease;
 }
 
-.wishlist-container .cancel-btn:hover {
-    background: #dc2626;
+.modal-buttons button:hover {
+    opacity: 0.8;
+}
+
+.confirm-btn {
+    background-color: #4CD964;
     color: white;
 }
 
-.wishlist-container .confirm-btn {
-    background: #228B22;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
+.cancel-btn {
+    background-color: #FFE1E1;
+    color: #FF3B30;
 }
 
-.wishlist-container .confirm-btn:hover {
-    background: #228B22;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
