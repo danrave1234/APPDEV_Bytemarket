@@ -378,12 +378,9 @@ function StorePage() {
                         <div className="modal-content" onClick={e => e.stopPropagation()}>
                             <h3>Remove from Wishlist?</h3>
                             <div className="modal-buttons">
-                                <button onClick={() => setShowRemoveWishlistModal(false)} className="cancel-btn">
-                                    Cancel
-                                </button>
-                                <button onClick={handleRemoveFromWishlist} className="confirm-btn">
-                                    Confirm
-                                </button>
+                                <button onClick={handleRemoveFromWishlist} className="confirm-btn">Confirm</button>
+                                <button onClick={() => setShowRemoveWishlistModal(false)} className="cancel-btn">Cancel</button>
+
                             </div>
                         </div>
                     </div>
