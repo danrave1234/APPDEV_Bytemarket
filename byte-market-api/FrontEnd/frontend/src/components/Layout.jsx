@@ -285,7 +285,7 @@ function PageLayout({ children }) {
                         <p>Your one-stop marketplace for quality products. Discover, shop, and enjoy fast, secure
                             transactions.</p>
                     </div>
-                    <div style={{flex: 1, minWidth: "200px", padding: "10px"}}>
+                    <div style={{flex: 1, padding: "15px"}}>
                         <h4>Quick Links</h4>
                         <ul>
                             <li><a onClick={handleHome}>Home</a></li>
@@ -294,13 +294,7 @@ function PageLayout({ children }) {
                             <li><a onClick={handleContactUs}>Contact</a></li>
                         </ul>
                     </div>
-                    <div>
-                        <h4>Customer Service</h4>
-                        <ul>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">FAQs</a></li>
-                        </ul>
-                    </div>
+
                     <div>
                         <h4>Seller Resources</h4>
                         <ul>
