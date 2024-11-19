@@ -13,7 +13,6 @@ import LoginModalSeller from "./LoginModalSeller.jsx";
 import LoginModalAdmin from "./LoginModalAdmin.jsx";
 import SignUpModalSeller from "./SignUpModalSeller.jsx";
 import WalletModal from "./WalletModal.jsx";
-import ContactUs from "../ContactUs.jsx";
 
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -95,10 +94,6 @@ function PageLayout({ children }) {
         setShowDropdown(false);
     };
 
-    const handleContactUs = () => {
-        navigate("/contactUs")
-    }
-
     // Modified store handler for the footer link
     const handleStoresLink = () => {
         navigate('/', { state: { scrollToStores: true } });
@@ -147,6 +142,10 @@ function PageLayout({ children }) {
         setShowDropdown(false);
     }
 
+    const handleAboutUs = () => {
+        navigate('/about-us');
+        setShowDropdown(false);
+    }
     const getGreetingMessage = () => {
         if (role === 'Admin') {
             return `Greetings, Admin!`;
@@ -192,11 +191,6 @@ function PageLayout({ children }) {
                                 placeholder="Search products here..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter') {
-                                        handleSearch();
-                                    }
-                                }}
                             />
                             {searchQuery && (
                                 <button
@@ -222,7 +216,7 @@ function PageLayout({ children }) {
                     </div>
 
                     <div className="header-right">
-                        {isLoggedIn && role !== "Admin" && (
+                        {isLoggedIn && (
                             <div className="wallet-button">
                                 <img src={walletLogoBlack} alt="Wallet" onClick={openModalWallet} />
                             </div>
@@ -291,8 +285,15 @@ function PageLayout({ children }) {
                         <ul>
                             <li><a onClick={handleHome}>Home</a></li>
                             <li><a onClick={handleStoresLink}>Stores</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a onClick={handleContactUs}>Contact</a></li>
+                            <li><a onClick={handleAboutUs}>About Us</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Customer Service</h4>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">FAQs</a></li>
                         </ul>
                     </div>
                     <div>
@@ -300,6 +301,8 @@ function PageLayout({ children }) {
                         <ul>
                             <li><a onClick={openModalLoginSeller}>Seller Login</a></li>
                             <li><a onClick={openModalSignUpSeller}>Become a Seller</a></li>
+                            <li><a href="#">Seller Policies</a></li>
+                            <li><a href="#">Account Support</a></li>
                         </ul>
                     </div>
                     <div>
@@ -316,11 +319,8 @@ function PageLayout({ children }) {
             <SignUpModalSeller show={showModalSignUpSeller} closeModal={closeModalSignUpSeller} toggleDropdown={toggleDropdown} />
             <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller} toggleDropdown={toggleDropdown} />
             <LoginModalAdmin show={showModalLoginAdmin} closeModal={closeModalLoginAdmin} toggleDropdown={toggleDropdown} />
-            {role !== "Admin" && (
-                <WalletModal show={showModalWallet} closeModal={closeModalWallet} />
-            )}
+            <WalletModal show={showModalWallet} closeModal={closeModalWallet} />
         </>
     );
 }
-
 export default PageLayout;
