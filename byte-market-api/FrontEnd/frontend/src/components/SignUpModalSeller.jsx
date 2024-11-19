@@ -258,6 +258,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
         ) : (
           <form onSubmit={handleSubmit}>
             <input
+              className="sign-up-credentials"
               type="text"
               name="fullname"
               placeholder="Full Name"
@@ -266,6 +267,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               required
             />
             <input
+              className="sign-up-credentials"
               type="email"
               name="email"
               placeholder="Email"
@@ -277,6 +279,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               <p className="validation-error">Email is already in use!</p>
             )}
             <input
+              className="sign-up-credentials"
               type="text"
               name="phonenumber"
               placeholder="Phone Number"
@@ -285,6 +288,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               required
             />
             <input
+              className="sign-up-credentials"
               type="text"
               name="address"
               placeholder="Address"
@@ -293,6 +297,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               required
             />
             <input
+              className="sign-up-credentials"
               type="date"
               name="dateofbirth"
               value={formData.dateofbirth}
@@ -302,6 +307,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
             />
             {/* New fields for seller name and store name */}
             <input
+              className="sign-up-credentials"
               type="text"
               name="sellername"
               placeholder="Seller Name"
@@ -310,6 +316,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               required
             />
             <input
+              className="sign-up-credentials"
               type="text"
               name="storename"
               placeholder="Store Name"
@@ -317,7 +324,7 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
               onChange={handleChange}
               required
             />
-            <button type="submit"
+            <button className="submit-button"
                     disabled={
                 !formData.username || !formData.password ||
                 !Object.values(passwordValidations).every(Boolean) ||
