@@ -15,17 +15,21 @@ import Storepage from"./Storepage.jsx"
 import {useAuth} from "./components/AuthProvider.jsx";
 import AboutUs from "./AboutUs.jsx";
 import ContactUs from "./ContactUs.jsx";
+import Error404Page from "./components/Error404Page.jsx";
+import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
 
 function ProtectedRoute({ children, allowedRoles }) {
     const { role } = useAuth(); // Get the role from the context
-    return allowedRoles.includes(role) ? children : <Navigate to="/" />; // Redirect if not authorized
+    return allowedRoles.includes(role) ? children : <Navigate to="/access-denied" />; // Redirect if not authorized
 }
 
 export default function TheRoutes() {
     return (
         <Routes>
-
             <Route path="/" element={<LandingPage />}/>
+            <Route path="/access-denied" element={<ErrorAccessDeniedPage/>} />
+            {/* Error 404 */}
+            <Route path="*" element={<Error404Page />} />
             <Route path="/about-us" element={<AboutUs />}/>
             <Route path="/contact-us" element={<ContactUs />}/>
             <Route path="/customer/userProfile" element={
