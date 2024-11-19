@@ -146,6 +146,11 @@ function PageLayout({ children }) {
         navigate('/about-us');
         setShowDropdown(false);
     }
+
+    const handleContactUs = () => {
+        navigate('/contact-us');
+    }
+
     const getGreetingMessage = () => {
         if (role === 'Admin') {
             return `Greetings, Admin!`;
@@ -286,7 +291,7 @@ function PageLayout({ children }) {
                             <li><a onClick={handleHome}>Home</a></li>
                             <li><a onClick={handleStoresLink}>Stores</a></li>
                             <li><a onClick={handleAboutUs}>About Us</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a onClick={handleContactUs}>Contact</a></li>
                         </ul>
                     </div>
                     <div>
