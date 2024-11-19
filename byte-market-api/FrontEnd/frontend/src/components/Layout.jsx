@@ -300,8 +300,6 @@ function PageLayout({ children }) {
                         <ul>
                             <li><a onClick={openModalLoginSeller}>Seller Login</a></li>
                             <li><a onClick={openModalSignUpSeller}>Become a Seller</a></li>
-                            <li><a href="#">Seller Policies</a></li>
-                            <li><a href="#">Account Support</a></li>
                         </ul>
                     </div>
                     <div>
