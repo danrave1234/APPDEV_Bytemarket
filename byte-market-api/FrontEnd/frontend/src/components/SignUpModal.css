@@ -33,6 +33,19 @@
     color: #000000;
 }
 
+/*Date of Birth*/
+.sign-up-credentialsDOB {
+    background-color: #fff;
+    color: #000000;
+
+}
+
+.paragraphDOB {
+    margin-top:-3px;
+    color: #000000;
+    margin-bottom: 3px;
+}
+
 .modal-box .back-arrow {
     background-color: #212850;
     color: white;
