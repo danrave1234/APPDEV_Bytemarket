@@ -1,7 +1,7 @@
 import React from 'react';
-import PageLayout from './components/Layout.jsx'; // Import the Layout component
-import './styles/AboutUs.css'; // Ensure this CSS file has the updated styles
-import ProfileAndri from './assets/ProfileAndri.png'; // Adjust the path based on the file's location
+import PageLayout from './components/Layout.jsx';
+import './styles/AboutUs.css';
+import ProfileAndri from './assets/ProfileAndri.png';
 import ProfileDan from './assets/ProfileDan.png';
 import ProfileJosemar from './assets/ProfileJosemar.png';
 import ProfileJudiel from './assets/ProfileJudiel.png';
