@@ -256,84 +256,90 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
             )}
           </form>
         ) : (
-          <form onSubmit={handleSubmit}>
-            <input
-              className="sign-up-credentials"
-              type="text"
-              name="fullname"
-              placeholder="Full Name"
-              value={formData.fullname}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="sign-up-credentials"
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            {validationStatus.email === false && (
-              <p className="validation-error">Email is already in use!</p>
-            )}
-            <input
-              className="sign-up-credentials"
-              type="text"
-              name="phonenumber"
-              placeholder="Phone Number"
-              value={formData.phonenumber}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="sign-up-credentials"
-              type="text"
-              name="address"
-              placeholder="Address"
-              value={formData.address}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="sign-up-credentials"
-              type="date"
-              name="dateofbirth"
-              value={formData.dateofbirth}
-              onChange={handleChange}
-              max={formattedToday}
-              required
-            />
-            {/* New fields for seller name and store name */}
-            <input
-              className="sign-up-credentials"
-              type="text"
-              name="sellername"
-              placeholder="Seller Name"
-              value={formData.sellername}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="sign-up-credentials"
-              type="text"
-              name="storename"
-              placeholder="Store Name"
-              value={formData.storename}
-              onChange={handleChange}
-              required
-            />
-            <button className="submit-button"
-                    disabled={
-                !formData.username || !formData.password ||
-                !Object.values(passwordValidations).every(Boolean) ||
-                validationStatus.username === false ||
-                validationStatus.email === false
-              }
-            >
-              Submit</button>
-          </form>
+            <form onSubmit={handleSubmit}>
+              <input
+                  className="sign-up-credentials"
+                  type="text"
+                  name="fullname"
+                  placeholder="Full Name"
+                  value={formData.fullname}
+                  onChange={handleChange}
+                  required
+              />
+              <input
+                  className="sign-up-credentials"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+              />
+              {validationStatus.email === false && (
+                  <p className="validation-error">Email is already in use!</p>
+              )}
+              <input
+                  className="sign-up-credentials"
+                  type="text"
+                  name="phonenumber"
+                  placeholder="Phone Number"
+                  value={formData.phonenumber}
+                  onChange={handleChange}
+                  required
+              />
+              <input
+                  className="sign-up-credentials"
+                  type="text"
+                  name="address"
+                  placeholder="Address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  required
+              />
+
+              {/* Date of Birth */}
+              <br/>
+              <p className="paragraphDOB">Date of Birth</p>
+              <input
+                  className="sign-up-credentialsDOB"
+                  type="date"
+                  name="dateofbirth"
+                  value={formData.dateofbirth}
+                  onChange={handleChange}
+                  max={formattedToday}
+                  required
+              />
+              <br/>
+              {/* New fields for seller name and store name */}
+              <input
+                  className="sign-up-credentials"
+                  type="text"
+                  name="sellername"
+                  placeholder="Seller Name"
+                  value={formData.sellername}
+                  onChange={handleChange}
+                  required
+              />
+              <input
+                  className="sign-up-credentials"
+                  type="text"
+                  name="storename"
+                  placeholder="Store Name"
+                  value={formData.storename}
+                  onChange={handleChange}
+                  required
+              />
+              <button className="submit-button"
+                      disabled={
+                          !formData.username || !formData.password ||
+                          !Object.values(passwordValidations).every(Boolean) ||
+                          validationStatus.username === false ||
+                          validationStatus.email === false
+                      }
+              >
+                Submit
+              </button>
+            </form>
         )}
       </div>
     </div>
