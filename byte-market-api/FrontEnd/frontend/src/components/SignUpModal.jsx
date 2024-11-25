@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SignUpModal.css';
 
-const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
+const SignUpModal = ({ show, closeModal, toggleDropdown, openModalLogin, closeModalLogin }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -168,91 +168,91 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
     <div className="modal-overlay">
       <div className="modal-box">
         {step === 2 && (
-          <button className="back-arrow" onClick={handleBackStep}>
-            ←
-          </button>
+            <button className="back-arrow" onClick={handleBackStep}>
+              ←
+            </button>
         )}
 
         <button className="close-button" onClick={closeModal}>X</button>
 
         <h2>SIGN UP</h2>
         {step === 1 ? (
-          <form>
-            <input
-              className="sign-up-credentials"
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-            {validationStatus.username === false && (
-              <p className="validation-error">Username is already taken!</p>
-            )}
-            <input
-              className="sign-up-credentials"
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            <input
-              className="sign-up-credentials"
-              type={showPassword ? "text" : "password"}
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-            <div className="show-password">
+            <form>
               <input
-                type="checkbox"
-                checked={showPassword}
-                onChange={toggleShowPassword}
+                  className="sign-up-credentials"
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
               />
-              <label>Show Password</label>
-            </div>
+              {validationStatus.username === false && (
+                  <p className="validation-error">Username is already taken!</p>
+              )}
+              <input
+                  className="sign-up-credentials"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+              />
+              <input
+                  className="sign-up-credentials"
+                  type={showPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+              />
+              <div className="show-password">
+                <input
+                    type="checkbox"
+                    checked={showPassword}
+                    onChange={toggleShowPassword}
+                />
+                <label>Show Password</label>
+              </div>
 
-            <div className="password-requirements">
-              <p>Password Requirements:</p>
-              <p className={passwordValidations.length ? 'valid' : 'invalid'}>
-                Minimum 8 characters
-              </p>
-              <p className={passwordValidations.uppercase ? 'valid' : 'invalid'}>
-                At least one uppercase letter
-              </p>
-              <p className={passwordValidations.number ? 'valid' : 'invalid'}>
-                At least one number
-              </p>
-              <p className={passwordValidations.specialChar ? 'valid' : 'invalid'}>
-                At least one special character (@$!%*?&)
-              </p>
-            </div>
+              <div className="password-requirements">
+                <p>Password Requirements:</p>
+                <p className={passwordValidations.length ? 'valid' : 'invalid'}>
+                  Minimum 8 characters
+                </p>
+                <p className={passwordValidations.uppercase ? 'valid' : 'invalid'}>
+                  At least one uppercase letter
+                </p>
+                <p className={passwordValidations.number ? 'valid' : 'invalid'}>
+                  At least one number
+                </p>
+                <p className={passwordValidations.specialChar ? 'valid' : 'invalid'}>
+                  At least one special character (@$!%*?&)
+                </p>
+              </div>
 
-            <button
-              type="button"
-              onClick={handleNextStep}
-              className="next-button"
-              disabled={
-                !formData.username || !formData.password ||
-                !Object.values(passwordValidations).every(Boolean) ||
-                validationStatus.username === false ||
-                validationStatus.email === false
-              }
-            >
-              Next
-            </button>
+              <button
+                  type="button"
+                  onClick={handleNextStep}
+                  className="next-button"
+                  disabled={
+                      !formData.username || !formData.password ||
+                      !Object.values(passwordValidations).every(Boolean) ||
+                      validationStatus.username === false ||
+                      validationStatus.email === false
+                  }
+              >
+                Next
+              </button>
 
-            {errorMessage && (
-              <p className="error-message">
-                {errorMessage}
-              </p>
-            )}
-          </form>
+              {errorMessage && (
+                  <p className="error-message">
+                    {errorMessage}
+                  </p>
+              )}
+            </form>
         ) : (
             <form onSubmit={handleSubmit}>
               <input
@@ -318,7 +318,16 @@ const SignUpModal = ({ show, closeModal, toggleDropdown }) => {
                 Submit
               </button>
             </form>
+
         )}
+        <p className="login-text">
+          <p className="login-text">
+            Already have an account? <button className="login-button" onClick={() => {
+            closeModalLogin();
+            openModalLogin();
+          }}>Login here</button>
+          </p>
+        </p>
       </div>
     </div>
   );
