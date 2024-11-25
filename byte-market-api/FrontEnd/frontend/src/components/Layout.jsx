@@ -38,21 +38,25 @@ function PageLayout({ children }) {
     };
 
     const openModalSignUp = () => {
-        setShowModalSignUp(true);
-        document.body.style.overflow = 'hidden';
+        setShowModalLogin(false); // Ensure the LoginModal is closed
+        setShowModalSignUp(true); // Open the SignUpModal
+        document.body.style.overflow = 'hidden'; // Disable scrolling
     };
+
     const closeModalSignUp = () => {
-        setShowModalSignUp(false);
-        document.body.style.overflow = 'auto';
+        setShowModalSignUp(false); // Close the SignUpModal
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
     };
 
     const openModalLogin = () => {
-        setShowModalLogin(true);
-        document.body.style.overflow = 'hidden';
+        setShowModalSignUp(false);
+        setShowModalLogin(true); // Open the LoginModal
+        document.body.style.overflow = 'hidden'; // Disable scrolling
     };
+
     const closeModalLogin = () => {
-        setShowModalLogin(false);
-        document.body.style.overflow = 'auto';
+        setShowModalLogin(false); // Close the LoginModal
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
     };
 
     const openModalSignUpSeller = () => {
@@ -93,6 +97,8 @@ function PageLayout({ children }) {
         navigate("/");
         setShowDropdown(false);
     };
+
+
 
     // Modified store handler for the footer link
     const handleStoresLink = () => {
@@ -299,16 +305,15 @@ function PageLayout({ children }) {
                             <li><a onClick={handleContactUs}>Contact</a></li>
                         </ul>
                     </div>
-
                     <div>
                         <h4>Seller Resources</h4>
                         <ul>
-                            <li><a onClick={openModalLoginSeller}>Seller Login</a></li>
-                            <li><a onClick={openModalSignUpSeller}>Become a Seller</a></li>
+                            <li><a onClick={openModalSignUpSeller}>Sign up as our Seller now!</a></li>
+                            <li><a onClick={openModalLoginSeller}>Already signed up? Login here!</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4>Admin</h4>
+                        <h4>Admin Resources</h4>
                         <ul>
                             <li><a onClick={openModalLoginAdmin}>Admin Login</a></li>
                         </ul>
@@ -317,7 +322,12 @@ function PageLayout({ children }) {
             </footer>
 
             <SignUpModal show={showModalSignUp} closeModal={closeModalSignUp} toggleDropdown={toggleDropdown}/>
-            <LoginModal show={showModalLogin} closeModal={closeModalLogin} toggleDropdown={toggleDropdown} />
+            <LoginModal show={showModalLogin} closeModal={closeModalLogin} toggleDropdown={toggleDropdown}/>
+            <LoginModal
+                show={showModalLogin}
+                closeModal={closeModalLogin}
+                openModalSignUp={openModalSignUp} // Pass the function as a prop
+            />
             <SignUpModalSeller show={showModalSignUpSeller} closeModal={closeModalSignUpSeller} toggleDropdown={toggleDropdown} />
             <LoginModalSeller show={showModalLoginSeller} closeModal={closeModalLoginSeller} toggleDropdown={toggleDropdown} />
             <LoginModalAdmin show={showModalLoginAdmin} closeModal={closeModalLoginAdmin} toggleDropdown={toggleDropdown} />

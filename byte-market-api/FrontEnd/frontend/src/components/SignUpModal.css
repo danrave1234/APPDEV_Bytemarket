@@ -52,6 +52,20 @@
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
+.login-text {
+    color: #000000;
+}
+
+.login-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: -10px;
+}
+
 .modal-header {
     margin-bottom: 1.5rem;
 }

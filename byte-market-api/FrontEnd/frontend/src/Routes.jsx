@@ -18,6 +18,7 @@ import ContactUs from "./ContactUs.jsx";
 import Error404Page from "./components/Error404Page.jsx";
 import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
 
+
 function ProtectedRoute({ children, allowedRoles }) {
     const { role } = useAuth(); // Get the role from the context
     return allowedRoles.includes(role) ? children : <Navigate to="/access-denied" />; // Redirect if not authorized

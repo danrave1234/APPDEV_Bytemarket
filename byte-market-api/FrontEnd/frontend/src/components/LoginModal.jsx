@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useAuth } from './AuthProvider.jsx'; // Ensure this is the correct path
+import { useAuth } from './AuthProvider.jsx';
 import './LoginModal.css';
 
-const LoginModal = ({ show, closeModal, toggleDropdown }) => {
+const LoginModal = ({ show, closeModal, openModalSignUp }) => {
     const { setIsLoggedIn, setUserId, setRole } = useAuth();
-
     const [loginData, setLoginData] = useState({ username: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,8 +23,7 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
             });
 
             if (!response.ok) {
-                const errorData = await response.json(); // Capture error response if available
-                console.error('Error logging in:', errorData.message || 'Unknown error');
+                const errorData = await response.json();
                 setErrorMessage(errorData.message || "Login failed. Please check your credentials.");
                 return;
             }
@@ -37,7 +36,6 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
             setIsLoggedIn(true);
             setUserId(data.userid);
             setRole(data.role);
-            toggleDropdown();
             closeModal();
         } catch (error) {
             console.error('Error logging in:', error);
@@ -53,7 +51,8 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
                 <button className="close-button" onClick={closeModal}>X</button>
                 <h2>LOGIN | ByteMarket</h2>
                 <form onSubmit={handleLogin}>
-                    <input className="credential-fields"
+                    <input
+                        className="credential-fields"
                         type="text"
                         name="username"
                         placeholder="Username"
@@ -61,7 +60,8 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
                         onChange={handleChange}
                         required
                     />
-                    <input className="credential-fields"
+                    <input
+                        className="credential-fields"
                         type="password"
                         name="password"
                         placeholder="Password"
@@ -72,6 +72,9 @@ const LoginModal = ({ show, closeModal, toggleDropdown }) => {
                     <button type="submit" className="submit-button">Login</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </form>
+                <p className="signup-text">
+                    Don't have an account yet? <button className="signup-button" onClick={openModalSignUp}>Sign up here</button>
+                </p>
             </div>
         </div>
     );
