@@ -17,6 +17,7 @@ import AboutUs from "./AboutUs.jsx";
 import ContactUs from "./ContactUs.jsx";
 import Error404Page from "./components/Error404Page.jsx";
 import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
+import FileUpload from "./FileUpload.jsx";
 
 
 function ProtectedRoute({ children, allowedRoles }) {
@@ -28,6 +29,8 @@ export default function TheRoutes() {
     return (
         <Routes>
             <Route path="/" element={<LandingPage />}/>
+            <Route path="/test" element={<FileUpload/>}/>
+
             <Route path="/access-denied" element={<ErrorAccessDeniedPage/>} />
             {/* Error 404 */}
             <Route path="*" element={<Error404Page />} />

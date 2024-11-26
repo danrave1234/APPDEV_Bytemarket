@@ -13,6 +13,7 @@ import LoginModalSeller from "./LoginModalSeller.jsx";
 import LoginModalAdmin from "./LoginModalAdmin.jsx";
 import SignUpModalSeller from "./SignUpModalSeller.jsx";
 import WalletModal from "./WalletModal.jsx";
+import LogoutModal from "./LogoutModal.jsx";
 
 function PageLayout({ children }) {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -22,6 +23,7 @@ function PageLayout({ children }) {
     const [showModalLoginSeller, setShowModalLoginSeller] = useState(false);
     const [showModalLoginAdmin, setShowModalLoginAdmin] = useState(false);
     const [showModalWallet, setShowModalWallet] = useState(false);
+    const [showModalLogout, setShowModalLogout] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     const navigate = useNavigate();
@@ -85,7 +87,14 @@ function PageLayout({ children }) {
         setShowModalLoginAdmin(false);
         document.body.style.overflow = 'auto';
     };
-
+    const openModalLogout =() =>{
+        setShowModalLogout(true);
+        document.body.style.overflow = 'hidden';
+    }
+    const closeModalLogout= () =>{
+        setShowModalLogout(false);
+        document.body.style.overflow = 'auto';
+    }
     // Navigation handlers...
     const handleLogout = () => {
         logout();
@@ -308,14 +317,38 @@ function PageLayout({ children }) {
                     <div>
                         <h4>Seller Resources</h4>
                         <ul>
-                            <li><a onClick={openModalSignUpSeller}>Sign up as our Seller now!</a></li>
-                            <li><a onClick={openModalLoginSeller}>Already signed up? Login here!</a></li>
+                            {isLoggedIn ? (
+                                <>
+                                    <li><a onClick={openModalLogout}>Sign up Seller</a></li>
+                                </>
+                            ):(
+                                <>
+                                    <li><a onClick={openModalSignUpSeller}>Sign up Seller</a></li>
+                                </>
+                            )}
+                            {isLoggedIn ? (
+                                <>
+                                    <li><a onClick={openModalLogout}>Login Seller</a></li>
+                                </>
+                            ) : (
+                                <>
+                                    <li><a onClick={openModalLoginSeller}>Login Seller</a></li>
+                                </>
+                            )}
                         </ul>
                     </div>
                     <div>
                         <h4>Admin Resources</h4>
                         <ul>
-                            <li><a onClick={openModalLoginAdmin}>Admin Login</a></li>
+                            {isLoggedIn ? (
+                                <>
+                                    <a onClick={openModalLogout}>Admin Login</a>
+                                </>
+                            ):(
+                                <>
+                                    <a onClick={openModalLoginAdmin}>Admin Login</a>
+                                </>
+                            )}
                         </ul>
                     </div>
                 </div>
@@ -334,6 +367,7 @@ function PageLayout({ children }) {
             {role !== "Admin" && (
                 <WalletModal show={showModalWallet} closeModal={closeModalWallet} />
             ) }
+            <LogoutModal show = {showModalLogout} closeModal={closeModalLogout} />
         </>
     );
 }

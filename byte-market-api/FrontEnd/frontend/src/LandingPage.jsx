@@ -82,6 +82,7 @@ function LandingPage() {
           document.body.style.overflow = 'auto';
         }
     }, [showRoleMismatchModal]);
+
     const fetchSellers = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/seller/getAllSeller');
