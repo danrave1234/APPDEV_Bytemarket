@@ -17,8 +17,6 @@ import AboutUs from "./AboutUs.jsx";
 import ContactUs from "./ContactUs.jsx";
 import Error404Page from "./components/Error404Page.jsx";
 import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
-import FileUpload from "./FileUpload.jsx";
-
 
 function ProtectedRoute({ children, allowedRoles }) {
     const { role } = useAuth(); // Get the role from the context
@@ -29,7 +27,6 @@ export default function TheRoutes() {
     return (
         <Routes>
             <Route path="/" element={<LandingPage />}/>
-            <Route path="/test" element={<FileUpload/>}/>
 
             <Route path="/access-denied" element={<ErrorAccessDeniedPage/>} />
             {/* Error 404 */}
