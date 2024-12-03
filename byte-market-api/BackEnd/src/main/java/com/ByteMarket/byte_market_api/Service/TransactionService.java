@@ -108,7 +108,6 @@ public class TransactionService {
         sellerRepository.save(seller);
     }
 
-
     private void updateOrderStatus(OrderEntity order) {
         order.setOrderstatus("Completed");
         orderRepository.save(order);

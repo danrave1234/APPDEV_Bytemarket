@@ -9,5 +9,8 @@ export default defineConfig({
     outDir: 'C:/Users/User/IdeaProjects/APPDEV_Final_Project/byte-market-api/BackEnd/src/main/resources/static/',
     // Set the output directory to the Spring Boot static folder
     emptyOutDir: true,
-  }
+  },
+  optimizeDeps: {
+    include: ['jwt-decode'],
+  },
 })
