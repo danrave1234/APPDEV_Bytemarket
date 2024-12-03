@@ -3,10 +3,9 @@ import { useAuth } from './AuthProvider.jsx';
 import './LoginModal.css';
 
 const LoginModal = ({ show, closeModal, openModalSignUp }) => {
-    const { setIsLoggedIn, setUserId, setRole } = useAuth();
-    const [loginData, setLoginData] = useState({ username: '', password: '' });
+    const { login } = useAuth();
+    const [loginData, setLoginData] = useState({ username: '', password: '', userType: 'customer' });
     const [errorMessage, setErrorMessage] = useState('');
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -16,30 +15,10 @@ const LoginModal = ({ show, closeModal, openModalSignUp }) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/api/customer/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                setErrorMessage(errorData.message || "Login failed. Please check your credentials.");
-                return;
-            }
-
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('userId', data.userid);
-            localStorage.setItem('role', data.role);
-
-            setIsLoggedIn(true);
-            setUserId(data.userid);
-            setRole(data.role);
+            await login(loginData.username, loginData.password, loginData.userType);
             closeModal();
         } catch (error) {
-            console.error('Error logging in:', error);
-            setErrorMessage("Login failed. Please check your credentials.");
+            setErrorMessage(error.message || 'Login failed. Please check your credentials.');
         }
     };
 

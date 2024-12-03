@@ -63,18 +63,19 @@ function LandingPage() {
         { src: ph3, alt: "Placeholder 3" },
         { src: logoNiAndri, alt: "Logo Ni Andri" },
     ];
-
-
     useEffect(() => {
         const interval = setInterval(() => {
             setSlideIndex((prevIndex) => (prevIndex + 1) % slides.length);
         }, 7000);
+        return () => clearInterval(interval);
+    }, [slides.length]);
+
+    useEffect(() => {
         fetchSellers();
         if (userid) {
             fetchWishlist();
         }
-        return () => clearInterval(interval);
-    }, [slides.length, userid]);
+    }, [userid]);
     useEffect(() => {
         if (showRoleMismatchModal) {
           document.body.style.overflow = 'hidden';
@@ -111,7 +112,7 @@ function LandingPage() {
         }
     };
 
-    const fetchSellerProducts = async (sellerId) => {
+        const fetchSellerProducts = async (sellerId) => {
         try {
             const response = await axios.get('http://localhost:8080/api/product/getAllProduct');
             const sellerProducts = response.data.filter(product =>

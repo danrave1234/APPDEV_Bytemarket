@@ -1,12 +1,18 @@
 package com.ByteMarket.byte_market_api.Controller;
 
+import com.ByteMarket.byte_market_api.DTO.LoginResponse;
 import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
 import com.ByteMarket.byte_market_api.Entity.SellerEntity;
 import com.ByteMarket.byte_market_api.Service.CustomerService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,6 +21,8 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     CustomerService customerService;
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     @PostMapping("/addCustomer")
     public CustomerEntity addCustomer(@RequestBody CustomerEntity newCustomer){
@@ -23,12 +31,23 @@ public class CustomerController {
         return customerService.addCustomer(newCustomer);
     }
     @PostMapping("/auth/login")
-    public CustomerEntity login(@RequestBody CustomerEntity newCustomer){
+    public ResponseEntity<?> login(@RequestBody CustomerEntity newCustomer){
+
         CustomerEntity customer = customerService.authenticate(newCustomer.getUsername(), newCustomer.getPassword());
 
-        if(customer != null){
-            return customer;
-        }else{
+        if(customer != null) {
+            // Generate the JWT token
+            String token = Jwts.builder()
+                    .setSubject(customer.getUsername())
+                    .claim("userId", customer.getUserid())
+                    .claim("role", customer.getRole())
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .compact();
+
+            return ResponseEntity.ok(new LoginResponse(token, customer.getUserid(), customer.getRole(), customer.getUsername()));
+        } else {
             throw new RuntimeException("Invalid username or password");
         }
     }

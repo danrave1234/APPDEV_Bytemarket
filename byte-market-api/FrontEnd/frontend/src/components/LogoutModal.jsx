@@ -21,11 +21,11 @@ const LogoutModal = ({show, closeModal}) => {
                 <div className="logout-modal-box">
                     <h1>Logout</h1>
                     <p>Are you sure you want to logout?</p>
-                    <button onClick={handleClose}>
-                        Close
-                    </button>
-                    <button onClick={handleLogout}>
+                    <button className="logout-logoutButton" onClick={handleLogout}>
                         Logout
+                    </button>
+                    <button className="logout-logoutCancelButton" onClick={handleClose}>
+                        Close
                     </button>
                 </div>
             </div>

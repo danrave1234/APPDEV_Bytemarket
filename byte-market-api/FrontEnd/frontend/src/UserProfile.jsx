@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './styles/UserProfile.css';
 import PageLayout from "./components/Layout.jsx";
-import { useAuth } from "./components/AuthProvider.jsx";
+import {useAuth} from "./components/AuthProvider.jsx";
 
 function UserProfile() {
     const [user, setUser] = useState(null);
@@ -17,12 +17,10 @@ function UserProfile() {
         profilepic: ""
     });
     useEffect(() => {
-        console.log("UserProfile component mounted.");
         if (userid) {
             const fetchUser = async () => {
                 try {
                     setLoading(true);
-                    console.log("Fetching user data for userId:", userid, "with role:", role);
                     let response;
                     if (role === 'Admin') {
                         response = await axios.get(`http://localhost:8080/api/admin/getAdminById/${userid}`);
@@ -31,7 +29,6 @@ function UserProfile() {
                     } else {
                         response = await axios.get(`http://localhost:8080/api/customer/getCustomerById/${userid}`);
                     }
-                    console.log("Fetched user data:", response.data);
                     setUser(response.data);
                 } catch (error) {
                     console.error('Error fetching user data:', error);
@@ -45,27 +42,22 @@ function UserProfile() {
     }, [userid, role]);
 
     const handleEditToggle = () => {
-        console.log("Toggling edit mode. Current state:", editMode);
         setEditMode(!editMode);
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log("Changing input:", name, "to value:", value);
         setUser({ ...user, [name]: value });
     };
 
     const handleSave = async () => {
-    console.log("Saving profile for userId:", userid, "with role:", role);
     try {
-        console.log("Payload being sent:", user);
         let response;
         if (role === 'Admin') {
             response = await axios.put(`http://localhost:8080/api/admin/updateAdmin/${userid}`, user);
         } else if (role === 'Seller') {
             const { products, ...updatedUser } = user;
             response = await axios.put(`http://localhost:8080/api/seller/updateSeller/${userid}`, updatedUser);
-            console.log("seller updated success")
         } else {
             response = await axios.put(`http://localhost:8080/api/customer/updateCustomer/${userid}`, user);
         }
@@ -88,17 +80,14 @@ function UserProfile() {
             : role === 'Seller'
                 ? `http://localhost:8080/api/seller/deleteSeller/${userid}`
                 : `http://localhost:8080/api/customer/deleteCustomer/${userid}`;
-        console.log("Delete URL:", deleteApiUrl);
 
         if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
             try {
-                console.log("Deleting account for userId:", userid);
                 await axios.delete(deleteApiUrl);
                 alert('Account deleted successfully.');
                 logout();
                 navigate('/');
             } catch (error) {
-                console.error('Error deleting account:', error);
                 if (error.response) {
                     console.error('Response data:', error.response.data);
                     alert(`Error: ${error.response.data.message || 'An error occurred while deleting the account.'}`);
@@ -114,16 +103,13 @@ function UserProfile() {
     };
 
     const handleCancel = () => {
-        console.log("Canceling edit mode. Reverting changes.");
         setEditMode(false);
     };
 
     if (loading) {
-        console.log("Loading user data...");
         return <p>Loading...</p>;
     }
     if (!user) {
-        console.log("No user data available.");
         return <p>No user data available.</p>;
     }
 
@@ -146,7 +132,6 @@ const handleImageChange = async (event) => {
                 // Send the base64 image to the server to update the profile
                 const cleanedImage = image.replace(/^data:image\/[a-z]+;base64,/, ""); // Clean the base64 string
 
-                // Update the profile picture state
                 setProfilePic({
                     profilepic: cleanedImage,
                 });
@@ -157,7 +142,6 @@ const handleImageChange = async (event) => {
                     { profilepic: cleanedImage }
                 );
 
-                console.log("Profile image updated successfully:", response.data);
 
                 // Update the user state to reflect the new profile picture
                 setUser((prevUser) => ({
@@ -294,7 +278,6 @@ const handleImageChange = async (event) => {
                                 readOnly={!editMode}
                             />
                             <button onClick={() => {
-                                console.log("Toggling password visibility. Current state:", showPassword);
                                 setShowPassword(!showPassword);
                             }}>
                                 {showPassword ? "Hide" : "Show"}

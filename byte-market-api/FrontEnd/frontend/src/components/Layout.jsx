@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { Route, Routes, useNavigate } from "react-router-dom";
 import SignUpModal from './SignUpModal.jsx';
 import LoginModal from './LoginModal.jsx';
@@ -27,6 +27,8 @@ function PageLayout({ children }) {
     const [searchQuery, setSearchQuery] = useState("");
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     const navigate = useNavigate();
+    const dropdownRef = useRef(null);
+    const dropdownButtonRef  = useRef(null);
     const { isLoggedIn, logout, role, name } = useAuth();
 
     // All modal handlers remain the same...
@@ -108,6 +110,23 @@ function PageLayout({ children }) {
     };
 
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target) &&
+                dropdownButtonRef.current &&
+                !dropdownButtonRef.current.contains(event.target)
+            ) {
+                setShowDropdown(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     // Modified store handler for the footer link
     const handleStoresLink = () => {
@@ -246,14 +265,14 @@ function PageLayout({ children }) {
                                 <img src={walletLogoBlack} alt="Wallet" onClick={openModalWallet} />
                             </div>
                         )}
-                        <div className="profileBar" onClick={toggleDropdown}>
+                        <div className="profileBar" onClick={toggleDropdown} ref={dropdownButtonRef}>
                             <img src={arrow} alt="Arrow" className="profileArrow" />
                             <img src={profileIcon} alt="Profile Icon" className="profileIcon" />
                         </div>
                     </div>
 
                     {showDropdown && (
-                        <div className="dropdown">
+                        <div className="dropdown" ref={dropdownRef}>
                             <ul>
                                 {isLoggedIn ? (
                                     <>
