@@ -294,7 +294,7 @@ function LandingPage() {
                 </h1>
                 <div className="stores-section">
                     {loading ? (
-                        <div className="loading">Loading stores...</div>
+                        <div className="spinner"></div>
                     ) : (
                         <>
                             {displayedSellers.map((seller) => {

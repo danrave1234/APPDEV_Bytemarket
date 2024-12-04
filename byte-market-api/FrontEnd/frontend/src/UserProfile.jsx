@@ -51,28 +51,28 @@ function UserProfile() {
     };
 
     const handleSave = async () => {
-    try {
-        let response;
-        if (role === 'Admin') {
-            response = await axios.put(`http://localhost:8080/api/admin/updateAdmin/${userid}`, user);
-        } else if (role === 'Seller') {
-            const { products, ...updatedUser } = user;
-            response = await axios.put(`http://localhost:8080/api/seller/updateSeller/${userid}`, updatedUser);
-        } else {
-            response = await axios.put(`http://localhost:8080/api/customer/updateCustomer/${userid}`, user);
+        try {
+            let response;
+            if (role === 'Admin') {
+                response = await axios.put(`http://localhost:8080/api/admin/updateAdmin/${userid}`, user);
+            } else if (role === 'Seller') {
+                const { products, ...updatedUser } = user;
+                response = await axios.put(`http://localhost:8080/api/seller/updateSeller/${userid}`, updatedUser);
+            } else {
+                response = await axios.put(`http://localhost:8080/api/customer/updateCustomer/${userid}`, user);
+            }
+            setEditMode(false);
+            console.log("Profile updated successfully.");
+            alert('Profile updated successfully!');
+        } catch (error) {
+            console.error('Error updating user:', error);
+            if (error.response && error.response.data) {
+                alert(`Error: ${error.response.data.message || 'Failed to update profile.'}`);
+            } else {
+                alert('Failed to update profile.');
+            }
         }
-        setEditMode(false);
-        console.log("Profile updated successfully.");
-        alert('Profile updated successfully!');
-    } catch (error) {
-        console.error('Error updating user:', error);
-        if (error.response && error.response.data) {
-            alert(`Error: ${error.response.data.message || 'Failed to update profile.'}`);
-        } else {
-            alert('Failed to update profile.');
-        }
-    }
-};
+    };
 
     const handleDelete = async () => {
         const deleteApiUrl = role === 'Admin'
@@ -107,10 +107,18 @@ function UserProfile() {
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <PageLayout>
+                <div className="spinner"></div>
+            </PageLayout>
+        );
     }
     if (!user) {
-        return <p>No user data available.</p>;
+        return (
+            <PageLayout>
+                <p>No user data available.</p>
+            </PageLayout>
+        );
     }
 
 
@@ -118,48 +126,48 @@ function UserProfile() {
     today.setDate(today.getDate() - 1);
     const formattedToday = today.toISOString().split('T')[0];
 
-const handleImageChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-        console.log("Selected file for upload:", file);
-        const reader = new FileReader();
+    const handleImageChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            console.log("Selected file for upload:", file);
+            const reader = new FileReader();
 
-        reader.onloadend = async () => {
-            try {
-                const image = reader.result; // base64 string of the image
-                console.log("Base64 Image Data:", image);
+            reader.onloadend = async () => {
+                try {
+                    const image = reader.result; // base64 string of the image
+                    console.log("Base64 Image Data:", image);
 
-                // Send the base64 image to the server to update the profile
-                const cleanedImage = image.replace(/^data:image\/[a-z]+;base64,/, ""); // Clean the base64 string
+                    // Send the base64 image to the server to update the profile
+                    const cleanedImage = image.replace(/^data:image\/[a-z]+;base64,/, ""); // Clean the base64 string
 
-                setProfilePic({
-                    profilepic: cleanedImage,
-                });
+                    setProfilePic({
+                        profilepic: cleanedImage,
+                    });
 
-                // Make the API request to update the profile picture
-                const response = await axios.put(
-                    `http://localhost:8080/api/user/updateUserProfile/${userid}`,
-                    { profilepic: cleanedImage }
-                );
+                    // Make the API request to update the profile picture
+                    const response = await axios.put(
+                        `http://localhost:8080/api/user/updateUserProfile/${userid}`,
+                        { profilepic: cleanedImage }
+                    );
 
 
-                // Update the user state to reflect the new profile picture
-                setUser((prevUser) => ({
-                    ...prevUser,
-                    profilepic: cleanedImage, // Assuming the response contains the updated image data
-                }));
+                    // Update the user state to reflect the new profile picture
+                    setUser((prevUser) => ({
+                        ...prevUser,
+                        profilepic: cleanedImage, // Assuming the response contains the updated image data
+                    }));
 
-                alert('Profile image updated successfully!');
-            } catch (error) {
-                console.error("Error uploading profile image:", error);
-                alert('Failed to upload profile image.');
-            }
-        };
+                    alert('Profile image updated successfully!');
+                } catch (error) {
+                    console.error("Error uploading profile image:", error);
+                    alert('Failed to upload profile image.');
+                }
+            };
 
-        // Start reading the file as a base64 string
-        reader.readAsDataURL(file);
-    }
-};
+            // Start reading the file as a base64 string
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <PageLayout>

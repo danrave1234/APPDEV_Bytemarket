@@ -85,7 +85,13 @@ const OrderHistory = () => {
 
 
 
-    if (loading) return <p>Loading orders...</p>;
+    if (loading) {
+        return (
+            <PageLayout>
+                <div className="spinner"></div>
+            </PageLayout>
+        );
+    }
 
     return (
         <PageLayout>

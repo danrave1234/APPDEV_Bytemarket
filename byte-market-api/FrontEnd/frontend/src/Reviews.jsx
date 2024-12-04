@@ -32,9 +32,7 @@ function Reviews() {
 
     if (loading) return (
         <PageLayout>
-            <div className="container">
-                <div className="loading">Loading...</div>
-            </div>
+            <div className="spinner"></div>
         </PageLayout>
     );
 

@@ -266,7 +266,7 @@ function PageLayout({ children }) {
                             </div>
                         )}
                         <div className="profileBar" onClick={toggleDropdown} ref={dropdownButtonRef}>
-                            <img src={arrow} alt="Arrow" className="profileArrow" />
+                            <img src={arrow} alt="Arrow" className={`profileArrow ${showDropdown ? 'open' : ''}`}/>
                             <img src={profileIcon} alt="Profile Icon" className="profileIcon" />
                         </div>
                     </div>
@@ -361,11 +361,11 @@ function PageLayout({ children }) {
                         <ul>
                             {isLoggedIn ? (
                                 <>
-                                    <a onClick={openModalLogout}>Admin Login</a>
+                                    <li><a onClick={openModalLogout}>Admin Login</a></li>
                                 </>
                             ):(
                                 <>
-                                    <a onClick={openModalLoginAdmin}>Admin Login</a>
+                                    <li><a onClick={openModalLoginAdmin}>Admin Login</a></li>
                                 </>
                             )}
                         </ul>

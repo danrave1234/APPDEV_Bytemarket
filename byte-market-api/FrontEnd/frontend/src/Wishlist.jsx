@@ -144,8 +144,13 @@ function Wishlist() {
         navigate(`/productdetail/${product.productid}`, { state: { product } });
     };
 
-    if (loading) return <p>Loading your wishlist...</p>;
-
+    if (loading) {
+        return (
+            <PageLayout>
+                <div className="spinner"></div>
+            </PageLayout>
+        );
+    }
     return (
         <PageLayout>
             <div className="wishlist-container">

@@ -21,7 +21,7 @@ html, body {
     background-color: white;
 }
 
-.containerLayout1 .header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,13 +30,13 @@ html, body {
     height: 80px;
 }
 
-.containerLayout1 .header-left {
+.header-left {
     display: flex;
     align-items: center;
     flex: 1;
 }
 
-.containerLayout1 .header-right {
+.header-right {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -44,7 +44,7 @@ html, body {
     justify-content: flex-end;
 }
 
-.containerLayout1 .search-container {
+.search-container {
     flex: 2;
     display: flex;
     justify-content: center;
@@ -53,28 +53,33 @@ html, body {
 }
 
 /* Logo Styles */
-.containerLayout1 .logoAndName {
+.logoAndName {
     display: flex;
     align-items: center;
 }
 
-.containerLayout1 .logoAndName h1 {
+.logoAndName h1 {
     font-size: 1.2rem;
 }
 
-.containerLayout1 .logoAndName a {
+.logoAndName a {
     cursor: pointer;
 }
 
-.containerLayout1 .logo {
+.logo {
     width: 4vw;
     min-width: 50px;
     height: auto;
     max-width: 100%;
+    transition: transform 0.3s ease; /* Add transition for smooth scaling */
+}
+
+.logo:hover {
+    transform: scale(1.1); /* Scale the logo to 110% on hover */
 }
 
 /* Search Bar Styles */
-.containerLayout1 .searchBar {
+.searchBar {
     display: flex;
     align-items: center;
     background-color: #f5f5f5;
@@ -88,12 +93,12 @@ html, body {
     transition: border-color 0.3s ease;
 }
 
-.containerLayout1 .searchBar:focus-within {
+.searchBar:focus-within {
     border-color: #212850;
     box-shadow: 0 0 0 1px rgba(33, 40, 80, 0.1);
 }
 
-.containerLayout1 .searchBar input {
+.searchBar input {
     flex: 1;
     border: none;
     outline: none;
@@ -103,11 +108,11 @@ html, body {
     color: #333;
 }
 
-.containerLayout1 .searchBar input::placeholder {
+.searchBar input::placeholder {
     color: #888;
 }
 
-.containerLayout1 .searchIcon {
+.searchIcon {
     width: 16px;
     height: 16px;
     min-width: initial;
@@ -116,12 +121,12 @@ html, body {
     background: transparent;
 }
 
-.containerLayout1 .searchIcon:hover {
+.searchIcon:hover {
     cursor: pointer;
     background: #29466c;
 }
 
-.containerLayout1 .searchButton {
+.searchButton {
     background: #212850;
     border: none;
     padding: 0 1.5rem;
@@ -133,11 +138,11 @@ html, body {
     transition: background-color 0.3s ease;
 }
 
-.containerLayout1 .searchButton:hover {
+.searchButton:hover {
     background: #29466c;
 }
 
-.containerLayout1 .clearButton {
+.clearButton {
     background: transparent;
     border: none;
     color: #666;
@@ -150,13 +155,13 @@ html, body {
     align-items: center;
 }
 
-.containerLayout1 .clearButton:hover {
+.clearButton:hover {
     color: #333;
     background: rgba(0, 0, 0, 0.05);
 }
 
 /* Profile Bar Styles */
-.containerLayout1 .profileBar {
+.profileBar {
     position: relative;
     display: flex;
     align-items: center;
@@ -167,11 +172,11 @@ html, body {
     transition: border-color 0.3s ease;
 }
 
-.containerLayout1 .profileBar:hover {
+.profileBar:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.containerLayout1 .profileIcon {
+.profileIcon {
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -179,18 +184,22 @@ html, body {
     transition: transform 0.3s ease;
 }
 
-.containerLayout1 .profileArrow {
+/* Profile Arrow Styles */
+.profileArrow {
     width: 1.3vw;
     height: 1.5vh;
     min-width: 20px;
+    transition: transform 0.3s ease; /* Ensure transition applies to both states */
 }
 
+.profileArrow.open {
+    transform: rotate(180deg);
+}
 /* Dropdown Menu */
-.containerLayout1 .dropdown {
+.dropdown {
     position: absolute;
     top: 5rem;
     right: 6.5rem; /* Moved the dropdown a bit to the left */
-    left: 6.5; /* Added a left property to align the dropdown to the left */
     background-color: white;
     border: 1px solid #e0e0e0;
     border-radius: 0.5rem;
@@ -199,18 +208,18 @@ html, body {
     z-index: 1000;
 }
 
-.containerLayout1 .dropdownDivider {
+.dropdownDivider {
     border-top: 1px solid #e0e0e0;
     margin: 0.5rem 0;
 }
 
-.containerLayout1 .dropdown ul {
+.dropdown ul {
     list-style: none;
     padding: 0.5rem 0;
     margin: 0;
 }
 
-.containerLayout1 .dropdownItemLabel {
+.dropdownItemLabel {
     padding: 0.5rem 1rem;
     font-size: 0.8rem;
     font-weight: bold;
@@ -218,7 +227,7 @@ html, body {
     color: #888;
 }
 
-.containerLayout1 .dropdownItem {
+.dropdownItem {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
@@ -226,30 +235,30 @@ html, body {
     cursor: pointer;
 }
 
-.containerLayout1 .dropdownItem:hover {
+.dropdownItem:hover {
     background-color: #f0f0f0;
 }
 
 /* Wallet Button Styling */
-.containerLayout1 .wallet-button {
+.wallet-button {
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 
-.containerLayout1 .wallet-button img {
+.wallet-button img {
     width: auto;
     height: 4vh;
     margin-right: 1.5rem;
     transition: transform 0.2s;
 }
 
-.containerLayout1 .wallet-button img:hover {
+.wallet-button img:hover {
     transform: scale(1.1);
 }
 
 /* Greeting Message */
-.containerLayout1 .greeting-message {
+.greeting-message {
     font-size: 1.1rem;
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
     color: #1f244e;
@@ -313,13 +322,14 @@ footer > .footer-div {
 }
 
 .footer-div li a:hover {
-    color: #38d3f1;
+    color: #3a86c3;
 }
 
 /* Main Content */
 main {
     min-height: calc(100vh - 80px - 300px);
-    padding: 2rem 5rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
 
 /* Responsive Design */
