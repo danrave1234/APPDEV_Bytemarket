@@ -4,9 +4,9 @@ import './LoginModal.css';
 import { useNavigate } from 'react-router-dom';
 
 const LoginModalAdmin = ({ show, closeModal, toggleDropdown }) => {
-    const { setIsLoggedIn, setUserId, setRole } = useAuth();
+    const { login  } = useAuth();
     const navigate = useNavigate();
-    const [loginData, setLoginData] = useState({ username: '', password: '' });
+    const [loginData, setLoginData] = useState({ username: '', password: '' , userType: 'admin'});
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (e) => {
@@ -14,33 +14,17 @@ const LoginModalAdmin = ({ show, closeModal, toggleDropdown }) => {
         setLoginData({ ...loginData, [name]: value });
     };
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:8080/api/admin/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData),
-            });
-
-            if (!response.ok) throw new Error('Network response was not ok');
-
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('userId', data.userid);
-            localStorage.setItem('role', data.role);
-
-            setIsLoggedIn(true);
-            setUserId(data.userid);
-            setRole(data.role);
-            toggleDropdown();
-            closeModal();
-            navigate('/admin/dashboard');
-        } catch (error) {
-            console.error('Error logging in:', error);
-            setErrorMessage("Login failed. Please check your credentials.");
-        }
-    };
+const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+        await login(loginData.username, loginData.password, 'admin');
+        toggleDropdown();
+        closeModal();
+        navigate('/admin/dashboard');
+    } catch (error) {
+        setErrorMessage(error.message || 'Login failed. Please check your credentials.');
+    }
+};
 
     if (!show) return null;
 

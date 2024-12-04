@@ -1,19 +1,21 @@
 package com.ByteMarket.byte_market_api.Service;
 
-import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
+import com.ByteMarket.byte_market_api.Entity.ProductEntity;
 import com.ByteMarket.byte_market_api.Entity.SellerEntity;
-import com.ByteMarket.byte_market_api.Entity.TransactionEntity;
+import com.ByteMarket.byte_market_api.Repository.ProductRepository;
 import com.ByteMarket.byte_market_api.Repository.SellerRepository;
-import io.jsonwebtoken.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SellerService {
     @Autowired
     private SellerRepository sellerRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     public SellerEntity authenticate(String username, String password) {
         SellerEntity seller = sellerRepository.findByUsername(username);
@@ -32,6 +34,13 @@ public class SellerService {
     //Add
     public SellerEntity addSeller(SellerEntity seller){
         return sellerRepository.save(seller);
+    }
+    @Async
+    public CompletableFuture<Void> addProducts(List<ProductEntity> products) {
+        products.forEach(product -> {
+            productRepository.save(product);
+        });
+        return CompletableFuture.completedFuture(null);
     }
     //Update
     //Not sure if the update works, my structure is not tested

@@ -1,11 +1,17 @@
 package com.ByteMarket.byte_market_api.Controller;
 
+import com.ByteMarket.byte_market_api.DTO.LoginResponse;
 import com.ByteMarket.byte_market_api.Entity.*;
 import com.ByteMarket.byte_market_api.Service.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,6 +28,8 @@ public class AdminController {
     private ProductService productService;
     @Autowired
     private OrderService orderService;
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     //Sellers
     @GetMapping("/getAllSellers")
@@ -33,6 +41,27 @@ public class AdminController {
         newSeller.setRegistration(LocalDate.now());
         newSeller.setRole("Seller");
         return sellerService.addSeller(newSeller);
+    }
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> login(@RequestBody AdminEntity newAdmin){
+
+        AdminEntity admin = adminService.authenticate(newAdmin.getUsername(), newAdmin.getPassword());
+
+        if(admin != null) {
+            // Generate the JWT token
+            String token = Jwts.builder()
+                    .setSubject(admin.getUsername())
+                    .claim("userId", admin.getUserid())
+                    .claim("role", admin.getRole())
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .compact();
+
+            return ResponseEntity.ok(new LoginResponse(token, admin.getUserid(), admin.getRole(), admin.getUsername()));
+        } else {
+            throw new RuntimeException("Invalid username or password");
+        }
     }
     @PutMapping("/updateSeller/{id}")
     public SellerEntity updateSeller(@PathVariable int id, @RequestBody SellerEntity newSeller ){
@@ -110,16 +139,7 @@ public class AdminController {
     public AdminEntity getAdminById(@PathVariable int id) {
         return adminService.getAdminById(id);
     }
-    @PostMapping("/auth/login")
-    public AdminEntity login(@RequestBody CustomerEntity newAdmin){
-        AdminEntity admin = adminService.authenticate(newAdmin.getUsername(), newAdmin.getPassword());
 
-        if(admin != null){
-            return admin;
-        }else{
-            throw new RuntimeException("Invalid username or password");
-        }
-    }
     @PostMapping("/addAdmin")
     public AdminEntity addAdmin(@RequestBody AdminEntity admin) {
         admin.setRegistration(LocalDate.now());
