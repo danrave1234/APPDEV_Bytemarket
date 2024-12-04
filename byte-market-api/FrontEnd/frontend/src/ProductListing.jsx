@@ -194,11 +194,17 @@ export default function ProductListing() {
         }
     };
 
-    if (loading) return <PageLayout><div className="loading">Loading products...</div></PageLayout>;
+    if (loading) {
+        return (
+            <PageLayout>
+                <div className="spinner"></div>
+            </PageLayout>
+        );
+    }
 
     return (
         <PageLayout>
-            <div className="product-listing-container">
+        <div className="product-listing-container">
                 <div className="top-section">
 {/*                     <div className="store-dropdown"> */}
 {/*                         <select value={selectedSeller} onChange={(e) => { */}

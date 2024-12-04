@@ -194,8 +194,13 @@ function AddToCart() {
     };
 
 
-    if (loading) return <p>Loading your cart...</p>;
-
+    if (loading) {
+        return (
+            <PageLayout>
+                <div className="spinner"></div>
+            </PageLayout>
+        );
+    }
     return (
         <PageLayout>
             <div className="cart-container">

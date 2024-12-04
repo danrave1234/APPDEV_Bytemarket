@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from "./components/AuthProvider.jsx";
-import './styles/Checkout.css'; // Importing plain CSS instead of CSS module
+import './styles/Checkout.css';
 import PageLayout from "./components/Layout.jsx";
 
 const Checkout = () => {
     const { userid } = useAuth();
-    const [pendingOrders, setPendingOrders] = useState(() => {
-        const cachedPending = localStorage.getItem('pendingOrders');
-        return cachedPending ? JSON.parse(cachedPending) : [];
-    });
-    const [completedOrders, setCompletedOrders] = useState(() => {
-        const cachedCompleted = localStorage.getItem('completedOrders');
-        return cachedCompleted ? JSON.parse(cachedCompleted) : [];
-    });
+    const [orders, setOrders] = useState({ pending: [], completed: [] });
     const [loading, setLoading] = useState(true);
     const [transactionStatus, setTransactionStatus] = useState(null);
+    const [filter, setFilter] = useState('pending'); // State to manage the filter
 
-    const fetchSellerOrders = async () => {
+    const fetchSellerOrders = useCallback(async () => {
         if (!userid) return;
         try {
             setLoading(true);
@@ -26,55 +20,34 @@ const Checkout = () => {
                 order.orderItems.some(item => item.product.seller.userid === userid)
             );
             const pending = sellerOrders.filter(order => order.orderstatus === 'Pending');
-            const completed = sellerOrders.filter(order => order.orderstatus === 'Paid' || order.orderstatus === 'Completed');
+            const completed = sellerOrders.filter(order => ['Paid', 'Completed'].includes(order.orderstatus));
 
-            if (pending.length > 0 || completed.length > 0) {
-                setPendingOrders(pending);
-                setCompletedOrders(completed);
-                localStorage.setItem('pendingOrders', JSON.stringify(pending));
-                localStorage.setItem('completedOrders', JSON.stringify(completed));
-            }
+            setOrders({ pending, completed });
+            localStorage.setItem('pendingOrders', JSON.stringify(pending));
+            localStorage.setItem('completedOrders', JSON.stringify(completed));
         } catch (error) {
             console.error('Error fetching orders:', error);
         } finally {
             setLoading(false);
         }
-    };
+    }, [userid]);
 
     useEffect(() => {
         if (userid) {
             fetchSellerOrders();
         }
-    }, [userid]);
-
-
-    const handleRefresh = () => {
-        fetchSellerOrders();
-    };
+    }, [userid, fetchSellerOrders]);
 
     const handleCheckout = async (order) => {
-    const { orderid, customer, orderItems } = order;
-    try {
-
-        const sellerId = orderItems[0].product.seller.userid; // All items in the order belong to the same seller
-        if (!sellerId) {
-            setTransactionStatus({
-                orderid,
-                status: 'error',
-                message: 'No seller found for this item in the order.',
-            });
-            return;
-        }
-
-        const transaction = {
-            transactiontype: "PURCHASE",
-        };
-
-        const transactionUrl = `http://localhost:8080/api/transaction/addTransaction/${customer.userid}/${sellerId}/${orderid}`;
-
+        const { orderid, customer, orderItems } = order;
         try {
-            // Send the transaction request once for the entire order
-            const response = await axios.post(transactionUrl, transaction);
+            const sellerId = orderItems[0].product.seller.userid;
+            if (!sellerId) {
+                throw new Error('No seller found for this item in the order.');
+            }
+
+            const transactionUrl = `http://localhost:8080/api/transaction/addTransaction/${customer.userid}/${sellerId}/${orderid}`;
+            await axios.post(transactionUrl, { transactiontype: "PURCHASE" });
 
             setTransactionStatus({
                 orderid,
@@ -82,90 +55,98 @@ const Checkout = () => {
                 message: `Transaction for Order ${orderid} with Seller ${sellerId} completed successfully!`,
             });
 
-            // Update local state and storage
-            const updatedPendingOrders = pendingOrders.filter((o) => o.orderid !== orderid);
-            const updatedCompletedOrders = [
-                ...completedOrders,
-                { ...order, orderstatus: 'Completed' }
-            ];
-            setPendingOrders(updatedPendingOrders);
-            setCompletedOrders(updatedCompletedOrders);
-            localStorage.setItem('pendingOrders', JSON.stringify(updatedPendingOrders));
-            localStorage.setItem('completedOrders', JSON.stringify(updatedCompletedOrders));
-        } catch (apiError) {
+            setOrders(prevOrders => ({
+                pending: prevOrders.pending.filter(o => o.orderid !== orderid),
+                completed: [...prevOrders.completed, { ...order, orderstatus: 'Completed' }]
+            }));
+        } catch (error) {
             setTransactionStatus({
                 orderid,
                 status: 'error',
-                message: `Error processing transaction for Order ${orderid}.`,
+                message: `Error processing transaction for Order ${orderid}: ${error.message}`,
             });
         }
-    } catch (generalError) {
-        setTransactionStatus({
-            orderid,
-            status: 'error',
-            message: `Error processing transaction for Order ${orderid}.`,
-        });
+    };
+
+    const renderOrderCard = (order, isPending) => (
+        <div key={order.orderid} className={`orderCard ${isPending ? 'pendingOrder' : 'completedOrder'}`}>
+            <div className="order-header">
+                <h4>Order ID: {order.orderid}</h4>
+                <p className="order-total">Total Price: ₱{order.totalprice.toFixed(2)}</p>
+                {!isPending && <p className="order-status">Status: Completed</p>}
+            </div>
+            <h5>Products in Order:</h5>
+            <ul>
+                {order.orderItems.map((item, index) => (
+                    <li key={item.id || `${order.orderid}-${index}`}>
+                        <div className="product-info">
+                            {item.product.image ? (
+                                <img src={`data:image/jpeg;base64,${item.product.image}`} alt={item.product.productname} className="product-image" />
+                            ) : (
+                                <div className="image-placeholder">No Image</div>
+                            )}
+                            <div>
+                                <p className="item-name">{item.product.productname}</p>
+                                <p className="item-details">Quantity: {item.quantity} | ₱{item.price.toFixed(2)} each</p>
+                            </div>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+            {isPending && (
+                <button onClick={() => handleCheckout(order)} className="fulfillButton">
+                    Fulfill Order
+                </button>
+            )}
+        </div>
+    );
+
+    if (loading) {
+        return (
+            <PageLayout>
+                <div className="spinner"></div>
+            </PageLayout>
+        );
     }
-};
-
-
-    if (loading) return <p>Loading your orders...</p>;
 
     return (
         <PageLayout>
             <div className="checkoutPage">
                 <h3>Your Orders to Fulfill</h3>
-                <button className="refreshButton" onClick={handleRefresh}>
-                    Refresh Orders
-                </button>
-                <div className="ordersSection">
-                    <h4>Pending Orders</h4>
-                    {pendingOrders.length > 0 ? (
-                        pendingOrders.map((order) => (
-                            <div key={order.orderid} className="orderCard pendingOrder">
-                                <p>Order ID: {order.orderid}</p>
-                                <p>Total Price: ₱{order.totalprice.toFixed(2)}</p>
-                                <h5>Products in Order:</h5>
-                                <ul>
-                                    {order.orderItems.map((item, index) => (
-                                        <li key={item.id || `${order.orderid}-${index}`}>
-                                            <p>Product Name: {item.product.productname}</p>
-                                            <p>Quantity: {item.quantity}</p>
-                                            <p>Price: ₱{item.product.price.toFixed(2)}</p>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <button onClick={() => handleCheckout(order)} className="fulfillButton">
-                                    Fulfill Order
-                                </button>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No pending orders to fulfill.</p>
-                    )}
+                <div className="button-container">
+                    <button className="refreshButton" onClick={fetchSellerOrders}>
+                        Refresh Orders
+                    </button>
+                    <div className="filter-buttons">
+                        <button className={`filter-button ${filter === 'pending' ? 'active' : ''}`}
+                                onClick={() => setFilter('pending')}>
+                            Pending Orders
+                        </button>
+                        <button className={`filter-button ${filter === 'completed' ? 'active' : ''}`}
+                                onClick={() => setFilter('completed')}>
+                            Completed Orders
+                        </button>
+                    </div>
                 </div>
                 <div className="ordersSection">
-                    <h4>Completed Orders</h4>
-                    {completedOrders.length > 0 ? (
-                        completedOrders.map((order) => (
-                            <div key={order.orderid} className="orderCard completedOrder">
-                                <p>Order ID: {order.orderid}</p>
-                                <p>Total Price: ₱{order.totalprice.toFixed(2)}</p>
-                                <p>Status: Completed</p>
-                                <h5>Products in Order:</h5>
-                                <ul>
-                                    {order.orderItems.map((item, index) => (
-                                        <li key={item.id || `${order.orderid}-${index}`}>
-                                            <p>Product Name: {item.product.productname}</p>
-                                            <p>Quantity: {item.quantity}</p>
-                                            <p>Price: ₱{item.product.price.toFixed(2)}</p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))
+                    {filter === 'pending' ? (
+                        <>
+                            <h4>Pending Orders</h4>
+                            {orders.pending.length > 0 ? (
+                                orders.pending.map(order => renderOrderCard(order, true))
+                            ) : (
+                                <p>No pending orders to fulfill.</p>
+                            )}
+                        </>
                     ) : (
-                        <p>No completed orders.</p>
+                        <>
+                            <h4>Completed Orders</h4>
+                            {orders.completed.length > 0 ? (
+                                orders.completed.map(order => renderOrderCard(order, false))
+                            ) : (
+                                <p>No completed orders.</p>
+                            )}
+                        </>
                     )}
                 </div>
                 {transactionStatus && (

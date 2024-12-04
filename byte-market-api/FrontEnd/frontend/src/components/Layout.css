@@ -71,6 +71,11 @@ html, body {
     min-width: 50px;
     height: auto;
     max-width: 100%;
+    transition: transform 0.3s ease; /* Add transition for smooth scaling */
+}
+
+.logo:hover {
+    transform: scale(1.1); /* Scale the logo to 110% on hover */
 }
 
 /* Search Bar Styles */
@@ -179,18 +184,22 @@ html, body {
     transition: transform 0.3s ease;
 }
 
+/* Profile Arrow Styles */
 .profileArrow {
     width: 1.3vw;
     height: 1.5vh;
     min-width: 20px;
+    transition: transform 0.3s ease; /* Ensure transition applies to both states */
 }
 
+.profileArrow.open {
+    transform: rotate(180deg);
+}
 /* Dropdown Menu */
 .dropdown {
     position: absolute;
     top: 5rem;
     right: 6.5rem; /* Moved the dropdown a bit to the left */
-    left: 6.5; /* Added a left property to align the dropdown to the left */
     background-color: white;
     border: 1px solid #e0e0e0;
     border-radius: 0.5rem;
@@ -319,7 +328,8 @@ footer > .footer-div {
 /* Main Content */
 main {
     min-height: calc(100vh - 80px - 300px);
-    padding: 2rem 5rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
 
 /* Responsive Design */
