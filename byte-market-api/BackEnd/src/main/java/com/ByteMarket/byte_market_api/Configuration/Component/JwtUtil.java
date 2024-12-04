@@ -3,6 +3,7 @@ package com.ByteMarket.byte_market_api.Configuration.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -11,8 +12,9 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    private static final String SECRET_KEY = "YourSecretKey"; // Replace with a strong secret key.
 
+    @Value("${jwt.secret}")
+    private String secretKey;
     public String generateToken(String userId, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
@@ -23,7 +25,7 @@ public class JwtUtil {
                 .setSubject(userId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
@@ -38,7 +40,7 @@ public class JwtUtil {
 
     public Claims extractClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
     }
