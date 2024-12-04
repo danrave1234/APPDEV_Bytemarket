@@ -4,6 +4,7 @@ import com.ByteMarket.byte_market_api.Entity.AdminEntity;
 import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
 import com.ByteMarket.byte_market_api.Repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

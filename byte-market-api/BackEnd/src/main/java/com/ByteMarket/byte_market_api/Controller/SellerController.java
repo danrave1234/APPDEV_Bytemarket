@@ -1,13 +1,21 @@
 package com.ByteMarket.byte_market_api.Controller;
 
+import com.ByteMarket.byte_market_api.DTO.LoginResponse;
 import com.ByteMarket.byte_market_api.Entity.AdminEntity;
 import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
+import com.ByteMarket.byte_market_api.Entity.ProductEntity;
 import com.ByteMarket.byte_market_api.Entity.SellerEntity;
 import com.ByteMarket.byte_market_api.Service.SellerService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 //Vincent
@@ -17,15 +25,38 @@ import java.util.List;
 public class SellerController {
 @Autowired
 SellerService sellerService;
+@Value("${jwt.secret}")
+private String secretKey;
+
 
     @PostMapping("/auth/login")
-    public SellerEntity login(@RequestBody CustomerEntity newSeller){
+    public ResponseEntity<?> login(@RequestBody SellerEntity newSeller){
+
         SellerEntity seller = sellerService.authenticate(newSeller.getUsername(), newSeller.getPassword());
 
-        if(seller != null){
-            return seller;
-        }else{
+        if(seller != null) {
+            // Generate the JWT token
+            String token = Jwts.builder()
+                    .setSubject(seller.getUsername())
+                    .claim("userId", seller.getUserid())
+                    .claim("role", seller.getRole())
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .compact();
+
+            return ResponseEntity.ok(new LoginResponse(token, seller.getUserid(), seller.getRole(), seller.getUsername()));
+        } else {
             throw new RuntimeException("Invalid username or password");
+        }
+    }
+    @PostMapping("/addProducts")
+    public ResponseEntity<?> addProducts(@RequestBody List<ProductEntity> products) {
+        try {
+            sellerService.addProducts(products);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @PostMapping("/addSeller")
