@@ -6,7 +6,7 @@ import PageLayout from "./components/Layout.jsx";
 import { useAuth } from "./components/AuthProvider.jsx";
 import './styles/StorePage.css';
 import OrderProductModal from './components/OrderProductModal.jsx';
-import MessageModal from './components/MessageModal.jsx';
+
 
 function StorePage() {
     const { userid: customerId } = useAuth();
@@ -53,8 +53,7 @@ function StorePage() {
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
-    const [showMessageModal, setShowMessageModal] = useState(false);
-    const closeMessageModal = () => setShowMessageModal(false);
+
     // Fetch store details and products
     useEffect(() => {
         const fetchStoreData = async () => {
@@ -250,7 +249,6 @@ function StorePage() {
                         </div>
                         <p>Products Listed: {products.length}</p>
                         <p className="store-description">Seller: {storeDetails.sellername}</p>
-                        <button onClick={() => setShowMessageModal(true)}>Message Seller</button>
                     </div>
                 </div>
 
@@ -373,12 +371,7 @@ function StorePage() {
                         </div>
                     )}
                 </div>
-                <MessageModal
-                    show={showMessageModal}
-                    onClose={closeMessageModal}
-                    sellerId={sellerId}
-                    customerId={customerId}
-                />
+
                 {/* Modals */}
                 {showRemoveWishlistModal && (
                     <div className="modal-overlay" onClick={() => setShowRemoveWishlistModal(false)}>

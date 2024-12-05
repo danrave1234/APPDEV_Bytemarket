@@ -1,16 +1,41 @@
-import {Route, Routes} from "react-router-dom";
-import {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import TheRoutes from "./Routes.jsx";
 import './styles/App.css';
-import {AuthProvider} from "./components/AuthProvider.jsx";
 import useScrollToTop from "./components/UseScrollOnTop.jsx";
+import Chat from "./components/Chat.jsx";
+import {useAuth} from "./components/AuthProvider.jsx";
+
 //Dont TOUCH! unless Necessary
 function App(){
+    const {receiverId, senderId} = useAuth();
+    const [isChatVisible, setIsChatVisible] = useState(false);
+    console.log("Receiver ID sa APP", receiverId);
+    console.log("Sender ID sa APP", senderId);
     useScrollToTop();
     return (
         <>
-                <TheRoutes/>
+            <TheRoutes/>
+            {isChatVisible && <Chat onClose={() => setIsChatVisible(false)} />}
+            {!isChatVisible && (
+                <button
+                    onClick={() => setIsChatVisible(true)}
+                    style={{
+                        position: 'fixed',
+                        bottom: '20px',
+                        right: '20px',
+                        padding: '10px',
+                        backgroundColor: '#007bff',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer'
+                    }}
+                >
+                    Open Chat
+                </button>
+            )}
         </>
     )
 }
 export default App;
+

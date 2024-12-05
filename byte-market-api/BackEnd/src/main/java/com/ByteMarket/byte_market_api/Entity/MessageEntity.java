@@ -2,32 +2,30 @@ package com.ByteMarket.byte_market_api.Entity;
 
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "tblmessage")
 public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int messageId;
     @Column(columnDefinition = "TEXT")
     private String message;
-    private LocalDateTime messageTime;
-
-    @ManyToOne
-    @JoinColumn(name = "sender_id", nullable = false)
-    private UserEntity sender;
-
-    @ManyToOne
-    @JoinColumn(name = "receiver_id", nullable = false)
-    private UserEntity receiver;
+    private Instant timestamp;
+    private int senderId;
+    private int receiverId;
 
     public MessageEntity() {
         super();
     }
-    public MessageEntity(String message, LocalDateTime messageTime) {
+    public MessageEntity(String message, Instant messageTime, int senderId, int receiverId) {
         super();
         this.message = message;
-        this.messageTime = messageTime;
+        this.timestamp = messageTime;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
     }
 
     public int getMessageId() {
@@ -46,28 +44,27 @@ public class MessageEntity {
         this.message = message;
     }
 
-    public LocalDateTime getMessageTime() {
-        return messageTime;
+    public Instant getTimestamp() {
+        return timestamp;
     }
 
-    public void setMessageTime(LocalDateTime messageTime) {
-        this.messageTime = messageTime;
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public UserEntity getSender() {
-        return sender;
+    public int getSenderId() {
+        return senderId;
     }
 
-    public void setSender(UserEntity sender) {
-        this.sender = sender;
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
     }
 
-    public UserEntity getReceiver() {
-        return receiver;
+    public int getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceiver(UserEntity receiver) {
-        this.receiver = receiver;
+    public void setReceiverId(int receiverId) {
+        this.receiverId = receiverId;
     }
-
 }

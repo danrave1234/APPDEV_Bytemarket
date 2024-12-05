@@ -1,0 +1,219 @@
+.chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50vw;
+    height: 455px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.chat-window .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.1rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.chat-window .chat-header-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-window .chat-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.chat-window .sidebar {
+    width: 20vw;
+    border-right: 1px solid #e0e0e0;
+}
+
+.chat-window .search-bar {
+    width: inherit;
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.chat-window .search-bar input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.chat-window .search-bar select {
+    margin-left: 5px;
+    padding: 5px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.chat-window .conversation-list {
+    overflow-y: auto;
+}
+
+.chat-window .conversation-item {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.chat-window .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-window .conversation-details {
+    flex: 1;
+}
+
+.chat-window .conversation-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat-window .name {
+    font-weight: bold;
+}
+
+.chat-window .time {
+    color: #888;
+    font-size: 0.8em;
+}
+
+.chat-window .last-message {
+    color: #666;
+    font-size: 0.9em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-window .chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-window .chat-main-header {
+    padding: 0.1rem 1rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.chat-window .messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px); /* Adjust height as needed */
+}
+
+.chat-window .sent, .chat-window .received {
+    max-width: 70%;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    border-radius: 18px;
+}
+
+.chat-window .sent {
+    align-self: flex-end;
+    background-color: #0084ff;
+    color: white;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 60%;
+    word-wrap: break-word;
+}
+
+.chat-window .received {
+    align-self: flex-start;
+    background-color: #f1f0f0;
+    color: black;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 60%;
+    word-wrap: break-word;
+}
+
+.chat-window .product-info {
+    display: flex;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    margin: 10px;
+    border-radius: 4px;
+}
+
+.chat-window .product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.chat-window .product-details h4 {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.chat-window .product-details p {
+    margin: 5px 0 0;
+    font-size: 0.8em;
+    color: #ee4d2d;
+}
+
+.chat-window .quick-replies {
+    padding: 10px;
+}
+
+.chat-window .quick-reply-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.chat-window .quick-reply-buttons button {
+    background-color: transparent;
+    border: 1px solid #1a73e8;
+    color: #1a73e8;
+    padding: 5px 10px;
+    border-radius: 16px;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+.chat-window .chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.chat-window .chat-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.chat-window .input-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 10px;
+}
+
+.chat-window .icon {
+    cursor: pointer;
+}
+

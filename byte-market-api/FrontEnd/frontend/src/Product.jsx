@@ -9,7 +9,7 @@ import axios from 'axios';
 import LoginModal from './components/LoginModal.jsx'; // Import the LoginModal component
 
 function Product() {
-    const { userid, role, isLoggedIn} = useAuth();
+    const { userid, role, isLoggedIn, setReceiverId, senderId} = useAuth();
     const { productid } = useParams();
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
@@ -24,6 +24,7 @@ function Product() {
     const toggleDropdown = () => setShowDropdown(!showDropdown);
     const [showDropdown, setShowDropdown] = useState(false);
     const [showRoleMismatchModal, setShowRoleMismatchModal] = useState(false);
+    const [showConversationModal, setShowConversationModal] = useState(false);
 
     const navigate = useNavigate();  // Hook for navigation
 
@@ -46,13 +47,30 @@ function Product() {
         setModalItems(formattedItems);
         setShowOrderModal(true);
     };
+    const openConversationModal = () => {
+        const sellerId = product?.seller?.userid;
+        if (sellerId) {
+            setReceiverId(sellerId);
+            setShowConversationModal(true);
+            document.body.style.overflow = 'hidden';
+        } else {
+            console.error("Seller ID not found");
+        }
+    };
+
+    const closeConversationModal = () => {
+        setShowConversationModal(false);
+        document.body.style.overflow = 'auto';
+    };
 
     const closeOrderModal = () => {
         document.body.style.overflow = 'auto';
         setShowOrderModal(false);
         setModalItems([]);
     };
-
+    useEffect(() => {
+        setReceiverId(product?.seller?.userid);
+    }, []);
     useEffect(() => {
         fetchProduct();
         checkIfProductInWishlist();
@@ -209,10 +227,24 @@ function Product() {
         navigate(`/productdetail/${productid}/reviews`);
     };
 
-    const navigateToStore = (sellerId) => {
-            navigate(`/store/${sellerId}`);
+    const sendMessage = async (message) => {
+        const recipientIdFromProduct = product?.seller?.userid;
+        if (!recipientIdFromProduct) {
+            console.error('Recipient ID is not available');
+            return;
+        }
+        try {
+            console.log('Sending message to recipientId:', recipientIdFromProduct);
+            await axios.post('http://localhost:8080/api/message/addMessage', {
+                senderId: senderId,
+                receiverId: recipientIdFromProduct,
+                message: message,
+                timestamp: new Date().toISOString(),
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
     };
-
     if (loading) return (
         <PageLayout>
             <div className="spinner"></div>
@@ -295,13 +327,21 @@ function Product() {
 
                             <div className="action-buttons">
                                 <button onClick={handleAddToCart} className="add-cart-btn">Add to Cart</button>
-                                <button onClick={(e) => handleBuyNow(product, e)} className="buy-now-btn">Buy Now</button>
+                                <button onClick={(e) => handleBuyNow(product, e)} className="buy-now-btn">Buy Now
+                                </button>
+                                <button
+                                    onClick={openConversationModal}
+                                    className="start-conversation-btn"
+                                >
+                                    Start Conversation
+                                </button>
+
                             </div>
                         </div>
                     </div>
 
                     <div className="reviews-section">
-                        <div className="reviews-header">
+                    <div className="reviews-header">
                             <h2>Reviews</h2>
                             <button className="see-all-btn" onClick={handleSeeAllReviews}>
                                 See All Reviews →
@@ -390,8 +430,23 @@ function Product() {
                         </div>
                     </div>
                 )}
+            {showConversationModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Start a Conversation</h2>
+                        <p>Are you sure you want to start a conversation with the seller: {product?.seller?.sellername || 'Seller'}?</p>
+                        <div className="modal-buttons">
+                            <button onClick={() => {sendMessage("Hello, I'm interested in your product: " + product?.productname);closeConversationModal();}} className="send-btn">Confirm</button>
+                            <button onClick={closeConversationModal} className="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </PageLayout>
     );
+
+
 }
 
 export default Product;

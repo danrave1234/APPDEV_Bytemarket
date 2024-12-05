@@ -17,6 +17,7 @@ import AboutUs from "./AboutUs.jsx";
 import ContactUs from "./ContactUs.jsx";
 import Error404Page from "./components/Error404Page.jsx";
 import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
+import Chat from "./components/Chat.jsx";
 
 function ProtectedRoute({ children, allowedRoles }) {
     const { role } = useAuth(); // Get the role from the context
@@ -30,6 +31,7 @@ export default function TheRoutes() {
 
             <Route path="/access-denied" element={<ErrorAccessDeniedPage/>} />
             {/* Error 404 */}
+            <Route path="/chat" element={<Chat />}/>
             <Route path="*" element={<Error404Page />} />
             <Route path="/about-us" element={<AboutUs />}/>
             <Route path="/contact-us" element={<ContactUs />}/>
@@ -71,10 +73,8 @@ export default function TheRoutes() {
                     <Reviews/>
                 </ProtectedRoute>}/>
             <Route path="/productlisting" element={<ProductListing />}/>
-            <Route path="/store/:userid" element={
-                <ProtectedRoute allowedRoles={["Customer", "Seller", "Admin"]}>
-                    <Storepage />
-                </ProtectedRoute>}/>
+            <Route path="/store/:userid" element={<Storepage />} />
+            {/*Someone should do this*/}
         </Routes>
     )
 

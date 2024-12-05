@@ -5,6 +5,7 @@ import com.ByteMarket.byte_market_api.Repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -13,10 +14,23 @@ public class MessageService {
     private MessageRepository messageRepository;
 
     public MessageEntity addMessage(MessageEntity message) {
-        message.setMessageTime(java.time.LocalDateTime.now());
         return messageRepository.save(message);
     }
-
+    // Get all conversation based on this sender and receiver
+    public List<MessageEntity> getAllConversation(Integer senderId, Integer receiverId) {
+        if (senderId != null && receiverId != null) {
+            return messageRepository.findConversations(senderId, receiverId);
+        } else if (senderId != null) {
+            return messageRepository.findBySenderId(senderId);
+        } else if (receiverId != null) {
+            return messageRepository.findByReceiverId(receiverId);
+        } else {
+            throw new IllegalArgumentException("Either senderId or receiverId must be provided");
+        }
+    }
+    public List<MessageEntity> getNewMessages(int receiverId, int senderId, Instant lastTimestamp) {
+        return messageRepository.findNewMessages(receiverId, senderId, lastTimestamp);
+    }
     public MessageEntity getMessageById(int messageId) {
         return messageRepository.findById(messageId).
                 orElseThrow(() -> new RuntimeException("Message not found"));
@@ -28,7 +42,7 @@ public class MessageService {
         MessageEntity existingMessage = messageRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Message not found"));
         existingMessage.setMessage(message.getMessage());
-        existingMessage.setMessageTime(message.getMessageTime());
+        existingMessage.setTimestamp(message.getTimestamp());
         return messageRepository.save(existingMessage);
     }
 

@@ -8,6 +8,8 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userid, setUserid] = useState(null);
     const [role, setRole] = useState(null);
+    const [receiverId, setReceiverId] = useState(null);
+    const [senderId, setSenderId] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -15,9 +17,16 @@ export const AuthProvider = ({ children }) => {
             try {
                 const decoded = jwtDecode(token);
                 setIsLoggedIn(true);
-
                 setUserid(decoded.userId);
                 setRole(decoded.role);
+
+                if (decoded.role === 'Seller') {
+                    setReceiverId(decoded.userId); // seller is the receiver
+                    setSenderId(null); // no senderId initially, will be set when customer interacts
+                } else if (decoded.role === 'Customer') {
+                    setReceiverId(null); // receiver will be set when interacting with a seller
+                    setSenderId(decoded.userId); // customer is the sender
+                }
             } catch (error) {
                 console.error('Invalid token:', error);
                 logout(); // Clear the invalid token.
@@ -52,6 +61,14 @@ export const AuthProvider = ({ children }) => {
                 setIsLoggedIn(true);
                 setUserid(data.userId);
                 setRole(data.role);
+
+                if (data.role === 'Seller') {
+                    setReceiverId(data.userId); // seller is the receiver
+                    setSenderId(null); // no senderId initially, will be set when customer interacts
+                } else if (data.role === 'Customer') {
+                    setReceiverId(null); // receiver will be set when interacting with a seller
+                    setSenderId(data.userId); // customer is the sender
+                }
             } else {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Login failed');
@@ -68,10 +85,12 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
         setUserid(null);
         setRole(null);
+        setReceiverId(null);
+        setSenderId(null);
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userid, role, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, userid, role, receiverId, setReceiverId, senderId, setSenderId, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
