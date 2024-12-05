@@ -43,6 +43,9 @@ public class CustomerEntity extends UserEntity {
     @JsonIgnoreProperties({"customer"})
     private List<TransactionEntity> transaction;
 
+    @OneToMany(mappedBy = "customer")
+    private List<InventoryEntity> inventory;
+
     public void loadEWallet(float amount){
         this.balance += amount;
     }
@@ -93,5 +96,13 @@ public class CustomerEntity extends UserEntity {
 
     public void setTransaction(List<TransactionEntity> transaction) {
         this.transaction = transaction;
+    }
+
+    public List<InventoryEntity> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<InventoryEntity> inventory) {
+        this.inventory = inventory;
     }
 }
