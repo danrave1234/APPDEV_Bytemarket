@@ -55,6 +55,9 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product")
     private List<OrderItemEntity> orderItems;
 
+    @OneToMany(mappedBy = "product")
+    private List<InventoryEntity> inventory;
+
     public String getDescription() {
         return description;
     }
