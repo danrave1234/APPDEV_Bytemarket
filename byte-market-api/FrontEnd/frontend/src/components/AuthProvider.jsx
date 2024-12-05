@@ -19,14 +19,8 @@ export const AuthProvider = ({ children }) => {
                 setIsLoggedIn(true);
                 setUserid(decoded.userId);
                 setRole(decoded.role);
+                setSenderId(decoded.userId); // senderId is always the logged in user
 
-                if (decoded.role === 'Seller') {
-                    setReceiverId(decoded.userId); // seller is the receiver
-                    setSenderId(null); // no senderId initially, will be set when customer interacts
-                } else if (decoded.role === 'Customer') {
-                    setReceiverId(null); // receiver will be set when interacting with a seller
-                    setSenderId(decoded.userId); // customer is the sender
-                }
             } catch (error) {
                 console.error('Invalid token:', error);
                 logout(); // Clear the invalid token.

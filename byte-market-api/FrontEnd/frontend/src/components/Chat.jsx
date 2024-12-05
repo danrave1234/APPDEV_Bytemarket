@@ -1,81 +1,81 @@
-// Chat.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import useNewMessages from './useNewMessages';
-import './Chat.css';
 import { useAuth } from './AuthProvider.jsx';
+import './Chat.css';
 
 const Chat = ({ onClose }) => {
-    const { receiverId, senderId, setReceiverId, setSenderId, role, userid} = useAuth();
+    const { userid, role } = useAuth();
     const [messages, setMessages] = useState([]);
     const [lastTimestamp, setLastTimestamp] = useState(new Date().toISOString());
     const [inputValue, setInputValue] = useState('');
-    const [selectedRecipientId, setSelectedRecipientId] = useState(receiverId);
+    const [selectedRecipientId, setSelectedRecipientId] = useState(null);
     const [conversations, setConversations] = useState([]);
-    const newMessages = useNewMessages(selectedRecipientId, senderId, lastTimestamp);
-    const [sellerName, setSellerName] = useState(null);
-
+    const [recipientName, setRecipientName] = useState(null);
+    const [receiverData, setReceiverData] = useState(null);
+    const newMessages = useNewMessages(selectedRecipientId, userid, lastTimestamp, setLastTimestamp);
+    const messagesEndRef = useRef(null);
     useEffect(() => {
         const fetchConversations = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/message/getAllConversation?${role === 'Customer' ? `senderId=${senderId}` : `receiverId=${receiverId}`}`);;
+                const response = await fetch(`http://localhost:8080/api/message/getAllConversation?senderId=${userid}`);
                 if (!response.ok) throw new Error('Failed to fetch conversations');
                 const data = await response.json();
+                if (role === 'Seller') {
+                    setSelectedRecipientId(data[0]?.senderId);
+                }
                 setConversations(data);
-                setSenderId(data[0].senderId);
             } catch (error) {
                 console.error('Error fetching conversations:', error);
                 setConversations([]);
             }
         };
         fetchConversations();
-    }, [senderId]);
+    }, [userid, role]);
 
     useEffect(() => {
-        if (selectedRecipientId) {
-            const fetchSellerName = async (sellerId) => {
-                try {
-                    const response = await fetch(`http://localhost:8080/api/seller/getSellerNameById/${sellerId}`);
-                    if (!response.ok) throw new Error('Failed to fetch seller name');
-                    const data = await response.text();
-                    setSellerName(data);
-                } catch (error) {
-                    console.error('Error fetching seller name:', error);
-                    setSellerName([]);
-                }
-            };
-            fetchSellerName(selectedRecipientId);
+        if (!selectedRecipientId) return;
+
+        const fetchRecipientName = async () => {
+            const endpoint = role === 'Seller'
+                ? `http://localhost:8080/api/customer/getCustomerById/${selectedRecipientId}`
+                : `http://localhost:8080/api/seller/getSellerById/${selectedRecipientId}`;
+
+            try {
+                const response = await fetch(endpoint);
+                const data = await response.json();
+                setReceiverData(data);
+                setRecipientName(role === 'Seller' ? data.fullname : data.storename);
+            } catch (error) {
+                console.error('Error fetching recipient name:', error);
+                setRecipientName('Unknown');
+            }
+        };
+
+        fetchRecipientName();
+    }, [selectedRecipientId, role]);
+
+    useEffect(() => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
         }
-    }, [selectedRecipientId]);
+    }, [messages]);
 
     useEffect(() => {
         if (newMessages.length > 0) {
-            setMessages((prev) => [...prev, ...newMessages]);
-            const latestTimestamp = newMessages[newMessages.length - 1].timestamp;
-            setLastTimestamp(latestTimestamp);
+            setMessages((prevMessages) => [...prevMessages, ...newMessages]);
+            setLastTimestamp(newMessages[newMessages.length - 1].timestamp);
         }
     }, [newMessages]);
 
     const loadChatHistory = (recipientId) => {
         setSelectedRecipientId(recipientId);
-
-        fetch(`http://localhost:8080/api/message/getAllConversation?receiverId=${senderId}&senderId=${recipientId}`)
+        fetch(`http://localhost:8080/api/message/getAllConversation?receiverId=${userid}&senderId=${recipientId}`)
             .then((res) => res.json())
             .then((data) => {
                 setMessages(data);
-
-                if (role === 'Seller' && data.length > 0) {
-                    // Infer senderId from messages
-                    const inferredSenderId = data[0].senderId;
-                    setSenderId(inferredSenderId);
-                    console.log("userId: ", userid);
-                    console.log("Inferred Sender ID: ", inferredSenderId);
-                }
             })
             .catch((error) => console.error('Error loading chat history:', error));
     };
-
-
-
 
     const handleSendMessage = () => {
         if (!inputValue.trim() || !selectedRecipientId) return;
@@ -84,7 +84,7 @@ const Chat = ({ onClose }) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                senderId,
+                senderId: userid,
                 receiverId: selectedRecipientId,
                 message: inputValue,
                 timestamp: new Date().toISOString(),
@@ -104,7 +104,6 @@ const Chat = ({ onClose }) => {
             <div className="chat-header">
                 <h2>Chat</h2>
                 <div className="chat-header-icons">
-                    <span className="icon">⇱</span>
                     <span className="icon" onClick={onClose}>✕</span>
                 </div>
             </div>
@@ -115,32 +114,38 @@ const Chat = ({ onClose }) => {
                     </div>
                     <div className="conversation-list">
                         {conversations.length > 0 ? (
-                            conversations.map((conv, index) => (
+                            [...new Map(conversations.map(conv => [conv.receiverId, conv])).values()].map((conv, index) => (
                                 <div
                                     key={`${conv.receiverId}-${index}`}
-                                    className="conversation-item"
+                                    className={`conversation-item ${conv.unread ? 'unread' : ''}`}
                                     onClick={() => loadChatHistory(conv.receiverId)}
                                 >
-                                    <img src={conv.avatar || '/placeholder.svg'} alt={conv.name} className="avatar" />
+                                    <img
+                                        src={`data:image/jpeg;base64,${receiverData?.storeimage || receiverData?.profilepic}`}
+                                        alt={receiverData?.storename || 'Recipient'}
+                                        className="avatar"
+                                    />
                                     <div className="conversation-details">
                                         <div className="conversation-header">
-                                            <span className="name">{conv.name}</span>
-                                            <span className="time">{conv.time}</span>
+                                            <span className="name">{recipientName || 'Recipient'}</span>
+                                            <span className="time">{new Date(conv.timestamp).toLocaleTimeString()}</span>
                                         </div>
-                                        <p className="last-message">{conv.message}</p>
+                                        <p className={`last-message ${conv.unread ? 'bold' : ''}`}>
+                                            {conv.message}
+                                        </p>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <p>No conversations available</p>
+                            <p className="no-conversations">No conversations available</p>
                         )}
                     </div>
                 </div>
                 <div className="chat-main">
                     <div className="chat-main-header">
-                        <h3>{selectedRecipientId ? `${sellerName}` : 'Select a Conversation'}</h3>
+                        <h3>{selectedRecipientId ? recipientName : 'Select a Conversation'}</h3>
                     </div>
-                    <div className="messages">
+                    <div className="messages" ref={messagesEndRef}>
                         {messages.length > 0 ? (
                             messages.map((msg, index) => (
                                 <div
@@ -151,10 +156,9 @@ const Chat = ({ onClose }) => {
                                 </div>
                             ))
                         ) : (
-                            <p>No messages yet</p>
+                            <p className="no-messages">No messages yet</p>
                         )}
                     </div>
-
                     {selectedRecipientId && (
                         <div className="chat-input">
                             <input
@@ -177,4 +181,5 @@ const Chat = ({ onClose }) => {
     );
 };
 
-export default Chat;// Chat.jsx
+export default Chat;
+

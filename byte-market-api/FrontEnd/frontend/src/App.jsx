@@ -7,10 +7,8 @@ import {useAuth} from "./components/AuthProvider.jsx";
 
 //Dont TOUCH! unless Necessary
 function App(){
-    const {receiverId, senderId} = useAuth();
     const [isChatVisible, setIsChatVisible] = useState(false);
-    console.log("Receiver ID sa APP", receiverId);
-    console.log("Sender ID sa APP", senderId);
+
     useScrollToTop();
     return (
         <>
