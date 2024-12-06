@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TransactionService {
@@ -126,5 +128,19 @@ public class TransactionService {
 
     public void deleteTransaction(int id) {
         transactionRepository.deleteById(id);
+    }
+
+    public List<Map<String, Object>> getCompletedOrderReferences() {
+        List<TransactionEntity> transactions = transactionRepository.findAll();
+
+        return transactions.stream()
+                .filter(transaction -> "Completed".equalsIgnoreCase(transaction.getOrder().getOrderstatus()))
+                .map(transaction -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("orderId", transaction.getOrder().getOrderid());
+                    map.put("referenceNumber", transaction.getReferenceNumber());
+                    return map;
+                })
+                .toList();
     }
 }

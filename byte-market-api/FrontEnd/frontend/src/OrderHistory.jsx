@@ -83,7 +83,41 @@ const OrderHistory = () => {
 
     const hasRatedProduct = (orderItem) => orderItem.rated;
 
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const [ordersResponse, referencesResponse] = await Promise.all([
+                    axios.get('http://localhost:8080/api/order/getAllOrder'),
+                    axios.get('http://localhost:8080/api/order/getCompletedOrderReferences'),
+                ]);
 
+                const userOrders = ordersResponse.data.filter(
+                    (order) => order.customer.userid === parseInt(userid)
+                );
+                const referenceMap = new Map(
+                    referencesResponse.data.map((ref) => [ref.orderId, ref.referenceNumber])
+                );
+
+                userOrders.forEach((order) => {
+                    order.transactionReference = referenceMap.get(order.orderid) || null;
+                });
+
+                userOrders.sort((a, b) => Number(b.orderid) - Number(a.orderid));
+                setOrders(userOrders);
+            } catch (error) {
+                console.error("Error fetching orders or references:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (userid) {
+            fetchOrders();
+        } else {
+            console.error("No user ID available.");
+            setLoading(false);
+        }
+    }, [userid]);
 
     if (loading) {
         return (
@@ -106,59 +140,67 @@ const OrderHistory = () => {
                 </div>
 
                 {/* Single Card Layout for Orders */}
-            <div className="orders-list">
-                {filteredOrders.length === 0 ? (
-                    <p>No orders found.</p>
-                ) : (
-                    filteredOrders.map(order => (
-                        <div key={order.orderid} className="order-card">
-                            <div className="order-header">
-                                <p className="order-status">Status: {order.orderstatus}</p>
-                                <p className="order-total">Total: ₱{order.totalprice.toFixed(2)}</p>
-                            </div>
+                <div className="orders-list">
+                    {filteredOrders.length === 0 ? (
+                        <p>No orders found.</p>
+                    ) : (
+                        filteredOrders.map((order) => (
+                            <div key={order.orderid} className="order-card">
+                                <div className="order-header">
+                                    <p className="order-status">Status: {order.orderstatus}</p>
+                                    <p className="order-total">Total: ₱{order.totalprice.toFixed(2)}</p>
+                                </div>
                                 <div className="order-items">
-                                    {order.orderItems.map(item => (
+                                    {order.orderItems.map((item) => (
                                         <div key={item.orderitemid} className="order-item">
                                             <div className="item-left">
                                                 <img
                                                     className="item-image"
-                                                    src={`data:image/jpeg;base64,${item.product.image}` || '/path/to/placeholder.jpg'} // Placeholder image path
+                                                    src={`data:image/jpeg;base64,${item.product.image}`}
                                                     alt={item.product.productname}
                                                 />
                                             </div>
                                             <div className="item-middle">
                                                 <p className="item-name">{item.product.productname}</p>
-                                                <p className="item-details">Qty: {item.quantity} | ₱{item.price.toFixed(2)} each</p>
-                                                <p className="item-seller">Seller: {item.product.seller.sellername} ({item.product.seller.storename})</p>
-                                            </div>
-                                            <div className="item-right">
-                                                {hasRatedProduct(item) ? (
-                                                    <p className="rating-message">Thanks for your rating!</p>
-                                                ) : (
-                                                    (order.orderstatus === 'Paid' || order.orderstatus === 'Completed') && (
-                                                        <button
-                                                            className="rate-button"
-                                                            onClick={() =>
-                                                                handleRatingClick(
-                                                                    item.orderitemid,
-                                                                    item.product.productid,
-                                                                    item.product.productname,
-                                                                    order.orderid
-                                                                )
-                                                            }
-                                                        >
-                                                            Rate this product
-                                                        </button>
-                                                    )
+                                                <p className="item-details">
+                                                    Qty: {item.quantity} | ₱{item.price.toFixed(2)} each
+                                                </p>
+                                                <p className="item-seller">
+                                                    Seller: {item.product.seller.sellername} ({item.product.seller.storename})
+                                                </p>
+                                                {order.transactionReference && (
+                                                    <p
+                                                        className="item-reference"
+                                                        style={{
+                                                            fontSize: '14px',
+                                                            fontWeight: '600',
+                                                            color: '#212850',
+                                                            backgroundColor: '#f0f0f0',
+                                                            padding: '6px 12px',
+                                                            paddingLeft: '0',
+                                                            borderRadius: '6px',
+                                                            marginTop: '8px',
+                                                            display: 'inline-block',
+                                                            fontFamily: 'Montserrat, sans-serif',
+                                                        }}
+                                                    >
+                                                        <span style={{display: 'block', marginBottom: '4px'}}>Reference Number:</span>
+                                                        <span style={{
+                                                            fontSize: '11px',
+                                                            display: 'block',
+                                                            fontWeight: 'bold',
+                                                            color: '#333'
+                                                        }}>{order.transactionReference}</span>
+                                                    </p>
                                                 )}
                                             </div>
                                         </div>
                                     ))}
                                 </div>
-                        </div>
-                    ))
-                )}
-            </div>
+                            </div>
+                        ))
+                    )}
+                </div>
             </div>
 
             {showRatingModal && (

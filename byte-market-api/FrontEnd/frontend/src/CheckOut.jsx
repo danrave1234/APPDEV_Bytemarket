@@ -15,10 +15,26 @@ const Checkout = () => {
         if (!userid) return;
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:8080/api/order/getAllOrder`);
-            const sellerOrders = response.data.filter(order =>
+
+            const [ordersResponse, referencesResponse] = await Promise.all([
+                axios.get(`http://localhost:8080/api/order/getAllOrder`),
+                axios.get('http://localhost:8080/api/order/getCompletedOrderReferences'),
+            ]);
+
+            const sellerOrders = ordersResponse.data.filter(order =>
                 order.orderItems.some(item => item.product.seller.userid === userid)
             );
+
+            const referenceMap = new Map(
+                referencesResponse.data.map(ref => [ref.orderId, ref.referenceNumber])
+            );
+
+            sellerOrders.forEach(order => {
+                if (referenceMap.has(order.orderid)) {
+                    order.transactionReference = referenceMap.get(order.orderid);
+                }
+            });
+
             const pending = sellerOrders.filter(order => order.orderstatus === 'Pending');
             const completed = sellerOrders.filter(order => ['Paid', 'Completed'].includes(order.orderstatus));
 
@@ -26,7 +42,7 @@ const Checkout = () => {
             localStorage.setItem('pendingOrders', JSON.stringify(pending));
             localStorage.setItem('completedOrders', JSON.stringify(completed));
         } catch (error) {
-            console.error('Error fetching orders:', error);
+            console.error('Error fetching orders or transaction references:', error);
         } finally {
             setLoading(false);
         }
@@ -73,7 +89,14 @@ const Checkout = () => {
             <div className="order-header">
                 <h4>Order ID: {order.orderid}</h4>
                 <p className="order-total">Total Price: ₱{order.totalprice.toFixed(2)}</p>
-                {!isPending && <p className="order-status">Status: Completed</p>}
+                {!isPending && (
+                    <>
+                        <p className="order-status">Status: Completed</p>
+                        {order.transactionReference && (
+                            <p className="order-reference">Reference Number: {order.transactionReference}</p>
+                        )}
+                    </>
+                )}
             </div>
             <h5>Products in Order:</h5>
             <ul>

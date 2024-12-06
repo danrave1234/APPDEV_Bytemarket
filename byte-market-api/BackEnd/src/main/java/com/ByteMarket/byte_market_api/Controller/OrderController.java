@@ -3,10 +3,12 @@ package com.ByteMarket.byte_market_api.Controller;
 import com.ByteMarket.byte_market_api.Entity.OrderEntity;
 import com.ByteMarket.byte_market_api.Entity.OrderItemEntity;
 import com.ByteMarket.byte_market_api.Service.OrderService;
+import com.ByteMarket.byte_market_api.Service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -14,6 +16,8 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private TransactionService transactionService;
 
     @GetMapping("/getAllOrder")
     public List<OrderEntity> getAllOrders() {
@@ -46,6 +50,10 @@ public class OrderController {
     @DeleteMapping("/deleteOrder/{id}")
     public void deleteOrder(@PathVariable int id) {
         orderService.deleteOrder(id);
+    }
+    @GetMapping("/getCompletedOrderReferences")
+    public List<Map<String, Object>> getCompletedOrderReferences() {
+        return transactionService.getCompletedOrderReferences();
     }
 
 
