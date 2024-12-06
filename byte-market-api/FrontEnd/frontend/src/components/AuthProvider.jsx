@@ -1,23 +1,24 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 
-
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userid, setUserid] = useState(null);
     const [role, setRole] = useState(null);
-
+    const [receiverId, setReceiverId] = useState(null);
+    const [senderId, setSenderId] = useState(null);
+    const [conversationId, setConversationId] = useState(null);
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
                 const decoded = jwtDecode(token);
                 setIsLoggedIn(true);
-
                 setUserid(decoded.userId);
                 setRole(decoded.role);
+                setSenderId(decoded.userId); // senderId is always the logged in user
             } catch (error) {
                 console.error('Invalid token:', error);
                 logout(); // Clear the invalid token.
@@ -47,11 +48,18 @@ export const AuthProvider = ({ children }) => {
 
             if (response.ok) {
                 const data = await response.json(); // Handle JSON response
-                console.log("Response Data: ",data);
                 localStorage.setItem('token', data.token);
                 setIsLoggedIn(true);
                 setUserid(data.userId);
                 setRole(data.role);
+
+                if (data.role === 'Seller') {
+                    setReceiverId(data.userId); // seller is the receiver
+                    setSenderId(null); // no senderId initially, will be set when customer interacts
+                } else if (data.role === 'Customer') {
+                    setReceiverId(null); // receiver will be set when interacting with a seller
+                    setSenderId(data.userId); // customer is the sender
+                }
             } else {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Login failed');
@@ -68,10 +76,13 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
         setUserid(null);
         setRole(null);
+        setReceiverId(null);
+        setSenderId(null);
+        setConversationId(null);
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userid, role, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, userid, role, receiverId, setReceiverId, senderId, setSenderId, conversationId, setConversationId, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

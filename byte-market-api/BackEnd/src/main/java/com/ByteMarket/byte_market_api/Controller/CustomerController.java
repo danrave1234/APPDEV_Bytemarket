@@ -36,6 +36,11 @@ public class CustomerController {
         return inventoryRepository.findByCustomerUserid(customerId);
     }
 
+
+    @GetMapping("/getCustomerNameById/{id}")
+    public String getCustomerNameById(@PathVariable int id) {
+        return customerService.getCustomerNameById(id);
+    }
     @PostMapping("/addCustomer")
     public CustomerEntity addCustomer(@RequestBody CustomerEntity newCustomer){
         newCustomer.setRole("Customer");

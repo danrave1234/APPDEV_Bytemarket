@@ -65,7 +65,10 @@ private String secretKey;
         newSeller.setRole("Seller");
         return sellerService.addSeller(newSeller);
     }
-
+    @GetMapping("/getSellerNameById/{id}")
+    public String getSellerNameById(@PathVariable int id) {
+        return sellerService.getSellerNameById(id);
+    }
     @GetMapping("/getAllSeller")
     public List<SellerEntity> getAllSeller(){
         return sellerService.getAllSeller();

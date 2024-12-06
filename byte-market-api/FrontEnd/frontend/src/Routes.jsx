@@ -17,6 +17,7 @@ import AboutUs from "./AboutUs.jsx";
 import ContactUs from "./ContactUs.jsx";
 import Error404Page from "./components/Error404Page.jsx";
 import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
+import Chat from "./components/Chat.jsx";
 import Inventory from "./Inventory.jsx";
 
 function ProtectedRoute({ children, allowedRoles }) {
@@ -31,6 +32,7 @@ export default function TheRoutes() {
 
             <Route path="/access-denied" element={<ErrorAccessDeniedPage/>} />
             {/* Error 404 */}
+            <Route path="/chat" element={<Chat />}/>
             <Route path="*" element={<Error404Page />} />
             <Route path="/about-us" element={<AboutUs />}/>
             <Route path="/contact-us" element={<ContactUs />}/>

@@ -14,7 +14,9 @@ public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
-
+    public String getCustomerNameById(int id) {
+        return customerRepository.findById(id).get().getFullname();
+    }
     public CustomerEntity authenticate(String username, String password) {
         CustomerEntity customer = customerRepository.findByUsername(username);
         if (customer != null && customer.getPassword().equals(password)) {

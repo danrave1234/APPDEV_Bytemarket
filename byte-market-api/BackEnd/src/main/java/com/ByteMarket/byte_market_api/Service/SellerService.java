@@ -17,6 +17,9 @@ public class SellerService {
     @Autowired
     private ProductRepository productRepository;
 
+    public String getSellerNameById(int id) {
+        return sellerRepository.findById(id).get().getSellername();
+    }
     public SellerEntity authenticate(String username, String password) {
         SellerEntity seller = sellerRepository.findByUsername(username);
         if(seller.getPassword().equals(password)) {
