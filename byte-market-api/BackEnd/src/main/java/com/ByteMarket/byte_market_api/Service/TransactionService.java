@@ -119,6 +119,7 @@ public class TransactionService {
         transaction.setAmount(newTransaction.getAmount());
         transaction.setTransactiondate(newTransaction.getTransactiondate());
         transaction.setTransactiontype(newTransaction.getTransactiontype());
+        transaction.setReferenceNumber(newTransaction.getReferenceNumber());
 
         return transactionRepository.save(transaction);
     }

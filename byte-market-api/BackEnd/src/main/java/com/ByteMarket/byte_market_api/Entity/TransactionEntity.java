@@ -3,6 +3,7 @@ package com.ByteMarket.byte_market_api.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tbltransaction")
@@ -14,8 +15,12 @@ public class TransactionEntity {
     private double amount;
     private String transactiontype;
 
+    private String referenceNumber;
+
+
     public TransactionEntity() {
         super();
+        this.referenceNumber = UUID.randomUUID().toString();
     }
 
     public TransactionEntity(LocalDate transactiondate, double amount, String transactiontype) {
@@ -23,6 +28,7 @@ public class TransactionEntity {
         this.transactiondate = transactiondate;
         this.amount = amount;
         this.transactiontype = transactiontype;
+        this.referenceNumber = UUID.randomUUID().toString();
     }
 
     // Relationships
@@ -80,5 +86,13 @@ public class TransactionEntity {
 
     public void setOrder(OrderEntity order) {
         this.order = order;
+    }
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
     }
 }
