@@ -2,8 +2,11 @@ package com.ByteMarket.byte_market_api.Controller;
 
 import com.ByteMarket.byte_market_api.DTO.LoginResponse;
 import com.ByteMarket.byte_market_api.Entity.CustomerEntity;
+import com.ByteMarket.byte_market_api.Entity.InventoryEntity;
 import com.ByteMarket.byte_market_api.Entity.SellerEntity;
+import com.ByteMarket.byte_market_api.Repository.InventoryRepository;
 import com.ByteMarket.byte_market_api.Service.CustomerService;
+import com.ByteMarket.byte_market_api.Service.InventoryService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,15 @@ public class CustomerController {
     CustomerService customerService;
     @Value("${jwt.secret}")
     private String secretKey;
+    @Autowired
+    InventoryService inventoryService;
+    @Autowired
+    private InventoryRepository inventoryRepository;
+
+    @GetMapping("/{customerId}/inventory")
+    public List<InventoryEntity> getCustomerInventory(@PathVariable int customerId) {
+        return inventoryRepository.findByCustomerUserid(customerId);
+    }
 
     @PostMapping("/addCustomer")
     public CustomerEntity addCustomer(@RequestBody CustomerEntity newCustomer){

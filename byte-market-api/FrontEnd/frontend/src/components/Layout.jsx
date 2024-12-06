@@ -109,7 +109,6 @@ function PageLayout({ children }) {
         setShowDropdown(false);
     };
 
-
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (
@@ -183,6 +182,11 @@ function PageLayout({ children }) {
 
     const handleContactUs = () => {
         navigate('/contact-us');
+    }
+
+    const handleInventory = () => {
+        navigate("/customer/inventory");
+        setShowDropdown(false);
     }
 
     const getGreetingMessage = () => {
@@ -280,6 +284,7 @@ function PageLayout({ children }) {
                                         <li className="dropdownDivider"></li>
                                         {role === 'Customer' && (
                                             <>
+                                                <li className="dropdownItem" onClick={handleInventory}><b>Inventory</b></li>
                                                 <li className="dropdownItem" onClick={handleWishlist}><b>Wishlists</b></li>
                                                 <li className="dropdownItem" onClick={handleAddToCart}><b>Cart</b></li>
                                                 <li className="dropdownItem" onClick={handleHistory}><b>Order History</b></li>
