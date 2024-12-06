@@ -17,6 +17,7 @@ import AboutUs from "./AboutUs.jsx";
 import ContactUs from "./ContactUs.jsx";
 import Error404Page from "./components/Error404Page.jsx";
 import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
+import Inventory from "./Inventory.jsx";
 
 function ProtectedRoute({ children, allowedRoles }) {
     const { role } = useAuth(); // Get the role from the context
@@ -75,6 +76,11 @@ export default function TheRoutes() {
                 <ProtectedRoute allowedRoles={["Customer", "Seller", "Admin"]}>
                     <Storepage />
                 </ProtectedRoute>}/>
+            <Route path="/customer/inventory" element={
+                <ProtectedRoute allowedRoles={["Customer"]}>
+                    <Inventory />
+                </ProtectedRoute>
+            }/>
         </Routes>
     )
 
