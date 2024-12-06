@@ -1,7 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
 
-
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -10,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [role, setRole] = useState(null);
     const [receiverId, setReceiverId] = useState(null);
     const [senderId, setSenderId] = useState(null);
-
+    const [conversationId, setConversationId] = useState(null);
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -20,7 +19,6 @@ export const AuthProvider = ({ children }) => {
                 setUserid(decoded.userId);
                 setRole(decoded.role);
                 setSenderId(decoded.userId); // senderId is always the logged in user
-
             } catch (error) {
                 console.error('Invalid token:', error);
                 logout(); // Clear the invalid token.
@@ -50,7 +48,6 @@ export const AuthProvider = ({ children }) => {
 
             if (response.ok) {
                 const data = await response.json(); // Handle JSON response
-                console.log("Response Data: ",data);
                 localStorage.setItem('token', data.token);
                 setIsLoggedIn(true);
                 setUserid(data.userId);
@@ -81,10 +78,11 @@ export const AuthProvider = ({ children }) => {
         setRole(null);
         setReceiverId(null);
         setSenderId(null);
+        setConversationId(null);
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userid, role, receiverId, setReceiverId, senderId, setSenderId, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, userid, role, receiverId, setReceiverId, senderId, setSenderId, conversationId, setConversationId, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

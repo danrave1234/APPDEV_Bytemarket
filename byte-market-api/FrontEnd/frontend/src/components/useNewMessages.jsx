@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 
-const useNewMessages = (recipientId, senderId, lastTimestamp, setLastTimestamp) => {
+const useNewMessages = (conversationId, lastTimestamp, setLastTimestamp) => {
     const [newMessages, setNewMessages] = useState([]);
 
     useEffect(() => {
-        if (!recipientId || !senderId || !lastTimestamp) return;
+        if (!conversationId || !lastTimestamp) return;
 
         // Fetch new messages function
         const fetchNewMessages = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:8080/api/message/getNewMessages?receiverId=${senderId}&senderId=${recipientId}&lastTimestamp=${lastTimestamp}`
+                    `http://localhost:8080/api/message/getNewMessages?conversationId=${conversationId}&lastTimestamp=${lastTimestamp}`
                 );
                 if (!response.ok) throw new Error('Failed to fetch new messages');
                 const data = await response.json();
@@ -27,7 +27,7 @@ const useNewMessages = (recipientId, senderId, lastTimestamp, setLastTimestamp) 
                             setLastTimestamp(latestMessageTimestamp); // Update the parent state
                         }
                     }
-                    return [ ...newMessages];
+                    return [...newMessages];
                 });
             } catch (error) {
                 console.error('Error fetching new messages:', error);
@@ -40,7 +40,7 @@ const useNewMessages = (recipientId, senderId, lastTimestamp, setLastTimestamp) 
             clearInterval(intervalId);
         };
 
-    }, [recipientId, senderId, lastTimestamp, setLastTimestamp]);
+    }, [conversationId, lastTimestamp, setLastTimestamp]);
 
     return newMessages;
 };

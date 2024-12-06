@@ -233,8 +233,8 @@ function Product() {
             console.error('Recipient ID is not available');
             return;
         }
+        setReceiverId(recipientIdFromProduct);
         try {
-            console.log('Sending message to recipientId:', recipientIdFromProduct);
             await axios.post('http://localhost:8080/api/message/addMessage', {
                 senderId: senderId,
                 receiverId: recipientIdFromProduct,
@@ -243,6 +243,15 @@ function Product() {
             });
         } catch (error) {
             console.error('Error sending message:', error);
+            if (error.response) {
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+                console.error('Response headers:', error.response.headers);
+            } else if (error.request) {
+                console.error('Request data:', error.request);
+            } else {
+                console.error('Error message:', error.message);
+            }
         }
     };
     if (loading) return (
@@ -331,7 +340,7 @@ function Product() {
                                 </button>
                                 <button
                                     onClick={openConversationModal}
-                                    className="start-conversation-btn"
+                                    className="add-cart-btn"
                                 >
                                     Start Conversation
                                 </button>

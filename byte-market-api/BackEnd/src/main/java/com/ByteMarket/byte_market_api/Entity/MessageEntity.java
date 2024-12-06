@@ -1,9 +1,9 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tblmessage")
@@ -17,15 +17,20 @@ public class MessageEntity {
     private int senderId;
     private int receiverId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conversation_id")
+    @JsonIgnore
+    private ConversationEntity conversation;
+
     public MessageEntity() {
         super();
     }
-    public MessageEntity(String message, Instant messageTime, int senderId, int receiverId) {
-        super();
+
+    public MessageEntity(String message, Instant timestamp, int senderId, ConversationEntity conversation) {
         this.message = message;
-        this.timestamp = messageTime;
+        this.timestamp = timestamp;
         this.senderId = senderId;
-        this.receiverId = receiverId;
+        this.conversation = conversation;
     }
 
     public int getMessageId() {
@@ -60,6 +65,14 @@ public class MessageEntity {
         this.senderId = senderId;
     }
 
+    public ConversationEntity getConversation() {
+        return conversation;
+    }
+
+    public void setConversation(ConversationEntity conversation) {
+        this.conversation = conversation;
+    }
+
     public int getReceiverId() {
         return receiverId;
     }
@@ -67,4 +80,5 @@ public class MessageEntity {
     public void setReceiverId(int receiverId) {
         this.receiverId = receiverId;
     }
+
 }

@@ -3,16 +3,16 @@ import TheRoutes from "./Routes.jsx";
 import './styles/App.css';
 import useScrollToTop from "./components/UseScrollOnTop.jsx";
 import Chat from "./components/Chat.jsx";
-import {useAuth} from "./components/AuthProvider.jsx";
+import { useAuth } from "./components/AuthProvider.jsx";
 
 //Dont TOUCH! unless Necessary
-function App(){
+function App() {
     const [isChatVisible, setIsChatVisible] = useState(false);
 
     useScrollToTop();
     return (
         <>
-            <TheRoutes/>
+            <TheRoutes />
             {isChatVisible && <Chat onClose={() => setIsChatVisible(false)} />}
             {!isChatVisible && (
                 <button
@@ -33,7 +33,7 @@ function App(){
                 </button>
             )}
         </>
-    )
+    );
 }
-export default App;
 
+export default App;

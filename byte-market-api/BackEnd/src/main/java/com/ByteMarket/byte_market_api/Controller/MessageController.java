@@ -1,8 +1,9 @@
 package com.ByteMarket.byte_market_api.Controller;
 
+import com.ByteMarket.byte_market_api.Entity.ConversationEntity;
 import com.ByteMarket.byte_market_api.Entity.MessageEntity;
+import com.ByteMarket.byte_market_api.Service.ConversationService;
 import com.ByteMarket.byte_market_api.Service.MessageService;
-import com.azure.core.annotation.Get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,22 +16,41 @@ import java.util.List;
 public class MessageController {
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private ConversationService conversationService;
 
     @PostMapping("/addMessage")
     public MessageEntity addMessage(@RequestBody MessageEntity message) {
-        System.out.println(message.getReceiverId());
+        int senderId = message.getSenderId();
+        int receiverId = message.getReceiverId();
+
+        // Check if a conversation already exists
+        ConversationEntity conversation = conversationService.getConversationBySenderAndReceiver(senderId, receiverId);
+        if (conversation == null) {
+            conversation = conversationService.getConversationBySenderAndReceiver(receiverId, senderId);
+            if (conversation == null) {
+                conversation = conversationService.createConversation(senderId, receiverId);
+            }
+        }
+        // Set the conversation for the message
+        message.setConversation(conversation);
+        conversation.setRead(false);
+        conversation.setLastMessage(message.getMessage().substring(0, Math.min(6, message.getMessage().length())));
         return messageService.addMessage(message);
     }
-    @GetMapping("/getAllConversation")
-    public List<MessageEntity> getAllConversation(@RequestParam(required = false) Integer senderId, @RequestParam(required = false) Integer receiverId) {
-        return messageService.getAllConversation(senderId, receiverId);
+
+    @GetMapping("/getConversation")
+    public List<MessageEntity> getAllConversation(@RequestParam int conversationId) {
+        return messageService.getAllConversation(conversationId);
     }
+
     @GetMapping("/getNewMessages")
-    public List<MessageEntity> getNewMessages(@RequestParam int receiverId, @RequestParam int senderId, @RequestParam Instant lastTimestamp) {
-        return messageService.getNewMessages(receiverId, senderId, lastTimestamp);
+    public List<MessageEntity> getNewMessages(@RequestParam int conversationId, @RequestParam Instant lastTimestamp) {
+        return messageService.getNewMessages(conversationId, lastTimestamp);
     }
+
     @GetMapping("/getMessageById/{id}")
-    public MessageEntity getMessageById(int id) {
+    public MessageEntity getMessageById(@PathVariable int id) {
         return messageService.getMessageById(id);
     }
 
@@ -42,5 +62,10 @@ public class MessageController {
     @PutMapping("/updateMessage/{id}")
     public MessageEntity updateMessage(@PathVariable int id, @RequestBody MessageEntity message) {
         return messageService.updateMessage(id, message);
+    }
+
+    @DeleteMapping("/deleteMessage/{id}")
+    public void deleteMessage(@PathVariable int id) {
+        messageService.deleteMessage(id);
     }
 }

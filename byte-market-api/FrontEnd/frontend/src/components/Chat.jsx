@@ -4,55 +4,81 @@ import { useAuth } from './AuthProvider.jsx';
 import './Chat.css';
 
 const Chat = ({ onClose }) => {
-    const { userid, role } = useAuth();
+    const { userid, role , setReceiverId, receiverId} = useAuth();
     const [messages, setMessages] = useState([]);
     const [lastTimestamp, setLastTimestamp] = useState(new Date().toISOString());
     const [inputValue, setInputValue] = useState('');
-    const [selectedRecipientId, setSelectedRecipientId] = useState(null);
+    const [selectedConversationId, setSelectedConversationId] = useState(null);
     const [conversations, setConversations] = useState([]);
     const [recipientName, setRecipientName] = useState(null);
     const [receiverData, setReceiverData] = useState(null);
-    const newMessages = useNewMessages(selectedRecipientId, userid, lastTimestamp, setLastTimestamp);
+    const newMessages = useNewMessages(selectedConversationId, lastTimestamp, setLastTimestamp);
     const messagesEndRef = useRef(null);
+
     useEffect(() => {
         const fetchConversations = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/message/getAllConversation?senderId=${userid}`);
-                if (!response.ok) throw new Error('Failed to fetch conversations');
-                const data = await response.json();
-                if (role === 'Seller') {
-                    setSelectedRecipientId(data[0]?.senderId);
+                const response = await fetch(`http://localhost:8080/api/conversation/getAllConversationsByUserId?userId=${userid}`);
+                if (!response.ok) {
+                    console.error('Failed to fetch conversations:', response.status, response.statusText);
+                    throw new Error('Failed to fetch conversations');
                 }
+                const data = await response.json();
                 setConversations(data);
+                console.log("Conversations of this user: ",data);
             } catch (error) {
                 console.error('Error fetching conversations:', error);
                 setConversations([]);
             }
         };
         fetchConversations();
-    }, [userid, role]);
+    }, [userid]);
 
-    useEffect(() => {
-        if (!selectedRecipientId) return;
+useEffect(() => {
+    if (!selectedConversationId) return;
+    console.log("Selected Conversation ID WTFFFF: ",selectedConversationId);
 
-        const fetchRecipientName = async () => {
-            const endpoint = role === 'Seller'
-                ? `http://localhost:8080/api/customer/getCustomerById/${selectedRecipientId}`
-                : `http://localhost:8080/api/seller/getSellerById/${selectedRecipientId}`;
+    const fetchMessages = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/message/getConversation?conversationId=${selectedConversationId}`);
+            const data = await response.json();
+            setMessages(data);
+            const receiverId = role === 'Customer' ? data[0].receiverId : data[0].senderId;
+            setReceiverId(receiverId);
+            console.log("Receiver ID: ", receiverId);
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
+    };
 
-            try {
-                const response = await fetch(endpoint);
-                const data = await response.json();
-                setReceiverData(data);
-                setRecipientName(role === 'Seller' ? data.fullname : data.storename);
-            } catch (error) {
-                console.error('Error fetching recipient name:', error);
-                setRecipientName('Unknown');
-            }
-        };
-
-        fetchRecipientName();
-    }, [selectedRecipientId, role]);
+    const fetchReceiverName = async (receiverId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/${role === 'Customer' ? 'seller/getSellerNameById' : 'customer/getCustomerNameById'}/${receiverId}`);
+            const data = await response.text();
+            console.log("Receiver Name: ", data);
+            setRecipientName(data);
+        } catch (error) {
+            console.error('Error fetching receiver name:', error);
+        }
+    };
+    const setConversationRead = async () => {
+        try {
+            await fetch(`http://localhost:8080/api/conversation/setConversationRead/${selectedConversationId}`, {
+                method: 'PUT',
+            });
+        } catch (error) {
+            console.error('Error setting conversation to read:', error);
+        }
+    };
+    fetchMessages().then(() => {
+        if (receiverId) {
+            fetchReceiverName(receiverId);
+        } else {
+            console.error('Receiver ID is null');
+        }
+    });
+    setConversationRead();
+}, [selectedConversationId]);
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -67,25 +93,16 @@ const Chat = ({ onClose }) => {
         }
     }, [newMessages]);
 
-    const loadChatHistory = (recipientId) => {
-        setSelectedRecipientId(recipientId);
-        fetch(`http://localhost:8080/api/message/getAllConversation?receiverId=${userid}&senderId=${recipientId}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setMessages(data);
-            })
-            .catch((error) => console.error('Error loading chat history:', error));
-    };
-
     const handleSendMessage = () => {
-        if (!inputValue.trim() || !selectedRecipientId) return;
-
+        if (!inputValue.trim() || !selectedConversationId) return;
+        console.log("Selected Conversation ID WTFFFF: ",selectedConversationId);
         fetch('http://localhost:8080/api/message/addMessage', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 senderId: userid,
-                receiverId: selectedRecipientId,
+                receiverId: receiverId,
+                conversationId: selectedConversationId,
                 message: inputValue,
                 timestamp: new Date().toISOString(),
             }),
@@ -95,6 +112,14 @@ const Chat = ({ onClose }) => {
                 setMessages((prev) => [...prev, data]);
                 setLastTimestamp(data.timestamp);
                 setInputValue('');
+                fetch(`http://localhost:8080/api/conversation/updateLastMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        conversationId: selectedConversationId,
+                        lastMessage: inputValue,
+                    }),
+                }).catch(console.error);
             })
             .catch(console.error);
     };
@@ -114,24 +139,19 @@ const Chat = ({ onClose }) => {
                     </div>
                     <div className="conversation-list">
                         {conversations.length > 0 ? (
-                            [...new Map(conversations.map(conv => [conv.receiverId, conv])).values()].map((conv, index) => (
+                            conversations.map((conv, index) => (
                                 <div
-                                    key={`${conv.receiverId}-${index}`}
-                                    className={`conversation-item ${conv.unread ? 'unread' : ''}`}
-                                    onClick={() => loadChatHistory(conv.receiverId)}
+                                    key={conv.conversationId}
+                                    className={`conversation-item ${conv.read ? 'unread' : 'read'}`}
+                                    onClick={() => setSelectedConversationId(conv.conversationId)}
                                 >
-                                    <img
-                                        src={`data:image/jpeg;base64,${receiverData?.storeimage || receiverData?.profilepic}`}
-                                        alt={receiverData?.storename || 'Recipient'}
-                                        className="avatar"
-                                    />
                                     <div className="conversation-details">
                                         <div className="conversation-header">
-                                            <span className="name">{recipientName || 'Recipient'}</span>
-                                            <span className="time">{new Date(conv.timestamp).toLocaleTimeString()}</span>
+                                            <span className="name">{recipientName}</span>
                                         </div>
-                                        <p className={`last-message ${conv.unread ? 'bold' : ''}`}>
-                                            {conv.message}
+                                        <p className={`last-message ${conv.read ? 'bold' : ''}`}>
+                                            {/*{conv.read && <span className="unread">***Unread***  </span>}*/}
+                                            {conv.lastMessage}
                                         </p>
                                     </div>
                                 </div>
@@ -143,7 +163,7 @@ const Chat = ({ onClose }) => {
                 </div>
                 <div className="chat-main">
                     <div className="chat-main-header">
-                        <h3>{selectedRecipientId ? recipientName : 'Select a Conversation'}</h3>
+                        <h3>{selectedConversationId ? recipientName : 'Select a Conversation'}</h3>
                     </div>
                     <div className="messages" ref={messagesEndRef}>
                         {messages.length > 0 ? (
@@ -159,7 +179,7 @@ const Chat = ({ onClose }) => {
                             <p className="no-messages">No messages yet</p>
                         )}
                     </div>
-                    {selectedRecipientId && (
+                    {selectedConversationId && (
                         <div className="chat-input">
                             <input
                                 type="text"
@@ -182,4 +202,3 @@ const Chat = ({ onClose }) => {
 };
 
 export default Chat;
-

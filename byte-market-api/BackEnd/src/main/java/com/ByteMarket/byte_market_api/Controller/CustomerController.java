@@ -24,6 +24,11 @@ public class CustomerController {
     @Value("${jwt.secret}")
     private String secretKey;
 
+
+    @GetMapping("/getCustomerNameById/{id}")
+    public String getCustomerNameById(@PathVariable int id) {
+        return customerService.getCustomerNameById(id);
+    }
     @PostMapping("/addCustomer")
     public CustomerEntity addCustomer(@RequestBody CustomerEntity newCustomer){
         newCustomer.setRole("Customer");

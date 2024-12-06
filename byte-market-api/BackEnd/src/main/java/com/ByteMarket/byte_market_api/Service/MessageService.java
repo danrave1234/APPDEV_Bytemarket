@@ -16,28 +16,24 @@ public class MessageService {
     public MessageEntity addMessage(MessageEntity message) {
         return messageRepository.save(message);
     }
-    // Get all conversation based on this sender and receiver
-    public List<MessageEntity> getAllConversation(Integer senderId, Integer receiverId) {
-        if (senderId != null && receiverId != null) {
-            return messageRepository.findConversations(senderId, receiverId);
-        } else if (senderId != null) {
-            return messageRepository.findBySenderId(senderId);
-        } else if (receiverId != null) {
-            return messageRepository.findByReceiverId(receiverId);
-        } else {
-            throw new IllegalArgumentException("Either senderId or receiverId must be provided");
-        }
+
+    public List<MessageEntity> getAllConversation(int conversationId) {
+        return messageRepository.findByConversationId(conversationId);
     }
-    public List<MessageEntity> getNewMessages(int receiverId, int senderId, Instant lastTimestamp) {
-        return messageRepository.findNewMessages(receiverId, senderId, lastTimestamp);
+
+    public List<MessageEntity> getNewMessages(int conversationId, Instant lastTimestamp) {
+        return messageRepository.findNewMessages(conversationId, lastTimestamp);
     }
+
     public MessageEntity getMessageById(int messageId) {
-        return messageRepository.findById(messageId).
-                orElseThrow(() -> new RuntimeException("Message not found"));
+        return messageRepository.findById(messageId)
+                .orElseThrow(() -> new RuntimeException("Message not found"));
     }
+
     public List<MessageEntity> getAllMessages() {
         return messageRepository.findAll();
     }
+
     public MessageEntity updateMessage(int id, MessageEntity message) {
         MessageEntity existingMessage = messageRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Message not found"));
