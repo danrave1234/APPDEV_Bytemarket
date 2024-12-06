@@ -46,12 +46,17 @@ public class TransactionService {
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        double totalOrderPrice = order.getTotalprice();
-        String transactionType = transaction.getTransactiontype();
-        if (transactionType == null) {
-            transactionType = "PURCHASE";
+        // Validate stock availability
+        for (OrderItemEntity orderItem : order.getOrderItems()) {
+            ProductEntity product = orderItem.getProduct();
+            if (product.getQuantity() < orderItem.getQuantity()) {
+                throw new RuntimeException("Insufficient stock for product: " + product.getProductname());
+            }
         }
-        transaction.setTransactiontype(transactionType);
+
+        // Proceed with the transaction
+        double totalOrderPrice = order.getTotalprice();
+        String transactionType = transaction.getTransactiontype() == null ? "PURCHASE" : transaction.getTransactiontype();
 
         if (!isValidTransactionType(transactionType)) {
             throw new IllegalArgumentException("Invalid transaction type");
@@ -61,31 +66,20 @@ public class TransactionService {
         transaction.setAmount(totalOrderPrice);
         transaction.setCustomer(customer);
         transaction.setOrder(order);
-
         transactionRepository.save(transaction);
 
-        // Validate stock availability and update product quantities
+        // Deduct stock and update balances
         for (OrderItemEntity orderItem : order.getOrderItems()) {
             ProductEntity product = orderItem.getProduct();
-            int orderedQuantity = orderItem.getQuantity();
-
-            if (product.getQuantity() < orderedQuantity) {
-                throw new RuntimeException("Not enough stock for product: " + product.getProductname());
-            }
-
-            product.setQuantity(product.getQuantity() - orderedQuantity);
+            product.setQuantity(product.getQuantity() - orderItem.getQuantity());
             productRepository.save(product);
         }
 
-        // Centralized balance update
         updateBalances(customer, seller, totalOrderPrice, transactionType);
-
-        // Update order status to "Completed"
         updateOrderStatus(order);
 
         return transaction;
     }
-
 
     private boolean isValidTransactionType(String type) {
         return type.equals("PURCHASE") || type.equals("REFUND") || type.equals("WITHDRAWAL");
