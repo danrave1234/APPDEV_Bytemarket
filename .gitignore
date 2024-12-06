@@ -45,8 +45,12 @@ dist/
 .idea/
 *.iml
 *.iws
+misc.xml
 out/
 
+
+# Spring Boot Sensitive Config
+application.properties
 # OS Generated Files
 .DS_Store
 Thumbs.db
