@@ -84,45 +84,62 @@ const Checkout = () => {
         }
     };
 
-    const renderOrderCard = (order, isPending) => (
-        <div key={order.orderid} className={`orderCard ${isPending ? 'pendingOrder' : 'completedOrder'}`}>
-            <div className="order-header">
-                <h4>Order ID: {order.orderid}</h4>
-                <p className="order-total">Total Price: ₱{order.totalprice.toFixed(2)}</p>
-                {!isPending && (
-                    <>
-                        <p className="order-status">Status: Completed</p>
-                        {order.transactionReference && (
-                            <p className="order-reference">Reference Number: {order.transactionReference}</p>
-                        )}
-                    </>
+    const renderOrderCard = (order, isPending) => {
+        const hasInsufficientStock = order.orderItems.some(item => item.quantity > item.product.quantity);
+
+        return (
+            <div key={order.orderid} className={`orderCard ${isPending ? 'pendingOrder' : 'completedOrder'}`}>
+                <div className="order-header">
+                    <h4>Order ID: {order.orderid}</h4>
+                    <p className="order-total">Total Price: ₱{order.totalprice.toFixed(2)}</p>
+                    {!isPending && (
+                        <>
+                            <p className="order-status">Status: Completed</p>
+                            {order.transactionReference && (
+                                <p className="order-reference">Reference Number: {order.transactionReference}</p>
+                            )}
+                        </>
+                    )}
+                </div>
+                <h5>Products in Order:</h5>
+                <ul>
+                    {order.orderItems.map((item, index) => (
+                        <li key={item.id || `${order.orderid}-${index}`}>
+                            <div className="product-info">
+                                {item.product.image ? (
+                                    <img src={`data:image/jpeg;base64,${item.product.image}`}
+                                         alt={item.product.productname} className="product-image"/>
+                                ) : (
+                                    <div className="image-placeholder">No Image</div>
+                                )}
+                                <div>
+                                    <p className="item-name">{item.product.productname}</p>
+                                    <p className="item-details">
+                                        Quantity: {item.quantity} | ₱{item.price.toFixed(2)} each
+                                    </p>
+                                    <p className={`stock-info ${item.quantity > item.product.quantity ? "error-text" : "normal-text"}`}>
+                                        {item.quantity > item.product.quantity
+                                            ? `Insufficient stock (Available: ${item.product.quantity})`
+                                            : `Stock Available: ${item.product.quantity}`}
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+                {isPending && (
+                    <button
+                        onClick={() => handleCheckout(order)}
+                        className="fulfillButton"
+                        disabled={hasInsufficientStock}
+                        title={hasInsufficientStock ? "Cannot fulfill order: insufficient stock" : ""}
+                    >
+                        Fulfill Order
+                    </button>
                 )}
             </div>
-            <h5>Products in Order:</h5>
-            <ul>
-                {order.orderItems.map((item, index) => (
-                    <li key={item.id || `${order.orderid}-${index}`}>
-                        <div className="product-info">
-                            {item.product.image ? (
-                                <img src={`data:image/jpeg;base64,${item.product.image}`} alt={item.product.productname} className="product-image" />
-                            ) : (
-                                <div className="image-placeholder">No Image</div>
-                            )}
-                            <div>
-                                <p className="item-name">{item.product.productname}</p>
-                                <p className="item-details">Quantity: {item.quantity} | ₱{item.price.toFixed(2)} each</p>
-                            </div>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-            {isPending && (
-                <button onClick={() => handleCheckout(order)} className="fulfillButton">
-                    Fulfill Order
-                </button>
-            )}
-        </div>
-    );
+        );
+    };
 
     if (loading) {
         return (

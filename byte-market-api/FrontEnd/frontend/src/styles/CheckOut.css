@@ -181,3 +181,56 @@
     font-family: 'Montserrat', sans-serif;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* Error Text Styling for Insufficient Stock */
+.checkoutPage .orderCard .error-text {
+    color: #d9534f; /* Bootstrap danger color */
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 4px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Disabled Button Styling */
+.checkoutPage .orderCard .fulfillButton[disabled] {
+    background-color: #ccc; /* Grey background for disabled state */
+    color: #666; /* Slightly faded text color */
+    cursor: not-allowed; /* Indicates button is not clickable */
+    box-shadow: none; /* Removes hover effect */
+    opacity: 0.7; /* Slight transparency */
+}
+
+/* Tooltip Styling for Disabled Button */
+.checkoutPage .orderCard .fulfillButton[disabled]:hover::after {
+    content: attr(title); /* Display the title attribute content */
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    white-space: nowrap;
+    z-index: 1000;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Stock Information Styling */
+.checkoutPage .orderCard .stock-info {
+    font-size: 14px;
+    margin-top: 4px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.checkoutPage .orderCard .stock-info.normal-text {
+    color: #555; /* Normal stock display color */
+    font-weight: normal;
+}
+
+.checkoutPage .orderCard .stock-info.error-text {
+    color: #d9534f; /* Highlight insufficient stock in red */
+    font-weight: bold;
+}
