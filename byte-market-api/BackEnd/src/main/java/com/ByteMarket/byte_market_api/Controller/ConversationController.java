@@ -1,7 +1,7 @@
 package com.ByteMarket.byte_market_api.Controller;
 
 import com.ByteMarket.byte_market_api.Entity.ConversationEntity;
-import com.ByteMarket.byte_market_api.Repository.ConversationRepository;
+import com.ByteMarket.byte_market_api.Entity.UserEntity;
 import com.ByteMarket.byte_market_api.Service.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +15,10 @@ import java.util.Map;
 public class ConversationController {
     @Autowired
     private ConversationService conversationService;
-    @Autowired
-    private ConversationRepository conversationRepository;
 
     @PutMapping("/setConversationRead/{conversationId}")
     public void setConversationRead(@PathVariable int conversationId) {
-        ConversationEntity conversation = conversationRepository.findById(conversationId).orElseThrow();
-        conversation.setRead(true);
-        conversationRepository.save(conversation);
+        conversationService.setConversationRead(conversationId);
     }
 
     @PostMapping("/addConversation")
@@ -34,9 +30,7 @@ public class ConversationController {
     public void updateLastMessage(@RequestBody Map<String, Object> payload) {
         int conversationId = (int) payload.get("conversationId");
         String lastMessage = (String) payload.get("lastMessage");
-        ConversationEntity conversation = conversationRepository.findById(conversationId).orElseThrow();
-        conversation.setLastMessage(lastMessage);
-        conversationRepository.save(conversation);
+        conversationService.updateLastMessage(conversationId, lastMessage);
     }
 
     @GetMapping("/getConversationBySenderAndReceiver/{senderId}/{receiverId}")
@@ -49,7 +43,7 @@ public class ConversationController {
         return conversationService.getAllConversationsByUserId(userId);
     }
 
-    @GetMapping("/getAllConversation")
+    @GetMapping("/getAllConversations")
     public List<ConversationEntity> getAllConversations() {
         return conversationService.getAllConversations();
     }

@@ -115,7 +115,13 @@
     color: #65676b;
     font-size: 12px;
 }
-
+.chat-window .conversation-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
 .chat-window .last-message {
     color: #65676b;
     font-size: 13px;

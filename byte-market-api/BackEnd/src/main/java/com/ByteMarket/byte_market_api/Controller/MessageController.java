@@ -24,7 +24,7 @@ public class MessageController {
         int senderId = message.getSenderId();
         int receiverId = message.getReceiverId();
 
-        // Check if a conversation already exists
+        // Make me the sender and receiver but first get the Sender and Receiver using the senderId and receiverId from messages
         ConversationEntity conversation = conversationService.getConversationBySenderAndReceiver(senderId, receiverId);
         if (conversation == null) {
             conversation = conversationService.getConversationBySenderAndReceiver(receiverId, senderId);
@@ -35,7 +35,7 @@ public class MessageController {
         // Set the conversation for the message
         message.setConversation(conversation);
         conversation.setRead(false);
-        conversation.setLastMessage(message.getMessage().substring(0, Math.min(6, message.getMessage().length())));
+        conversation.setLastMessage(message.getMessage().substring(0, Math.min(30, message.getMessage().length())));
         return messageService.addMessage(message);
     }
 

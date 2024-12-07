@@ -1,7 +1,9 @@
 package com.ByteMarket.byte_market_api.Service;
 
 import com.ByteMarket.byte_market_api.Entity.ConversationEntity;
+import com.ByteMarket.byte_market_api.Entity.UserEntity;
 import com.ByteMarket.byte_market_api.Repository.ConversationRepository;
+import com.ByteMarket.byte_market_api.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,13 @@ import java.util.List;
 public class ConversationService {
     @Autowired
     private ConversationRepository conversationRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public ConversationEntity createConversation(int senderId, int receiverId) {
-        ConversationEntity conversation = new ConversationEntity(senderId, receiverId, Instant.now());
+        UserEntity sender = userRepository.findById(senderId).orElseThrow();
+        UserEntity receiver = userRepository.findById(receiverId).orElseThrow();
+        ConversationEntity conversation = new ConversationEntity(sender, receiver, Instant.now());
         return conversationRepository.save(conversation);
     }
 
@@ -23,24 +29,35 @@ public class ConversationService {
     }
 
     public ConversationEntity getConversationBySenderAndReceiver(int senderId, int receiverId) {
-        return conversationRepository.findBySenderIdAndReceiverId(senderId, receiverId);
+        return conversationRepository.findBySenderUseridAndReceiverUserid(senderId, receiverId);
     }
 
     public List<ConversationEntity> getAllConversationsByUserId(int userId) {
-        return conversationRepository.findBySenderIdOrReceiverId(userId, userId);
+        return conversationRepository.findBySenderUseridOrReceiverUserid(userId, userId);
     }
 
     public ConversationEntity updateConversation(int id, int senderId, int receiverId) {
-        ConversationEntity conversation = conversationRepository.findById(id).orElse(null);
-        if (conversation == null) {
-            return null;
-        }
-        conversation.setSenderId(senderId);
-        conversation.setReceiverId(receiverId);
+        ConversationEntity conversation = conversationRepository.findById(id).orElseThrow();
+        UserEntity sender = userRepository.findById(senderId).orElseThrow();
+        UserEntity receiver = userRepository.findById(receiverId).orElseThrow();
+        conversation.setSender(sender);
+        conversation.setReceiver(receiver);
         return conversationRepository.save(conversation);
     }
 
     public void deleteConversation(int id) {
         conversationRepository.deleteById(id);
+    }
+
+    public void setConversationRead(int conversationId) {
+        ConversationEntity conversation = conversationRepository.findById(conversationId).orElseThrow();
+        conversation.setRead(true);
+        conversationRepository.save(conversation);
+    }
+
+    public void updateLastMessage(int conversationId, String lastMessage) {
+        ConversationEntity conversation = conversationRepository.findById(conversationId).orElseThrow();
+        conversation.setLastMessage(lastMessage);
+        conversationRepository.save(conversation);
     }
 }

@@ -12,11 +12,21 @@ public class ConversationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int conversationId;
-    private int senderId;
-    private int receiverId;
     private Instant createdAt;
     private boolean isRead;
     private String lastMessage;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
+    @JsonIgnoreProperties({"conversations", "password", "email", "phone", "createdAt", "updatedAt", "roles", "enabled", "phonenumber", "username", "registration", "dateofbirth", "address", "hibernateLazyInitializer"})
+    private UserEntity sender;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_id")
+//    @JsonIgnoreProperties({"conversations", "password", "email", "phone", "createdAt",
+//            "updatedAt", "roles", "enabled", "phonenumber", "username", "registration", "dateofbirth", "address" })
+    @JsonIgnoreProperties({"conversations", "password", "email", "phone", "createdAt", "updatedAt", "roles", "enabled", "phonenumber", "username", "registration", "dateofbirth", "address", "hibernateLazyInitializer"})
+    private UserEntity receiver;
 
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -26,9 +36,9 @@ public class ConversationEntity {
         super();
     }
 
-    public ConversationEntity(int senderId, int receiverId, Instant createdAt) {
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+    public ConversationEntity(UserEntity sender, UserEntity receiver, Instant createdAt) {
+        this.sender = sender;
+        this.receiver = receiver;
         this.createdAt = createdAt;
         this.isRead = true;
     }
@@ -58,20 +68,20 @@ public class ConversationEntity {
         this.conversationId = conversationId;
     }
 
-    public int getSenderId() {
-        return senderId;
+    public UserEntity getSender() {
+        return sender;
     }
 
-    public void setSenderId(int senderId) {
-        this.senderId = senderId;
+    public void setSender(UserEntity sender) {
+        this.sender = sender;
     }
 
-    public int getReceiverId() {
-        return receiverId;
+    public UserEntity getReceiver() {
+        return receiver;
     }
 
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
+    public void setReceiver(UserEntity receiver) {
+        this.receiver = receiver;
     }
 
     public Instant getCreatedAt() {

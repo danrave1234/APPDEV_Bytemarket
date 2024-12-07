@@ -9,7 +9,7 @@ import OrderProductModal from './components/OrderProductModal.jsx';
 
 
 function StorePage() {
-    const { userid: customerId } = useAuth();
+    const { userid: customerId, setReceiverId, receiverId, role } = useAuth();
     const { userid: sellerId } = useParams();
     const navigate = useNavigate();
 
@@ -53,6 +53,7 @@ function StorePage() {
     const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
     const [showAddToCartModal, setShowAddToCartModal] = useState(false);
     const [selectedItemId, setSelectedItemId] = useState(null);
+    const [showConversationModal, setShowConversationModal] = useState(false);
 
     // Fetch store details and products
     useEffect(() => {
@@ -101,7 +102,21 @@ function StorePage() {
             console.error('Error fetching wishlist:', error);
         }
     };
+    const openConversationModal = () => {
+        const selectedSellerObj = sellers.find(seller => seller.userid === parseInt(selectedSeller));
+        if (selectedSellerObj) {
+            setReceiverId(selectedSellerObj.userid);
+            setShowConversationModal(true);
+            document.body.style.overflow = 'hidden';
+        } else {
+            console.error("Selected seller ID not found");
+        }
+    };
 
+    const closeConversationModal = () => {
+        setShowConversationModal(false);
+        document.body.style.overflow = 'auto';
+    };
     // Calculate store rating
     const calculateStoreRating = () => {
         if (!products.length) return 'No ratings';
@@ -230,6 +245,45 @@ function StorePage() {
                 return sortedProducts.sort((a, b) => new Date(b.dateposted).getTime() - new Date(a.dateposted).getTime());
         }
     };
+    const sendMessage = async (message) => {
+        // Assuming you want to use the first seller from the sellers array (or modify as needed)
+        const recipientIdFromProduct = sellers[0]?.userid; // Accessing the first seller's userid
+
+        // Check if recipientIdFromProduct is available
+        if (!recipientIdFromProduct) {
+            console.error('Recipient ID is not available');
+            return;
+        }
+
+        // Set receiver ID before sending the message
+        setReceiverId(recipientIdFromProduct);
+
+        try {
+            // Send the message using POST request
+            await axios.post('http://localhost:8080/api/message/addMessage', {
+                senderId: customerId,
+                receiverId: recipientIdFromProduct,
+                message: message,
+                timestamp: new Date().toISOString(),
+            });
+        } catch (error) {
+            console.error('Error sending message:', error);
+
+            if (error.response) {
+                // Log response details if available
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+                console.error('Response headers:', error.response.headers);
+            } else if (error.request) {
+                // Log request details if the request was made but no response was received
+                console.error('Request data:', error.request);
+            } else {
+                // Log the error message if something else went wrong
+                console.error('Error message:', error.message);
+            }
+        }
+    };
+
 
     if (loading) return <PageLayout><div className="loading">Loading store details...</div></PageLayout>;
 
@@ -250,6 +304,7 @@ function StorePage() {
                         <p>Products Listed: {products.length}</p>
                         <p className="store-description">Seller: {storeDetails.sellername}</p>
                     </div>
+                    <button onClick={openConversationModal} className="chat-seller-btn">Chat with Seller</button>
                 </div>
 
                 {/* Store Selector Section */}
@@ -418,6 +473,28 @@ function StorePage() {
                     onClose={closeOrderModal}
                 />
             )}
+            {showConversationModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Start a Conversation</h2>
+                        {/* Accessing the first seller's userid, you can adjust the index or logic as needed */}
+                        <p>Are you sure you want to start a conversation with the seller: {sellers[0]?.userid || 'Seller'}?</p>
+                        <div className="modal-buttons">
+                            <button
+                                onClick={() => {
+                                    sendMessage(`Hello, I'm interested in your products: `);
+                                    closeConversationModal()
+                                }}
+                                className="send-btn"
+                            >
+                                Confirm
+                            </button>
+                            <button onClick={closeConversationModal} className="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
         </PageLayout>
     );

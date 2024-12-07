@@ -4,7 +4,7 @@ import { useAuth } from './AuthProvider.jsx';
 import './Chat.css';
 
 const Chat = ({ onClose }) => {
-    const { userid, role , setReceiverId, receiverId} = useAuth();
+    const { userid, role, setReceiverId, receiverId } = useAuth();
     const [messages, setMessages] = useState([]);
     const [lastTimestamp, setLastTimestamp] = useState(new Date().toISOString());
     const [inputValue, setInputValue] = useState('');
@@ -15,87 +15,90 @@ const Chat = ({ onClose }) => {
     const newMessages = useNewMessages(selectedConversationId, lastTimestamp, setLastTimestamp);
     const messagesEndRef = useRef(null);
 
+    const fetchConversations = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/conversation/getAllConversationsByUserId?userId=${userid}`);
+            if (!response.ok) throw new Error('Failed to fetch conversations');
+            const data = await response.json();
+            setConversations(data);
+        } catch (error) {
+            console.error('Error fetching conversations:', error);
+            setConversations([]);
+        }
+    };
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     useEffect(() => {
-        const fetchConversations = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/api/conversation/getAllConversationsByUserId?userId=${userid}`);
-                if (!response.ok) {
-                    console.error('Failed to fetch conversations:', response.status, response.statusText);
-                    throw new Error('Failed to fetch conversations');
-                }
-                const data = await response.json();
-                setConversations(data);
-                console.log("Conversations of this user: ",data);
-            } catch (error) {
-                console.error('Error fetching conversations:', error);
-                setConversations([]);
-            }
-        };
+        scrollToBottom();
+    }, [messages, selectedConversationId]);
+
+    useEffect(() => {
         fetchConversations();
     }, [userid]);
 
-useEffect(() => {
-    if (!selectedConversationId) return;
-    console.log("Selected Conversation ID WTFFFF: ",selectedConversationId);
-
-    const fetchMessages = async () => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/message/getConversation?conversationId=${selectedConversationId}`);
-            const data = await response.json();
-            setMessages(data);
-            const receiverId = role === 'Customer' ? data[0].receiverId : data[0].senderId;
-            setReceiverId(receiverId);
-            console.log("Receiver ID: ", receiverId);
-        } catch (error) {
-            console.error('Error fetching messages:', error);
-        }
-    };
-
-    const fetchReceiverName = async (receiverId) => {
-        try {
-            const response = await fetch(`http://localhost:8080/api/${role === 'Customer' ? 'seller/getSellerNameById' : 'customer/getCustomerNameById'}/${receiverId}`);
-            const data = await response.text();
-            console.log("Receiver Name: ", data);
-            setRecipientName(data);
-        } catch (error) {
-            console.error('Error fetching receiver name:', error);
-        }
-    };
-    const setConversationRead = async () => {
-        try {
-            await fetch(`http://localhost:8080/api/conversation/setConversationRead/${selectedConversationId}`, {
-                method: 'PUT',
-            });
-        } catch (error) {
-            console.error('Error setting conversation to read:', error);
-        }
-    };
-    fetchMessages().then(() => {
-        if (receiverId) {
-            fetchReceiverName(receiverId);
-        } else {
-            console.error('Receiver ID is null');
-        }
-    });
-    setConversationRead();
-}, [selectedConversationId]);
-
     useEffect(() => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-        }
-    }, [messages]);
+        if (!selectedConversationId) return;
+
+        const fetchMessages = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:8080/api/message/getConversation?conversationId=${selectedConversationId}`
+                );
+                const data = await response.json();
+                setMessages(data);
+                scrollToBottom();
+
+                const receiverId = role === 'Customer' ? data[0].receiverId : data[0].senderId;
+                fetchReceiverName(receiverId);
+                setReceiverId(receiverId);
+                setConversationRead();
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+            }
+        };
+
+        const fetchReceiverName = async (receiverId) => {
+            try {
+                const response = await fetch(
+                    `http://localhost:8080/api/${role === 'Customer' ? 'seller/getSellerNameById' : 'customer/getCustomerNameById'}/${receiverId}`
+                );
+                const data = await response.text();
+                setRecipientName(data);
+            } catch (error) {
+                console.error('Error fetching receiver name:', error);
+            }
+        };
+
+        const setConversationRead = async () => {
+            try {
+                await fetch(`http://localhost:8080/api/conversation/setConversationRead/${selectedConversationId}`, {
+                    method: 'PUT',
+                });
+                fetchConversations();
+            } catch (error) {
+                console.error('Error setting conversation to read:', error);
+            }
+        };
+
+        fetchMessages();
+    }, [selectedConversationId]);
 
     useEffect(() => {
         if (newMessages.length > 0) {
             setMessages((prevMessages) => [...prevMessages, ...newMessages]);
-            setLastTimestamp(newMessages[newMessages.length - 1].timestamp);
+            scrollToBottom();
+            fetchConversations();
         }
     }, [newMessages]);
 
     const handleSendMessage = () => {
         if (!inputValue.trim() || !selectedConversationId) return;
-        console.log("Selected Conversation ID WTFFFF: ",selectedConversationId);
+
         fetch('http://localhost:8080/api/message/addMessage', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -112,6 +115,8 @@ useEffect(() => {
                 setMessages((prev) => [...prev, data]);
                 setLastTimestamp(data.timestamp);
                 setInputValue('');
+                scrollToBottom();
+
                 fetch(`http://localhost:8080/api/conversation/updateLastMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -120,6 +125,8 @@ useEffect(() => {
                         lastMessage: inputValue,
                     }),
                 }).catch(console.error);
+
+                fetchConversations();
             })
             .catch(console.error);
     };
@@ -139,18 +146,43 @@ useEffect(() => {
                     </div>
                     <div className="conversation-list">
                         {conversations.length > 0 ? (
-                            conversations.map((conv, index) => (
+                            conversations.map((conv) => (
                                 <div
                                     key={conv.conversationId}
-                                    className={`conversation-item ${conv.read ? 'unread' : 'read'}`}
+                                    className={`conversation-item ${conv.read ? 'read' : 'unread'}`}
                                     onClick={() => setSelectedConversationId(conv.conversationId)}
                                 >
+                                    <img src={`data:image/jpeg;base64,${conv.receiver.profilepic}`} alt="img" className="conversation-image" />
                                     <div className="conversation-details">
                                         <div className="conversation-header">
-                                            <span className="name">{recipientName}</span>
+                                            <span className="name">
+                                                {role === 'Customer' ? conv.receiver.fullname : conv.sender.fullname}
+                                            </span>
+                                            <button
+                                                className="delete-conversation-btn"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    if (window.confirm('Are you sure you want to delete this conversation?')) {
+                                                        fetch(`http://localhost:8080/api/conversation/deleteConversation/${conv.conversationId}`, {
+                                                            method: 'DELETE',
+                                                        })
+                                                            .then((response) => {
+                                                                if (response.ok) {
+                                                                    setConversations((prev) =>
+                                                                        prev.filter((c) => c.conversationId !== conv.conversationId)
+                                                                    );
+                                                                } else {
+                                                                    console.error('Failed to delete conversation');
+                                                                }
+                                                            })
+                                                            .catch((error) => console.error('Error:', error));
+                                                    }
+                                                }}
+                                            >
+                                                ✕
+                                            </button>
                                         </div>
-                                        <p className={`last-message ${conv.read ? 'bold' : ''}`}>
-                                            {/*{conv.read && <span className="unread">***Unread***  </span>}*/}
+                                        <p className={`last-message ${conv.read ? '' : 'bold'}`}>
                                             {conv.lastMessage}
                                         </p>
                                     </div>
@@ -165,7 +197,7 @@ useEffect(() => {
                     <div className="chat-main-header">
                         <h3>{selectedConversationId ? recipientName : 'Select a Conversation'}</h3>
                     </div>
-                    <div className="messages" ref={messagesEndRef}>
+                    <div className="messages">
                         {messages.length > 0 ? (
                             messages.map((msg, index) => (
                                 <div
@@ -178,6 +210,7 @@ useEffect(() => {
                         ) : (
                             <p className="no-messages">No messages yet</p>
                         )}
+                        <div ref={messagesEndRef} />
                     </div>
                     {selectedConversationId && (
                         <div className="chat-input">

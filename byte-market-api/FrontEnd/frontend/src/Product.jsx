@@ -338,12 +338,14 @@ function Product() {
                                 <button onClick={handleAddToCart} className="add-cart-btn">Add to Cart</button>
                                 <button onClick={(e) => handleBuyNow(product, e)} className="buy-now-btn">Buy Now
                                 </button>
+                            {role === "Customer" && (
                                 <button
                                     onClick={openConversationModal}
                                     className="add-cart-btn"
                                 >
-                                    Start Conversation
+                                    Inquire Seller
                                 </button>
+                            )}
 
                             </div>
                         </div>

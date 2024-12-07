@@ -8,9 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ConversationRepository extends JpaRepository<ConversationEntity, Integer> {
-    List<ConversationEntity> findBySenderIdOrReceiverId(int senderId, int receiverId);
-    ConversationEntity findBySenderIdAndReceiverId(int senderId, int receiverId);
-    List<ConversationEntity> findBySenderId(int senderId);
-    List<ConversationEntity> findByReceiverId(int receiverId);
-
+    List<ConversationEntity> findBySenderUseridOrReceiverUserid(int senderId, int receiverId);
+    ConversationEntity findBySenderUseridAndReceiverUserid(int senderId, int receiverId);
+    List<ConversationEntity> findBySenderUserid(int senderId);
+    List<ConversationEntity> findByReceiverUserid(int receiverId);
 }
