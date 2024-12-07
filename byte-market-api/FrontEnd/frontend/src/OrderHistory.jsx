@@ -175,7 +175,6 @@ const OrderHistory = () => {
                                                             fontSize: '14px',
                                                             fontWeight: '600',
                                                             color: '#212850',
-                                                            backgroundColor: '#f0f0f0',
                                                             padding: '6px 12px',
                                                             paddingLeft: '0',
                                                             borderRadius: '6px',
