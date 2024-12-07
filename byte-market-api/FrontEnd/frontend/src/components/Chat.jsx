@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import useNewMessages from './useNewMessages';
 import { useAuth } from './AuthProvider.jsx';
+import { Search, Send, X, Check, CheckCheck } from 'lucide-react';
 import './Chat.css';
 
 const Chat = ({ onClose }) => {
@@ -134,32 +135,44 @@ const Chat = ({ onClose }) => {
     return (
         <div className="chat-window">
             <div className="chat-header">
-                <h2>Chat</h2>
+                <h2>Messages</h2>
                 <div className="chat-header-icons">
-                    <span className="icon" onClick={onClose}>✕</span>
+                    <button className="icon-button" onClick={onClose}>
+                        <X className="icon" />
+                    </button>
                 </div>
             </div>
             <div className="chat-body">
                 <div className="sidebar">
                     <div className="search-bar">
-                        <input type="text" placeholder="Search" />
+                        <Search className="search-icon" />
+                        <input type="text" placeholder="Search conversations..." />
                     </div>
                     <div className="conversation-list">
                         {conversations.length > 0 ? (
                             conversations.map((conv) => (
                                 <div
                                     key={conv.conversationId}
-                                    className={`conversation-item ${conv.read ? 'read' : 'unread'}`}
+                                    className={`conversation-item ${conv.read ? 'read' : 'unread'} ${
+                                        selectedConversationId === conv.conversationId ? 'active' : ''
+                                    }`}
                                     onClick={() => setSelectedConversationId(conv.conversationId)}
                                 >
-                                    <img src={`data:image/jpeg;base64,${conv.receiver.profilepic}`} alt="img" className="conversation-image" />
+                                    <div className="conversation-avatar">
+                                        <img
+                                            src={`data:image/jpeg;base64,${conv.receiver.profilepic}`}
+                                            alt="Profile"
+                                            className="conversation-image"
+                                        />
+                                        {!conv.read && <span className="unread-indicator" />}
+                                    </div>
                                     <div className="conversation-details">
                                         <div className="conversation-header">
                                             <span className="name">
                                                 {role === 'Customer' ? conv.receiver.fullname : conv.sender.fullname}
                                             </span>
                                             <button
-                                                className="delete-conversation-btn"
+                                                className="delete-button"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     if (window.confirm('Are you sure you want to delete this conversation?')) {
@@ -179,7 +192,7 @@ const Chat = ({ onClose }) => {
                                                     }
                                                 }}
                                             >
-                                                ✕
+                                                <X className="icon-small" />
                                             </button>
                                         </div>
                                         <p className={`last-message ${conv.read ? '' : 'bold'}`}>
@@ -189,26 +202,54 @@ const Chat = ({ onClose }) => {
                                 </div>
                             ))
                         ) : (
-                            <p className="no-conversations">No conversations available</p>
+                            <div className="no-conversations">
+                                <p>No conversations yet</p>
+                                <span className="no-conversations-subtitle">Messages from your conversations will appear here</span>
+                            </div>
                         )}
                     </div>
                 </div>
                 <div className="chat-main">
                     <div className="chat-main-header">
-                        <h3>{selectedConversationId ? recipientName : 'Select a Conversation'}</h3>
+                        {selectedConversationId ? (
+                            <div className="selected-chat-header">
+                                <h3>{recipientName}</h3>
+                                {conversations.find(conv => conv.conversationId === selectedConversationId)?.read && (
+                                    <span className="seen-status">
+                                        <CheckCheck className="icon-small" /> Delivered
+                                    </span>
+                                )}
+                            </div>
+                        ) : (
+                            <h3>Select a Conversation</h3>
+                        )}
                     </div>
                     <div className="messages">
                         {messages.length > 0 ? (
                             messages.map((msg, index) => (
                                 <div
                                     key={index}
-                                    className={msg.senderId === userid ? 'sent' : 'received'}
+                                    className={`message ${msg.senderId === userid ? 'sent' : 'received'}`}
                                 >
-                                    {msg.message}
+                                    <div className="message-content">
+                                        {msg.message}
+                                    </div>
+                                    {msg.senderId === userid && (
+                                        <span className="message-status">
+                                            {conversations.find(conv => conv.conversationId === selectedConversationId)?.read ? (
+                                                <CheckCheck className="icon-tiny" />
+                                            )  : (
+                                                <Check className="icon-tiny" />
+                                            )}
+                                        </span>
+                                    )}
                                 </div>
                             ))
                         ) : (
-                            <p className="no-messages">No messages yet</p>
+                            <div className="no-messages">
+                                <p>No messages yet</p>
+                                <span className="no-messages-subtitle">Start the conversation!</span>
+                            </div>
                         )}
                         <div ref={messagesEndRef} />
                     </div>
@@ -216,16 +257,23 @@ const Chat = ({ onClose }) => {
                         <div className="chat-input">
                             <input
                                 type="text"
-                                placeholder="Type a message here"
+                                placeholder="Type your message..."
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={(e) => {
-                                    if (e.key === 'Enter') handleSendMessage();
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        handleSendMessage();
+                                    }
                                 }}
                             />
-                            <div className="input-icons">
-                                <span className="icon" onClick={handleSendMessage}>➤</span>
-                            </div>
+                            <button
+                                className="send-button"
+                                onClick={handleSendMessage}
+                                disabled={!inputValue.trim()}
+                            >
+                                <Send className="icon" />
+                            </button>
                         </div>
                     )}
                 </div>
@@ -235,3 +283,4 @@ const Chat = ({ onClose }) => {
 };
 
 export default Chat;
+
