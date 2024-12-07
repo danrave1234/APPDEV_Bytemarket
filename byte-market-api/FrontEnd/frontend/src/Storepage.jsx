@@ -89,6 +89,7 @@ function StorePage() {
         try {
             const response = await axios.get('http://localhost:8080/api/seller/getAllSeller');
             setSellers(response.data);
+            console.log("Sellers", response.data);
         } catch (error) {
             console.error('Error fetching sellers:', error);
         }
@@ -104,8 +105,10 @@ function StorePage() {
     };
     const openConversationModal = () => {
         const selectedSellerObj = sellers.find(seller => seller.userid === parseInt(selectedSeller));
+        console.log(selectedSellerObj.userid);
         if (selectedSellerObj) {
             setReceiverId(selectedSellerObj.userid);
+            console.log("Receiver Id", receiverId);
             setShowConversationModal(true);
             document.body.style.overflow = 'hidden';
         } else {
@@ -246,23 +249,10 @@ function StorePage() {
         }
     };
     const sendMessage = async (message) => {
-        // Assuming you want to use the first seller from the sellers array (or modify as needed)
-        const recipientIdFromProduct = sellers[0]?.userid; // Accessing the first seller's userid
-
-        // Check if recipientIdFromProduct is available
-        if (!recipientIdFromProduct) {
-            console.error('Recipient ID is not available');
-            return;
-        }
-
-        // Set receiver ID before sending the message
-        setReceiverId(recipientIdFromProduct);
-
         try {
-            // Send the message using POST request
             await axios.post('http://localhost:8080/api/message/addMessage', {
                 senderId: customerId,
-                receiverId: recipientIdFromProduct,
+                receiverId: receiverId,
                 message: message,
                 timestamp: new Date().toISOString(),
             });
