@@ -19,9 +19,15 @@ import Error404Page from "./components/Error404Page.jsx";
 import ErrorAccessDeniedPage from "./components/ErrorAccessDeniedPage.jsx";
 import Chat from "./components/Chat.jsx";
 import Inventory from "./Inventory.jsx";
+import LoadingScreen from "./components/LoadingScreen.jsx";
 
 function ProtectedRoute({ children, allowedRoles }) {
-    const { role } = useAuth(); // Get the role from the context
+    const { role, loading } = useAuth(); // Get the role and loading state from the context
+
+    if (loading) {
+        return <LoadingScreen />; // Show a loading indicator while checking the role
+    }
+
     return allowedRoles.includes(role) ? children : <Navigate to="/access-denied" />; // Redirect if not authorized
 }
 

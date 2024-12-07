@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [receiverId, setReceiverId] = useState(null);
     const [senderId, setSenderId] = useState(null);
     const [conversationId, setConversationId] = useState(null);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }) => {
                 logout(); // Clear the invalid token.
             }
         }
+        setLoading(false);
     }, []);
 
     const login = async (username, password, userType) => {
@@ -82,7 +84,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userid, role, receiverId, setReceiverId, senderId, setSenderId, conversationId, setConversationId, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, userid, role, receiverId, setReceiverId, senderId, setSenderId, conversationId, setConversationId, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );
