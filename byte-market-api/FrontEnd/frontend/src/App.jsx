@@ -8,14 +8,13 @@ import { useAuth } from "./components/AuthProvider.jsx";
 //Dont TOUCH! unless Necessary
 function App() {
     const [isChatVisible, setIsChatVisible] = useState(false);
-    const { isLoggedIn } = useAuth();
 
     useScrollToTop();
     return (
         <>
             <TheRoutes />
             {isChatVisible && <Chat onClose={() => setIsChatVisible(false)} />}
-            {isLoggedIn && !isChatVisible && (
+            {!isChatVisible && (
                 <button
                     onClick={() => setIsChatVisible(true)}
                     style={{

@@ -1,6 +1,5 @@
 package com.ByteMarket.byte_market_api.Controller;
 
-import com.ByteMarket.byte_market_api.DTO.DashboardStatsDTO;
 import com.ByteMarket.byte_market_api.DTO.LoginResponse;
 import com.ByteMarket.byte_market_api.Entity.*;
 import com.ByteMarket.byte_market_api.Service.*;
@@ -31,13 +30,7 @@ public class AdminController {
     private OrderService orderService;
     @Value("${jwt.secret}")
     private String secretKey;
-    @Autowired
-    private DashboardService dashboardService;
 
-    @GetMapping("/dashboardStats")
-    public DashboardStatsDTO getDashboardStats() {
-        return dashboardService.getDashboardStats();
-    }
     //Sellers
     @GetMapping("/getAllSellers")
     public List<SellerEntity> getAllSellers() {
