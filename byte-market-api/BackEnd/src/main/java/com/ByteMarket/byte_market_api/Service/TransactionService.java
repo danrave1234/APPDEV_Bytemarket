@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,9 @@ public class TransactionService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    private InventoryService inventoryService;
+
     public List<TransactionEntity> getAllTransaction() {
         return transactionRepository.findAll();
     }
@@ -46,36 +50,28 @@ public class TransactionService {
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        // Validate stock availability
-        for (OrderItemEntity orderItem : order.getOrderItems()) {
-            ProductEntity product = orderItem.getProduct();
-            if (product.getQuantity() < orderItem.getQuantity()) {
-                throw new RuntimeException("Insufficient stock for product: " + product.getProductname());
-            }
-        }
-
-        // Proceed with the transaction
         double totalOrderPrice = order.getTotalprice();
-        String transactionType = transaction.getTransactiontype() == null ? "PURCHASE" : transaction.getTransactiontype();
-
-        if (!isValidTransactionType(transactionType)) {
-            throw new IllegalArgumentException("Invalid transaction type");
-        }
-
         transaction.setTransactiondate(LocalDate.now());
         transaction.setAmount(totalOrderPrice);
         transaction.setCustomer(customer);
         transaction.setOrder(order);
         transactionRepository.save(transaction);
 
-        // Deduct stock and update balances
+        // Add inventory items
+        int itemIndex = 1; // Start numbering items from 1
         for (OrderItemEntity orderItem : order.getOrderItems()) {
-            ProductEntity product = orderItem.getProduct();
-            product.setQuantity(product.getQuantity() - orderItem.getQuantity());
-            productRepository.save(product);
+            InventoryEntity inventory = new InventoryEntity();
+            inventory.setProduct(orderItem.getProduct());
+            inventory.setCustomer(customer);
+            inventory.setQuantity(orderItem.getQuantity());
+            inventory.setDateadded(LocalDateTime.now());
+            inventory.setTransactionReferenceNumber(transaction.getReferenceNumber() + "-" + itemIndex);
+            inventoryService.addInventoryItem(inventory);
+
+            itemIndex++; // Increment for the next product
         }
 
-        updateBalances(customer, seller, totalOrderPrice, transactionType);
+        updateBalances(customer, seller, totalOrderPrice, "PURCHASE");
         updateOrderStatus(order);
 
         return transaction;

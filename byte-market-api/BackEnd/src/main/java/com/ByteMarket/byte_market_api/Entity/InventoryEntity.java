@@ -1,8 +1,10 @@
 package com.ByteMarket.byte_market_api.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 @Entity
+@Table(name = "tblinventory")
 public class InventoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -10,13 +12,16 @@ public class InventoryEntity {
     private LocalDateTime dateadded;
     private int quantity;
     private String transactionReferenceNumber;
+    private boolean isClaimed = false;
 
     @ManyToOne
     @JoinColumn(name = "productid", nullable = false)
+    @JsonIgnoreProperties({"inventory", "carts", "wishlists", "ratings", "orderItems", "seller"})
     private ProductEntity product;
 
     @ManyToOne
     @JoinColumn(name = "customerid", nullable = false)
+    @JsonIgnoreProperties({"inventory", "cart", "wishlist", "transaction", "rating", "order"})
     private CustomerEntity customer;
 
     public int getInventoryid() {
@@ -73,4 +78,11 @@ public class InventoryEntity {
         this.customer = customer;
     }
 
+    public boolean isClaimed() {
+        return isClaimed;
+    }
+
+    public void setClaimed(boolean claimed) {
+        isClaimed = claimed;
+    }
 }
