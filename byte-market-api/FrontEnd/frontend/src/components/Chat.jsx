@@ -160,7 +160,7 @@ const Chat = ({ onClose }) => {
                                 >
                                     <div className="conversation-avatar">
                                         <img
-                                            src={`data:image/jpeg;base64,${conv.receiver.profilepic}`}
+                                            src={`data:image/jpeg;base64,${role === 'Customer' ? conv.receiver.profilepic : conv.sender.profilepic}`}
                                             alt="Profile"
                                             className="conversation-image"
                                         />
