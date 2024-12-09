@@ -11,7 +11,7 @@
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 2.5rem;
-    color: #007bff;
+    color: #212850;
     text-align: center;
     letter-spacing: -0.5px;
 }
@@ -43,7 +43,7 @@
 }
 
 .inventory-inventory-component .product-image {
-    position: relative;
+    position: relative; /* Set relative positioning for the container */
     padding-top: 100%;
     background: #f0f4f8;
     overflow: hidden;
@@ -88,7 +88,7 @@
 .inventory-inventory-component .product-name {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #007bff;
+    color: #212850;
     margin: 0;
     transition: color 0.3s ease;
 }
@@ -104,7 +104,7 @@
 .inventory-inventory-component .claim-button {
     width: 100%;
     padding: 0.75rem;
-    background-color: #007bff;
+    background-color: #212850;
     color: white;
     border: none;
     border-radius: 6px;
@@ -117,7 +117,7 @@
 }
 
 .inventory-inventory-component .claim-button:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: #29466c;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 86, 179, 0.3);
 }
@@ -145,4 +145,60 @@
 .inventory-inventory-component .inventory-card {
     animation: fadeIn 0.6s ease-out;
     animation-fill-mode: backwards;
+}
+
+.inventory-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.inventory-search {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.inventory-filter {
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.inventory-inventory-component .delete-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-inventory-component .delete-icon img {
+    margin-left: 0.27rem;
+    margin-top: 0.25rem;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.inventory-inventory-component .delete-icon:hover {
+    transform: scale(1.1);
+    opacity: 1;
+    background-color: rgba(188, 0, 0, 0.8); /* Highlight with red background on hover */
 }
