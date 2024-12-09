@@ -57,18 +57,20 @@ public class TransactionService {
         transaction.setOrder(order);
         transactionRepository.save(transaction);
 
-        // Add inventory items
+        // Add inventory items for each product
         int itemIndex = 1; // Start numbering items from 1
         for (OrderItemEntity orderItem : order.getOrderItems()) {
-            InventoryEntity inventory = new InventoryEntity();
-            inventory.setProduct(orderItem.getProduct());
-            inventory.setCustomer(customer);
-            inventory.setQuantity(orderItem.getQuantity());
-            inventory.setDateadded(LocalDateTime.now());
-            inventory.setTransactionReferenceNumber(transaction.getReferenceNumber() + "-" + itemIndex);
-            inventoryService.addInventoryItem(inventory);
+            for (int i = 0; i < orderItem.getQuantity(); i++) { // Handle multiple quantities as separate entries
+                InventoryEntity inventory = new InventoryEntity();
+                inventory.setProduct(orderItem.getProduct());
+                inventory.setCustomer(customer);
+                inventory.setQuantity(1); // Each entry represents one product
+                inventory.setDateadded(LocalDateTime.now());
+                inventory.setTransactionReferenceNumber(transaction.getReferenceNumber() + "-" + itemIndex);
+                inventoryService.addInventoryItem(inventory);
 
-            itemIndex++; // Increment for the next product
+                itemIndex++; // Increment for the next unique product entry
+            }
         }
 
         updateBalances(customer, seller, totalOrderPrice, "PURCHASE");

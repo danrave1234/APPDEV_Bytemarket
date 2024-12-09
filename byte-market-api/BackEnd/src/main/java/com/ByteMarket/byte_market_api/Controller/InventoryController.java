@@ -47,7 +47,7 @@ public class InventoryController {
     @PutMapping("/claimInventoryItem/{id}")
     public InventoryEntity claimInventoryItem(@PathVariable int id) {
         InventoryEntity inventory = inventoryService.getInventoryItemById(id);
-        inventory.setClaimed(true);
+        inventory.setClaimed(true); // Update the claim status for this specific inventory item
         return inventoryService.addInventoryItem(inventory);
     }
 

@@ -16,12 +16,12 @@ public class InventoryEntity {
 
     @ManyToOne
     @JoinColumn(name = "productid", nullable = false)
-    @JsonIgnoreProperties({"inventory", "carts", "wishlists", "ratings", "orderItems", "seller"})
+    @JsonIgnoreProperties({"inventory", "carts", "wishlists", "ratings", "orderItems", "seller", })
     private ProductEntity product;
 
     @ManyToOne
     @JoinColumn(name = "customerid", nullable = false)
-    @JsonIgnoreProperties({"inventory", "cart", "wishlist", "transaction", "rating", "order"})
+    @JsonIgnoreProperties({"inventory", "cart", "wishlist", "transaction", "rating", "order", ""})
     private CustomerEntity customer;
 
     public int getInventoryid() {
