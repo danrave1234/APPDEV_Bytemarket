@@ -1,0 +1,55 @@
+.delete-inventory-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.delete-inventory-modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.delete-inventory-modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.delete-inventory-modal-confirm-button,
+.delete-inventory-modal-close-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.delete-inventory-modal-confirm-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-inventory-modal-confirm-button:hover {
+    background-color: #c82333;
+}
+
+.delete-inventory-modal-close-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.delete-inventory-modal-close-button:hover {
+    background-color: #5a6268;
+}

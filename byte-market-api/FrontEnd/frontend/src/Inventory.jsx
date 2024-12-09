@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import PageLayout from "./components/Layout.jsx";
+import ClaimConfirmInventoryModal from "./components/ClaimConfirmInventoryModal";
+import DeleteInventoryItemModal from "./components/DeleteInventoryItemModal";
 import { useAuth } from "./components/AuthProvider";
 import closeIcon from "./assets/close-icon.png"; // Importing the close icon
 import "./styles/Inventory.css";
@@ -11,6 +13,33 @@ function Inventory() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [filter, setFilter] = useState("all");
+    const [showClaimModal, setShowClaimModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [currentItemId, setCurrentItemId] = useState(null);
+
+    const openClaimModal = (id) => {
+        setCurrentItemId(id);
+        setShowClaimModal(true);
+    };
+
+    const openDeleteModal = (id) => {
+        setCurrentItemId(id);
+        setShowDeleteModal(true);
+    };
+
+    const handleClaim = async () => {
+        if (currentItemId) {
+            await claimItem(currentItemId);
+        }
+        setShowClaimModal(false);
+    };
+
+    const handleDelete = async () => {
+        if (currentItemId) {
+            await deleteItem(currentItemId);
+        }
+        setShowDeleteModal(false);
+    };
 
     const fetchInventory = async () => {
         console.log("Fetching inventory for user:", userid);
@@ -113,7 +142,7 @@ function Inventory() {
                                 <div key={item.inventoryid} className="inventory-card">
                                     <div className="product-image">
                                         {item.claimed && (
-                                            <div className="delete-icon" onClick={() => deleteItem(item.inventoryid)}>
+                                            <div className="delete-icon" onClick={() => openDeleteModal(item.inventoryid)}>
                                                 <img src={closeIcon} alt="Delete"/>
                                             </div>
                                         )}
@@ -139,7 +168,7 @@ function Inventory() {
                                         </div>
                                         <button
                                             className="claim-button"
-                                            onClick={() => claimItem(item.inventoryid)}
+                                            onClick={() => openClaimModal(item.inventoryid)}
                                             disabled={item.claimed}
                                             style={{
                                                 backgroundColor: item.claimed ? "#d1d5db" : "",
@@ -154,6 +183,17 @@ function Inventory() {
                         </div>
                     )}
                 </div>
+                {/* Rest of your component */}
+                <ClaimConfirmInventoryModal
+                    showModal={showClaimModal}
+                    onClose={() => setShowClaimModal(false)}
+                    onConfirm={handleClaim}
+                />
+                <DeleteInventoryItemModal
+                    showModal={showDeleteModal}
+                    onClose={() => setShowDeleteModal(false)}
+                    onConfirm={handleDelete}
+                />
             </div>
         </PageLayout>
     );
