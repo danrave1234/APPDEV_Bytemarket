@@ -202,6 +202,16 @@ html, body {
     background: #29466c;
 }
 
+.product-containers .inquire-seller {
+    background: #212850;
+    color: white;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+}
+
+.product-containers .inquire-seller:hover {
+    background: #29466c;
+}
+
 /* Reviews Section */
 .product-containers .reviews-section {
     margin-top: 2rem;

@@ -341,7 +341,7 @@ function Product() {
                             {role === "Customer" && (
                                 <button
                                     onClick={openConversationModal}
-                                    className="add-cart-btn"
+                                    className="inquire-seller"
                                 >
                                     Inquire Seller
                                 </button>
