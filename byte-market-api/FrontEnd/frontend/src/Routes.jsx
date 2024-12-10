@@ -62,7 +62,7 @@ export default function TheRoutes() {
                 <ProtectedRoute allowedRoles={["Seller"]}>
                     <CheckOut />
                 </ProtectedRoute>}/>
-            <Route path="/customer/addToCart" element={
+            <Route path="/customer/Cart" element={
                 <ProtectedRoute allowedRoles={["Customer"]}>
                     <AddToCart />
                 </ProtectedRoute>}/>

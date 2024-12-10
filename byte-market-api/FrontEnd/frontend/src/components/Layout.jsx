@@ -166,7 +166,7 @@ function PageLayout({ children }) {
     }
 
     const handleAddToCart = () => {
-        navigate('/customer/addToCart');
+        navigate('/customer/Cart');
         setShowDropdown(false);
     }
 
