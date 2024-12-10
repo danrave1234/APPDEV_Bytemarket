@@ -206,8 +206,8 @@ const handleStoreImageUpload = async (event) => {
                     <div><b>Stock:</b> {product.quantity}</div>
                     <div><b>Category:</b> {product.category}</div>
                     <div className="product-actions">
-                      <button className="buy-now-btn" onClick={() => openEditModal(product)}>Edit</button>
-                      <button className="cart-btn" onClick={() => openDeleteModal(product)}>Delete</button>
+                      <button className="edit-now-btn" onClick={() => openEditModal(product)}>Edit</button>
+                      <button className="delete-btn" onClick={() => openDeleteModal(product)}>Delete</button>
                   </div>
                 </div>
               </div>
