@@ -186,7 +186,7 @@
     margin-top: auto;
 }
 
-.stores-container .buy-now-btn {
+.stores-container .edit-now-btn {
     background-color: #212850;
     color: white;
     border: none;
@@ -198,22 +198,24 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.stores-container .buy-now-btn:hover {
+.stores-container .edit-now-btn:hover {
     background-color: #29466c;
 }
 
-.stores-container .cart-btn {
+.stores-container .delete-btn {
     background-color: #dc2626;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
+    width: 50px;
+    flex-grow: 1;
     transition: background-color 0.2s ease;
     font-family: 'Montserrat', sans-serif;
 }
 
-.stores-container .cart-btn:hover {
+.stores-container .delete-btn:hover {
     background-color: #dc2626;
 }
 

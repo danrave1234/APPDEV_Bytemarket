@@ -168,7 +168,6 @@
     font-size: 14px;
     font-weight: bold;
     color: #212850;
-    background-color: #f0f0f0;
     padding: 2px;
     padding-left: 0;
     border-radius: 8px;
@@ -179,7 +178,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     font-family: 'Montserrat', sans-serif;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Error Text Styling for Insufficient Stock */

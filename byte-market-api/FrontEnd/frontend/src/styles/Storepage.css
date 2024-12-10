@@ -61,6 +61,21 @@
     font-family: 'Montserrat', sans-serif; /* Change the font-family value */
 }
 
+.store-page-container .chat-seller-btn {
+    background-color: #212850;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-family: 'Montserrat', sans-serif; /* Change the font-family value */
+}
+
+.store-page-container .chat-seller-btn:hover {
+    background-color: #29466c;
+}
+
 /* Store Selector Styles */
 .store-page-container .store-selector {
     background-color: white;

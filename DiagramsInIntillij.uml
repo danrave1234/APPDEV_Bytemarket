@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.ByteMarket.byte_market_api.Entity</OriginalElement>
+  <nodes>
+    <node x="-612.5" y="-336.0">com.ByteMarket.byte_market_api.Entity.UserEntity</node>
+    <node x="-1200.5" y="264.0">com.ByteMarket.byte_market_api.Entity.TransactionEntity</node>
+    <node x="-888.0" y="-176.0">com.ByteMarket.byte_market_api.Entity.OrderItemEntity</node>
+    <node x="-486.6258210645526" y="-236.0">com.ByteMarket.byte_market_api.Entity.RatingEntity</node>
+    <node x="-1285.0" y="-176.0">com.ByteMarket.byte_market_api.Entity.WishlistEntity</node>
+    <node x="-206.5" y="-176.0">com.ByteMarket.byte_market_api.Entity.ConversationEntity</node>
+    <node x="-1341.6302378255946" y="-336.0">com.ByteMarket.byte_market_api.Entity.OrderEntity</node>
+    <node x="-1356.0608154020385" y="184.0">com.ByteMarket.byte_market_api.Entity.CustomerEntity</node>
+    <node x="-648.0" y="-176.0">com.ByteMarket.byte_market_api.Entity.SellerEntity</node>
+    <node x="-1051.3438278595695" y="-16.0">com.ByteMarket.byte_market_api.Entity.ProductEntity</node>
+    <node x="-739.0" y="-236.0">com.ByteMarket.byte_market_api.Entity.AdminEntity</node>
+    <node x="-1135.0065118912798" y="-236.0">com.ByteMarket.byte_market_api.Entity.InventoryEntity</node>
+    <node x="-169.0" y="-336.0">com.ByteMarket.byte_market_api.Entity.MessageEntity</node>
+    <node x="-812.9084937712344" y="64.0">com.ByteMarket.byte_market_api.Entity.CartEntity</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.ByteMarket.byte_market_api.Entity.RatingEntity" target="com.ByteMarket.byte_market_api.Entity.CustomerEntity" relationship="TO_ONE">
+      <point x="89.7193657984144" y="14.0" />
+      <point x="-277.2806342015856" y="-22.0" />
+      <point x="-467.0" y="-22.0" />
+      <point x="-467.0" y="158.0" />
+      <point x="-511.31940698033566" y="158.0" />
+      <point x="355.68059301966434" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.InventoryEntity" target="com.ByteMarket.byte_market_api.Entity.ProductEntity" relationship="TO_ONE">
+      <point x="32.00162797281996" y="14.0" />
+      <point x="-974.99837202718" y="-102.0" />
+      <point x="-919.1719139297848" y="-102.0" />
+      <point x="-132.17191392978475" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.ProductEntity" target="com.ByteMarket.byte_market_api.Entity.SellerEntity" relationship="TO_ONE">
+      <point x="132.1719139297848" y="-14.0" />
+      <point x="-654.8280860702152" y="-102.0" />
+      <point x="-526.5" y="-102.0" />
+      <point x="40.5" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CustomerEntity" target="com.ByteMarket.byte_market_api.Entity.WishlistEntity" relationship="TO_MANY">
+      <point x="-177.84029650983206" y="-14.0" />
+      <point x="-1044.8402965098321" y="138.0" />
+      <point x="-1147.0" y="138.0" />
+      <point x="-1147.0" y="-42.0" />
+      <point x="-1226.5" y="-42.0" />
+      <point x="-19.5" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CustomerEntity" target="com.ByteMarket.byte_market_api.Entity.TransactionEntity" relationship="TO_MANY">
+      <point x="244.53040770101921" y="14.0" />
+      <point x="-622.4695922989808" y="238.0" />
+      <point x="-1044.6666666666667" y="238.0" />
+      <point x="62.33333333333333" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.ProductEntity" target="com.ByteMarket.byte_market_api.Entity.InventoryEntity" relationship="TO_MANY">
+      <point x="-79.30314835787084" y="-14.0" />
+      <point x="-866.3031483578709" y="-122.0" />
+      <point x="-910.9951160815401" y="-122.0" />
+      <point x="96.00488391845988" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CustomerEntity" target="com.ByteMarket.byte_market_api.Entity.CartEntity" relationship="TO_MANY">
+      <point x="177.84029650983217" y="-14.0" />
+      <point x="-689.1597034901679" y="158.0" />
+      <point x="-684.0457531143828" y="158.0" />
+      <point x="42.95424688561721" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.AdminEntity" target="com.ByteMarket.byte_market_api.Entity.UserEntity" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="-667.0" y="-262.0" />
+      <point x="-596.125" y="-262.0" />
+      <point x="-49.125" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CartEntity" target="com.ByteMarket.byte_market_api.Entity.CustomerEntity" relationship="TO_ONE">
+      <point x="-42.95424688561721" y="14.0" />
+      <point x="-769.9542468856172" y="158.0" />
+      <point x="-778.0798517450839" y="158.0" />
+      <point x="88.92014825491611" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.TransactionEntity" target="com.ByteMarket.byte_market_api.Entity.CustomerEntity" relationship="TO_ONE">
+      <point x="0.0" y="-14.0" />
+      <point x="-1107.0" y="238.0" />
+      <point x="-1111.5304077010192" y="238.0" />
+      <point x="-244.53040770101924" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.WishlistEntity" target="com.ByteMarket.byte_market_api.Entity.CustomerEntity" relationship="TO_ONE">
+      <point x="-58.5" y="14.0" />
+      <point x="-1265.5" y="-22.0" />
+      <point x="-1187.0" y="-22.0" />
+      <point x="-1187.0" y="158.0" />
+      <point x="-1133.7604447647482" y="158.0" />
+      <point x="-266.7604447647481" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.ConversationEntity" target="com.ByteMarket.byte_market_api.Entity.UserEntity" relationship="TO_ONE">
+      <point x="-66.33333333333334" y="-14.0" />
+      <point x="-173.33333333333326" y="-282.0" />
+      <point x="-497.875" y="-282.0" />
+      <point x="49.125" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.SellerEntity" target="com.ByteMarket.byte_market_api.Entity.ProductEntity" relationship="TO_MANY">
+      <point x="-40.5" y="14.0" />
+      <point x="-607.5" y="-122.0" />
+      <point x="-707.6968516421291" y="-122.0" />
+      <point x="79.3031483578709" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CustomerEntity" target="com.ByteMarket.byte_market_api.Entity.UserEntity" relationship="GENERALIZATION">
+      <point x="444.6007412745805" y="-14.0" />
+      <point x="-422.3992587254195" y="158.0" />
+      <point x="-227.0" y="158.0" />
+      <point x="-227.0" y="-262.0" />
+      <point x="-530.625" y="-262.0" />
+      <point x="16.375" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.ProductEntity" target="com.ByteMarket.byte_market_api.Entity.WishlistEntity" relationship="TO_MANY">
+      <point x="-237.90944507361257" y="-14.0" />
+      <point x="-1024.9094450736125" y="-62.0" />
+      <point x="-1187.5" y="-62.0" />
+      <point x="19.5" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.WishlistEntity" target="com.ByteMarket.byte_market_api.Entity.ProductEntity" relationship="TO_MANY">
+      <point x="58.5" y="14.0" />
+      <point x="-1148.5" y="-82.0" />
+      <point x="-972.0406795016986" y="-82.0" />
+      <point x="-185.04067950169866" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.TransactionEntity" target="com.ByteMarket.byte_market_api.Entity.OrderEntity" relationship="TO_ONE">
+      <point x="-62.333333333333314" y="-14.0" />
+      <point x="-1169.3333333333333" y="238.0" />
+      <point x="-1387.0" y="238.0" />
+      <point x="-1387.0" y="-242.0" />
+      <point x="-1306.7041902604756" y="-242.0" />
+      <point x="-139.70419026047566" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.ProductEntity" target="com.ByteMarket.byte_market_api.Entity.CartEntity" relationship="TO_MANY">
+      <point x="-132.1719139297848" y="14.0" />
+      <point x="-919.1719139297848" y="38.0" />
+      <point x="-769.9542468856172" y="38.0" />
+      <point x="-42.95424688561721" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.OrderEntity" target="com.ByteMarket.byte_market_api.Entity.CustomerEntity" relationship="TO_ONE">
+      <point x="0.0" y="14.0" />
+      <point x="-1167.0" y="-202.0" />
+      <point x="-1307.0" y="-202.0" />
+      <point x="-1307.0" y="138.0" />
+      <point x="-1222.6805930196642" y="138.0" />
+      <point x="-355.6805930196642" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CustomerEntity" target="com.ByteMarket.byte_market_api.Entity.InventoryEntity" relationship="TO_MANY">
+      <point x="0.0" y="-14.0" />
+      <point x="-867.0" y="98.0" />
+      <point x="-1067.0" y="98.0" />
+      <point x="-1067.0" y="-42.0" />
+      <point x="-1039.00162797282" y="-42.0" />
+      <point x="-32.00162797281996" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.RatingEntity" target="com.ByteMarket.byte_market_api.Entity.ProductEntity" relationship="TO_ONE">
+      <point x="-89.7193657984145" y="14.0" />
+      <point x="-456.7193657984145" y="-82.0" />
+      <point x="-601.9593204983013" y="-82.0" />
+      <point x="185.04067950169872" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.SellerEntity" target="com.ByteMarket.byte_market_api.Entity.UserEntity" relationship="GENERALIZATION">
+      <point x="0.0" y="-14.0" />
+      <point x="-567.0" y="-202.0" />
+      <point x="-563.375" y="-202.0" />
+      <point x="-16.375" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.InventoryEntity" target="com.ByteMarket.byte_market_api.Entity.CustomerEntity" relationship="TO_ONE">
+      <point x="-96.00488391845988" y="14.0" />
+      <point x="-1103.0048839184599" y="-22.0" />
+      <point x="-1107.0" y="-22.0" />
+      <point x="-1107.0" y="118.0" />
+      <point x="-955.9201482549161" y="118.0" />
+      <point x="-88.920148254916" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CustomerEntity" target="com.ByteMarket.byte_market_api.Entity.OrderEntity" relationship="TO_MANY">
+      <point x="-444.60074127458023" y="-14.0" />
+      <point x="-1311.6007412745803" y="158.0" />
+      <point x="-1347.0" y="158.0" />
+      <point x="-1347.0" y="-222.0" />
+      <point x="-1236.8520951302378" y="-222.0" />
+      <point x="-69.85209513023784" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.ConversationEntity" target="com.ByteMarket.byte_market_api.Entity.MessageEntity" relationship="TO_MANY">
+      <point x="0.0" y="-14.0" />
+      <point x="-107.0" y="-202.0" />
+      <point x="-128.0" y="-202.0" />
+      <point x="-41.0" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.OrderItemEntity" target="com.ByteMarket.byte_market_api.Entity.ProductEntity" relationship="TO_ONE">
+      <point x="-40.5" y="14.0" />
+      <point x="-847.5" y="-42.0" />
+      <point x="-813.4343827859569" y="-42.0" />
+      <point x="-26.434382785956927" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CartEntity" target="com.ByteMarket.byte_market_api.Entity.ProductEntity" relationship="TO_ONE">
+      <point x="42.95424688561721" y="-14.0" />
+      <point x="-684.0457531143828" y="38.0" />
+      <point x="-654.8280860702152" y="38.0" />
+      <point x="132.1719139297848" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.MessageEntity" target="com.ByteMarket.byte_market_api.Entity.ConversationEntity" relationship="TO_ONE">
+      <point x="41.0" y="14.0" />
+      <point x="-46.0" y="-202.0" />
+      <point x="-40.66666666666674" y="-202.0" />
+      <point x="66.33333333333334" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.ProductEntity" target="com.ByteMarket.byte_market_api.Entity.OrderItemEntity" relationship="TO_MANY">
+      <point x="26.434382785956984" y="-14.0" />
+      <point x="-760.565617214043" y="-42.0" />
+      <point x="-766.5" y="-42.0" />
+      <point x="40.5" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.OrderEntity" target="com.ByteMarket.byte_market_api.Entity.OrderItemEntity" relationship="TO_MANY">
+      <point x="139.70419026047568" y="14.0" />
+      <point x="-1027.2958097395244" y="-282.0" />
+      <point x="-766.5" y="-282.0" />
+      <point x="40.5" y="-14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.OrderItemEntity" target="com.ByteMarket.byte_market_api.Entity.OrderEntity" relationship="TO_ONE">
+      <point x="-40.5" y="-14.0" />
+      <point x="-847.5" y="-262.0" />
+      <point x="-1097.1479048697622" y="-262.0" />
+      <point x="69.85209513023784" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.ProductEntity" target="com.ByteMarket.byte_market_api.Entity.RatingEntity" relationship="TO_MANY">
+      <point x="237.90944507361266" y="-14.0" />
+      <point x="-549.0905549263873" y="-62.0" />
+      <point x="-396.9064552661382" y="-62.0" />
+      <point x="-29.906455266138167" y="14.0" />
+    </edge>
+    <edge source="com.ByteMarket.byte_market_api.Entity.CustomerEntity" target="com.ByteMarket.byte_market_api.Entity.RatingEntity" relationship="TO_MANY">
+      <point x="266.7604447647483" y="-14.0" />
+      <point x="-600.2395552352517" y="138.0" />
+      <point x="-507.0" y="138.0" />
+      <point x="-507.0" y="-42.0" />
+      <point x="-337.0935447338618" y="-42.0" />
+      <point x="29.90645526613821" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.7157041540020265" showDependencies="true" x="-714.2548131370279" y="337.6228765571919" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

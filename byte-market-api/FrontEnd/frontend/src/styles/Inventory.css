@@ -1,0 +1,204 @@
+.inventory-inventory-component .inventory-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+}
+
+.inventory-inventory-component h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    color: #212850;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.inventory-inventory-component .inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: #f9fafb;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.inventory-inventory-component .inventory-card {
+    background: white;
+    border: 1px solid #e6ecf4;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 3px 10px rgba(0, 123, 255, 0.08);
+}
+
+.inventory-inventory-component .inventory-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.15);
+}
+
+.inventory-inventory-component .product-image {
+    position: relative; /* Set relative positioning for the container */
+    padding-top: 100%;
+    background: #f0f4f8;
+    overflow: hidden;
+}
+
+.inventory-inventory-component .product-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.inventory-inventory-component .image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f4f8;
+    color: #6b7280;
+    font-size: 1rem;
+}
+
+.inventory-inventory-component .product-details {
+    padding: 1.25rem;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.inventory-inventory-component .product-details .product-reference-number{
+    font-size: 11px;
+    color: #6b7280;
+    margin-bottom: 1.4rem;
+}
+
+.inventory-inventory-component .product-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #212850;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.inventory-inventory-component .product-category {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inventory-inventory-component .claim-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #212850;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inventory-inventory-component .claim-button:hover:not(:disabled) {
+    background-color: #29466c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 86, 179, 0.3);
+}
+
+.inventory-inventory-component .claim-button:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.inventory-inventory-component .claim-button:active:not(:disabled) {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.inventory-inventory-component .inventory-grid {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.inventory-inventory-component .inventory-card {
+    animation: fadeIn 0.6s ease-out;
+    animation-fill-mode: backwards;
+}
+
+.inventory-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.inventory-search {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.inventory-filter {
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.inventory-inventory-component .delete-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-inventory-component .delete-icon img {
+    margin-left: 0.27rem;
+    margin-top: 0.25rem;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.inventory-inventory-component .delete-icon:hover {
+    transform: scale(1.1);
+    opacity: 1;
+    background-color: rgba(188, 0, 0, 0.8); /* Highlight with red background on hover */
+}

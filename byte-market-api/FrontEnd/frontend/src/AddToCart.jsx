@@ -19,6 +19,9 @@ function AddToCart() {
     const [selectedCount, setSelectedCount] = useState(0); // Selected items count
     const [showOrderModal, setShowOrderModal] = useState(false);
     const [modalItems, setModalItems] = useState([]);
+    const [showRemoveModal, setShowRemoveModal] = useState(false);
+    const [showAddToCartModal, setShowAddToCartModal] = useState(false);
+    const [currentItem, setCurrentItem] = useState(null);
 
     const navigate = useNavigate();
 
@@ -31,6 +34,28 @@ function AddToCart() {
     const closeOrderModal = () => {
         setShowOrderModal(false);
         setModalItems([]);
+    };
+
+    const confirmRemoveItem = async () => {
+        try {
+            await axios.delete(`http://localhost:8080/api/cart/deleteCart/${currentItem.cartid}`);
+            const updatedCartItems = cartItems.filter((item) => item.cartid !== currentItem.cartid);
+            setCartItems(updatedCartItems);
+            localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+            setSelectedItems((prevSelected) => prevSelected.filter((item) => item.cartid !== currentItem.cartid));
+            setShowRemoveModal(false);
+        } catch (error) {
+            console.error("Error removing cart item:", error);
+        } finally {
+            // Ensure the modal is closed
+            setShowRemoveModal(false);
+            setCurrentItem(null); // Reset current item for clean state
+        }
+    };
+
+    const handleAddToCart = () => {
+        setShowAddToCartModal(true);
+        setTimeout(() => setShowAddToCartModal(false), 2000);
     };
 
     useEffect(() => {
@@ -99,18 +124,10 @@ function AddToCart() {
         }
     };
 
-    const handleRemoveItem = async (cartId) => {
-        try {
-            await axios.delete(`http://localhost:8080/api/cart/deleteCart/${cartId}`);
-            const updatedCartItems = cartItems.filter(item => item.cartid !== cartId);
-            setCartItems(updatedCartItems);
-            localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-            setSelectedItems(prevSelected =>
-                prevSelected.filter(item => item.cartid !== cartId)
-            );
-        } catch (error) {
-            console.error('Error removing cart item:', error);
-        }
+    // Open Remove Modal
+    const handleRemoveItem = (item) => {
+        setCurrentItem(item);
+        setShowRemoveModal(true);
     };
 
     const handleSelectItem = (cartItem) => {
@@ -228,27 +245,35 @@ function AddToCart() {
                                             checked={selectedItems.some(selectedItem => selectedItem.cartid === item.cartid)}
                                         />
                                         <div className="image-placeholder">
-                                            <img src={`data:image/jpeg;base64,${item.product.image}`} alt="Product" />
+                                            <img src={`data:image/jpeg;base64,${item.product.image}`} alt="Product"/>
                                         </div>
                                         <div className="product-info">
                                             <h3 className="product-name">{item.product.productname}</h3>
-                                            <p className="product-category"><b className="prod-cat">Category: </b>{item.product.category}</p>
-                                            <p className="product-stock"><b className="prod-st">Stock: </b>{item.product.quantity}</p>
-                                            <p className="product-price"><b className="prod-pr">Price: </b>₱{item.product.price.toFixed(2)}</p>
+                                            <p className="product-category"><b
+                                                className="prod-cat">Category: </b>{item.product.category}</p>
+                                            <p className="product-stock"><b
+                                                className="prod-st">Stock: </b>{item.product.quantity}</p>
+                                            <p className="product-price"><b
+                                                className="prod-pr">Price: </b>₱{item.product.price.toFixed(2)}</p>
                                             {selectedItems.some(selected => selected.cartid === item.cartid) && (
-                                                <p className="product-subprice">Sub-total: ₱{(item.quantity * item.product.price).toFixed(2)}</p>
+                                                <p className="product-subprice">Sub-total:
+                                                    ₱{(item.quantity * item.product.price).toFixed(2)}</p>
                                             )}
                                         </div>
                                         <div className="quantity-box">
-                                            <button onClick={() => handleQuantityChange(item, item.quantity - 1)}>-</button>
+                                            <button onClick={() => handleQuantityChange(item, item.quantity - 1)}>-
+                                            </button>
                                             <input
                                                 type="number"
                                                 value={item.quantity}
                                                 onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
                                             />
-                                            <button onClick={() => handleQuantityChange(item, item.quantity + 1)}>+</button>
+                                            <button onClick={() => handleQuantityChange(item, item.quantity + 1)}>+
+                                            </button>
                                         </div>
-                                        <button className="remove-button" onClick={() => handleRemoveItem(item.cartid)}>Remove</button>
+                                        <button className="remove-button"
+                                                onClick={() => handleRemoveItem(item)}>Remove
+                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -269,6 +294,29 @@ function AddToCart() {
                     selectedProducts={modalItems}
                     onClose={closeOrderModal}
                 />
+            )}
+
+            {/* Remove Item Modal */}
+            {showRemoveModal && currentItem && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Remove Item</h3>
+                        <p>Are you sure you want to remove {currentItem.product.productname} from your cart?</p>
+                        <div className="modal-buttons">
+                            <button onClick={confirmRemoveItem}>Yes, Remove</button>
+                            <button onClick={() => setShowRemoveModal(false)}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Add to Cart Modal */}
+            {showAddToCartModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <p>Item added to your cart successfully!</p>
+                    </div>
+                </div>
             )}
 
         </PageLayout>

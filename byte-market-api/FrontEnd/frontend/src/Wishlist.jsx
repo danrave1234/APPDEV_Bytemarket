@@ -111,7 +111,7 @@ function Wishlist() {
         event.stopPropagation(); // Prevent the card click handler from being triggered
 
         await handleAddToCart(product, event);
-        navigate('/customer/addToCart');
+        navigate('/customer/Cart');
     };
 
     const getSortedItems = () => {

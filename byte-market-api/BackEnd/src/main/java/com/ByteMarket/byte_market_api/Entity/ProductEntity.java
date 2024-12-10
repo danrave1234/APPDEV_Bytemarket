@@ -56,6 +56,7 @@ public class ProductEntity {
     private List<OrderItemEntity> orderItems;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnoreProperties({"inventory", "carts", "wishlists", "ratings"})
     private List<InventoryEntity> inventory;
 
     public String getDescription() {
@@ -147,5 +148,13 @@ public class ProductEntity {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public List<InventoryEntity> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<InventoryEntity> inventory) {
+        this.inventory = inventory;
     }
 }
