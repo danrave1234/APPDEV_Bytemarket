@@ -468,7 +468,7 @@ function StorePage() {
                     <div className="modal-content">
                         <h2>Start a Conversation</h2>
                         {/* Accessing the first seller's userid, you can adjust the index or logic as needed */}
-                        <p>Are you sure you want to start a conversation with the seller: {sellers[0]?.userid || 'Seller'}?</p>
+                        <p>Are you sure you want to start a conversation with the seller: {sellers[0]?.storename || 'Seller'}?</p>
                         <div className="modal-buttons">
                             <button
                                 onClick={() => {
