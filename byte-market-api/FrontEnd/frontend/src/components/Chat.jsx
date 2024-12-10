@@ -216,7 +216,7 @@ const Chat = ({ onClose }) => {
                                 <h3>{recipientName}</h3>
                                 {conversations.find(conv => conv.conversationId === selectedConversationId)?.read && (
                                     <span className="seen-status">
-                                        <CheckCheck className="icon-small" /> Delivered
+                                        <CheckCheck className="icon-small" /> Sent
                                     </span>
                                 )}
                             </div>
