@@ -3,6 +3,7 @@ import useNewMessages from './useNewMessages';
 import { useAuth } from './AuthProvider.jsx';
 import { Search, Send, X, Check, CheckCheck } from 'lucide-react';
 import './Chat.css';
+import "./LoginModal.css";
 
 const Chat = ({ onClose }) => {
     const { userid, role, setReceiverId, receiverId } = useAuth();
@@ -13,6 +14,8 @@ const Chat = ({ onClose }) => {
     const [conversations, setConversations] = useState([]);
     const [recipientName, setRecipientName] = useState(null);
     const [receiverData, setReceiverData] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [conversationToDelete, setConversationToDelete] = useState(null);
     const newMessages = useNewMessages(selectedConversationId, lastTimestamp, setLastTimestamp);
     const messagesEndRef = useRef(null);
 
@@ -132,6 +135,25 @@ const Chat = ({ onClose }) => {
             .catch(console.error);
     };
 
+    const handleDeleteConversation = async () => {
+        if (!conversationToDelete) return;
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/conversation/deleteConversation/${conversationToDelete}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                setConversations((prev) => prev.filter((c) => c.conversationId !== conversationToDelete));
+                setShowDeleteModal(false);
+                setConversationToDelete(null);
+            } else {
+                console.error('Failed to delete conversation');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     return (
         <div className="chat-window">
             <div className="chat-header">
@@ -175,21 +197,8 @@ const Chat = ({ onClose }) => {
                                                 className="delete-button"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (window.confirm('Are you sure you want to delete this conversation?')) {
-                                                        fetch(`http://localhost:8080/api/conversation/deleteConversation/${conv.conversationId}`, {
-                                                            method: 'DELETE',
-                                                        })
-                                                            .then((response) => {
-                                                                if (response.ok) {
-                                                                    setConversations((prev) =>
-                                                                        prev.filter((c) => c.conversationId !== conv.conversationId)
-                                                                    );
-                                                                } else {
-                                                                    console.error('Failed to delete conversation');
-                                                                }
-                                                            })
-                                                            .catch((error) => console.error('Error:', error));
-                                                    }
+                                                    setConversationToDelete(conv.conversationId);
+                                                    setShowDeleteModal(true);
                                                 }}
                                             >
                                                 <X className="icon-small" />
@@ -278,9 +287,20 @@ const Chat = ({ onClose }) => {
                     )}
                 </div>
             </div>
+            {showDeleteModal && (
+                <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <h3>Confirm Delete</h3>
+                        <p>Are you sure you want to delete this conversation?</p>
+                        <div className="modal-buttons">
+                            <button onClick={handleDeleteConversation} className="submit-button">Delete</button>
+                            <button onClick={() => setShowDeleteModal(false)} className="submit-button">Cancel</button>
+                        </div>
+             ope       </div>
+                </div>
+            )}
         </div>
     );
 };
 
 export default Chat;
-
