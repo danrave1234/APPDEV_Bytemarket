@@ -192,13 +192,15 @@ const OrderHistory = () => {
                                                         }}>{order.transactionReference}</span>
                                                     </p>
                                                 )}
-                                                {hasRatedProduct(item) ? (
-                                                    <button disabled>Thanks for rating</button>
-                                                ) : (
-                                                    <button onClick={() => handleRatingClick(item.orderitemid, item.product.productid, item.product.productname, order.orderid)}>
-                                                        Rate this product
-                                                    </button>
-                                                )}                            </div>
+{hasRatedProduct(item) ? (
+    <button disabled>Thanks for rating</button>
+) : (
+    order.orderstatus === 'Completed' && (
+        <button onClick={() => handleRatingClick(item.orderitemid, item.product.productid, item.product.productname, order.orderid)}>
+            Rate this product
+        </button>
+    )
+)}                           </div>
                                         </div>
                                     ))}
                                 </div>
