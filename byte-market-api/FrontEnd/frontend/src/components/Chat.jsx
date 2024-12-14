@@ -296,7 +296,7 @@ const Chat = ({ onClose }) => {
                             <button onClick={handleDeleteConversation} className="submit-button">Delete</button>
                             <button onClick={() => setShowDeleteModal(false)} className="submit-button">Cancel</button>
                         </div>
-             ope       </div>
+                    </div>
                 </div>
             )}
         </div>

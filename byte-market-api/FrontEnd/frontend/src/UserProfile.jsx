@@ -297,7 +297,7 @@ function UserProfile() {
                     {!editMode ? (
                         <>
                             <button className="edit-button" onClick={handleEditToggle}>Edit</button>
-                            <button className="delete-button" onClick={handleDelete}>Delete</button>
+                            <button className="delete-button" onClick={handleDelete}>Deactivate</button>
                         </>
                     ) : (
                         <>
