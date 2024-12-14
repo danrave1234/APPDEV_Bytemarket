@@ -10,12 +10,14 @@ function UserProfile() {
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
-    const { userid, role, logout } = useAuth();
+    const [modal, setModal] = useState({type: '', message: '', isVisible: false, action: null});
+    const {userid, role, logout} = useAuth();
     const navigate = useNavigate();
-    const [isHovered, setIsHovered] = useState(false); // State to manage hover
+    const [isHovered, setIsHovered] = useState(false);
     const [profilePic, setProfilePic] = useState({
         profilepic: ""
     });
+
     useEffect(() => {
         if (userid) {
             const fetchUser = async () => {
@@ -34,7 +36,6 @@ function UserProfile() {
                     console.error('Error fetching user data:', error);
                 } finally {
                     setLoading(false);
-                    console.log("Finished fetching user data.");
                 }
             };
             fetchUser();
@@ -46,8 +47,8 @@ function UserProfile() {
     };
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setUser({ ...user, [name]: value });
+        const {name, value} = e.target;
+        setUser({...user, [name]: value});
     };
 
     const handleSave = async () => {
@@ -56,21 +57,20 @@ function UserProfile() {
             if (role === 'Admin') {
                 response = await axios.put(`http://localhost:8080/api/admin/updateAdmin/${userid}`, user);
             } else if (role === 'Seller') {
-                const { products, ...updatedUser } = user;
+                const {products, ...updatedUser} = user;
                 response = await axios.put(`http://localhost:8080/api/seller/updateSeller/${userid}`, updatedUser);
             } else {
                 response = await axios.put(`http://localhost:8080/api/customer/updateCustomer/${userid}`, user);
             }
             setEditMode(false);
-            console.log("Profile updated successfully.");
-            alert('Profile updated successfully!');
+            setModal({type: 'success', message: 'Profile updated successfully!', isVisible: true});
         } catch (error) {
             console.error('Error updating user:', error);
-            if (error.response && error.response.data) {
-                alert(`Error: ${error.response.data.message || 'Failed to update profile.'}`);
-            } else {
-                alert('Failed to update profile.');
-            }
+            setModal({
+                type: 'error',
+                message: error.response?.data?.message || 'Failed to update profile.',
+                isVisible: true
+            });
         }
     };
 
@@ -81,29 +81,86 @@ function UserProfile() {
                 ? `http://localhost:8080/api/seller/deleteSeller/${userid}`
                 : `http://localhost:8080/api/customer/deleteCustomer/${userid}`;
 
-        if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-            try {
-                await axios.delete(deleteApiUrl);
-                alert('Account deleted successfully.');
-                logout();
-                navigate('/');
-            } catch (error) {
-                if (error.response) {
-                    console.error('Response data:', error.response.data);
-                    alert(`Error: ${error.response.data.message || 'An error occurred while deleting the account.'}`);
-                } else if (error.request) {
-                    console.error('Request made but no response received:', error.request);
-                    alert('No response from the server. Please try again later.');
-                } else {
-                    console.error('Error setting up request:', error.message);
-                    alert('An unexpected error occurred. Please try again.');
+        setModal({
+            type: 'confirm',
+            message: 'Are you sure you want to delete your account? This action cannot be undone.',
+            isVisible: true,
+            action: async () => {
+                try {
+                    await axios.delete(deleteApiUrl);
+                    setModal({type: 'success', message: 'Account deleted successfully.', isVisible: true});
+                    logout();
+                    navigate('/');
+                } catch (error) {
+                    console.error('Error deleting account:', error);
+                    setModal({
+                        type: 'error',
+                        message: error.response?.data?.message || 'An error occurred while deleting the account.',
+                        isVisible: true
+                    });
                 }
             }
-        }
+        });
     };
 
     const handleCancel = () => {
         setEditMode(false);
+    };
+
+    const handleImageChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onloadend = async () => {
+                try {
+                    const image = reader.result;
+                    const cleanedImage = image.replace(/^data:image\/[a-z]+;base64,/, "");
+
+                    setProfilePic({profilepic: cleanedImage});
+
+                    await axios.put(`http://localhost:8080/api/user/updateUserProfile/${userid}`, {
+                        profilepic: cleanedImage
+                    });
+
+                    setUser((prevUser) => ({
+                        ...prevUser,
+                        profilepic: cleanedImage
+                    }));
+
+                    setModal({type: 'success', message: 'Profile image updated successfully!', isVisible: true});
+                } catch (error) {
+                    console.error('Error uploading profile image:', error);
+                    setModal({type: 'error', message: 'Failed to upload profile image.', isVisible: true});
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const renderModal = () => {
+        if (!modal.isVisible) return null;
+
+        return (
+            <div className="modal-overlay">
+                <div className="modal">
+                    <p>{modal.message}</p>
+                    {modal.type === 'confirm' ? (
+                        <div className="modal-buttons">
+                            <button onClick={() => {
+                                modal.action();
+                                setModal({...modal, isVisible: false});
+                            }}>Yes
+                            </button>
+                            <button onClick={() => setModal({...modal, isVisible: false})}>No</button>
+                        </div>
+                    ) : (
+                        <button onClick={() => setModal({...modal, isVisible: false})}>Close</button>
+                    )}
+                </div>
+            </div>
+        );
     };
 
     if (loading) {
@@ -113,6 +170,7 @@ function UserProfile() {
             </PageLayout>
         );
     }
+
     if (!user) {
         return (
             <PageLayout>
@@ -121,72 +179,134 @@ function UserProfile() {
         );
     }
 
-
     const today = new Date();
     today.setDate(today.getDate() - 1);
     const formattedToday = today.toISOString().split('T')[0];
 
-    const handleImageChange = async (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            console.log("Selected file for upload:", file);
-            const reader = new FileReader();
-
-            reader.onloadend = async () => {
-                try {
-                    const image = reader.result; // base64 string of the image
-                    console.log("Base64 Image Data:", image);
-
-                    // Send the base64 image to the server to update the profile
-                    const cleanedImage = image.replace(/^data:image\/[a-z]+;base64,/, ""); // Clean the base64 string
-
-                    setProfilePic({
-                        profilepic: cleanedImage,
-                    });
-
-                    // Make the API request to update the profile picture
-                    const response = await axios.put(
-                        `http://localhost:8080/api/user/updateUserProfile/${userid}`,
-                        { profilepic: cleanedImage }
-                    );
-
-
-                    // Update the user state to reflect the new profile picture
-                    setUser((prevUser) => ({
-                        ...prevUser,
-                        profilepic: cleanedImage, // Assuming the response contains the updated image data
-                    }));
-
-                    alert('Profile image updated successfully!');
-                } catch (error) {
-                    console.error("Error uploading profile image:", error);
-                    alert('Failed to upload profile image.');
-                }
-            };
-
-            // Start reading the file as a base64 string
-            reader.readAsDataURL(file);
-        }
-    };
-
     return (
         <PageLayout>
+            {modal.isVisible && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        zIndex: 1000,
+                    }}
+                >
+                    <div
+                        style={{
+                            backgroundColor: "#fff",
+                            padding: "20px",
+                            borderRadius: "8px",
+                            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                            textAlign: "center",
+                            maxWidth: "400px",
+                            width: "90%",
+                        }}
+                    >
+                        <p style={{ marginBottom: "20px", fontSize: "16px" }}>
+                            {modal.message}
+                        </p>
+                        {modal.type === "confirm" ? (
+                            <div style={{ display: "flex", justifyContent: "space-around" }}>
+                                <button
+                                    style={{
+                                        padding: "10px 20px",
+                                        backgroundColor: "#007BFF",
+                                        color: "#fff",
+                                        border: "none",
+                                        borderRadius: "5px",
+                                        cursor: "pointer",
+                                    }}
+                                    onClick={() => {
+                                        modal.action();
+                                        setModal({ ...modal, isVisible: false });
+                                    }}
+                                >
+                                    Yes
+                                </button>
+                                <button
+                                    style={{
+                                        padding: "10px 20px",
+                                        backgroundColor: "#DC3545",
+                                        color: "#fff",
+                                        border: "none",
+                                        borderRadius: "5px",
+                                        cursor: "pointer",
+                                    }}
+                                    onClick={() => setModal({ ...modal, isVisible: false })}
+                                >
+                                    No
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                style={{
+                                    padding: "10px 20px",
+                                    backgroundColor: "#28A745",
+                                    color: "#fff",
+                                    border: "none",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    marginTop: "10px",
+                                }}
+                                onClick={() => setModal({ ...modal, isVisible: false })}
+                            >
+                                Close
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
             <div className="profile-container">
                 <h2 className="profile-title">User {role} Profile</h2>
-                <div className="profile-image"
-                     onMouseEnter={() => setIsHovered(true)}
-                     onMouseLeave={() => setIsHovered(false)}
+                <div
+                    className="profile-image"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                 >
                     {user?.profilepic ? (
-                        <img src={`data:image/jpeg;base64,${user.profilepic}`} alt={user.fullname}/>
+                        <img
+                            src={`data:image/jpeg;base64,${user.profilepic}`}
+                            alt={user.fullname}
+                        />
                     ) : (
                         <div className="profile-placeholder-image">No image available</div>
                     )}
                     {isHovered && (
-                        <div className="edit-overlay">
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRadius: "50%",
+                            }}
+                        >
                             <button
-                                className="edit-profileimage-btn"
-                                onClick={() => document.getElementById("profile-image-input").click()}
+                                style={{
+                                    padding: "10px 15px",
+                                    backgroundColor: "#007BFF",
+                                    color: "#fff",
+                                    border: "none",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                }}
+                                onClick={() =>
+                                    document.getElementById("profile-image-input").click()
+                                }
                             >
                                 Edit Image
                             </button>
@@ -195,7 +315,7 @@ function UserProfile() {
                     <input
                         id="profile-image-input"
                         type="file"
-                        style={{display: "none"}}
+                        style={{ display: "none" }}
                         onChange={handleImageChange}
                     />
                 </div>
@@ -241,17 +361,17 @@ function UserProfile() {
                         />
                     </div>
                     <div className="profile-field">
-                        <label>Date Of Birth:</label>
+                        <label>Date of Birth:</label>
                         <input
                             type="date"
-                            name="dateofbirth"
+                            name="dob"
                             value={user.dateofbirth}
                             onChange={handleInputChange}
                             max={formattedToday}
                             readOnly={!editMode}
                         />
                     </div>
-                    {role === 'Seller' && (
+                    {role === "Seller" && (
                         <>
                             <div className="profile-field">
                                 <label>Store Name:</label>
@@ -265,8 +385,7 @@ function UserProfile() {
                             </div>
                             <div className="profile-field">
                                 <label>Seller Name:</label>
-                                <input
-                                    type="text"
+                                <textarea
                                     name="sellername"
                                     value={user.sellername}
                                     onChange={handleInputChange}
@@ -277,38 +396,95 @@ function UserProfile() {
                     )}
                     <div className="profile-field">
                         <label>Password:</label>
-                        <div>
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                name="password"
-                                value={user.password}
-                                onChange={handleInputChange}
-                                readOnly={!editMode}
-                            />
-                            <button onClick={() => {
-                                setShowPassword(!showPassword);
-                            }}>
-                                {showPassword ? "Hide" : "Show"}
-                            </button>
-                        </div>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            name="password"
+                            value={user.password}
+                            onChange={handleInputChange}
+                            readOnly={!editMode}
+                        />
+                        <button
+                            style={{
+                                padding: "5px 10px",
+                                backgroundColor: "#17A2B8",
+                                color: "#fff",
+                                border: "none",
+                                borderRadius: "5px",
+                                cursor: "pointer",
+                                marginLeft: "10px",
+                            }}
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? "Hide" : "Show"}
+                        </button>
                     </div>
                 </section>
-                <div className="button-group">
+                <div className="profile-actions">
                     {!editMode ? (
-                        <>
-                            <button className="edit-button" onClick={handleEditToggle}>Edit</button>
-                            <button className="delete-button" onClick={handleDelete}>Deactivate</button>
-                        </>
+                        <button
+                            style={{
+                                padding: "10px 20px",
+                                backgroundColor: "#007BFF",
+                                color: "#fff",
+                                border: "none",
+                                borderRadius: "5px",
+                                cursor: "pointer",
+                                marginRight: "10px",
+                            }}
+                            onClick={handleEditToggle}
+                        >
+                            Edit Profile
+                        </button>
                     ) : (
                         <>
-                            <button className="save-button" onClick={handleSave}>Save</button>
-                            <button className="cancel-button" onClick={handleCancel}>Cancel</button>
+                            <button
+                                style={{
+                                    padding: "10px 20px",
+                                    backgroundColor: "#28A745",
+                                    color: "#fff",
+                                    border: "none",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    marginRight: "10px",
+                                }}
+                                onClick={handleSave}
+                            >
+                                Save
+                            </button>
+                            <button
+                                style={{
+                                    padding: "10px 20px",
+                                    backgroundColor: "#DC3545",
+                                    color: "#fff",
+                                    border: "none",
+                                    borderRadius: "5px",
+                                    cursor: "pointer",
+                                    marginRight: "10px",
+                                }}
+                                onClick={handleCancel}
+                            >
+                                Cancel
+                            </button>
                         </>
                     )}
+                    <button
+                        style={{
+                            padding: "10px 20px",
+                            backgroundColor: "#FFC107",
+                            color: "#212529",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                        }}
+                        onClick={handleDelete}
+                    >
+                        Delete Account
+                    </button>
                 </div>
             </div>
         </PageLayout>
     );
+
 }
 
-export default UserProfile;
+    export default UserProfile;
